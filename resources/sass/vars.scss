@@ -1,0 +1,46 @@
+// Mixin
+// Set các giá trị với màn hình tương ứng
+// Max width
+$xs: 576px;
+$sm: 768px;
+$md: 992px;
+$lg: 1200px;
+$xl: 1400px;
+
+$primary-color: #731a2b;
+$secondary-color: #d9a79c;
+$background-color: #fff;
+
+@mixin xs {
+	@media (max-width: #{$xs - 1px}) {
+		@content;
+	}
+}
+
+@mixin sm {
+	@media (max-width: #{$sm - 1px}) {
+		@content;
+	}
+}
+
+@mixin md {
+	@media (max-width: #{$md - 1px}) {
+		@content;
+	}
+}
+
+@mixin lg-min {
+	@media (min-width: $lg) {
+		@content;
+	}
+}
+
+@mixin xl-min {
+	@media (min-width: $xl) {
+		@content;
+	}
+}
+
+@mixin shadow {
+	box-shadow: 0 1.3px 2.2px rgb(115 26 43 / 10%), 0 4.5px 6.5px rgb(115 26 43 / 6%), 0 20px 20px rgb(115 26 43 / 15%);
+}

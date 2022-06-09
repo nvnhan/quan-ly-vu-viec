@@ -1,0 +1,159 @@
+@import './vars.scss';
+@import './filter-box.scss';
+@import './login.scss';
+@import './my-antd.scss';
+@import './tools-button.scss';
+
+// Colors
+.color-danger {
+	color: #ff4d4f;
+}
+
+.color-primary {
+	color: $primary-color;
+}
+
+.color-link {
+	color: $primary-color;
+}
+
+.muted-text {
+	color: #b5b5b5;
+}
+
+// Main content
+.content {
+	margin-left: auto;
+	margin-right: auto;
+	padding: 24px 16px;
+	width: 100%;
+	min-width: 270px;
+
+	@include xs {
+		padding: 18px 12px;
+	}
+
+	@include lg-min {
+		max-width: 1140px;
+	}
+
+	@include xl-min {
+		max-width: 1320px;
+	}
+
+	.list-form {
+		background: $background-color;
+		padding: 16px 0;
+		border-radius: 12px;
+		@include shadow;
+	}
+}
+
+//  My Header
+.my-header {
+	top: 0;
+	transition: cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+	// padding: 22px 40px;
+	z-index: 99;
+
+	position: -webkit-sticky; /* Safari */
+	position: sticky;
+	-webkit-backdrop-filter: saturate(1.8) blur(10px);
+	backdrop-filter: saturate(1.8) blur(10px);
+
+	&.sticky-header {
+		background: linear-gradient(45deg, rgb(255 208 198 / 40%), rgb(255 188 232 / 20%));
+		box-shadow: 0px 10px 10px -12px rgba(0, 0, 0, 0.15);
+		// padding: 16px 24px;
+	}
+
+	.user-text {
+		margin-right: 8px;
+	}
+	.user-logo {
+		font-size: 20px;
+		vertical-align: top;
+		background: #22c1c3;
+		background: linear-gradient(325deg, #9512f1 0%, #37b9d7 100%);
+		color: white;
+
+		box-shadow: 1px 1px 7px rgb(0 0 0 / 25%);
+		border-radius: 20px;
+		padding: 10px;
+		margin-top: -8px;
+		margin-right: -16px !important;
+	}
+	.btn-user {
+		border: none;
+		// box-shadow: none;
+		// padding: 4px;
+	}
+	@include sm {
+		.ant-page-header-heading-extra {
+			padding-top: 0;
+			float: right;
+			clear: none;
+			width: auto;
+		}
+		.user-text {
+			display: none;
+		}
+	}
+}
+
+//  Loading screen ban đâu
+.loading-wrapper {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%) translateY(-50%);
+	.loading-content {
+		max-width: 400px;
+		min-width: 300px;
+		padding: 20px;
+
+		display: flex;
+		justify-content: center;
+		align-content: center;
+		flex-direction: column;
+
+		img {
+			display: block;
+			width: 100%;
+			margin-bottom: 20px;
+		}
+		.loading-text {
+			text-align: center;
+			font-size: 0.9rem;
+			font-style: italic;
+		}
+	}
+}
+
+//  Profile & password change
+.sm-container {
+	padding: 16px;
+	max-width: 700px;
+	margin: auto;
+}
+
+.not-found-content {
+	text-align: center;
+
+	img {
+		width: 60%;
+		min-width: 250px;
+		max-width: 480px;
+		margin: 32px auto;
+		display: block;
+	}
+}
+
+.form-footer {
+	@include xs {
+		button {
+			margin-top: 32px;
+			width: 100%;
+		}
+	}
+}
