@@ -7,8 +7,8 @@ $md: 992px;
 $lg: 1200px;
 $xl: 1400px;
 
-$primary-color: #731a2b;
-$secondary-color: #d9a79c;
+$primary-color: #518f3c;
+$secondary-color: #a3e48e;
 $background-color: #fff;
 
 @mixin xs {
@@ -42,5 +42,5 @@ $background-color: #fff;
 }
 
 @mixin shadow {
-	box-shadow: 0 1.3px 2.2px rgb(115 26 43 / 10%), 0 4.5px 6.5px rgb(115 26 43 / 6%), 0 20px 20px rgb(115 26 43 / 15%);
+	box-shadow: 0 1.3px 2.2px rgb(56 110 38 / 20%), 0 4.5px 6.5px rgb(36 70 25 / 18%), 4px 15px 19px rgb(35 60 26 / 15%);
 }

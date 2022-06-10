@@ -5646,7 +5646,7 @@ textarea.ant-picker-input > input {
   vertical-align: top;
   background: #fff;
   border-radius: 2px;
-  box-shadow: 0 3px 6px -4px rgba(115, 26, 43, 0.12), 0 6px 16px 0 rgba(115, 26, 43, 0.08), 0 9px 28px 8px rgba(115, 26, 43, 0.05);
+  box-shadow: 0 1.3px 2.2px rgba(56, 110, 38, 0.2), 0 4.5px 6.5px rgba(36, 70, 25, 0.18), 4px 15px 19px rgba(35, 60, 26, 0.15);
   transition: margin 0.3s;
 }
 .ant-picker-panel-container .ant-picker-panels {
@@ -6553,7 +6553,7 @@ _:-ms-fullscreen .ant-picker-range-wrapper .ant-picker-year-panel .ant-picker-ce
   background-clip: padding-box;
   border-radius: 2px;
   outline: none;
-  box-shadow: 0 3px 6px -4px rgba(115, 26, 43, 0.12), 0 6px 16px 0 rgba(115, 26, 43, 0.08), 0 9px 28px 8px rgba(115, 26, 43, 0.05);
+  box-shadow: 0 1.3px 2.2px rgba(56, 110, 38, 0.2), 0 4.5px 6.5px rgba(36, 70, 25, 0.18), 4px 15px 19px rgba(35, 60, 26, 0.15);
 }
 .ant-dropdown-menu-item-group-title {
   padding: 5px 12px;
@@ -15138,7 +15138,7 @@ textarea.ant-input-number {
   list-style: none;
   background: #fff;
   outline: none;
-  box-shadow: 0 3px 6px -4px rgba(115, 26, 43, 0.12), 0 6px 16px 0 rgba(115, 26, 43, 0.08), 0 9px 28px 8px rgba(115, 26, 43, 0.05);
+  box-shadow: 0 1.3px 2.2px rgba(56, 110, 38, 0.2), 0 4.5px 6.5px rgba(36, 70, 25, 0.18), 4px 15px 19px rgba(35, 60, 26, 0.15);
   transition: background 0.3s, width 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
 }
 .ant-menu::before {
@@ -18183,7 +18183,7 @@ span.ant-radio + * {
   background-color: #fff;
   border-radius: 2px;
   outline: none;
-  box-shadow: 0 3px 6px -4px rgba(115, 26, 43, 0.12), 0 6px 16px 0 rgba(115, 26, 43, 0.08), 0 9px 28px 8px rgba(115, 26, 43, 0.05);
+  box-shadow: 0 1.3px 2.2px rgba(56, 110, 38, 0.2), 0 4.5px 6.5px rgba(36, 70, 25, 0.18), 4px 15px 19px rgba(35, 60, 26, 0.15);
 }
 .ant-select-dropdown.ant-slide-up-enter.ant-slide-up-enter-active.ant-select-dropdown-placement-bottomLeft,
 .ant-select-dropdown.ant-slide-up-appear.ant-slide-up-appear-active.ant-select-dropdown-placement-bottomLeft {
@@ -19128,7 +19128,7 @@ td.ant-table-column-sort {
   min-width: 120px;
   background-color: #fff;
   border-radius: 2px;
-  box-shadow: 0 3px 6px -4px rgba(115, 26, 43, 0.12), 0 6px 16px 0 rgba(115, 26, 43, 0.08), 0 9px 28px 8px rgba(115, 26, 43, 0.05);
+  box-shadow: 0 1.3px 2.2px rgba(56, 110, 38, 0.2), 0 4.5px 6.5px rgba(36, 70, 25, 0.18), 4px 15px 19px rgba(35, 60, 26, 0.15);
 }
 .ant-table-filter-dropdown .ant-dropdown-menu {
   max-height: 264px;
@@ -19853,7 +19853,7 @@ tr.ant-table-expanded-row .ant-descriptions-view table {
   word-wrap: break-word;
   background-color: rgba(0, 0, 0, 0.75);
   border-radius: 2px;
-  box-shadow: 0 3px 6px -4px rgba(115, 26, 43, 0.12), 0 6px 16px 0 rgba(115, 26, 43, 0.08), 0 9px 28px 8px rgba(115, 26, 43, 0.05);
+  box-shadow: 0 1.3px 2.2px rgba(56, 110, 38, 0.2), 0 4.5px 6.5px rgba(36, 70, 25, 0.18), 4px 15px 19px rgba(35, 60, 26, 0.15);
 }
 .ant-tooltip-arrow {
   position: absolute;

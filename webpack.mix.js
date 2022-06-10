@@ -52,7 +52,7 @@ mix.webpackConfig({
 // 			// "disabled-color": "rgba(0, 0, 0, 0.25)", // disable state color
 // 			// 			@border-color-base: #d9d9d9; // major border color
 // 			'box-shadow-base':
-// 				'0 3px 6px -4px rgba(115, 26, 43, 0.12), 0 6px 16px 0 rgba(115, 26, 43, 0.08), 0 9px 28px 8px rgba(115, 26, 43, 0.05)', // major shadow for layers
+// 				'0 1.3px 2.2px rgb(56 110 38 / 20%), 0 4.5px 6.5px rgb(36 70 25 / 18%), 4px 15px 19px rgb(35 60 26 / 15%)', // major shadow for layers
 // 			'border-radius-base': '2px', // major border radius
 // 		},
 // 		javascriptEnabled: true,

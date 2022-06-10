@@ -1,13 +1,19 @@
-import { combineReducers } from "redux";
-import { User } from "../utils";
-import authUser from "./authUser";
-import pageTitle from "./pageTitle";
+import { combineReducers } from 'redux';
+import { User } from '../utils';
+import authUser from './authUser';
+import pageTitle from './pageTitle';
+import menuActive from './menuActive';
+import sideBar, { SideBarProps } from './sideBar';
 
 export interface AppState {
-    pageTitle: string,
-    authUser: User
+	menuActive: string;
+	pageTitle: string;
+	authUser: User;
+	sideBar: SideBarProps;
 }
 export const myReducer = combineReducers<AppState>({
-    pageTitle,
-    authUser,
+	menuActive,
+	pageTitle,
+	authUser,
+	sideBar,
 });

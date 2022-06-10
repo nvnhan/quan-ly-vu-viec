@@ -23,7 +23,7 @@ const Login = () => {
 	 * Hàm render
 	 */
 	return (
-		<Card className="card-login" title={<img src="/images/intro.png" />}>
+		<Card className="card-login" title="QUẢN LÝ VỤ VIỆC">
 			{login ? (
 				<LoginForm onSetAuth={setAuth} onRegister={onChangeForm} />
 			) : (
