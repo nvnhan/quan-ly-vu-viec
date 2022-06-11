@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Classes;
-use App\Models\User;
+use App\Models\CanBo;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -13,24 +13,20 @@ class AuthController extends BaseController
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'username' => 'required|string|max:20|unique:users',
-            'password' => 'required|string|min:3|confirmed',
+            'ten_dang_nhap' => 'required|string|max:20|unique:can_bos',
+            'mat_khau' => 'required|string|min:3|confirmed',
         ], [
             'required' => 'Bắt buộc phải có :attribute',
             'unique' => 'Tên đăng nhập đã tồn tại',
-            'password.min' => 'Mật khẩu phải có từ 3 ký tự trở lên'
+            'mat_khau.min' => 'Mật khẩu phải có từ 3 ký tự trở lên'
         ]);
 
         if ($validator->fails()) {
             return $this->sendError("Có lỗi", $validator->errors()->all());
         }
 
-        $request['password'] = Hash::make($request['password']);
-        $user = User::create($request->toArray());
-        if (env('DEFAULT_INSERT') == '1') {
-            $user->them_moi = true;
-            $user->save();
-        }
+        $request['mat_khau'] = Hash::make($request['mat_khau']);
+        CanBo::create($request->toArray());
 
         return $this->sendResponse("", 'Đăng ký thành công, bạn có thế đăng nhập ngay');
     }
@@ -40,23 +36,21 @@ class AuthController extends BaseController
      */
     public function login(Request $request)
     {
-        $user = User::where('username', $request->username)->first();
+        $user = CanBo::where('ten_dang_nhap', $request->ten_dang_nhap)->first();
 
         if ($user) {
-            if (Hash::check($request->password, $user->password)) {
-                if ($user->actived) {
-                    // Delete all previous Tokens
-                    $user->tokens()
-                        ->where('name', 'Web API login')
-                        ->delete();
+            if (Hash::check($request->mat_khau, $user->mat_khau)) {
+                $user->dang_nhap_cuoi = now();
+                // Delete all previous Tokens
+                $user->tokens()
+                    ->where('name', 'Web API login')
+                    ->delete();
 
-                    $response = $user->toArray();
+                $response = $user->toArray();
 
-                    $token = $user->createToken('Web API login')->accessToken;
-                    $response['token'] = $token;
-                    return $this->sendResponse($response, 'Đăng nhập thành công');
-                } else
-                    return $this->sendError("Tài khoản không hoạt động. Vui lòng liên hệ quản trị viên", []);
+                $token = $user->createToken('Web API login')->accessToken;
+                $response['token'] = $token;
+                return $this->sendResponse($response, 'Đăng nhập thành công');
             } else
                 return $this->sendError("Mật khẩu không chính xác", []);
         } else
@@ -71,8 +65,6 @@ class AuthController extends BaseController
 
         if ($user) {
             $response = $user->toArray();
-            if ($user->admin)
-                $response['default_insert'] = env('DEFAULT_INSERT');
             return $this->sendResponse($response, 'Get user successfully');
         } else
             return $this->sendError('Invalid token or is Revoked', []);
@@ -89,12 +81,12 @@ class AuthController extends BaseController
     {
         $user = $request->user();
         if ($user) {
-            $user->fill($request->except('username', 'password', 'ngay_het_han', 'phan_quyen', 'actived'))->save();
+            $user->fill($request->except('ten_dang_nhap', 'mat_khau'))->save();
             $response = $user->toArray();
 
             if ($user->admin) {
-                Classes::updateDotEnv('DEFAULT_INSERT', $request->default_insert);
-                $response['default_insert'] = env('DEFAULT_INSERT');
+                $user->chuc_vu = $request->chuc_vu;
+                $user->id_don_vi = $request->id_don_vi;
             }
             return $this->sendResponse($response, 'Cập nhật thành công');
         } else
@@ -111,7 +103,7 @@ class AuthController extends BaseController
     {
         $u = $request->user();
         if ($u) {
-            $user = User::where('username', $u->username)->first();
+            $user = CanBo::where('ten_dang_nhap', $u->ten_dang_nhap)->first();
             $validator = Validator::make($request->all(), [
                 'old_pass' => 'required|string',
                 'password' => 'required|string|min:6|confirmed',
@@ -121,12 +113,12 @@ class AuthController extends BaseController
                 return $this->sendError($validator->errors()->all(), []);
             }
 
-            if (!Hash::check($request->old_pass, $user->password)) {
+            if (!Hash::check($request->old_pass, $user->mat_khau)) {
                 return $this->sendError("Mật khẩu cũ không chính xác", []);
             }
 
-            $request['password'] = Hash::make($request['password']);
-            $user->fill($request->except('username'))->save();
+            $request['mat_khau'] = Hash::make($request['password']);
+            $user->fill($request->except('ten_dang_nhap'))->save();
             return $this->sendResponse($user, 'Đổi mật khẩu thành công');
         } else
             return $this->sendError('Invalid token or is Revoked', []);

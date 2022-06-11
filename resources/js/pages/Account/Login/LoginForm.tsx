@@ -62,7 +62,7 @@ const LoginForm = ({ onSetAuth, onRegister }: ComponentProps) => {
 			onFinish={onFinish}
 		>
 			<Form.Item
-				name="username"
+				name="ten_dang_nhap"
 				rules={[
 					{
 						required: true,
@@ -73,7 +73,7 @@ const LoginForm = ({ onSetAuth, onRegister }: ComponentProps) => {
 				<Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Tên đăng nhập" />
 			</Form.Item>
 			<Form.Item
-				name="password"
+				name="mat_khau"
 				rules={[
 					{
 						required: true,
@@ -97,10 +97,10 @@ const LoginForm = ({ onSetAuth, onRegister }: ComponentProps) => {
 				<Button type="primary" htmlType="submit" className="login-form-button" loading={formSubmiting}>
 					Đăng nhập
 				</Button>
-				Hoặc{' '}
+				{/* Hoặc{' '}
 				<Link onClick={() => onRegister()} to="">
 					đăng ký tài khoản!
-				</Link>
+				</Link> */}
 			</Form.Item>
 		</Form>
 	);

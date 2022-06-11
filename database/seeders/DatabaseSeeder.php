@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,6 +14,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        $cap_bacs = [
+            'Hạ sĩ', 'Trung sĩ', 'Thượng sĩ',
+            'Thiếu úy', 'Trung úy', 'Thượng úy', 'Đại úy',
+            'Thiếu tá', 'Trung tá', 'Thượng tá', 'Đại tá',
+            'Thiếu tướng', 'Trung tướng', 'Thượng tướng', 'Đại tướng'
+        ];
+
+        foreach ($cap_bacs as $key => $value) {
+            DB::table('cap_bacs')->insert(['cap_bac' => $value]);
+        }
     }
 }

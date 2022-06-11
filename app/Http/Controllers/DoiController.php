@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Classes;
-use App\Helpers\Report;
-use App\Helpers\ThemFile;
-use App\Models\DinhDanh;
+use App\Models\Doi;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
-class DinhDanhController extends BaseController
+class DoiController extends Controller
 {
     public static function getDinhDanh(Request $request, $page = -1, $size = -1, $tinh_trang = "")
     {
