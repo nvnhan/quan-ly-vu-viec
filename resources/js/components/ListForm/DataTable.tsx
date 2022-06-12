@@ -12,8 +12,7 @@ import React, { useEffect, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 import { useSelector } from 'react-redux';
 import { ListFormProps } from '.';
-import { AppState } from '../../reducers';
-import { User } from '../../utils';
+import { RootState } from '../../store';
 
 export interface ColumnProps {
 	title: string;
@@ -73,7 +72,7 @@ const DataTable = (props: DataTableProps) => {
 		ajax,
 	} = props;
 	const [myColumns, setMyColumns] = useState<ColumnProps[]>([]);
-	const authUser = useSelector<AppState>((state) => state.authUser) as User;
+	const authUser = useSelector((state: RootState) => state.authUserReducer);
 
 	let searchText = '';
 	let searchedColumn = '';
@@ -143,7 +142,7 @@ const DataTable = (props: DataTableProps) => {
 		align: 'center',
 		width: 60,
 		render: (text: string, record: any) => {
-			if (checkUserDoAction && record['username'] !== authUser.username && !authUser.admin) return <></>;
+			if (checkUserDoAction && record['nguoi_tao'] !== authUser.ten_dang_nhap && !authUser.admin) return <></>;
 			else
 				return (
 					<Dropdown overlay={layAction(record)}>

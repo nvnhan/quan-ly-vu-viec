@@ -1,4 +1,6 @@
 import UserOutlined from '@ant-design/icons/UserOutlined';
+import MenuFoldOutlined from '@ant-design/icons/MenuFoldOutlined';
+import MenuUnfoldOutlined from '@ant-design/icons/MenuUnfoldOutlined';
 import Button from 'antd/lib/button/index';
 import Dropdown from 'antd/lib/dropdown/index';
 import Menu from 'antd/lib/menu/index';
@@ -6,66 +8,93 @@ import PageHeader from 'antd/lib/page-header/index';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import * as actions from '../../actions';
-import { AppState } from '../../reducers';
-import { User } from '../../utils';
+import { RootState } from '../../store';
+import { logout } from '../../reducers/authUser';
+import { collapseSideBar } from '../../reducers/sideBar';
+import { ItemType } from 'antd/lib/menu/hooks/useItems';
 
 const MyHeader = () => {
 	const dispatch = useDispatch();
-	const title = useSelector<AppState>((state) => state.pageTitle) as string;
-	const authUser = useSelector<AppState>((state) => state.authUser) as User;
+	const title = useSelector((state: RootState) => state.pageTitleReducer);
+	const authUser = useSelector((state: RootState) => state.authUserReducer);
+	const sideBarCollapsed = useSelector((state: RootState) => state.sideBarReducer.collapsed);
 
-	const [isShrunk, setShrunk] = useState(false);
+	// const [isShrunk, setShrunk] = useState(false);
 
 	useEffect(() => {
-		const handler = () => {
-			setShrunk((isShrunk) => {
-				if (!isShrunk && (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20)) {
-					return true;
-				}
-
-				if (isShrunk && document.body.scrollTop < 4 && document.documentElement.scrollTop < 4) {
-					return false;
-				}
-
-				return isShrunk;
-			});
-		};
-		window.addEventListener('scroll', handler);
-		return () => window.removeEventListener('scroll', handler);
+		// const handler = () => {
+		// 	setShrunk((isShrunk) => {
+		// 		if (!isShrunk && (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20)) {
+		// 			return true;
+		// 		}
+		// 		if (isShrunk && document.body.scrollTop < 4 && document.documentElement.scrollTop < 4) {
+		// 			return false;
+		// 		}
+		// 		return isShrunk;
+		// 	});
+		// };
+		// window.addEventListener('scroll', handler);
+		// return () => window.removeEventListener('scroll', handler);
 	}, []);
 
-	const doLogOut = () => dispatch(actions.logout()) && setTimeout(() => window.location.reload(), 1000);
+	const onBack = () => dispatch(collapseSideBar({ collapsed: !sideBarCollapsed }));
 
-	const menu = () => (
-		<Menu>
-			<Menu.Item key="home">
-				<Link to="/">Trang chủ</Link>
-			</Menu.Item>
-			<Menu.Divider />
-			{authUser.admin && (
-				<>
-					<Menu.Item key="user">
-						<Link to="/nguoi-dung">Danh sách người dùng</Link>
-					</Menu.Item>
-					<Menu.Divider />
-				</>
-			)}
-			<Menu.Item key="profile">
-				<Link to="/cai-dat-ca-nhan">Cài đặt cá nhân</Link>
-			</Menu.Item>
-			<Menu.Item key="password">
-				<Link to="/doi-mat-khau">Đổi mật khẩu</Link>
-			</Menu.Item>
-			<Menu.Divider />
-			<Menu.Item key="SignOut" className="color-danger" onClick={doLogOut}>
-				Đăng xuất
-			</Menu.Item>
-		</Menu>
-	);
+	let items: ItemType[] = [
+		{
+			label: <Link to="/">Trang chủ</Link>,
+			key: 'home',
+		},
+	];
+
+	if (authUser.admin)
+		items = items.concat([
+			{
+				type: 'divider',
+			},
+			{
+				type: 'group',
+				label: 'Quản trị',
+				children: [
+					{
+						label: <Link to="/nguoi-dung">Tổ chức cán bộ</Link>,
+						key: 'user',
+					},
+					{
+						label: <Link to="/don-vi">Danh sách đơn vị</Link>,
+						key: 'team',
+					},
+				],
+			},
+		]);
+
+	items = items.concat([
+		{
+			type: 'divider',
+		},
+		{
+			type: 'group',
+			label: 'Cá nhân',
+			children: [
+				{
+					label: <Link to="/cai-dat-ca-nhan">Cài đặt cá nhân</Link>,
+					key: 'profile',
+				},
+				{
+					label: <Link to="/doi-mat-khau">Đổi mật khẩu</Link>,
+					key: 'password',
+				},
+				{
+					label: 'Đăng xuất',
+					onClick: () => dispatch(logout()),
+					key: 'logout',
+					danger: true,
+				},
+			],
+		},
+	]);
 
 	const DropdownMenu = () => (
-		<Dropdown key="more" overlay={menu()}>
+		<Dropdown key="more" overlay={<Menu items={items} />} arrow>
 			<Button className="btn-user">
 				<span className="user-text">
 					Xin chào <strong>{authUser.ho_ten}</strong>
@@ -75,21 +104,13 @@ const MyHeader = () => {
 		</Dropdown>
 	);
 
-	const SigninMenu = [
-		<Button className="btn-user" key={1}>
-			<Link to="/cai-dat-ca-nhan">
-				<span className="user-text">Cá nhân</span>
-				<UserOutlined className="user-logo" />
-			</Link>
-		</Button>,
-	];
-
 	return (
 		<PageHeader
-			className={isShrunk ? 'my-header sticky-header' : 'my-header'}
-			// onBack={() => window.history.back()}
+			className={'my-header'}
+			onBack={onBack}
+			backIcon={sideBarCollapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
 			title={title}
-			extra={authUser.username ? <DropdownMenu /> : SigninMenu}
+			extra={<DropdownMenu />}
 		/>
 	);
 };

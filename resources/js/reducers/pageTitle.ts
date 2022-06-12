@@ -1,14 +1,17 @@
-import * as types from '../constants/ActionTypes';
-import { Action } from '../utils';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 var initialState = 'Trang chủ';
 
-const myReducer = (state = initialState, action: Action) => {
-	if (action.type === types.CHANGE_PAGE_TITLE) {
-		state = action.payload;
-		document.title = action.payload + ' | QLVV';
-	}
-	return state;
-};
+const pageTitle = createSlice({
+	name: 'title',
+	initialState,
+	reducers: {
+		changeTitle: (state, { payload }: PayloadAction<string>) => {
+			document.title = payload + ' | QLVV';
+			return payload;
+		},
+	},
+});
 
-export default myReducer;
+export const pageTitleReducer = pageTitle.reducer;
+export const { changeTitle } = pageTitle.actions;

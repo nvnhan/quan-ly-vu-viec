@@ -9,15 +9,14 @@ import React, { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import ListForm, { ListFormRef } from '../../../components/ListForm';
 import { ColumnProps } from '../../../components/ListForm/DataTable';
-import { AppState } from '../../../reducers';
-import { User } from '../../../utils';
 import FormItem from './FormItem';
 import Divider from 'antd/lib/divider';
 import Checkbox from 'antd/lib/checkbox/Checkbox';
+import { RootState } from '../../../store';
 
 const List = () => {
 	const childRef = useRef<ListFormRef>(null);
-	const authUser = useSelector<AppState>((state) => state.authUser) as User;
+	const authUser = useSelector((state: RootState) => state.authUserReducer);
 	const [formReset] = Form.useForm();
 	const [update, setUpdate] = useState({
 		id: -1,

@@ -7,8 +7,8 @@ import isEmpty from 'lodash/isEmpty';
 import unionBy from 'lodash/unionBy';
 import React, { useEffect, useImperativeHandle, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { AppState } from '../../reducers';
-import { isChangeData, queryString, useMergeState, User } from '../../utils';
+import { RootState } from '../../store';
+import { isChangeData, queryString, useMergeState } from '../../utils';
 import DataTable, { ColumnProps, OtherActionProps } from './DataTable';
 import FilterBox, { FilterProps } from './FilterBox';
 import ModalConfirm from './ModalConfirm';
@@ -25,7 +25,7 @@ const { confirm } = Modal;
 const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 	//#region  Khai báo biến
 	const [form] = Form.useForm();
-	const authUser = useSelector<AppState>((state) => state.authUser) as User;
+	const authUser = useSelector((state: RootState) => state.authUserReducer);
 
 	const { url, onChangeData, filter, otherParams, primaryKey, filterBox, ajax } = props;
 	const [state, setState] = useMergeState({
@@ -33,7 +33,7 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 		isLoading: true,
 		pagination: {
 			current: 1,
-			pageSize: authUser.so_ket_qua,
+			pageSize: 10,
 			showTotal: (total: number, range: number[]) => `Hiển thị ${range[0]}-${range[1]} / ${total} mục`,
 		},
 		modalVisible: false,

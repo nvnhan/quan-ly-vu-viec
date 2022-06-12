@@ -1,14 +1,14 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import MenuOutlined from '@ant-design/icons/MenuOutlined';
-import { toggleSidebar } from '../../actions';
-import { AppState } from '../../reducers';
+import { RootState } from '../../store';
+import { toogleSideBar } from '../../reducers/sideBar';
 
 const ButtonToogle = () => {
-	const sideBarToggled = useSelector<AppState>((state) => state.sideBar.toggled) as boolean;
+	const sideBarToggled = useSelector((state: RootState) => state.sideBarReducer.toggled);
 	const dispatch = useDispatch();
 
-	const onClick = () => dispatch(toggleSidebar(!sideBarToggled));
+	const onClick = () => dispatch(toogleSideBar({ toggled: !sideBarToggled }));
 
 	return (
 		<div className="btn-toggle" onClick={onClick}>

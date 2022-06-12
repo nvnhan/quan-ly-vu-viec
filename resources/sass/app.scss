@@ -2,6 +2,9 @@
 @import './filter-box.scss';
 @import './login.scss';
 @import './my-antd.scss';
+
+@import '~react-pro-sidebar/dist/scss/styles.scss';
+@import './sidebar.scss';
 @import './tools-button.scss';
 
 // Colors
@@ -33,18 +36,10 @@
 		padding: 18px 12px;
 	}
 
-	@include lg-min {
-		max-width: 1140px;
-	}
-
-	@include xl-min {
-		max-width: 1320px;
-	}
-
 	.list-form {
 		background: $background-color;
 		padding: 16px 0;
-		border-radius: 12px;
+		border-radius: 2px;
 		@include shadow;
 	}
 }
@@ -52,39 +47,24 @@
 //  My Header
 .my-header {
 	top: 0;
-	transition: cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
-	// padding: 22px 40px;
 	z-index: 99;
 
-	position: -webkit-sticky; /* Safari */
-	position: sticky;
-	-webkit-backdrop-filter: saturate(1.8) blur(10px);
-	backdrop-filter: saturate(1.8) blur(10px);
-
-	&.sticky-header {
-		background: linear-gradient(45deg, rgb(255 208 198 / 40%), rgb(255 188 232 / 20%));
-		box-shadow: 0px 10px 10px -12px rgba(0, 0, 0, 0.15);
-		// padding: 16px 24px;
-	}
-
-	.user-text {
-		margin-right: 8px;
-	}
 	.user-logo {
 		font-size: 20px;
 		vertical-align: top;
-		background: #22c1c3;
-		background: linear-gradient(325deg, #9512f1 0%, #37b9d7 100%);
+		background: #ed4242;
+		background: linear-gradient(325deg, #ebe964 0%, #ed4242 100%);
 		color: white;
 
 		box-shadow: 1px 1px 7px rgb(0 0 0 / 25%);
 		border-radius: 20px;
 		padding: 10px;
-		margin-top: -8px;
-		margin-right: -16px !important;
+		margin-top: -9px;
+		margin-right: -21px !important;
 	}
 	.btn-user {
 		border: none;
+		margin-right: 5px;
 		// box-shadow: none;
 		// padding: 4px;
 	}
@@ -94,6 +74,12 @@
 			float: right;
 			clear: none;
 			width: auto;
+		}
+		.btn-user {
+			padding: 0;
+		}
+		.user-logo {
+			margin-left: -30px !important;
 		}
 		.user-text {
 			display: none;

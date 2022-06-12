@@ -1,27 +1,26 @@
 import Layout from 'antd/lib/layout/index';
 import message from 'antd/lib/message/index';
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as actions from '../actions';
 import Login from '../pages/Account/Login';
+import { logout, setAuth } from '../reducers/authUser';
+import { RootState } from '../store';
+import { getUser } from '../utils/services';
 import ButtonToogle from './Includes/ButtonToggle';
-import Content from './Includes/MyContent';
-import Loader from './Includes/RouteLoader';
+import MyContent from './Includes/MyContent';
 import MyHeader from './Includes/MyHeader';
+import Loader from './Includes/RouteLoader';
 import SideBar from './SideBar';
-import { AppState } from '../reducers';
-import { User } from '../utils';
-import axios from 'axios';
 
 const MainContainer = () => {
-	const authUser = useSelector<AppState>((state) => state.authUser) as User;
+	const authUser = useSelector((state: RootState) => state.authUserReducer);
 	const dispatch = useDispatch();
 	const [isLoading, setIsLoading] = useState(true);
 
-	const setAuth = (auth: User) => dispatch(actions.setAuth(auth));
-	const logout = () => dispatch(actions.logout());
+	const doLogout = () => dispatch(logout());
 
-	const isAuthenticate = () => authUser.username !== '';
+	const isAuthenticate = () => authUser.ten_dang_nhap !== '';
 
 	useEffect(() => {
 		// Get token from localStorage
@@ -30,8 +29,7 @@ const MainContainer = () => {
 			// Setup default config for axios
 			axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 			// Check it in server
-			axios
-				.get(`/api/get-user`)
+			getUser()
 				.then((response) => {
 					if (response.data.success) {
 						// Add a response interceptor
@@ -39,11 +37,11 @@ const MainContainer = () => {
 							if (error.response.status === 401) {
 								// Unauthorized
 								message.warn('Phiên đăng nhập đã kết thúc. Vui lòng đăng nhập lại');
-								setTimeout(logout, 2000);
+								setTimeout(doLogout, 2000);
 							}
 							return Promise.reject(error);
 						});
-						setAuth(response.data.data);
+						dispatch(setAuth(response.data.data));
 					} else {
 						localStorage.removeItem('token');
 						message.warn(response.data.message);
@@ -53,7 +51,7 @@ const MainContainer = () => {
 					if (error.response.status === 401) {
 						// Unauthorized
 						message.warn('Phiên đăng nhập đã kết thúc. Vui lòng đăng nhập lại');
-						setTimeout(logout, 2000);
+						setTimeout(doLogout, 2000);
 					} else console.log(error);
 				})
 				.then(() => setIsLoading(false));
@@ -68,7 +66,7 @@ const MainContainer = () => {
 				<SideBar />
 				<Layout>
 					<MyHeader />
-					<Content />
+					<MyContent />
 					<ButtonToogle />
 				</Layout>
 			</Layout>

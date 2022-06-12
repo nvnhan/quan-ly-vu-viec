@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import RouteLoader from './RouteLoader';
 import RouteContainer from './RouteContainer';
+import RouteLoader from './RouteLoader';
 import routes, { MyRoute } from './routes';
 
 const MyContent = () => {

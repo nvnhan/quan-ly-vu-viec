@@ -2,16 +2,16 @@ import Button from 'antd/lib/button/index';
 import Form from 'antd/lib/form/index';
 import Input from 'antd/lib/input/index';
 import message from 'antd/lib/message/index';
-import axios from 'axios';
 import React from 'react';
+import { changePassword } from '../../../utils/services';
 
 const Password = () => {
 	const [form] = Form.useForm();
 
 	const onFinish = () => {
 		const values = form.getFieldsValue();
-		axios
-			.put(`/api/password`, values)
+
+		changePassword(values)
 			.then((response) => {
 				if (response.data.success) message.success(response.data.message);
 				else message.warn(response.data.message);

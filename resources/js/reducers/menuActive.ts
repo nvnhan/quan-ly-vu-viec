@@ -1,13 +1,14 @@
-import * as types from '../constants/ActionTypes';
-import { Action } from '../utils';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 var initialState = '';
 
-const myReducer = (state = initialState, action: Action) => {
-	if (action.type === types.CHANGE_MENU_ACTIVE) {
-		state = action.payload;
-	}
-	return state;
-};
+const menuActive = createSlice({
+	name: 'menu',
+	initialState,
+	reducers: {
+		changeMenu: (state, { payload }: PayloadAction<string>) => payload,
+	},
+});
 
-export default myReducer;
+export const menuActiveReducer = menuActive.reducer;
+export const { changeMenu } = menuActive.actions;

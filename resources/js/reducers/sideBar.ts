@@ -1,23 +1,29 @@
-import * as Types from '../constants/ActionTypes';
-import { Action } from '../utils';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 var initialState: SideBarProps = {
 	collapsed: false,
 	toggled: false,
 };
 
-const myReducer = (state = initialState, action: Action) => {
-	if (action.type === Types.TOGGLE_COLLAPSE_SIDEBAR) {
-		state.collapsed = action.payload;
-	} else if (action.type === Types.TOGGLE_SIDEBAR) {
-		state.toggled = action.payload;
-	}
-	return state;
-};
+const sideBar = createSlice({
+	name: 'sidebar',
+	initialState,
+	reducers: {
+		toogleSideBar: (state, { payload }: PayloadAction<SideBarProps>) => {
+			state.toggled = payload.toggled;
+			return state;
+		},
+		collapseSideBar: (state, { payload }: PayloadAction<SideBarProps>) => {
+			state.collapsed = payload.collapsed;
+			return state;
+		},
+	},
+});
 
-export default myReducer;
+export const sideBarReducer = sideBar.reducer;
+export const { toogleSideBar, collapseSideBar } = sideBar.actions;
 
 export interface SideBarProps {
-	collapsed: boolean;
-	toggled: boolean;
+	collapsed?: boolean;
+	toggled?: boolean;
 }

@@ -1,27 +1,25 @@
 import Button from 'antd/lib/button/index';
+import Checkbox from 'antd/lib/checkbox/index';
+import Divider from 'antd/lib/divider';
 import Form from 'antd/lib/form/index';
 import Col from 'antd/lib/grid/col';
 import Row from 'antd/lib/grid/row';
-import Divider from 'antd/lib/divider';
 import Input from 'antd/lib/input/index';
 import message from 'antd/lib/message/index';
 import Select from 'antd/lib/select/index';
-import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAuth } from '../../../actions';
-import { AppState } from '../../../reducers';
-import { User } from '../../../utils';
-import Checkbox from 'antd/lib/checkbox/index';
+import { setAuth } from '../../../reducers/authUser';
+import { RootState } from '../../../store';
+import { getUser, updateProfile } from '../../../utils/services';
 
 const Profile = () => {
-	const authUser = useSelector<AppState>((state) => state.authUser) as User;
+	const authUser = useSelector((state: RootState) => state.authUserReducer);
 	const dispatch = useDispatch();
 	const [form] = Form.useForm();
 
 	useEffect(() => {
-		axios
-			.get(`/api/get-user`)
+		getUser()
 			.then((response) => {
 				if (response.data.success) {
 					const { data } = response.data;
@@ -33,8 +31,7 @@ const Profile = () => {
 
 	const onFinish = () => {
 		const values = form.getFieldsValue();
-		axios
-			.put(`/api/profile`, values)
+		updateProfile(values)
 			.then((response) => {
 				if (response.data.success) {
 					message.success(response.data.message);

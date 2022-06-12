@@ -1,8 +1,8 @@
 import Card from 'antd/lib/card/index';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import * as actions from '../../../actions';
-import { User } from '../../../utils';
+import { setAuth, User } from '../../../reducers/authUser';
+import { changeTitle } from '../../../reducers/pageTitle';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 
@@ -10,11 +10,11 @@ const Login = () => {
 	const [login, setLogin] = useState(true);
 	const dispatch = useDispatch();
 
-	const changeTitle = (title: string) => dispatch(actions.changeTitle(title));
-	const setAuth = (auth: User) => dispatch(actions.setAuth(auth));
+	const changeTitle1 = (title: string) => dispatch(changeTitle(title));
+	const setAuth1 = (auth: User) => dispatch(setAuth(auth));
 
 	useEffect(() => {
-		login ? changeTitle('Đăng nhập') : changeTitle('Tạo tài khoản');
+		login ? changeTitle1('Đăng nhập') : changeTitle1('Tạo tài khoản');
 	}, [login]);
 
 	const onChangeForm = () => setLogin(!login);
@@ -73,7 +73,7 @@ const Login = () => {
 			}
 		>
 			{login ? (
-				<LoginForm onSetAuth={setAuth} onRegister={onChangeForm} />
+				<LoginForm onSetAuth={setAuth1} onRegister={onChangeForm} />
 			) : (
 				<RegisterForm onLogin={onChangeForm} />
 			)}

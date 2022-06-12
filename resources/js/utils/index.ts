@@ -133,20 +133,3 @@ export const unionDataBy = (target: { [index: string]: any }, source: { [index: 
 	}
 	return target;
 };
-
-export interface Action {
-	readonly type: String;
-	payload?: any;
-}
-
-export interface User {
-	readonly username: string;
-	ho_ten: String;
-	roles: String[];
-	sdt?: String;
-	dia_chi?: String;
-	admin?: boolean;
-	them_moi?: boolean;
-	them_file?: boolean;
-	so_ket_qua?: number;
-}

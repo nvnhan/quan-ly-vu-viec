@@ -4,9 +4,9 @@ import Button from 'antd/lib/button/index';
 import Form from 'antd/lib/form/index';
 import Input from 'antd/lib/input/index';
 import message from 'antd/lib/message/index';
-import axios from 'axios';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { postRegister } from '../../../utils/services';
 
 interface ComponentProps {
 	onLogin: any;
@@ -19,8 +19,7 @@ const RegisterForm = ({ onLogin }: ComponentProps) => {
 	const onFinish = () => {
 		setSubmiting(true);
 		const values = form.getFieldsValue();
-		axios
-			.post(`/api/register`, values)
+		postRegister(values)
 			.then((response) => {
 				if (response.data.success) {
 					message.success(response.data.message);

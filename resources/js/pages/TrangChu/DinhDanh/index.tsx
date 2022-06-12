@@ -8,19 +8,19 @@ import { useNavigate } from 'react-router-dom';
 import ListForm, { ListFormRef } from '../../../components/ListForm';
 import { ColumnProps } from '../../../components/ListForm/DataTable';
 import { ToolsButtonProps } from '../../../components/ListForm/ToolsButton';
-import { AppState } from '../../../reducers';
-import { User, vndFormater } from '../../../utils';
+import { RootState } from '../../../store';
+import { vndFormater } from '../../../utils';
 import { downloadApi } from '../../../utils/downloadFile';
 import FormItem from './FormItem';
 import getFilters from './otherFilters';
 
 const List = () => {
 	const navigate = useNavigate();
-	const authUser = useSelector<AppState>((state) => state.authUser) as User;
+	const authUser = useSelector((state: RootState) => state.authUserReducer);
 	const childRef = useRef<ListFormRef>(null);
 	const [otherButtons, setOtherButtons] = useState<ToolsButtonProps[]>([]);
 
-	const allowInsert = () => authUser.username != '' && authUser.them_moi;
+	const allowInsert = () => authUser.ten_dang_nhap != '';
 
 	const columns: ColumnProps[] = [
 		{
@@ -150,11 +150,11 @@ const List = () => {
 			ajax
 			selectable={authUser.admin}
 			insertable={allowInsert()}
-			deleteable={authUser.username != ''}
-			editable={authUser.username != ''}
+			deleteable={authUser.ten_dang_nhap != ''}
+			editable={authUser.ten_dang_nhap != ''}
 			filterBox
 			onChangeData={hanldeChangeData}
-			otherFilter={getFilters(authUser.username)}
+			otherFilter={getFilters(authUser.ten_dang_nhap)}
 			filterInitialValue={{ u: '' }}
 			tuNgayDenNgay={false}
 			otherButtons={otherButtons}

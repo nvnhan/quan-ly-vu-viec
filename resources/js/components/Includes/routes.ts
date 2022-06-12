@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+import * as menus from '../../constants/SideMenu';
 
 const TrangChu = lazy(() => import('../../pages/TrangChu/DinhDanh'));
 const ThemFile = lazy(() => import('../../pages/TrangChu/ThemFile'));
@@ -11,6 +12,7 @@ const NguoiDung = lazy(() => import('../../pages/QuanTri/NguoiDung'));
 export interface MyRoute {
 	path: string;
 	title: string;
+	menu?: string;
 	Component: any;
 	role?: string;
 }
@@ -19,6 +21,7 @@ const routes: MyRoute[] = [
 	{
 		path: '/',
 		title: 'Trang chủ',
+		menu: menus.HOME,
 		Component: TrangChu,
 	},
 	{
@@ -47,6 +50,7 @@ const routes: MyRoute[] = [
 	{
 		path: '/*',
 		title: 'Lỗi 404!',
+		menu: '404',
 		Component: NotFound,
 	},
 ];

@@ -38,7 +38,7 @@ class CanBo extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password',
+        'mat_khau',
     ];
 
     /**
@@ -53,7 +53,7 @@ class CanBo extends Authenticatable
         'updated_at' => 'datetime:H:i d/m/Y',
     ];
 
-    protected $appends = ['ten_chuc_vu'];
+    protected $appends = ['ten_chuc_vu', 'admin'];
 
     public function cap_bac()
     {

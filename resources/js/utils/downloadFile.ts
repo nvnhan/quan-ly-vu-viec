@@ -1,6 +1,6 @@
 import Modal from 'antd/lib/modal/index';
-import axios from 'axios';
 import FormWaiting from '../components/Includes/FormWaiting';
+import { getFile } from './services';
 
 /**
  * Download file từ url
@@ -24,11 +24,7 @@ const downloadFile = (url: string, name: string) => {
 export const downloadApi = (url: string, params: object, fileName: string) => {
 	FormWaiting('Đang tạo báo cáo...');
 
-	axios
-		.get(url, {
-			params,
-			responseType: 'blob', // important
-		})
+	getFile(url, params)
 		.then((response) => {
 			const url = window.URL.createObjectURL(new Blob([response.data]));
 			downloadFile(url, fileName);

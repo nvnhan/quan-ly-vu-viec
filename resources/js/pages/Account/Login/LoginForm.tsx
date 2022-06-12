@@ -7,7 +7,8 @@ import message from 'antd/lib/message/index';
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { User } from '../../../utils';
+import { User } from '../../../reducers/authUser';
+import { postLogin } from '../../../utils/services';
 
 interface ComponentProps {
 	onSetAuth: (user: User) => void;
@@ -23,8 +24,7 @@ const LoginForm = ({ onSetAuth, onRegister }: ComponentProps) => {
 		setSubmiting(true);
 		const values = form.getFieldsValue();
 
-		axios
-			.post(`/api/login`, values)
+		postLogin(values)
 			.then((response) => {
 				if (response.data.success) {
 					const { data } = response.data;
@@ -44,11 +44,15 @@ const LoginForm = ({ onSetAuth, onRegister }: ComponentProps) => {
 						return Promise.reject(error);
 					});
 					onSetAuth(data);
-					navigate('/');
-				} else message.warn(response.data.message);
+				} else {
+					message.warn(response.data.message);
+					setSubmiting(false);
+				}
 			})
-			.catch((error) => console.log(error))
-			.then(() => setSubmiting(false));
+			.catch((error) => {
+				console.log(error);
+				setSubmiting(false);
+			});
 	};
 
 	const contactAdmin = () => message.info('Liên hệ quản trị viên hệ thống');
