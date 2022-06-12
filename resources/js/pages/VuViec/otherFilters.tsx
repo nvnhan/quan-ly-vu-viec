@@ -2,7 +2,7 @@ import { InfoCircleOutlined } from '@ant-design/icons';
 import Input from 'antd/lib/input/index';
 import Select from 'antd/lib/select/index';
 import React from 'react';
-import { FilterProps } from '../../../components/ListForm/FilterBox';
+import { FilterProps } from '../../components/ListForm/FilterBox';
 const { Option } = Select;
 
 const getFilters = (username: string): FilterProps[] => {

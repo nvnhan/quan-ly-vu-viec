@@ -56,7 +56,7 @@ const Profile = () => {
 				<Divider orientation="left">Thông tin cá nhân</Divider>
 				<Row gutter={[12, 12]} style={{ marginLeft: 0, marginRight: 0 }}>
 					<Col span={12}>
-						<Form.Item name="username" label="Tên đăng nhập">
+						<Form.Item name="ten_dang_nhap" label="Tên đăng nhập">
 							<Input disabled />
 						</Form.Item>
 					</Col>
@@ -86,7 +86,7 @@ const Profile = () => {
 					</Col>
 				</Row>
 
-				<Divider orientation="left">Cài đặt hiển thị</Divider>
+				{/* <Divider orientation="left">Cài đặt hiển thị</Divider>
 				<Row gutter={[12, 12]} style={{ marginLeft: 0, marginRight: 0 }}>
 					<Col span={24} md={12}>
 						<Form.Item
@@ -117,7 +117,7 @@ const Profile = () => {
 							</Col>
 						</Row>
 					</>
-				)}
+				)} */}
 
 				<Row gutter={[12, 12]}>
 					<Col span={24} md={12}>

@@ -56,7 +56,7 @@ const MyHeader = () => {
 				label: 'Quản trị',
 				children: [
 					{
-						label: <Link to="/nguoi-dung">Tổ chức cán bộ</Link>,
+						label: <Link to="/can-bo">Tổ chức cán bộ</Link>,
 						key: 'user',
 					},
 					{

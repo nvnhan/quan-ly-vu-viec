@@ -132,11 +132,11 @@
 .not-found-content {
 	text-align: center;
 
-	img {
-		width: 60%;
+	svg {
+		width: 100%;
 		min-width: 250px;
-		max-width: 480px;
-		margin: 32px auto;
+		max-height: 450px;
+		margin: 20px auto;
 		display: block;
 	}
 }

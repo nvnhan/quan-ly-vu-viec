@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import RouteContainer from './RouteContainer';
 import RouteLoader from './RouteLoader';
-import routes, { MyRoute } from './routes';
+import getAllRoutes, { MyRoute } from './routes';
 
 const MyContent = () => {
 	const getRoute = (routes: MyRoute[]) =>
@@ -11,7 +11,7 @@ const MyContent = () => {
 	return (
 		<div className="content">
 			<Suspense fallback={<RouteLoader />}>
-				<Routes>{getRoute(routes)}</Routes>
+				<Routes>{getRoute(getAllRoutes())}</Routes>
 			</Suspense>
 		</div>
 	);

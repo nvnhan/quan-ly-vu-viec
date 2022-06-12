@@ -1,58 +1,62 @@
 import { lazy } from 'react';
-import * as menus from '../../constants/SideMenu';
+import items, { SideBarItem } from '../SideBar/SideBarItems';
 
-const TrangChu = lazy(() => import('../../pages/TrangChu/DinhDanh'));
-const ThemFile = lazy(() => import('../../pages/TrangChu/ThemFile'));
 const NotFound = lazy(() => import('../../pages/NotFound'));
-
 const Profile = lazy(() => import('../../pages/Account/Profile'));
 const Password = lazy(() => import('../../pages/Account/Password'));
-const NguoiDung = lazy(() => import('../../pages/QuanTri/NguoiDung'));
 
 export interface MyRoute {
 	path: string;
 	title: string;
-	menu?: string;
 	Component: any;
+	menu?: string;
 	role?: string;
 }
 
-const routes: MyRoute[] = [
-	{
-		path: '/',
-		title: 'Trang chủ',
-		menu: menus.HOME,
-		Component: TrangChu,
-	},
-	{
-		path: '/them-file',
-		title: 'Thêm từ Excel',
-		Component: ThemFile,
-	},
-	{
-		path: '/nguoi-dung',
-		title: 'Danh sách người dùng',
-		Component: NguoiDung,
-		role: 'admin',
-	},
+const invisibleRoutes: MyRoute[] = [
 	{
 		path: '/cai-dat-ca-nhan',
 		title: 'Cài đặt cá nhân',
-		role: 'user',
 		Component: Profile,
 	},
 	{
 		path: '/doi-mat-khau',
 		title: 'Đổi mật khẩu',
 		Component: Password,
-		role: 'user',
 	},
 	{
 		path: '/*',
 		title: 'Lỗi 404!',
-		menu: '404',
 		Component: NotFound,
 	},
 ];
 
-export default routes;
+const getAllRoutes = (): MyRoute[] => {
+	let routes: MyRoute[] = [];
+	items.map((item: SideBarItem) => {
+		if (item.href && item.Component)
+			routes.push({
+				path: item.href,
+				title: item.title,
+				menu: item.key,
+				Component: item.Component,
+				role: item.role,
+			});
+		else if (item.childs && item.childs.length > 0) {
+			item.childs.map((i: SideBarItem) => {
+				if (i.href && i.Component)
+					routes.push({
+						path: i.href,
+						title: i.title,
+						menu: i.key,
+						Component: i.Component,
+						role: i.role,
+					});
+			});
+		}
+	});
+	routes = routes.concat(invisibleRoutes);
+	return routes;
+};
+
+export default getAllRoutes;

@@ -8,8 +8,19 @@ $lg: 1200px;
 $xl: 1400px;
 
 $primary-color: #518f3c;
-$secondary-color: #a3e48e;
+$secondary-color: #a12a3f;
 $background-color: #fff;
+
+// ProSideBar variables
+$sidebar-bg-color: #040a01 !default;
+$sidebar-color: #adadad !default;
+$sidebar-width: 270px !default;
+$sidebar-collapsed-width: 80px !default;
+$highlight-color: #d8d8d8 !default;
+$submenu-bg-color: rgb(13 32 6 / 50%) !default;
+$submenu-bg-color-collapsed: rgb(13 32 6 / 95%) !default;
+$icon-bg-color: rgb(24 54 12 / 50%) !default;
+$icon-size: 35px !default;
 
 @mixin xs {
 	@media (max-width: #{$xs - 1px}) {

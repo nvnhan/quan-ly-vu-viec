@@ -41,6 +41,7 @@ class AuthController extends BaseController
         if ($user) {
             if (Hash::check($request->mat_khau, $user->mat_khau)) {
                 $user->dang_nhap_cuoi = now();
+                $user->save();
                 // Delete all previous Tokens
                 $user->tokens()
                     ->where('name', 'Web API login')
@@ -84,10 +85,10 @@ class AuthController extends BaseController
             $user->fill($request->except('ten_dang_nhap', 'mat_khau'))->save();
             $response = $user->toArray();
 
-            if ($user->admin) {
-                $user->chuc_vu = $request->chuc_vu;
-                $user->id_don_vi = $request->id_don_vi;
-            }
+            // if ($user->admin) {
+            //     $user->chuc_vu = $request->chuc_vu;
+            //     $user->id_don_vi = $request->id_don_vi;
+            // }
             return $this->sendResponse($response, 'Cập nhật thành công');
         } else
             return $this->sendError('Invalid token or is Revoked', []);
@@ -117,7 +118,7 @@ class AuthController extends BaseController
                 return $this->sendError("Mật khẩu cũ không chính xác", []);
             }
 
-            $request['mat_khau'] = Hash::make($request['password']);
+            $user->mat_khau = Hash::make($request['password']);
             $user->fill($request->except('ten_dang_nhap'))->save();
             return $this->sendResponse($user, 'Đổi mật khẩu thành công');
         } else
