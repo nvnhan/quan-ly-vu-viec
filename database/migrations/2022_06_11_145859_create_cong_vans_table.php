@@ -21,12 +21,12 @@ class CreateCongVansTable extends Migration
             $table->date('ngay_ban_hanh')->nullable();
             $table->string('co_quan_ban_hanh', 200)->nullable();
 
-            $table->integer('id_vu_viec')->unsigned()->nullable();
-            $table->integer('id_can_bo')->unsigned()->nullable();
+            $table->bigInteger('id_vu_viec')->unsigned()->nullable();
+            $table->bigInteger('id_can_bo')->unsigned()->nullable();
             $table->string('ket_qua_xu_ly', 500)->nullable();
             $table->date('ngay_xu_ly')->nullable();
 
-            $table->integer('nguoi_tao')->unsigned()->nullable();
+            $table->bigInteger('nguoi_tao')->unsigned()->nullable();
             $table->timestamps();
         });
     }
@@ -38,6 +38,8 @@ class CreateCongVansTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('cong_vans');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

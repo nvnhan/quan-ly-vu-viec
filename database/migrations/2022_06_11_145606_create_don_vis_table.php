@@ -15,8 +15,11 @@ class CreateDonVisTable extends Migration
     {
         Schema::create('don_vis', function (Blueprint $table) {
             $table->id();
+            $table->string('id_tam', 10);
             $table->string('ten_don_vi', 200);
-            $table->integer('id_doi');
+            $table->bigInteger('id_don_vi_cha')->unsigned()->nullable();
+            $table->string('dia_phuong', 10);
+            $table->string('loai_don_vi', 100);
         });
     }
 
@@ -27,6 +30,8 @@ class CreateDonVisTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('don_vis');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

@@ -782,8 +782,8 @@ INSERT INTO `quan_huyens` (`id`, `ten_huyen`, `loai`, `id_tinh`) VALUES
 -- #######################################################################
 
 
-TRUNCATE `dois`;
-INSERT INTO `dois` (`id_tam`, `ten_doi`, `loai`, `id_huyen`) VALUES
+TRUNCATE `don_vis`;
+INSERT INTO `don_vis` (`id_tam`, `ten_don_vi`, `loai_don_vi`, `dia_phuong`) VALUES
 ('00001',	'Phường Phúc Xá',	'Phường',	'001'),
 ('00004',	'Phường Trúc Bạch',	'Phường',	'001'),
 ('00006',	'Phường Vĩnh Phúc',	'Phường',	'001'),

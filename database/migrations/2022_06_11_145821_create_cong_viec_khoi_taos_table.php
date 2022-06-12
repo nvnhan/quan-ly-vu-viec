@@ -16,7 +16,7 @@ class CreateCongViecKhoiTaosTable extends Migration
         Schema::create('cong_viec_khoi_taos', function (Blueprint $table) {
             $table->id();
             $table->string('loai_vu_viec', 10)->default('AĐ');
-            $table->integer('id_nhom_cong_viec')->unsigned();
+            $table->bigInteger('id_nhom_cong_viec')->unsigned();
 
             $table->string('ten_cong_viec', 100);
             $table->string('thoi_han', 6)->nullable();
@@ -30,6 +30,8 @@ class CreateCongViecKhoiTaosTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('cong_viec_khoi_taos');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

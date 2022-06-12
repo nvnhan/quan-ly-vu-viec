@@ -15,8 +15,8 @@ class CreateVuViecNguoisTable extends Migration
     {
         Schema::create('vu_viec_nguois', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_vu_viec')->unsigned();
-            $table->integer('id_nguoi')->unsigned();
+            $table->bigInteger('id_vu_viec')->unsigned();
+            $table->bigInteger('id_nguoi')->unsigned();
             $table->integer('tu_cach_to_tung');
 
             $table->string('hanh_vi', 200)->nullable();
@@ -38,7 +38,7 @@ class CreateVuViecNguoisTable extends Migration
             $table->date('ngay_gia_han_tam_giam_2')->nullable();
             $table->string('thoi_han_gia_han_giam_2', 6)->nullable();
 
-            $table->string('don_vi_tra_cuu', 200)->nullable();
+            $table->date('ngay_khoi_to')->nullable();
             $table->timestamps();
         });
     }
@@ -50,6 +50,8 @@ class CreateVuViecNguoisTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('vu_viec_nguois');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

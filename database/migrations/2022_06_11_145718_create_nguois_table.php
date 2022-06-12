@@ -25,11 +25,11 @@ class CreateNguoisTable extends Migration
 
             $table->string('noi_sinh', 200)->nullable();
             $table->string('thuong_tru', 50)->nullable();
-            $table->integer('dp_thuong_tru')->unsigned()->nullable();
+            $table->bigInteger('id_dp_thuong_tru')->unsigned()->nullable();
             $table->string('tam_tru', 50)->nullable();
-            $table->integer('dp_tam_tru')->unsigned()->nullable();
+            $table->bigInteger('id_dp_tam_tru')->unsigned()->nullable();
             $table->string('noi_o_hien_nay', 50)->nullable();
-            $table->integer('dp_noi_o_hien_nay')->unsigned()->nullable();
+            $table->bigInteger('id_dp_noi_o_hien_nay')->unsigned()->nullable();
 
             $table->string('sdt', 20)->nullable();
             $table->string('so_dinh_danh', 20)->nullable();
@@ -46,7 +46,8 @@ class CreateNguoisTable extends Migration
             $table->string('ho_ten_me', 50)->nullable();
             $table->string('ho_ten_vo_chong', 50)->nullable();
 
-            $table->integer('dp_thong_bao')->unsigned()->nullable();
+            $table->bigInteger('id_dp_thong_bao')->unsigned()->nullable();
+            $table->string('don_vi_tra_cuu', 200)->nullable();
             $table->timestamps();
         });
     }
@@ -58,6 +59,8 @@ class CreateNguoisTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('nguois');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

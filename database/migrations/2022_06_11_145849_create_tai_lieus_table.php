@@ -15,13 +15,13 @@ class CreateTaiLieusTable extends Migration
     {
         Schema::create('tai_lieus', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_vu_viec')->unsigned();
-            $table->integer('id_cong_viec')->unsigned()->nullable();
+            $table->bigInteger('id_vu_viec')->unsigned();
+            $table->bigInteger('id_cong_viec')->unsigned()->nullable();
             $table->string('ten_tai_lieu', 100);
             $table->text('noi_dung')->nullable();
             $table->string('ten_file', 200);
 
-            $table->integer('nguoi_tao')->unsigned();
+            $table->bigInteger('nguoi_tao')->unsigned();
             $table->timestamps();
         });
     }
@@ -33,6 +33,8 @@ class CreateTaiLieusTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('tai_lieus');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

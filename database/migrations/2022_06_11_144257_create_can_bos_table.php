@@ -16,11 +16,11 @@ class CreateCanBosTable extends Migration
         Schema::create('can_bos', function (Blueprint $table) {
             $table->id();
             $table->string('ho_ten', 50)->nullable();
-            $table->integer('id_cap_bac')->unsigned()->nullable();
+            $table->bigInteger('id_cap_bac')->unsigned()->nullable();
             $table->integer('chuc_vu')->default(0);
 
             $table->boolean('dieu_tra_vien')->default(false);
-            $table->integer('id_don_vi');
+            $table->bigInteger('id_don_vi')->unsigned()->nullable();
             $table->string('sdt', 20)->nullable();
             $table->string('dia_chi', 500)->nullable();
 
@@ -38,6 +38,8 @@ class CreateCanBosTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('can_bos');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

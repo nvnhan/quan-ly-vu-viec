@@ -65,7 +65,7 @@ class CanBo extends Authenticatable
         return $this->belongsTo('App\DonVi', 'id_don_vi');
     }
 
-    public function cong_viec()
+    public function cong_viec_nhans()
     {
         return $this->hasMany('App\CongViec', 'id_can_bo');
     }

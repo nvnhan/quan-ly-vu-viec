@@ -21,7 +21,7 @@ class CreateVuViecsTable extends Migration
 
             $table->string('thoi_diem_xay_ra', 200)->nullable();
             $table->string('noi_xay_ra', 200)->nullable();
-            $table->integer('dia_phuong_xay_ra')->unsigned()->nullable();
+            $table->bigInteger('id_dp_xay_ra')->unsigned()->nullable();
             $table->string('noi_dung_tom_tat', 500)->nullable();
 
             $table->string('so_ngay_keo_dai', 6)->nullable();
@@ -45,10 +45,10 @@ class CreateVuViecsTable extends Migration
 
             $table->string('so_ho_so', 100)->nullable();
             $table->date('ngay_dang_ky_ho_so')->nullable();
-            $table->integer('dtv_chinh')->unsigned()->nullable();
-            $table->integer('can_bo_chinh')->unsigned()->nullable();
+            $table->bigInteger('id_dtv_chinh')->unsigned()->nullable();
+            $table->bigInteger('id_can_bo_chinh')->unsigned()->nullable();
 
-            $table->integer('nguoi_tao')->unsigned()->nullable();
+            $table->bigInteger('nguoi_tao')->unsigned()->nullable();
             $table->timestamps();
         });
     }
@@ -60,6 +60,8 @@ class CreateVuViecsTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('vu_viecs');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

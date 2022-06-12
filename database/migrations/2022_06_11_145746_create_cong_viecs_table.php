@@ -15,8 +15,8 @@ class CreateCongViecsTable extends Migration
     {
         Schema::create('cong_viecs', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_vu_viec')->unsigned();
-            $table->integer('id_nhom_cong_viec')->unsigned()->nullable();
+            $table->bigInteger('id_vu_viec')->unsigned();
+            $table->bigInteger('id_nhom_cong_viec')->unsigned()->nullable();
 
             $table->string('ten_cong_viec', 100)->nullable();
             $table->text('noi_dung')->nullable();
@@ -33,8 +33,8 @@ class CreateCongViecsTable extends Migration
             $table->string('ket_qua', 500)->nullable();
             $table->string('phe_duyet', 500)->nullable();
 
-            $table->integer('id_can_bo')->unsigned()->nullable();
-            $table->integer('nguoi_tao')->unsigned();
+            $table->bigInteger('id_can_bo')->unsigned()->nullable();
+            $table->bigInteger('nguoi_tao')->unsigned()->nullable();
             $table->timestamps();
         });
     }
@@ -46,6 +46,8 @@ class CreateCongViecsTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('cong_viecs');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }
