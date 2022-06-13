@@ -15,7 +15,10 @@ class QuanHuyenController extends BaseController
     public function index(Request $request)
     {
         $q = $request->q;
-        $objs = QuanHuyen::where('ten_huyen', 'LIKE', "%$q%")->get();
+        $query = QuanHuyen::where('ten_huyen', 'LIKE', "%$q%");
+        if ($request->l)
+            $query = $query->limit($request->l);
+        $objs = $query->get();
         return $this->sendResponse($objs, 'QuanHuyen retrieved successfully', count($objs));
     }
 

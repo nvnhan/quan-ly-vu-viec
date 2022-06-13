@@ -5,7 +5,7 @@ namespace App\Helpers;
 /**
  * 
  */
-class Classes
+class Util
 {
 	public static function slugify($str)
 	{
@@ -40,13 +40,13 @@ class Classes
 		// get old value from current env
 		$oldValue = env($key);
 
-
 		// was there any change?
 		if ($oldValue === $newValue) {
 			return;
 		}
 
-		if (!$oldValue || $oldValue == "" || strpos($oldValue, ' ') !== true)
+		// Old value is empty OR not contains '  ' 
+		if (!$oldValue || $oldValue == "" || strpos($oldValue, ' ') < 0)
 			$newValue = '"' . $newValue . '"';
 
 		// rewrite file content with changed data

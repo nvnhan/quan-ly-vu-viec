@@ -24,6 +24,19 @@ export const getLogout = async () => {
 	return axios.get(`/api/logout`);
 };
 
+export const getCaiDat = async () => {
+	return axios.get(`/api/cai-dat`);
+};
+
+export const putCaiDat = async (payload: any) => {
+	return axios.put(`/api/cai-dat`, payload);
+};
+
+export const getSearchDonVi = async (payload: any) => {
+	const { q, l } = payload;
+	return axios.get(`/api/quan-huyen?q=${q}&l=${l}`);
+};
+
 export const getFile = async (url: string, params: object) => {
 	return axios.get(url, {
 		params,

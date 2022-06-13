@@ -13,6 +13,7 @@ const VuViec = lazy(() => import('../../pages/VuViec'));
 const ToiDanh = lazy(() => import('../../pages/ThongTin/ToiDanh'));
 
 const CanBo = lazy(() => import('../../pages/QuanTri/CanBo'));
+const CaiDat = lazy(() => import('../../pages/QuanTri/CaiDat'));
 
 export interface SideBarItem {
 	key: string;
@@ -149,6 +150,7 @@ const items: SideBarItem[] = [
 				href: '/cai-dat',
 				title: 'Cài đặt',
 				role: 'admin',
+				Component: CaiDat,
 			},
 		],
 	},

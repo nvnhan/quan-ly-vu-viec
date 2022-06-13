@@ -3,7 +3,8 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\QuanHuyenController;
 use App\Http\Controllers\ToiDanhController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\CanBoController;
+use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,8 +40,10 @@ Route::middleware('auth:api')->group(function () {
 
     // Add middleware checkadmin
     Route::middleware('checkadmin')->group(function () {
-        Route::resource('nguoi-dung', UserController::class)->only(['index', 'store', 'update', 'destroy']);
-        Route::put('reset/{id}', [UserController::class, 'reset']);
-        Route::put('sua-them-moi/{id}', [UserController::class, 'change_permission']);
+        Route::resource('can-bo', CanBoController::class)->only(['index', 'store', 'update', 'destroy']);
+        Route::put('reset/{id}', [CanBoController::class, 'reset']);
+
+        Route::get('cai-dat', [SettingController::class, 'index']);
+        Route::put('cai-dat', [SettingController::class, 'update']);
     });
 });
