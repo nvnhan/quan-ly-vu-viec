@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { toogleSideBar } from '../../reducers/sideBar';
 import { RootState } from '../../store';
-import items from './SideBarItems';
+import items, { SideBarItem } from './SideBarItems';
 
 const SideBar = () => {
 	const dispatch = useDispatch();
@@ -15,19 +15,20 @@ const SideBar = () => {
 	const onToggle = (toggled: boolean) => dispatch(toogleSideBar({ toggled }));
 
 	const selectedSubMenu = () => 'SUB_' + menuActive.split('_')[0];
+	console.log('🚀 ~ file: index.tsx ~ line 18 ~ SideBar ~ selectedSubMenu', selectedSubMenu());
 
 	const genMenuItem = (item: any, index: number) => {
 		// if (item.role && !authUser.roles[item.role]) return <React.Fragment key={item.key}></React.Fragment>;
 
 		return (
-			<MenuItem key={item.key} icon={item.icon} active={menuActive === item.key}>
+			<MenuItem key={item.key} icon={item.icon} active={menuActive === item.key} suffix={item.suffix}>
 				{item.title}
 				<Link to={item.href} />
 			</MenuItem>
 		);
 	};
 
-	const genMenu = (item: any, index: number) => {
+	const genMenu = (item: SideBarItem, index: number) => {
 		// if (item.role && !authUser.roles[item.role]) return <React.Fragment key={item.key}></React.Fragment>;
 
 		if (item.childs) {
@@ -37,6 +38,7 @@ const SideBar = () => {
 					key={item.key}
 					icon={item.icon}
 					title={item.title}
+					suffix={item.suffix}
 					defaultOpen={item.key === selectedSubMenu()}
 				>
 					{item.childs.map(genMenuItem)}

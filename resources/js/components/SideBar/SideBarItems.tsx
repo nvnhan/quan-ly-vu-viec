@@ -21,6 +21,7 @@ export interface SideBarItem {
 	Component?: any;
 	href?: string;
 	icon?: React.ReactNode;
+	suffix?: React.ReactNode;
 	role?: string;
 	childs?: SideBarItem[];
 }
@@ -56,6 +57,7 @@ const items: SideBarItem[] = [
 		key: 'SUB_CV',
 		title: 'Công việc',
 		icon: <ScheduleOutlined />,
+		suffix: <span className="badge">3</span>,
 		childs: [
 			{
 				key: 'CV_TAT_CA',
