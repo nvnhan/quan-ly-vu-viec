@@ -34,8 +34,8 @@ const FilterBox = (props: ComponentProps) => {
 
 	useEffect(() => {
 		form.setFieldsValue({
-			...filterInitialValue,
 			thoiGian: [moment().startOf('month'), moment().endOf('month')],
+			...filterInitialValue,
 		});
 	}, []);
 
@@ -86,7 +86,7 @@ const FilterBox = (props: ComponentProps) => {
 
 					{alwaysShowFilters && !isEmpty(alwaysShowFilters) && alwaysShowFilters.map(renderAlwaysShowFilter)}
 
-					{hideFilters && !isEmpty(hideFilters) && expandFilter && hideFilters.map(renderHideFilter)}
+					{hideFilters && !isEmpty(hideFilters) && expandFilter && hideFilters.map(renderAlwaysShowFilter)}
 
 					<Col span={12} md={8} lg={6} xl={5}>
 						{!isEmpty(hideFilters) && (

@@ -47,7 +47,7 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 
 	let isComponentMounted = false;
 	// Final filter: Filter <= props, OwnFilter <= FilterBox
-	const finalFilter = filter || ownFilter;
+	const finalFilter = { ...(filter ?? {}), ...ownFilter };
 	//#endregion
 
 	//#region  Sự kiện, hooks

@@ -5,6 +5,7 @@ import SearchOutlined from '@ant-design/icons/SearchOutlined';
 import Button from 'antd/lib/button/index';
 import Dropdown from 'antd/lib/dropdown/index';
 import Input from 'antd/lib/input/index';
+import { ItemType } from 'antd/lib/menu/hooks/useItems';
 import Menu from 'antd/lib/menu/index';
 import Table from 'antd/lib/table/index';
 import isEmpty from 'lodash/isEmpty';
@@ -154,33 +155,45 @@ const DataTable = (props: DataTableProps) => {
 		},
 	});
 
-	const layAction = (record: any) => (
-		<Menu>
-			{otherActions &&
-				!isEmpty(otherActions) &&
-				otherActions.map((act) => (
-					<Menu.Item
-						key={act.key}
-						onClick={() => act.onClick(record)}
-						style={{
-							color: act.color,
-						}}
-					>
+	const layAction = (record: any) => {
+		let items: ItemType[] =
+			otherActions?.map((act) => ({
+				key: act.key,
+				onClick: () => act.onClick(record),
+				style: {
+					color: act.color,
+				},
+				label: (
+					<>
 						{act.icon} {act.title}
-					</Menu.Item>
-				))}
-			{editable && (
-				<Menu.Item key="edit" onClick={() => handleEdit(record)} className="color-link">
-					<EditOutlined /> Chỉnh sửa
-				</Menu.Item>
-			)}
-			{deleteable && (
-				<Menu.Item key="delete" onClick={() => handleDelete(record)} className="color-danger">
-					<DeleteOutlined /> Xóa
-				</Menu.Item>
-			)}
-		</Menu>
-	);
+					</>
+				),
+			})) ?? [];
+		editable &&
+			items.push({
+				key: 'edit',
+				onClick: () => handleEdit(record),
+				className: 'color-link',
+				label: (
+					<>
+						<EditOutlined /> Chỉnh sửa
+					</>
+				),
+			});
+		deleteable &&
+			items.push({
+				key: 'delete',
+				onClick: () => handleDelete(record),
+				className: 'color-danger',
+				danger: true,
+				label: (
+					<>
+						<DeleteOutlined /> Xóa
+					</>
+				),
+			});
+		return <Menu items={items} />;
+	};
 
 	/**
 	 * Thao tác tìm kiếm trên cột

@@ -5,6 +5,7 @@ use App\Http\Controllers\QuanHuyenController;
 use App\Http\Controllers\ToiDanhController;
 use App\Http\Controllers\CanBoController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\VuViecController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,9 +35,8 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/profile', [AuthController::class, 'update'])->name('profile');
     Route::put('/password', [AuthController::class, 'password'])->name('password');
 
-    // Dinh Danh
-    // Route::delete('dinh-danh/deletes', [DinhDanhController::class, 'deletes']);
-    // Route::post('dinh-danh/them-file', [DinhDanhController::class, 'themfile']);
+    // Vu Viec
+    Route::resource('vu-viec', VuViecController::class);
 
     // Add middleware checkadmin
     Route::middleware('checkadmin')->group(function () {

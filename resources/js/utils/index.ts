@@ -59,16 +59,23 @@ export const isChangeData = (newData: { [index: string]: any }, record?: { [inde
 	if (!record || !newData) return true;
 	let isChanged = false;
 
-	for (var k in record) {
-		if (record.hasOwnProperty(k) && newData.hasOwnProperty(k)) {
-			const tmp = convertToSQLDateTime(newData[k]);
-
-			if (record[k] !== tmp) {
-				isChanged = true;
-				break;
-			}
+	for (var k in newData) {
+		if (!record.hasOwnProperty(k)) {
+			isChanged = true;
+			break;
 		}
 	}
+	if (!isChanged)
+		for (var k in record) {
+			if (record.hasOwnProperty(k) && newData.hasOwnProperty(k)) {
+				const tmp = convertToSQLDateTime(newData[k]);
+
+				if (record[k] !== tmp) {
+					isChanged = true;
+					break;
+				}
+			}
+		}
 	return isChanged;
 };
 

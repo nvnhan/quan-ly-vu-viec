@@ -7,9 +7,9 @@ import ScheduleOutlined from '@ant-design/icons/ScheduleOutlined';
 import FileProtectOutlined from '@ant-design/icons/FileProtectOutlined';
 import React, { lazy } from 'react';
 
-const TrangChu = lazy(() => import('../../pages/VuViec'));
+const TrangChu = lazy(() => import('../../pages/TrangChu'));
 
-const VuViec = lazy(() => import('../../pages/VuViec'));
+const VuViec = lazy(() => import('../../pages/VuViec/ThongTinVuViec'));
 const ToiDanh = lazy(() => import('../../pages/ThongTin/ToiDanh'));
 
 const CanBo = lazy(() => import('../../pages/QuanTri/CanBo'));

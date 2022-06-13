@@ -24,11 +24,11 @@ mix.webpackConfig({
 	// },
 	plugins: [
 		// new BundleAnalyzerPlugin(),
-		new webpack.ContextReplacementPlugin(
-			/moment[\/\\]locale/,
-			// A regular expression matching files that should be included
-			/(vi)\.js/
-		),
+		// new webpack.ContextReplacementPlugin(
+		// 	/moment[\/\\]locale/,
+		// 	// A regular expression matching files that should be included
+		// 	/(vi)\.js/
+		// ),
 	],
 })
 	.ts('resources/js/index.tsx', 'public/js')
