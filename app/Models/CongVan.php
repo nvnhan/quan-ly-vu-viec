@@ -23,16 +23,16 @@ class CongVan extends Model
 
     public function can_bo_thu_ly()
     {
-        return $this->belongsTo('App\CanBo', 'id_can_bo');
+        return $this->belongsTo('App\Models\CanBo', 'id_can_bo');
     }
 
     public function can_bo_tao()
     {
-        return $this->belongsTo('App\CanBo', 'id_nguoi_tao');
+        return $this->belongsTo('App\Models\CanBo', 'id_nguoi_tao');
     }
 
     public function vu_viec()
     {
-        return $this->belongsTo('App\VuViec', 'id_vu_viec');
+        return $this->belongsTo('App\Models\VuViec', 'id_vu_viec');
     }
 }

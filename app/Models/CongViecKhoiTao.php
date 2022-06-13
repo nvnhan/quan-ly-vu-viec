@@ -11,6 +11,6 @@ class CongViecKhoiTao extends Model
 
     public function nhom_cong_viec()
     {
-        return $this->belongsTo('App\NhomCongViec', 'id_nhom_cong_viec');
+        return $this->belongsTo('App\Models\NhomCongViec', 'id_nhom_cong_viec');
     }
 }

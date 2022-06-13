@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DinhDanhController;
+use App\Http\Controllers\QuanHuyenController;
+use App\Http\Controllers\ToiDanhController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,9 +21,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [AuthController::class, 'login'])->name('login.api');
 Route::post('/register', [AuthController::class, 'register'])->name('register.api');
 
-Route::get('dinh-danh', [DinhDanhController::class, 'index']);
-Route::put('dinh-danh/sua-tinh-trang/{id}', [DinhDanhController::class, 'change_status']);
-Route::get('xuat-dinh-danh', [DinhDanhController::class, 'xuatdinhdanh']);
+Route::get('toi-danh', [ToiDanhController::class, 'index']);
+Route::get('quan-huyen', [QuanHuyenController::class, 'index']);
 
 // private routes
 Route::middleware('auth:api')->group(function () {
@@ -34,9 +34,8 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/password', [AuthController::class, 'password'])->name('password');
 
     // Dinh Danh
-    Route::delete('dinh-danh/deletes', [DinhDanhController::class, 'deletes']);
-    Route::post('dinh-danh/them-file', [DinhDanhController::class, 'themfile']);
-    Route::resource('dinh-danh', DinhDanhController::class)->only(['store', 'update', 'destroy']);
+    // Route::delete('dinh-danh/deletes', [DinhDanhController::class, 'deletes']);
+    // Route::post('dinh-danh/them-file', [DinhDanhController::class, 'themfile']);
 
     // Add middleware checkadmin
     Route::middleware('checkadmin')->group(function () {

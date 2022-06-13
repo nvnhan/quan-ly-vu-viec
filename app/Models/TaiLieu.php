@@ -21,16 +21,16 @@ class TaiLieu extends Model
 
     public function can_bo()
     {
-        return $this->belongsTo('App\CanBo', 'nguoi_tao');
+        return $this->belongsTo('App\Models\CanBo', 'nguoi_tao');
     }
 
     public function vu_viec()
     {
-        return $this->belongsTo('App\VuViec', 'id_vu_viec');
+        return $this->belongsTo('App\Models\VuViec', 'id_vu_viec');
     }
 
     public function cong_viec()
     {
-        return $this->belongsTo('App\CongViec', 'id_cong_viec');
+        return $this->belongsTo('App\Models\CongViec', 'id_cong_viec');
     }
 }

@@ -11,16 +11,16 @@ class DonVi extends Model
 
     public function don_vi_truc_thuocs()
     {
-        return $this->hasMany('App\DonVi', 'id_don_vi_cha');
+        return $this->hasMany('App\Models\DonVi', 'id_don_vi_cha');
     }
 
     public function don_vi_cha()
     {
-        return $this->belongsTo('App\DonVi', 'id_don_vi_cha');
+        return $this->belongsTo('App\Models\DonVi', 'id_don_vi_cha');
     }
 
     public function quan_huyen()
     {
-        return $this->belongsTo('App\QuanHuyen', 'dia_phuong');
+        return $this->belongsTo('App\Models\QuanHuyen', 'dia_phuong');
     }
 }

@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class QuanHuyen extends Model
 {
     use HasFactory;
+
+    protected $appends = ['ten_tinh'];
+
+    public function tinh()
+    {
+        return $this->belongsTo('App\Models\Tinh', 'id_tinh');
+    }
+
+    public function getTenTinhAttribute()
+    {
+        return $this->tinh()->first()['ten_tinh'];
+    }
 }

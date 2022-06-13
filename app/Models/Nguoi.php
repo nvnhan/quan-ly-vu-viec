@@ -22,21 +22,21 @@ class Nguoi extends Model
 
     public function dp_thuong_tru()
     {
-        return $this->belongsTo('App\DonVi', 'id_dp_thuong_tru');
+        return $this->belongsTo('App\Models\DonVi', 'id_dp_thuong_tru');
     }
 
     public function dp_tam_tru()
     {
-        return $this->belongsTo('App\DonVi', 'id_dp_tam_tru');
+        return $this->belongsTo('App\Models\DonVi', 'id_dp_tam_tru');
     }
 
     public function dp_noi_o_hien_nay()
     {
-        return $this->belongsTo('App\DonVi', 'id_dp_noi_o_hien_nay');
+        return $this->belongsTo('App\Models\DonVi', 'id_dp_noi_o_hien_nay');
     }
 
     public function dp_thuong_bao()
     {
-        return $this->belongsTo('App\DonVi', 'id_dp_thong_bao');
+        return $this->belongsTo('App\Models\DonVi', 'id_dp_thong_bao');
     }
 }

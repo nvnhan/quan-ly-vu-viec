@@ -5,16 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\QuanHuyen;
 use Illuminate\Http\Request;
 
-class QuanHuyenController extends Controller
+class QuanHuyenController extends BaseController
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $q = $request->q;
+        $objs = QuanHuyen::where('ten_huyen', 'LIKE', "%$q%")->get();
+        return $this->sendResponse($objs, 'QuanHuyen retrieved successfully', count($objs));
     }
 
     /**

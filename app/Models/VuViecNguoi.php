@@ -28,6 +28,6 @@ class VuViecNguoi extends Model
 
     public function toi_danh()
     {
-        return $this->belongsTo('App\ToiDanh', 'ma_toi_danh', 'ma_toi_danh');
+        return $this->belongsTo('App\Models\ToiDanh', 'ma_toi_danh', 'ma_toi_danh');
     }
 }

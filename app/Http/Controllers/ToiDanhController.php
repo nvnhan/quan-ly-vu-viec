@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ToiDanh;
 use Illuminate\Http\Request;
 
-class ToiDanhController extends Controller
+class ToiDanhController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,8 @@ class ToiDanhController extends Controller
      */
     public function index()
     {
-        //
+        $objs = ToiDanh::get();
+        return $this->sendResponse($objs, "ToiDanh retrieved successfully", count($objs));
     }
 
     /**

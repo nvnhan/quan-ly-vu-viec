@@ -46,12 +46,12 @@ class CongViec extends Model
 
     public function can_bo_thu_ly()
     {
-        return $this->belongsTo('App\CanBo', 'id_can_bo');
+        return $this->belongsTo('App\Models\CanBo', 'id_can_bo');
     }
 
     public function can_bo_tao()
     {
-        return $this->belongsTo('App\CanBo', 'nguoi_tao');
+        return $this->belongsTo('App\Models\CanBo', 'nguoi_tao');
     }
 
     public function getTenTrangThaiAttribute()

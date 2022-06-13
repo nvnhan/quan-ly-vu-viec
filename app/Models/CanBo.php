@@ -57,17 +57,17 @@ class CanBo extends Authenticatable
 
     public function cap_bac()
     {
-        return $this->belongsTo('App\CapBac', 'id_cap_bac');
+        return $this->belongsTo('App\Models\CapBac', 'id_cap_bac');
     }
 
     public function don_vi()
     {
-        return $this->belongsTo('App\DonVi', 'id_don_vi');
+        return $this->belongsTo('App\Models\DonVi', 'id_don_vi');
     }
 
     public function cong_viec_nhans()
     {
-        return $this->hasMany('App\CongViec', 'id_can_bo');
+        return $this->hasMany('App\Models\CongViec', 'id_can_bo');
     }
 
     public function getAdminAttribute()

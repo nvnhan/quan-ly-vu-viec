@@ -30,46 +30,46 @@ class VuViec extends Model
 
     public function dp_xay_ra()
     {
-        return $this->belongsTo('App\DonVi', 'id_dp_xay_ra');
+        return $this->belongsTo('App\Models\DonVi', 'id_dp_xay_ra');
     }
 
     public function toi_danh()
     {
-        return $this->belongsTo('App\ToiDanh', 'ma_toi_danh', 'ma_toi_danh');
+        return $this->belongsTo('App\Models\ToiDanh', 'ma_toi_danh', 'ma_toi_danh');
     }
 
     public function dtv_chinh()
     {
-        return $this->belongsTo('App\CanBo', 'id_dtv_chinh');
+        return $this->belongsTo('App\Models\CanBo', 'id_dtv_chinh');
     }
 
     public function can_bo_chinh()
     {
-        return $this->belongsTo('App\CanBo', 'id_can_bo_chinh');
+        return $this->belongsTo('App\Models\CanBo', 'id_can_bo_chinh');
     }
 
     public function can_bo()
     {
-        return $this->belongsTo('App\CanBo', 'nguoi_tao');
+        return $this->belongsTo('App\Models\CanBo', 'nguoi_tao');
     }
 
     public function cong_viecs()
     {
-        return $this->hasMany('App\CongViec', 'id_vu_viec');
+        return $this->hasMany('App\Models\CongViec', 'id_vu_viec');
     }
 
     public function tai_lieus()
     {
-        return $this->hasMany('App\TaiLieu', 'id_vu_viec');
+        return $this->hasMany('App\Models\TaiLieu', 'id_vu_viec');
     }
 
     public function cong_vans()
     {
-        return $this->hasMany('App\CongVan', 'id_vu_viec');
+        return $this->hasMany('App\Models\CongVan', 'id_vu_viec');
     }
 
     public function vu_viec_nguois()
     {
-        return $this->hasMany('App\VuViecNguoi', 'id_vu_viec');
+        return $this->hasMany('App\Models\VuViecNguoi', 'id_vu_viec');
     }
 }
