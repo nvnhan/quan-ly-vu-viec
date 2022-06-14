@@ -15,7 +15,6 @@ const SideBar = () => {
 	const onToggle = (toggled: boolean) => dispatch(toogleSideBar({ toggled }));
 
 	const selectedSubMenu = () => 'SUB_' + menuActive.split('_')[0];
-	console.log('🚀 ~ file: index.tsx ~ line 18 ~ SideBar ~ selectedSubMenu', selectedSubMenu());
 
 	const genMenuItem = (item: any, index: number) => {
 		// if (item.role && !authUser.roles[item.role]) return <React.Fragment key={item.key}></React.Fragment>;

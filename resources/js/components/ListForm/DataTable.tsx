@@ -43,7 +43,7 @@ interface DataTableProps extends ListFormProps {
 	selectedRowKeys: string[];
 	data: any[];
 	isLoading: boolean;
-	pagination: object;
+	pagination: { [index: string]: any };
 	handleDelete: (props: any) => void;
 	handleEdit: (props: any) => void;
 	onChangeSelect: (props: any) => void;
@@ -55,7 +55,6 @@ const DataTable = (props: DataTableProps) => {
 		selectedRowKeys,
 		data,
 		isLoading,
-		pagination,
 		columns,
 		selectable,
 		editable,
@@ -78,6 +77,8 @@ const DataTable = (props: DataTableProps) => {
 	let searchText = '';
 	let searchedColumn = '';
 	let searchInput: any;
+	let pagination = props.pagination;
+	if (!ajax) delete pagination.total;
 
 	// Chỉ chạy khi load lại data từ List Form:
 	// + mở form (cho dù có dữ liệu hay ko)
@@ -243,16 +244,12 @@ const DataTable = (props: DataTableProps) => {
 		),
 		onFilter: (value: string, record: any) =>
 			record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
-		onFilterDropdownVisibleChange: (visible: boolean) => {
-			if (visible) {
-				setTimeout(() => searchInput.select());
-			}
-		},
+		onFilterDropdownVisibleChange: (visible: boolean) => visible && setTimeout(() => searchInput.select()),
 		render: (text: string) =>
 			searchedColumn === dataIndex ? (
 				<Highlighter
 					highlightStyle={{
-						backgroundColor: '#ffc069',
+						backgroundColor: '#fdfa5f',
 						padding: 0,
 					}}
 					searchWords={[searchText]}

@@ -57,6 +57,19 @@
 	.ant-table-expand-icon-col {
 		width: 28px;
 	}
+
+	.ant-table-filter-column {
+		justify-content: flex-start;
+
+		.ant-table-column-title {
+			flex: none;
+		}
+
+		.ant-table-filter-trigger {
+			color: $primary-color;
+			font-size: 14px;
+		}
+	}
 }
 
 .ant-table-pagination.ant-pagination {

@@ -22,12 +22,13 @@ const List = () => {
 	return (
 		<ListForm
 			url="toi-danh"
+			primaryKey="ma_toi_danh"
 			columns={columns}
 			selectable={false}
 			insertable={false}
 			deleteable={false}
 			editable={false}
-			tableSize={{ x: 500 }}
+			// tableSize={{ x: 500 }}
 		/>
 	);
 };

@@ -46,20 +46,18 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 	const [ownFilter, setOwnFilter] = useState(filter);
 
 	let isComponentMounted = false;
-	// Final filter: Filter <= props, OwnFilter <= FilterBox
-	const finalFilter = { ...(filter ?? {}), ...ownFilter };
 	//#endregion
 
 	//#region  Sự kiện, hooks
 	useEffect(() => {
 		isComponentMounted = true;
 		// Không Có filter hoặc có filter và đã load xong
-		if (finalFilter === undefined || !isEmpty(finalFilter)) fetchData(finalFilter);
+		if (ownFilter === undefined || !isEmpty(ownFilter)) fetchData(ownFilter);
 		return () => {
 			// When Unmount component
 			isComponentMounted = false;
 		};
-	}, [JSON.stringify(finalFilter)]); // Chỉ chạy 1 lần khi mount đến khi filter hoặc ownFilter thay đổi
+	}, [JSON.stringify(ownFilter)]); // Chỉ chạy 1 lần khi mount đến khi filter hoặc ownFilter thay đổi
 
 	/**
 	 * Create trigger for calling functions from other component
@@ -68,7 +66,7 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 		/**
 		 * Trả query string về form cha
 		 */
-		getCurrentQuery: () => queryString(finalFilter),
+		getCurrentQuery: () => queryString(ownFilter),
 		/**
 		 * Kích hoạt chức năng thêm hoặc chỉnh sửa 1 hoặc nhiều hàng
 		 */
@@ -112,7 +110,8 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 	/**
 	 * Click Lọc từ filter Box => set lại ownfilter => load lại data từ useEffect
 	 */
-	const handleFilterBox = (newFilter: object) => isChangeData(newFilter, ownFilter) && setOwnFilter(newFilter);
+	const handleFilterBox = (newFilter: object) =>
+		isChangeData(newFilter, ownFilter) && setOwnFilter({ ...ownFilter, ...newFilter });
 
 	const handleDelete = (record: any) =>
 		setState({
@@ -153,18 +152,20 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 		if (ajax) {
 			isComponentMounted = true;
 			fetchData(
-				{ ...finalFilter, ...filters },
+				{ ...ownFilter, ...filters },
 				{
 					pagination: newPagination,
 				}
 			);
-		} else
+		} else {
+			console.log('🚀 ~ file: index.tsx ~ line 166 ~ handleTableChange ~ newPagination', newPagination);
 			setState({
 				pagination: {
 					...pagination,
 					...newPagination,
 				},
 			});
+		}
 	};
 
 	const onChangeSelect = (selectedRowKeys: string[]): void => setState({ selectedRowKeys });
