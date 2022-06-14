@@ -19,9 +19,7 @@ const List = () => {
 		},
 	];
 
-	return (
-		<ListForm url="nhom-cong-viec" columns={columns} insertable deleteable editable formTemplate={<FormItem />} />
-	);
+	return <ListForm url="nhom-cong-viec" columns={columns} selectable={false} formTemplate={<FormItem />} />;
 };
 
 export default React.memo(List);

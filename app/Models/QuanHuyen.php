@@ -18,7 +18,7 @@ class QuanHuyen extends Model
 
     public function getTenTinhAttribute()
     {
-        return $this->tinh()->first()['ten_tinh'];
+        return $this->tinh->ten_tinh ?? '';
     }
 
     public function getTenHuyenTinhAttribute()

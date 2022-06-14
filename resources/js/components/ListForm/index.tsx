@@ -158,7 +158,6 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 				}
 			);
 		} else {
-			console.log('🚀 ~ file: index.tsx ~ line 166 ~ handleTableChange ~ newPagination', newPagination);
 			setState({
 				pagination: {
 					...pagination,

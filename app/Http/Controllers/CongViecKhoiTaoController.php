@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CongViecKhoiTao;
 use Illuminate\Http\Request;
 
-class CongViecKhoiTaoController extends Controller
+class CongViecKhoiTaoController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -14,17 +14,8 @@ class CongViecKhoiTaoController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $objs = CongViecKhoiTao::all();
+        return $this->sendResponse($objs, 'CongViecKhoiTao retrieved successfully', count($objs));
     }
 
     /**
@@ -35,29 +26,11 @@ class CongViecKhoiTaoController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\CongViecKhoiTao  $congViecKhoiTao
-     * @return \Illuminate\Http\Response
-     */
-    public function show(CongViecKhoiTao $congViecKhoiTao)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\CongViecKhoiTao  $congViecKhoiTao
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(CongViecKhoiTao $congViecKhoiTao)
-    {
-        //
+        $obj = new CongViecKhoiTao();
+        $obj->fill($request->all());
+        $obj->save();
+        $obj->refresh();
+        return $this->sendResponse($obj, 'Thêm mới thành công');
     }
 
     /**
@@ -69,7 +42,9 @@ class CongViecKhoiTaoController extends Controller
      */
     public function update(Request $request, CongViecKhoiTao $congViecKhoiTao)
     {
-        //
+        $congViecKhoiTao->fill($request->all());
+        $congViecKhoiTao->save();
+        return $this->sendResponse($congViecKhoiTao, "Cập nhật thành công");
     }
 
     /**
@@ -80,6 +55,7 @@ class CongViecKhoiTaoController extends Controller
      */
     public function destroy(CongViecKhoiTao $congViecKhoiTao)
     {
-        //
+        $congViecKhoiTao->delete();
+        return $this->sendResponse('', 'Đã xóa công việc khởi tạo');
     }
 }

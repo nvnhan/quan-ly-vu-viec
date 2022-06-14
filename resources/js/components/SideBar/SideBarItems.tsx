@@ -13,6 +13,7 @@ const ToiDanh = lazy(() => import('../../pages/ThongTin/ToiDanh'));
 
 const CanBo = lazy(() => import('../../pages/QuanTri/CanBo'));
 const NhomCongViec = lazy(() => import('../../pages/QuanTri/NhomCongViec'));
+const CongViecKhoiTao = lazy(() => import('../../pages/QuanTri/CongViecKhoiTao'));
 const CaiDat = lazy(() => import('../../pages/QuanTri/CaiDat'));
 
 export interface SideBarItem {
@@ -146,6 +147,7 @@ const items: SideBarItem[] = [
 				key: 'QT_CONG_VIEC_KHOI_TAO',
 				href: '/cong-viec-khoi-tao',
 				title: 'Công việc khởi tạo',
+				Component: CongViecKhoiTao,
 			},
 			{
 				key: 'QT_CAI_DAT',

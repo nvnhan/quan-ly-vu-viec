@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\QuanHuyenController;
 use App\Http\Controllers\ToiDanhController;
 use App\Http\Controllers\CanBoController;
+use App\Http\Controllers\CongViecKhoiTaoController;
 use App\Http\Controllers\DonViController;
 use App\Http\Controllers\NhomCongViecController;
 use App\Http\Controllers\SettingController;
@@ -51,6 +52,7 @@ Route::middleware('auth:api')->group(function () {
         Route::put('reset/{id}', [CanBoController::class, 'reset']);
 
         Route::resource('nhom-cong-viec', NhomCongViecController::class)->only(['store', 'update', 'destroy']);
+        Route::resource('cong-viec-khoi-tao', CongViecKhoiTaoController::class)->only(['index', 'store', 'update', 'destroy']);
 
         Route::get('cai-dat', [SettingController::class, 'index']);
         Route::put('cai-dat', [SettingController::class, 'update']);

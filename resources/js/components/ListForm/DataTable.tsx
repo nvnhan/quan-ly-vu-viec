@@ -107,7 +107,8 @@ const DataTable = (props: DataTableProps) => {
 		if (column.optFilter) {
 			// Lọc dữ liệu và mô tả các cột dữ liệu
 			const objs =
-				column.fixedFilter === undefined ? [] : [...new Set(data.map((x: any) => x[column.dataIndex]))];
+				column.fixedFilter !== undefined ? [] : [...new Set(data.map((x: any) => x[column.dataIndex]))];
+
 			const filters =
 				column.fixedFilter ??
 				objs.map((el) => {

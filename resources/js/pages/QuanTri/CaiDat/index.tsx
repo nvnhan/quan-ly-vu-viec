@@ -38,7 +38,7 @@ const index = () => {
 
 		return getSearchDonVi({ q: username, l: 7 }).then((body) =>
 			body?.data?.data.map((item: any) => ({
-				label: `${item.ten_huyen} - ${item.ten_tinh}`,
+				label: item.ten_huyen_tinh,
 				value: item.id,
 			}))
 		);
