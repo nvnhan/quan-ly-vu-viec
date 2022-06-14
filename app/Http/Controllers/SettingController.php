@@ -19,7 +19,7 @@ class SettingController extends BaseController
         $obj = QuanHuyen::find($qh);
         $data = [
             'value' => $qh,
-            'label' => $obj->ten_huyen . ' - ' . $obj->ten_tinh ?? ''
+            'label' => $obj->ten_huyen_tinh ?? ''
         ];
         $data = [
             'quan_huyen' => (object) $data,

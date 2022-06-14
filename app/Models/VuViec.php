@@ -28,6 +28,20 @@ class VuViec extends Model
         'updated_at' => 'datetime:H:i d/m/Y',
     ];
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'ten_vu_viec', 'loai_vu_viec', 'phan_loai_tin',
+        'thoi_diem_xay_ra', 'noi_xay_ra',  'noi_dung_tom_tat',
+        'so_ngay_keo_dai', 'ket_qua_giai_quyet', 'ngay_ket_thuc_1', 'ngay_gia_han_xac_minh',
+        'ngay_ket_thuc_2', 'ngay_phuc_hoi', 'ngay_ket_thuc_phuc_hoi', 'ket_qua_phuc_hoi',
+    ];
+
+    protected $appends = ['sel_dp_xay_ra'];
+
     public function dp_xay_ra()
     {
         return $this->belongsTo('App\Models\DonVi', 'id_dp_xay_ra');
@@ -71,5 +85,15 @@ class VuViec extends Model
     public function vu_viec_nguois()
     {
         return $this->hasMany('App\Models\VuViecNguoi', 'id_vu_viec');
+    }
+
+    public function getSelDpXayRaAttribute()
+    {
+        $dv = $this->dp_xay_ra;
+        $data = [
+            'value' => $this->id_dp_xay_ra,
+            'label' => ($dv->ten_don_vi ?? '') . ' - ' . ($dv->ten_dia_phuong ?? '')
+        ];
+        return (object)$data;
     }
 }

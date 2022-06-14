@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DonVi;
 use Illuminate\Http\Request;
 
-class DonViController extends Controller
+class DonViController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -15,6 +15,16 @@ class DonViController extends Controller
     public function index()
     {
         //
+    }
+
+    public function get_xa_phuong(Request $request)
+    {
+        $q = $request->q;
+        $query = DonVi::where('ten_don_vi', 'LIKE', "%$q%")->whereIn('loai_don_vi', ['Xã', 'Phường', 'Thị trấn']);
+        if ($request->l)
+            $query = $query->limit($request->l);
+        $objs = $query->get();
+        return $this->sendResponse($objs, 'XaPhuong retrieved successfully', count($objs));
     }
 
     /**

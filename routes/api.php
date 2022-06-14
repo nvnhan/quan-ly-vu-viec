@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\QuanHuyenController;
 use App\Http\Controllers\ToiDanhController;
 use App\Http\Controllers\CanBoController;
+use App\Http\Controllers\DonViController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\VuViecController;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,7 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.ap
 
 Route::get('toi-danh', [ToiDanhController::class, 'index']);
 Route::get('quan-huyen', [QuanHuyenController::class, 'index']);
+Route::get('tim-xa-phuong', [DonViController::class, 'get_xa_phuong']);
 
 // private routes
 Route::middleware('auth:api')->group(function () {

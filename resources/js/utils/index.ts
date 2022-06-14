@@ -45,8 +45,11 @@ export const parseValues = (values: { [index: string]: any }, format = 'YYYY-MM-
 	for (let [key, value] of Object.entries(values)) {
 		if (value)
 			if (typeof value === 'object')
-				// Convert từ moment (from DatePicker) về dạng string để backend xử lý
-				values[key] = value.format(format);
+				if (typeof value.format === 'function')
+					// Convert từ moment (from DatePicker) về dạng string để backend xử lý
+					values[key] = value.format(format);
+				// Pass value as object to Backend
+				else values[key] = value;
 			else values[key] = convertToSQLDateTime(value);
 	}
 	return values;
@@ -68,11 +71,19 @@ export const isChangeData = (newData: { [index: string]: any }, record?: { [inde
 	if (!isChanged)
 		for (var k in record) {
 			if (record.hasOwnProperty(k) && newData.hasOwnProperty(k)) {
-				const tmp = convertToSQLDateTime(newData[k]);
-
-				if (record[k] !== tmp) {
+				if (
+					typeof record[k] === 'object' &&
+					typeof newData[k] === 'object' &&
+					isChangeData(newData[k], record[k])
+				) {
 					isChanged = true;
 					break;
+				} else {
+					const tmp = convertToSQLDateTime(newData[k]);
+					if (record[k] !== tmp) {
+						isChanged = true;
+						break;
+					}
 				}
 			}
 		}

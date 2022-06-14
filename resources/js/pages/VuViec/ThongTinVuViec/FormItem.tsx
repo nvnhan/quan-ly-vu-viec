@@ -7,9 +7,23 @@ import Input from 'antd/lib/input/index';
 import React from 'react';
 import { inputFormat, inputParse } from '../../../utils';
 import { required } from '../../../utils/rules';
+import MyDebounceSelect, { SelectValue } from '../../../components/Controls/MyDebounceSelect';
+import { getSearchXaPhuong } from '../../../utils/services';
 
 const form = () => {
 	const phanLoaiTin = ['Tố giác về tội phạm', 'Tin báo về tội phạm', 'Kiến nghị khởi tố', 'CQĐT trực tiếp phát hiện'];
+
+	const fetchUnitList = async (q: string): Promise<SelectValue[]> => {
+		console.log('fetching user', q);
+
+		return getSearchXaPhuong({ q, l: 7 }).then((body) =>
+			body?.data?.data.map((item: any) => ({
+				label: `${item.ten_don_vi} - ${item.ten_dia_phuong}`,
+				value: item.id,
+			}))
+		);
+	};
+
 	return (
 		<Row gutter={[10, 5]}>
 			<Col span={24} sm={12}>
@@ -29,7 +43,9 @@ const form = () => {
 				<Form.Item name="phan_loai_tin" label="Phân loại tin">
 					<Select>
 						{phanLoaiTin.map((pl) => (
-							<Select.Option value={pl}>{pl}</Select.Option>
+							<Select.Option value={pl} key={pl}>
+								{pl}
+							</Select.Option>
 						))}
 					</Select>
 				</Form.Item>
@@ -46,8 +62,12 @@ const form = () => {
 				</Form.Item>
 			</Col>
 			<Col span={24} sm={12}>
-				<Form.Item name="id_dp_xay_ra" label="Địa phương xảy ra">
-					<Input />
+				<Form.Item name="sel_dp_xay_ra" label="Địa phương xảy ra">
+					<MyDebounceSelect
+						placeholder="Chọn địa phương xã/phường..."
+						fetchOptions={fetchUnitList}
+						allowClear
+					/>
 				</Form.Item>
 			</Col>
 			<Col span={24} sm={12}>

@@ -80,15 +80,15 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 	/**
 	 * Show modal Thêm mới, Sửa
 	 */
-	const handleOk = (value: object, callback: () => void): void => {
+	const handleOkModal = (value: object, callback: () => void): void => {
 		if (currentRecord === undefined) {
 			onAdd(value, callback); // Thêm mới
 		} else if (isChangeData(value, currentRecord)) {
 			onUpdate(value, callback); // Chỉnh sửa
-		}
+		} else message.info('Dữ liệu không đổi');
 	};
 
-	const handleCancel = () =>
+	const handleCancelModal = () =>
 		setState({
 			modalVisible: false,
 			modalDeleteVisible: false,
@@ -290,14 +290,14 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 					form={form}
 					modalVisible={modalVisible}
 					currentRecord={currentRecord}
-					handleOk={handleOk}
-					handleCancel={handleCancel}
+					handleOk={handleOkModal}
+					handleCancel={handleCancelModal}
 				/>
 			)}
 			<Modal
 				visible={modalDeleteVisible}
 				onOk={onDelete}
-				onCancel={handleCancel}
+				onCancel={handleCancelModal}
 				title="Bạn muốn xóa mục này?"
 				okText="Xóa"
 				cancelText="Hủy"

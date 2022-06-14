@@ -9,7 +9,7 @@ class QuanHuyen extends Model
 {
     use HasFactory;
 
-    protected $appends = ['ten_tinh'];
+    protected $appends = ['ten_huyen_tinh'];
 
     public function tinh()
     {
@@ -19,5 +19,10 @@ class QuanHuyen extends Model
     public function getTenTinhAttribute()
     {
         return $this->tinh()->first()['ten_tinh'];
+    }
+
+    public function getTenHuyenTinhAttribute()
+    {
+        return $this->ten_huyen . ' - ' . $this->ten_tinh;
     }
 }

@@ -43,6 +43,11 @@ class VuViecController extends BaseController
         return $this->sendResponse($objs, "VuViec retrieved successfully", $total);
     }
 
+    public function setVuViecFields(&$vuViec, Request $request)
+    {
+        $vuViec->id_dp_xay_ra = $request->sel_dp_xay_ra['value'] ?? null;
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -51,15 +56,14 @@ class VuViecController extends BaseController
      */
     public function store(Request $request)
     {
-        // $data = $request->all();
-        // $obj = new DinhDanh();
-        // $obj->fill($data);
+        $data = $request->all();
+        $obj = new VuViec();
+        $obj->fill($data);
 
-        // $obj->username = $request->user()->username;
-        // $obj->slug = Classes::slugify($obj->ho_ten);
-        // $obj->ho_ten = mb_strtoupper($obj->ho_ten);
-        // $obj->save();
-        // return $this->sendResponse($obj, "Thêm mới thành công");
+        $obj->nguoi_tao = $request->user()->id;
+        self::setVuViecFields($obj, $request);
+        $obj->save();
+        return $this->sendResponse($obj, "Thêm mới thành công");
     }
 
     /**
@@ -71,16 +75,15 @@ class VuViecController extends BaseController
      */
     public function update(Request $request, VuViec $vuViec)
     {
-        // $user = $request->user();
-        // $data = $request->all();
-        // $model = DinhDanh::find($id);
-        // if ($user->admin || $user->username == $model->username) {
-        //     $model->fill($data);
-        //     $model->slug = Classes::slugify($model->ho_ten);
-        //     $model->ho_ten = mb_strtoupper($model->ho_ten);
-        //     $model->save();
-        //     return $this->sendResponse($model, "Cập nhật thành công");
-        // } else return $this->sendError("Không thể sửa định danh");
+        $user = $request->user();
+        $data = $request->all();
+        $model = VuViec::find($vuViec->id);
+        if ($user->admin || $user->id == $model->id) {
+            $model->fill($data);
+            self::setVuViecFields($model, $request);
+            $model->save();
+            return $this->sendResponse($model, "Cập nhật thành công");
+        } else return $this->sendError("Không thể sửa thông tin vụ việc");
     }
 
     /**
@@ -91,11 +94,11 @@ class VuViecController extends BaseController
      */
     public function destroy(VuViec $vuViec)
     {
-        // $user = $request->user();
-        // $model = DinhDanh::find($id);
-        // if ($user->admin || $user->username == $model->username) {
-        //     $model->delete();
-        //     return $this->sendResponse('', "Xóa thành công định danh");
-        // } else return $this->sendError("Không thể xóa định danh");
+        $user = $request->user();
+        $model = VuViec::find($id);
+        if ($user->admin || $user->id == $model->id) {
+            $model->delete();
+            return $this->sendResponse('', "Xóa thành công vụ việc");
+        } else return $this->sendError("Không thể xóa vụ việc");
     }
 }

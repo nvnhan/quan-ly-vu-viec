@@ -37,6 +37,11 @@ export const getSearchDonVi = async (payload: any) => {
 	return axios.get(`/api/quan-huyen?q=${q}&l=${l}`);
 };
 
+export const getSearchXaPhuong = async (payload: any) => {
+	const { q, l } = payload;
+	return axios.get(`/api/tim-xa-phuong?q=${q}&l=${l}`);
+};
+
 export const getFile = async (url: string, params: object) => {
 	return axios.get(url, {
 		params,
