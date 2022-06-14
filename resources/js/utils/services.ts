@@ -28,6 +28,10 @@ export const getCaiDat = async () => {
 	return axios.get(`/api/cai-dat`);
 };
 
+export const getApi = async (url: string) => {
+	return axios.get(`/api/${url}`);
+};
+
 export const putCaiDat = async (payload: any) => {
 	return axios.put(`/api/cai-dat`, payload);
 };

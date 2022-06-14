@@ -1,7 +1,7 @@
 import Card from 'antd/lib/card/index';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setAuth, User } from '../../../reducers/authUser';
+import { setAuth } from '../../../reducers/authUser';
 import { changeTitle } from '../../../reducers/pageTitle';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
@@ -11,7 +11,7 @@ const Login = () => {
 	const dispatch = useDispatch();
 
 	const changeTitle1 = (title: string) => dispatch(changeTitle(title));
-	const setAuth1 = (auth: User) => dispatch(setAuth(auth));
+	const setAuth1 = (auth: Model.User) => dispatch(setAuth(auth));
 
 	useEffect(() => {
 		login ? changeTitle1('Đăng nhập') : changeTitle1('Tạo tài khoản');

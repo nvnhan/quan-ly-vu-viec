@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import message from 'antd/lib/message/index';
 import { getLogout } from '../utils/services';
 
-const initialState: User = {
+const initialState: Model.User = {
 	ten_dang_nhap: '',
 	ho_ten: '',
 	admin: false,
@@ -30,22 +30,9 @@ const authUser = createSlice({
 			}
 			return initialState;
 		},
-		setAuth: (state, { payload }: PayloadAction<User>) => payload,
+		setAuth: (state, { payload }: PayloadAction<Model.User>) => payload,
 	},
 });
 
 export const authUserReducer = authUser.reducer;
 export const { logout, setAuth } = authUser.actions;
-
-export interface User {
-	readonly ten_dang_nhap: string;
-	ho_ten: string;
-	admin: boolean;
-	chuc_vu: number;
-	ten_chuc_vu: string;
-	id_cap_bac?: number;
-	dieu_tra_vien?: boolean;
-	id_don_vi?: number;
-	sdt?: string;
-	dia_chi?: string;
-}

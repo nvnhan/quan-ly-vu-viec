@@ -1,6 +1,12 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchNhomCongViec } from '../../reducers/nhomCongViec';
+import { RootState } from '../../store';
 
 const TrangChu = () => {
+	const nhom = useSelector((state: RootState) => state.nhomCongViec);
+	const dispatch = useDispatch();
+	nhom.status === 'idle' && dispatch(fetchNhomCongViec());
 	// const columns: ColumnProps[] = [
 	// 	{
 	// 		title: 'Điều khoản',

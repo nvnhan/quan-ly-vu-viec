@@ -7,11 +7,10 @@ import message from 'antd/lib/message/index';
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { User } from '../../../reducers/authUser';
 import { postLogin } from '../../../utils/services';
 
 interface ComponentProps {
-	onSetAuth: (user: User) => void;
+	onSetAuth: (user: Model.User) => void;
 	onRegister: () => void;
 }
 
