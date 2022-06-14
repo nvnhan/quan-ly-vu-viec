@@ -68,7 +68,7 @@ class AddContrains extends Migration
         });
 
         Schema::table('cong_vans', function (Blueprint $table) {
-            $table->foreign('id_vu_viec')->references('id')->on('vu_viecs')->onDelete('set null');
+            $table->foreign('id_vu_viec')->references('id')->on('vu_viecs')->onDelete('set cascade');
             $table->foreign('id_can_bo')->references('id')->on('can_bos')->onDelete('set null');
             $table->foreign('nguoi_tao')->references('id')->on('can_bos')->onDelete('set null');
         });

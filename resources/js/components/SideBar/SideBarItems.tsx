@@ -1,10 +1,9 @@
 import BarsOutlined from '@ant-design/icons/BarsOutlined';
 import DashboardOutlined from '@ant-design/icons/DashboardOutlined';
-import ReadOutlined from '@ant-design/icons/ReadOutlined';
-import ToolOutlined from '@ant-design/icons/ToolOutlined';
-import AuditOutlined from '@ant-design/icons/AuditOutlined';
-import ScheduleOutlined from '@ant-design/icons/ScheduleOutlined';
 import FileProtectOutlined from '@ant-design/icons/FileProtectOutlined';
+import ReadOutlined from '@ant-design/icons/ReadOutlined';
+import ScheduleOutlined from '@ant-design/icons/ScheduleOutlined';
+import ToolOutlined from '@ant-design/icons/ToolOutlined';
 import React, { lazy } from 'react';
 
 const TrangChu = lazy(() => import('../../pages/TrangChu'));
@@ -49,7 +48,13 @@ const items: SideBarItem[] = [
 			{
 				key: 'BC_CONG_NO_CHI_TIET',
 				href: '/cong-no-chi-tiet',
-				title: 'Tài liệu',
+				title: 'Kho tài liệu',
+			},
+			{
+				key: 'CONG_VAN',
+				href: '/cong-van',
+				title: 'Công văn',
+				Component: TrangChu,
 			},
 		],
 	},
@@ -84,13 +89,6 @@ const items: SideBarItem[] = [
 				Component: TrangChu,
 			},
 		],
-	},
-	{
-		key: 'CONG_VAN',
-		href: '/cong-van',
-		icon: <AuditOutlined />,
-		title: 'Công văn',
-		Component: TrangChu,
 	},
 	{
 		key: 'VAN_BAN_PHAP_LUAT',

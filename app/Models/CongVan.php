@@ -16,7 +16,7 @@ class CongVan extends Model
      */
     protected $casts = [
         'ngay_ban_hanh' => 'datetime:d/m/Y',
-        'ngay_xu_ly' => 'datetime:d/m/Y',
+        'ngay_phan_hoi' => 'datetime:d/m/Y',
         'created_at' => 'datetime:d/m/Y',
         'updated_at' => 'datetime:H:i d/m/Y',
     ];

@@ -72,21 +72,26 @@ $ php artisan serve
 # 📌 Web map
 
 ```
-__ Tổng quan
+__ Tổng quan: hiển thị các báo cáo, số liệu tổng hợp
+ |
 __ Vụ việc
- |__ Thông tin vụ việc
- |__ Tài liệu
+ |__ Thông tin vụ việc: danh sách và chi tiết các vụ việc
+ |__ Kho tài liệu: quản lý tài liệu của từng vụ việc
+ |__ Công văn: danh sách các công văn gửi đi
+ |
 __ Công việc
  |__ Tất cả công việc
  |__ Công việc của tôi
  |__ Công việc đã tạo
  |__ Tổng hợp theo cán bộ
-__ Công văn
+ |
 __ Văn bản pháp luật
+ |
 __ Thông tin chung
  |__ Người liên quan
  |__ Tội danh
  |__ Đơn vị
+ |
 __ Quản trị
  |__ Cán bộ
  |__ Nhóm công việc

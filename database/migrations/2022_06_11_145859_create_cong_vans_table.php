@@ -16,16 +16,17 @@ class CreateCongVansTable extends Migration
         Schema::create('cong_vans', function (Blueprint $table) {
             $table->id();
             $table->string('tieu_de', 100)->nullable();
-            $table->string('loai_cong_van', 50)->nullable();
+            // $table->string('loai_cong_van', 50)->nullable();
             $table->string('so_hieu', 50)->nullable();
             $table->date('ngay_ban_hanh')->nullable();
-            $table->string('co_quan_ban_hanh', 200)->nullable();
 
-            $table->bigInteger('id_vu_viec')->unsigned()->nullable();
+            $table->string('co_quan_nhan', 200)->nullable();
+            $table->string('so_cong_van_phan_hoi', 50)->nullable();
+            $table->date('ngay_phan_hoi')->nullable();
+            $table->string('noi_dung_phan_hoi', 500)->nullable();
+
+            $table->bigInteger('id_vu_viec')->unsigned();
             $table->bigInteger('id_can_bo')->unsigned()->nullable();
-            $table->string('ket_qua_xu_ly', 500)->nullable();
-            $table->date('ngay_xu_ly')->nullable();
-
             $table->bigInteger('nguoi_tao')->unsigned()->nullable();
             $table->timestamps();
         });
