@@ -27,6 +27,18 @@ class DonViController extends BaseController
         return $this->sendResponse($objs, 'XaPhuong retrieved successfully', count($objs));
     }
 
+    public function get_don_vi(Request $request)
+    {
+        $q = $request->q;
+        $qh_su_dung = env('QUAN_HUYEN_SU_DUNG');
+        $query = DonVi::where('ten_don_vi', 'LIKE', "%$q%")
+            ->where('dia_phuong', $qh_su_dung);
+        if ($request->l)
+            $query = $query->limit($request->l);
+        $objs = $query->get();
+        return $this->sendResponse($objs, 'XaPhuong retrieved successfully', count($objs));
+    }
+
     /**
      * Show the form for creating a new resource.
      *

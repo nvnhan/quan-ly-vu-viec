@@ -40,6 +40,15 @@ class VuViec extends Model
         'ngay_ket_thuc_2', 'ngay_phuc_hoi', 'ngay_ket_thuc_phuc_hoi', 'ket_qua_phuc_hoi',
     ];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'dp_xay_ra'
+    ];
+
     protected $appends = ['sel_dp_xay_ra'];
 
     public function dp_xay_ra()

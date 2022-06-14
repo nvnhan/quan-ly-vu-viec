@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\CanBo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
-class CanBoController extends Controller
+class CanBoController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +17,7 @@ class CanBoController extends Controller
     {
         $user = $request->user();
         if ($user->admin)
-            $objs = User::where('username', '!=', $user->username)->get();
+            $objs = CanBo::all();
         else $objs = [];
         return $this->sendResponse($objs, "User retrieved successfully");
     }
@@ -25,11 +26,17 @@ class CanBoController extends Controller
     {
         $user = $request->user();
         if ($user->admin)
-            $objs = User::query();
+            $objs = CanBo::query();
         else
-            $objs = User::where('username', $user->username);
-        $objs = $objs->get(['username', 'ho_ten']);
+            $objs = CanBo::where('username', $user->username);
+        $objs = $objs->get(['id', 'ten_dang_nhap', 'ho_ten']);
         return $this->sendResponse($objs, "User retrieved successfully");
+    }
+
+    public function setCanBoFields(&$canBo, Request $request)
+    {
+        \Log::debug($request->sel_don_vi['value']);
+        $canBo->id_don_vi = $request->sel_don_vi['value'];
     }
 
     /**
@@ -40,19 +47,20 @@ class CanBoController extends Controller
      */
     public function store(Request $request)
     {
-        $u = User::where('username', $request->username)->first();
+        $u = CanBo::where('ten_dang_nhap', $request->ten_dang_nhap)->first();
         if ($u)
             return $this->sendError("Trùng tên tài khoản");
 
         $user = $request->user();
         $data = $request->all();
-        $obj = new User();
+        $obj = new CanBo();
         $obj->fill($data);
-        if (!$user->admin)
-            $obj->phan_quyen = 0;
+        // if (!$user->admin)
+        //     $obj->chuc_vu = 0;
 
-        $obj->username = strtolower($obj->username);
-        $obj->password = Hash::make('123');
+        $obj->ten_dang_nhap = strtolower($obj->ten_dang_nhap);
+        $obj->mat_khau = Hash::make('123');
+        self::setCanBoFields($obj, $request);
         $obj->save();
         return $this->sendResponse($obj, "Thêm mới thành công, mật khẩu: 123");
     }
@@ -66,10 +74,11 @@ class CanBoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::find($id);
-        $user->fill($request->except('username', 'password'));
-        if (!$request->user()->admin)
-            $user->phan_quyen = 0;
+        $user = CanBo::find($id);
+        $user->fill($request->except('ten_dang_nhap', 'mat_khau'));
+        // if (!$request->user()->admin)
+        //     $user->chuc_vu = 0;
+        self::setCanBoFields($user, $request);
         $user->save();
         return $this->sendResponse($user, "Cập nhật thành công");
     }
@@ -82,11 +91,11 @@ class CanBoController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::find($id);
+        $user = CanBo::find($id);
         // BanRa::where('username', $user->username)->delete();
 
         $user->delete();
-        return $this->sendResponse('', "Xóa thành công nhân viên");
+        return $this->sendResponse('', "Đã xóa thông tin cán bộ");
     }
 
     /**
@@ -98,30 +107,12 @@ class CanBoController extends Controller
      */
     public function reset(Request $request, $id)
     {
-        $auth = User::where('username', $request->user()->username)->first();
-        if (Hash::check($request->password, $auth->password)) {
-            $user = User::find($id);
-            $user->password = Hash::make('123');
+        $auth = CanBo::where('ten_dang_nhap', $request->user()->ten_dang_nhap)->first();
+        if (Hash::check($request->mat_khau, $auth->mat_khau)) {
+            $user = CanBo::find($id);
+            $user->mat_khau = Hash::make('123');
             $user->save();
-            return $this->sendResponse($user, "Khôi phục thành công thành công");
-        } else return $this->sendError("Không đúng mật khẩu quản trị viên");
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $model
-     * @return \Illuminate\Http\Response
-     */
-    public function change_permission(Request $request, $id)
-    {
-        $auth = User::where('username', $request->user()->username)->first();
-        if ($auth->admin) {
-            $user = User::find($id);
-            $user->them_moi = $request->check;
-            $user->save();
-            return $this->sendResponse($user, "Cập nhật thành công");
-        } else return $this->sendError("Có lỗi");
+            return $this->sendResponse($user, "Khôi phục mật khẩu thành công");
+        } else return $this->sendError("Mật khẩu quản trị viên không chính xác");
     }
 }

@@ -17,8 +17,8 @@ declare module Model {
 		toggled?: boolean;
 	}
 
-	export interface NhomCongViec {
+	export interface DanhMuc {
 		id: number;
-		nhom_cong_viec: string;
+		value: string;
 	}
 }

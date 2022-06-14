@@ -26,6 +26,7 @@ class CreateCanBosTable extends Migration
 
             $table->string('ten_dang_nhap', 50)->unique();
             $table->string('mat_khau')->default('$2y$10$VYDferfmJQBX.0D3.jTziu9isw2E.XN3GtRd9Eoscr0Tju1rb83Gi');
+            $table->boolean('khoa_tai_khoan')->default(false);
             $table->dateTime('dang_nhap_cuoi')->nullable();
             $table->timestamps();
         });

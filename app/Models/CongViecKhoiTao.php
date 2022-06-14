@@ -29,6 +29,6 @@ class CongViecKhoiTao extends Model
 
     public function getTenNhomCongViecAttribute()
     {
-        return $this->nhom_cong_viec->nhom_cong_viec ?? '';
+        return $this->nhom_cong_viec->nhom_cong_viec ?? 'Chưa phân loại';
     }
 }

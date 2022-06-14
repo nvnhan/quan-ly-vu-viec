@@ -4,10 +4,7 @@ import message from 'antd/lib/message/index';
 import Modal from 'antd/lib/modal/index';
 import axios from 'axios';
 import isEmpty from 'lodash/isEmpty';
-import unionBy from 'lodash/unionBy';
 import React, { useEffect, useImperativeHandle, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
 import { isChangeData, queryString, useMergeState } from '../../utils';
 import DataTable, { ColumnProps, OtherActionProps } from './DataTable';
 import FilterBox, { FilterProps } from './FilterBox';
@@ -25,7 +22,6 @@ const { confirm } = Modal;
 const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 	//#region  Khai báo biến
 	const [form] = Form.useForm();
-	const authUser = useSelector((state: RootState) => state.authUserReducer);
 
 	const { url, onChangeData, filter, otherParams, primaryKey, filterBox, ajax } = props;
 	const [state, setState] = useMergeState({

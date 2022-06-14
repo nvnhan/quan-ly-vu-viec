@@ -6,7 +6,7 @@ import Row from 'antd/lib/grid/row';
 import Input from 'antd/lib/input/index';
 import message from 'antd/lib/message/index';
 import React, { useEffect } from 'react';
-import { getCaiDat, getSearchDonVi, putCaiDat } from '../../../utils/services';
+import { getCaiDat, getSearchQuanHuyen, putCaiDat } from '../../../utils/services';
 import MyDebounceSelect, { SelectValue } from '../../../components/Controls/MyDebounceSelect';
 
 const index = () => {
@@ -36,7 +36,7 @@ const index = () => {
 	const fetchUserList = async (username: string): Promise<SelectValue[]> => {
 		console.log('fetching user', username);
 
-		return getSearchDonVi({ q: username, l: 7 }).then((body) =>
+		return getSearchQuanHuyen({ q: username, l: 7 }).then((body) =>
 			body?.data?.data.map((item: any) => ({
 				label: item.ten_huyen_tinh,
 				value: item.id,

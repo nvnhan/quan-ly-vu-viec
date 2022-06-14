@@ -29,7 +29,7 @@ class CanBo extends Authenticatable
         'ho_ten', 'ten_dang_nhap',
         'id_cap_bac', 'chuc_vu',
         'dieu_tra_vien', 'id_don_vi',
-        'sdt', 'dia_chi',
+        'sdt', 'dia_chi', 'khoa_tai_khoan'
     ];
 
     /**
@@ -38,7 +38,7 @@ class CanBo extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'mat_khau',
+        'mat_khau', 'khoa_tai_khoan', 'dang_nhap_cuoi', 'cap_bac', 'don_vi'
     ];
 
     /**
@@ -48,12 +48,13 @@ class CanBo extends Authenticatable
      */
     protected $casts = [
         'dieu_tra_vien' => "boolean",
+        'khoa_tai_khoan' => "boolean",
         'dang_nhap_cuoi' => 'datetime:H:i d/m/Y',
         'created_at' => 'datetime:d/m/Y',
         'updated_at' => 'datetime:H:i d/m/Y',
     ];
 
-    protected $appends = ['ten_chuc_vu', 'admin'];
+    protected $appends = ['ten_chuc_vu', 'admin', 'ten_cap_bac', 'ten_don_vi', 'sel_don_vi'];
 
     public function cap_bac()
     {
@@ -78,6 +79,25 @@ class CanBo extends Authenticatable
     public function getTenChucVuAttribute()
     {
         return self::TEN_CHUC_VU[$this->chuc_vu];
+    }
+
+    public function getTenCapBacAttribute()
+    {
+        return $this->cap_bac->cap_bac ?? '';
+    }
+
+    public function getTenDonViAttribute()
+    {
+        return $this->don_vi->ten_don_vi_day_du ?? '';
+    }
+
+    public function getSelDonViAttribute()
+    {
+        $data = [
+            'value' => $this->id_dp_xay_ra,
+            'label' => $this->ten_don_vi
+        ];
+        return (object)$data;
     }
 
     /**

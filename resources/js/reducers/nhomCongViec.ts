@@ -8,21 +8,21 @@ export const fetchNhomCongViec = createAsyncThunk('nhomCongViec/fetch', async ()
 
 const initialState = {
 	status: 'idle' as 'idle' | 'done' | 'error',
-	list: [] as Model.NhomCongViec[],
+	list: [] as Model.DanhMuc[],
 };
 
 const silce = createSlice({
 	name: 'nhomcv',
 	initialState,
 	reducers: {
-		setNhomCongViec: (state, { payload }: PayloadAction<Model.NhomCongViec[]>) => ({
+		setNhomCongViec: (state, { payload }: PayloadAction<Model.DanhMuc[]>) => ({
 			status: 'done',
 			list: payload,
 		}),
 	},
 	extraReducers: (builder) => {
 		builder.addCase(fetchNhomCongViec.fulfilled, (state, { payload }) => {
-			state.list = payload.data;
+			state.list = payload.data.map((item: any) => ({ id: item.id, value: item.nhom_cong_viec }));
 			state.status = 'done';
 		});
 	},

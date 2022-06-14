@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\QuanHuyenController;
 use App\Http\Controllers\ToiDanhController;
 use App\Http\Controllers\CanBoController;
+use App\Http\Controllers\CapBacController;
 use App\Http\Controllers\CongViecKhoiTaoController;
 use App\Http\Controllers\DonViController;
 use App\Http\Controllers\NhomCongViecController;
@@ -40,11 +41,13 @@ Route::middleware('auth:api')->group(function () {
     // Danh Muc
     Route::get('quan-huyen', [QuanHuyenController::class, 'index']);
     Route::get('tim-xa-phuong', [DonViController::class, 'get_xa_phuong']);
+    Route::get('tim-don-vi', [DonViController::class, 'get_don_vi']);
 
     // Vu Viec
     Route::resource('vu-viec', VuViecController::class);
 
     Route::get('nhom-cong-viec', [NhomCongViecController::class, 'index']);
+    Route::get('cap-bac', [CapBacController::class, 'index']);
 
     // Add middleware checkadmin
     Route::middleware('checkadmin')->group(function () {

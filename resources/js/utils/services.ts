@@ -36,9 +36,14 @@ export const putCaiDat = async (payload: any) => {
 	return axios.put(`/api/cai-dat`, payload);
 };
 
-export const getSearchDonVi = async (payload: any) => {
+export const getSearchQuanHuyen = async (payload: any) => {
 	const { q, l } = payload;
 	return axios.get(`/api/quan-huyen?q=${q}&l=${l}`);
+};
+
+export const getSearchDonVi = async (payload: any) => {
+	const { q, l } = payload;
+	return axios.get(`/api/tim-don-vi?q=${q}&l=${l}`);
 };
 
 export const getSearchXaPhuong = async (payload: any) => {

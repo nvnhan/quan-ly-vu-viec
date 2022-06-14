@@ -13,6 +13,7 @@ import FormItem from './FormItem';
 import Divider from 'antd/lib/divider';
 import Checkbox from 'antd/lib/checkbox/Checkbox';
 import { RootState } from '../../../store';
+import { required } from '../../../utils/rules';
 
 const List = () => {
 	const childRef = useRef<ListFormRef>(null);
@@ -25,16 +26,40 @@ const List = () => {
 
 	const columns: ColumnProps[] = [
 		{
+			title: 'TT',
+			dataIndex: 'id',
+			width: 30,
+			render: (text, record, index) => index !== undefined && <b>{index + 1}</b>,
+			align: 'center',
+		},
+		{
 			title: 'Tài khoản',
-			dataIndex: 'username',
+			dataIndex: 'ten_dang_nhap',
 			optFind: true,
-			width: 90,
+			width: 80,
 		},
 		{
 			title: 'Họ tên',
 			dataIndex: 'ho_ten',
 			optFind: true,
-			width: 110,
+			width: 120,
+		},
+		{
+			title: 'Cấp bậc',
+			dataIndex: 'ten_cap_bac',
+			width: 80,
+		},
+		{
+			title: 'Chức vụ',
+			dataIndex: 'ten_chuc_vu',
+			optFilter: true,
+			width: 80,
+		},
+		{
+			title: 'Đơn vị',
+			dataIndex: 'ten_don_vi',
+			optFilter: true,
+			width: 150,
 		},
 		{
 			title: 'SĐT',
@@ -48,65 +73,23 @@ const List = () => {
 			width: 120,
 		},
 		{
-			title: 'Số ĐD',
-			dataIndex: 'so_dinh_danh',
-			align: 'center',
-			sorter: (a: number, b: number) => a - b,
-			width: 60,
-		},
-		{
-			title: 'Thêm dữ liệu',
-			dataIndex: 'them_moi',
+			title: 'Điều tra viên',
+			dataIndex: 'dieu_tra_vien',
 			align: 'center',
 			width: 60,
-			render: (bol: boolean, record: object) => (
-				<Checkbox checked={bol} onChange={(e: any) => onChangeInsertCheckbox(e.target.checked, record)} />
-			),
-		},
-		{
-			title: 'Phân quyền',
-			dataIndex: 'quyen',
-			optFilter: true,
-			width: 80,
-			render: (text: string) => {
-				let color = '';
-				switch (text) {
-					case 'Người dùng':
-						color = 'gray';
-						break;
-					case 'Quản lý đại lý':
-						color = 'green';
-						break;
-					default:
-						color = 'volcano';
-						break;
-				}
-
-				return <b color={color}>{text}</b>;
-			},
-		},
-		// {
-		// 	title: 'Hoạt động',
-		// 	dataIndex: 'actived',
-		// 	render: (bol: boolean) => <Checkbox checked={bol} />,
-		// 	width: 70,
-		// },
-		{
-			title: 'Ngày tạo',
-			dataIndex: 'created_at',
-			width: 80,
+			render: (bol: boolean, record: object) => <Checkbox checked={bol} />,
 		},
 	];
 
-	const onChangeInsertCheckbox = (check: boolean, record: any) => {
-		// console.log(check, record);
-		axios
-			.put(`/api/sua-them-moi/` + record.id, { check })
-			.then((response) => {
-				if (childRef.current) childRef.current.triggerUpdate(response);
-			})
-			.catch((error) => console.log(error));
-	};
+	// const onChangeInsertCheckbox = (check: boolean, record: any) => {
+	// 	// console.log(check, record);
+	// 	axios
+	// 		.put(`/api/sua-them-moi/` + record.id, { check })
+	// 		.then((response) => {
+	// 			if (childRef.current) childRef.current.triggerUpdate(response);
+	// 		})
+	// 		.catch((error) => console.log(error));
+	// };
 
 	const onClickRow = (selectedKey: any) => {
 		formReset.setFieldsValue({ pass: '123' });
@@ -119,7 +102,6 @@ const List = () => {
 			onClick: onClickRow,
 			title: 'Đặt lại mật khẩu',
 			icon: <RetweetOutlined />,
-			color: '#4bab92', // Primary color
 		},
 	];
 
@@ -143,15 +125,15 @@ const List = () => {
 		<>
 			<ListForm
 				ref={childRef}
-				url="nguoi-dung"
+				url="can-bo"
 				columns={columns}
-				tableSize={{ x: 1100 }}
+				tableSize={{ x: 900 }}
 				modalWidth={800}
 				formTemplate={<FormItem quanTri={authUser.admin} />}
 				otherActions={authUser.admin ? otherAction : []}
 				formInitialValues={{
-					phan_quyen: 0,
-					actived: true,
+					chuc_vu: 0,
+					dieu_tra_vien: false,
 				}}
 			/>
 			<Modal
@@ -179,16 +161,7 @@ const List = () => {
 						<Input disabled />
 					</Form.Item>
 					<Divider orientation="left">Xác nhận quyền quản trị viên</Divider>
-					<Form.Item
-						name="password"
-						label="Mật khẩu của bạn"
-						rules={[
-							{
-								required: true,
-								message: 'Nhập đầy đủ thông tin!',
-							},
-						]}
-					>
+					<Form.Item name="password" label="Mật khẩu của bạn" rules={[required]}>
 						<Input.Password />
 					</Form.Item>
 				</Form>

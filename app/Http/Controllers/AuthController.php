@@ -40,18 +40,21 @@ class AuthController extends BaseController
 
         if ($user) {
             if (Hash::check($request->mat_khau, $user->mat_khau)) {
-                $user->dang_nhap_cuoi = now();
-                $user->save();
-                // Delete all previous Tokens
-                $user->tokens()
-                    ->where('name', 'Web API login')
-                    ->delete();
+                if (!$user->khoa_tai_khoan) {
+                    $user->dang_nhap_cuoi = now();
+                    $user->save();
+                    // Delete all previous Tokens
+                    $user->tokens()
+                        ->where('name', 'Web API login')
+                        ->delete();
 
-                $response = $user->toArray();
+                    $response = $user->toArray();
 
-                $token = $user->createToken('Web API login')->accessToken;
-                $response['token'] = $token;
-                return $this->sendResponse($response, 'Đăng nhập thành công');
+                    $token = $user->createToken('Web API login')->accessToken;
+                    $response['token'] = $token;
+                    return $this->sendResponse($response, 'Đăng nhập thành công');
+                } else
+                    return $this->sendError("Tài khoản của đồng chí đã bị khóa. Vui lòng liên hệ với quản trị viên", []);
             } else
                 return $this->sendError("Mật khẩu không chính xác", []);
         } else

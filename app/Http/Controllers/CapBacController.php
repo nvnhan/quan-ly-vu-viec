@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CapBac;
 use Illuminate\Http\Request;
 
-class CapBacController extends Controller
+class CapBacController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -14,72 +14,7 @@ class CapBacController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\CapBac  $capBac
-     * @return \Illuminate\Http\Response
-     */
-    public function show(CapBac $capBac)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\CapBac  $capBac
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(CapBac $capBac)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\CapBac  $capBac
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, CapBac $capBac)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\CapBac  $capBac
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(CapBac $capBac)
-    {
-        //
+        $objs = CapBac::all();
+        return $this->sendResponse($objs, 'CapBac retrieved successfully', count($objs));
     }
 }

@@ -32,7 +32,7 @@ const form = () => {
 					<Select allowClear>
 						{nhomCongViec.list.map((ncv) => (
 							<Select.Option value={ncv.id} key={ncv.id}>
-								{ncv.nhom_cong_viec}
+								{ncv.value}
 							</Select.Option>
 						))}
 					</Select>
