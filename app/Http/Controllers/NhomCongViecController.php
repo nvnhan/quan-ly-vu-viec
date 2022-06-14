@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\NhomCongViec;
 use Illuminate\Http\Request;
 
-class NhomCongViecController extends Controller
+class NhomCongViecController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -14,17 +14,8 @@ class NhomCongViecController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $objs = NhomCongViec::all();
+        return $this->sendResponse($objs, 'NhomCongViec retrieved successfully', count($objs));
     }
 
     /**
@@ -35,29 +26,10 @@ class NhomCongViecController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\NhomCongViec  $nhomCongViec
-     * @return \Illuminate\Http\Response
-     */
-    public function show(NhomCongViec $nhomCongViec)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\NhomCongViec  $nhomCongViec
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(NhomCongViec $nhomCongViec)
-    {
-        //
+        $obj = new NhomCongViec();
+        $obj->nhom_cong_viec = $request->nhom_cong_viec;
+        $obj->save();
+        return $this->sendResponse($obj, "Thêm mới thành công");
     }
 
     /**
@@ -69,7 +41,9 @@ class NhomCongViecController extends Controller
      */
     public function update(Request $request, NhomCongViec $nhomCongViec)
     {
-        //
+        $nhomCongViec->nhom_cong_viec = $request->nhom_cong_viec;
+        $nhomCongViec->save();
+        return $this->sendResponse($nhomCongViec, "Cập nhật thành công");
     }
 
     /**
@@ -80,6 +54,7 @@ class NhomCongViecController extends Controller
      */
     public function destroy(NhomCongViec $nhomCongViec)
     {
-        //
+        $nhomCongViec->delete();
+        return $this->sendResponse('', 'Xóa thành công nhóm công việc');
     }
 }

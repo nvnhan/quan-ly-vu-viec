@@ -12,6 +12,7 @@ const VuViec = lazy(() => import('../../pages/VuViec/ThongTinVuViec'));
 const ToiDanh = lazy(() => import('../../pages/ThongTin/ToiDanh'));
 
 const CanBo = lazy(() => import('../../pages/QuanTri/CanBo'));
+const NhomCongViec = lazy(() => import('../../pages/QuanTri/NhomCongViec'));
 const CaiDat = lazy(() => import('../../pages/QuanTri/CaiDat'));
 
 export interface SideBarItem {
@@ -139,6 +140,7 @@ const items: SideBarItem[] = [
 				key: 'QT_NHOM_CONG_VIEC',
 				href: '/nhom-cong-viec',
 				title: 'Nhóm công việc',
+				Component: NhomCongViec,
 			},
 			{
 				key: 'QT_CONG_VIEC_KHOI_TAO',
