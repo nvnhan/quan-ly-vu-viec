@@ -12,7 +12,8 @@
         "laravel/passport": "^10.3",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
-        "phpoffice/phpspreadsheet": "^1.22"
+        "phpoffice/phpspreadsheet": "^1.22",
+        "phpoffice/phpword": "^0.18.3"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

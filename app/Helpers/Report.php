@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpWord\TemplateProcessor;
 
 class Report
 {
@@ -44,5 +45,14 @@ class Report
         $writer = IOFactory::createWriter($spreadSheet, "Xlsx");
         // Write file to output
         $writer->save('php://output');
+    }
+
+    public static function test()
+    {
+        $file = storage_path('app\\reports') . "\\test.docx";
+        $templateProcessor = new TemplateProcessor($file);
+        $templateProcessor->setValue('name', 'Ngô Nhận');
+        \Log::debug($file);
+        $templateProcessor->saveAs('D:\aa.docx');
     }
 }
