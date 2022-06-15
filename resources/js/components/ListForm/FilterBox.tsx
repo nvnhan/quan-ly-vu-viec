@@ -44,7 +44,7 @@ const FilterBox = (props: ComponentProps) => {
 		onFilter(parseValues(values));
 	};
 
-	const renderAlwaysShowFilter = (filter: FilterProps) =>
+	const renderSingleFilter = (filter: FilterProps) =>
 		filter.isLarger ? (
 			<Col span={24} md={16} lg={12} xl={10} key={filter.name}>
 				<Form.Item name={filter.name} label={filter.label} tooltip={filter.tooltip}>
@@ -59,20 +59,12 @@ const FilterBox = (props: ComponentProps) => {
 			</Col>
 		);
 
-	const renderHideFilter = (filter: FilterProps) => (
-		<Col span={12} md={8} lg={6} xl={5} key={filter.name}>
-			<Form.Item name={filter.name} label={filter.label}>
-				{filter.render}
-			</Form.Item>
-		</Col>
-	);
-
 	return (
 		<div className="filter-box">
 			<Form form={form} onFinish={onFinish} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
 				<Row gutter={[5, 5]}>
 					{tuNgayDenNgay && (
-						<Col span={24} md={16} lg={12} xl={9}>
+						<Col span={24} md={16} lg={12} xl={10}>
 							<Form.Item
 								name="thoiGian"
 								label="Thời gian"
@@ -84,11 +76,11 @@ const FilterBox = (props: ComponentProps) => {
 						</Col>
 					)}
 
-					{alwaysShowFilters && !isEmpty(alwaysShowFilters) && alwaysShowFilters.map(renderAlwaysShowFilter)}
+					{alwaysShowFilters && !isEmpty(alwaysShowFilters) && alwaysShowFilters.map(renderSingleFilter)}
 
-					{hideFilters && !isEmpty(hideFilters) && expandFilter && hideFilters.map(renderAlwaysShowFilter)}
+					{hideFilters && !isEmpty(hideFilters) && expandFilter && hideFilters.map(renderSingleFilter)}
 
-					<Col span={12} md={8} lg={6} xl={5}>
+					<Col span={12} md={8} lg={6} xl={4}>
 						{!isEmpty(hideFilters) && (
 							<Button onClick={() => setExpandFilter(!expandFilter)} type="dashed">
 								{expandFilter ? <MinusOutlined /> : <PlusOutlined />}

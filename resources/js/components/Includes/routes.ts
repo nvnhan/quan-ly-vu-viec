@@ -1,6 +1,7 @@
 import { lazy } from 'react';
 import items, { SideBarItem } from '../SideBar/SideBarItems';
 
+const NguoiChiTiet = lazy(() => import('../../pages/ThongTin/Nguoi/NguoiChiTiet'));
 const NotFound = lazy(() => import('../../pages/NotFound'));
 const Profile = lazy(() => import('../../pages/Account/Profile'));
 const Password = lazy(() => import('../../pages/Account/Password'));
@@ -14,6 +15,11 @@ export interface MyRoute {
 }
 
 const invisibleRoutes: MyRoute[] = [
+	{
+		path: '/nguoi-lien-quan/chi-tiet/*',
+		title: 'Chi tiết người',
+		Component: NguoiChiTiet,
+	},
 	{
 		path: '/cai-dat-ca-nhan',
 		title: 'Cài đặt cá nhân',

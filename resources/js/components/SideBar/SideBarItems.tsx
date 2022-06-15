@@ -11,6 +11,7 @@ const TrangChu = lazy(() => import('../../pages/TrangChu'));
 const VuViec = lazy(() => import('../../pages/VuViec/ThongTinVuViec'));
 
 const ToiDanh = lazy(() => import('../../pages/ThongTin/ToiDanh'));
+const Nguoi = lazy(() => import('../../pages/ThongTin/Nguoi'));
 const DonVi = lazy(() => import('../../pages/ThongTin/DonVi'));
 
 const CanBo = lazy(() => import('../../pages/QuanTri/CanBo'));
@@ -111,7 +112,7 @@ const items: SideBarItem[] = [
 				key: 'TT_NGUOI',
 				href: '/nguoi-lien-quan',
 				title: 'Người liên quan',
-				Component: ToiDanh,
+				Component: Nguoi,
 			},
 			{
 				key: 'TT_TOI_DANH',

@@ -14,8 +14,9 @@ import Highlighter from 'react-highlight-words';
 import { useSelector } from 'react-redux';
 import { ListFormProps } from '.';
 import { RootState } from '../../store';
+import type { ColumnType } from 'rc-table/lib/interface';
 
-export interface ColumnProps {
+export interface ColumnProps extends ColumnType<any> {
 	title: string;
 	dataIndex: string;
 	width: number;
@@ -24,8 +25,6 @@ export interface ColumnProps {
 	optFilter?: boolean;
 	fixedFilter?: object[];
 	key?: string;
-	fixed?: string;
-	align?: string;
 	render?: (text: any, record?: any, index?: number) => any;
 	sorter?: (a: any, b: any) => number;
 	roles?: string[];

@@ -7,6 +7,7 @@ use App\Http\Controllers\CanBoController;
 use App\Http\Controllers\CapBacController;
 use App\Http\Controllers\CongViecKhoiTaoController;
 use App\Http\Controllers\DonViController;
+use App\Http\Controllers\NguoiController;
 use App\Http\Controllers\NhomCongViecController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\VuViecController;
@@ -54,6 +55,8 @@ Route::middleware('auth:api')->group(function () {
         Route::resource('can-bo', CanBoController::class)->only(['index', 'store', 'update', 'destroy']);
         Route::put('reset/{id}', [CanBoController::class, 'reset']);
         Route::get('can-bo/check/{name}', [CanBoController::class, 'check']);
+
+        Route::resource('nguoi', NguoiController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
 
         Route::resource('don-vi', DonViController::class)->only(['index', 'store', 'update', 'destroy']);
         Route::resource('nhom-cong-viec', NhomCongViecController::class)->only(['store', 'update', 'destroy']);
