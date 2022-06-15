@@ -32,6 +32,10 @@ export const getApi = async (url: string) => {
 	return axios.get(`/api/${url}`);
 };
 
+export const checkName = async (name: string) => {
+	return axios.get(`/api/can-bo/check/${name}`);
+};
+
 export const putCaiDat = async (payload: any) => {
 	return axios.put(`/api/cai-dat`, payload);
 };

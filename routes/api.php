@@ -53,6 +53,7 @@ Route::middleware('auth:api')->group(function () {
     Route::middleware('checkadmin')->group(function () {
         Route::resource('can-bo', CanBoController::class)->only(['index', 'store', 'update', 'destroy']);
         Route::put('reset/{id}', [CanBoController::class, 'reset']);
+        Route::get('can-bo/check/{name}', [CanBoController::class, 'check']);
 
         Route::resource('nhom-cong-viec', NhomCongViecController::class)->only(['store', 'update', 'destroy']);
         Route::resource('cong-viec-khoi-tao', CongViecKhoiTaoController::class)->only(['index', 'store', 'update', 'destroy']);

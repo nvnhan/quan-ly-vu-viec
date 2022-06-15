@@ -115,4 +115,12 @@ class CanBoController extends BaseController
             return $this->sendResponse($user, "Khôi phục mật khẩu thành công");
         } else return $this->sendError("Mật khẩu quản trị viên không chính xác");
     }
+
+    public function check(Request $request, $name)
+    {
+        $obj = CanBo::where('ten_dang_nhap', $name)->get();
+        if (count($obj) === 0) return $this->sendResponse(1, 'Tên đăng nhập này chưa được sử dụng');
+        else
+            return $this->sendError('Tên đăng nhập bị trùng');
+    }
 }

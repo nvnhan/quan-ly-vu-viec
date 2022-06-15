@@ -1,3 +1,4 @@
+import message from 'antd/lib/message';
 import Checkbox from 'antd/lib/checkbox/index';
 import Form from 'antd/lib/form/index';
 import Col from 'antd/lib/grid/col';
@@ -10,8 +11,7 @@ import MyDebounceSelect, { SelectValue } from '../../../components/Controls/MyDe
 import { fetchCapBac } from '../../../reducers/capBac';
 import { RootState } from '../../../store';
 import { numberCharacter, required } from '../../../utils/rules';
-import { getSearchDonVi } from '../../../utils/services';
-const { Option } = Select;
+import { checkName, getSearchDonVi } from '../../../utils/services';
 
 interface Props {
 	quanTri?: boolean;
@@ -35,11 +35,13 @@ const form = ({ quanTri = false }: Props) => {
 		capBac.status === 'idle' && dispatch(fetchCapBac());
 	}, []);
 
-	const onSearch = (value: string) => console.log(value);
+	const onSearch = async (value: string) => {
+		await checkName(value)
+			.then(({ data }) => (data.success ? message.info(data.message) : message.error(data.message)))
+			.catch((error) => console.log(error));
+	};
 
-	const fetchUserList = async (username: string): Promise<SelectValue[]> => {
-		console.log('fetching user', username);
-
+	const fetchDonViList = async (username: string): Promise<SelectValue[]> => {
 		return getSearchDonVi({ q: username, l: 7 }).then((body) =>
 			body?.data?.data.map((item: any) => ({
 				label: item.ten_don_vi_day_du,
@@ -89,7 +91,7 @@ const form = ({ quanTri = false }: Props) => {
 			</Col>
 			<Col span={24}>
 				<Form.Item name="sel_don_vi" label="Đơn vị công tác" rules={[required]}>
-					<MyDebounceSelect placeholder="Chọn đơn vị: Tổ, đội, xã/phường" fetchOptions={fetchUserList} />
+					<MyDebounceSelect placeholder="Chọn đơn vị: Tổ, đội, xã/phường" fetchOptions={fetchDonViList} />
 				</Form.Item>
 			</Col>
 
