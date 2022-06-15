@@ -48,6 +48,7 @@
 .my-header {
 	top: 0;
 	z-index: 99;
+	background: #f7f9f5;
 
 	.user-logo {
 		font-size: 20px;
@@ -80,6 +81,7 @@
 		}
 		.user-logo {
 			margin-left: -30px !important;
+			margin-top: -5px;
 		}
 		.user-text {
 			display: none;
