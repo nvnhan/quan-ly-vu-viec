@@ -35,7 +35,6 @@ class CanBoController extends BaseController
 
     public function setCanBoFields(&$canBo, Request $request)
     {
-        \Log::debug($request->sel_don_vi['value']);
         $canBo->id_don_vi = $request->sel_don_vi['value'];
     }
 
@@ -51,7 +50,6 @@ class CanBoController extends BaseController
         if ($u)
             return $this->sendError("Trùng tên tài khoản");
 
-        $user = $request->user();
         $data = $request->all();
         $obj = new CanBo();
         $obj->fill($data);
@@ -62,6 +60,7 @@ class CanBoController extends BaseController
         $obj->mat_khau = Hash::make('123');
         self::setCanBoFields($obj, $request);
         $obj->save();
+        $obj->refresh();
         return $this->sendResponse($obj, "Thêm mới thành công, mật khẩu: 123");
     }
 
@@ -80,6 +79,7 @@ class CanBoController extends BaseController
         //     $user->chuc_vu = 0;
         self::setCanBoFields($user, $request);
         $user->save();
+        $user->refresh();
         return $this->sendResponse($user, "Cập nhật thành công");
     }
 

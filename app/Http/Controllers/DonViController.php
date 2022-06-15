@@ -14,7 +14,9 @@ class DonViController extends BaseController
      */
     public function index()
     {
-        //
+        $qh_su_dung = env('QUAN_HUYEN_SU_DUNG');
+        $objs = DonVi::where('dia_phuong', $qh_su_dung)->get();
+        return $this->sendResponse($objs, 'DonVi retrieved successfully');
     }
 
     public function get_xa_phuong(Request $request)
@@ -33,20 +35,20 @@ class DonViController extends BaseController
         $qh_su_dung = env('QUAN_HUYEN_SU_DUNG');
         $query = DonVi::where('ten_don_vi', 'LIKE', "%$q%")
             ->where('dia_phuong', $qh_su_dung);
+
+        // Xã, phường, thị trấn, đội trực thuộc Quận/huyện
+        if ($request->type)
+            $query = $query->whereNull('id_don_vi_cha');
+
         if ($request->l)
             $query = $query->limit($request->l);
         $objs = $query->get();
         return $this->sendResponse($objs, 'XaPhuong retrieved successfully', count($objs));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function setCanBoFields(&$canBo, Request $request)
     {
-        //
+        $canBo->id_don_vi_cha = $request->sel_don_vi_cha['value'] ?? null;
     }
 
     /**
@@ -57,29 +59,15 @@ class DonViController extends BaseController
      */
     public function store(Request $request)
     {
-        //
-    }
+        $data = $request->all();
+        $obj = new DonVi();
+        $obj->fill($data);
+        $obj->dia_phuong = env('QUAN_HUYEN_SU_DUNG');
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\DonVi  $donVi
-     * @return \Illuminate\Http\Response
-     */
-    public function show(DonVi $donVi)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\DonVi  $donVi
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(DonVi $donVi)
-    {
-        //
+        self::setCanBoFields($obj, $request);
+        $obj->save();
+        $obj->refresh();
+        return $this->sendResponse($obj, "Thêm mới thành công");
     }
 
     /**
@@ -91,7 +79,12 @@ class DonViController extends BaseController
      */
     public function update(Request $request, DonVi $donVi)
     {
-        //
+        $donVi->fill($request->all());
+
+        self::setCanBoFields($obj, $request);
+        $obj->save();
+        $obj->refresh();
+        return $this->sendResponse($obj, "Cập nhật thành công");
     }
 
     /**
@@ -102,6 +95,7 @@ class DonViController extends BaseController
      */
     public function destroy(DonVi $donVi)
     {
-        //
+        $donVi->delete();
+        return $this->sendResponse('', "Xóa thành công đơn vị");
     }
 }

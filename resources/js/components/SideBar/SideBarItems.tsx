@@ -9,7 +9,9 @@ import React, { lazy } from 'react';
 const TrangChu = lazy(() => import('../../pages/TrangChu'));
 
 const VuViec = lazy(() => import('../../pages/VuViec/ThongTinVuViec'));
+
 const ToiDanh = lazy(() => import('../../pages/ThongTin/ToiDanh'));
+const DonVi = lazy(() => import('../../pages/ThongTin/DonVi'));
 
 const CanBo = lazy(() => import('../../pages/QuanTri/CanBo'));
 const NhomCongViec = lazy(() => import('../../pages/QuanTri/NhomCongViec'));
@@ -112,12 +114,6 @@ const items: SideBarItem[] = [
 				Component: ToiDanh,
 			},
 			{
-				key: 'TT_DON_VI',
-				href: '/don-vi',
-				title: 'Đơn vị',
-				Component: ToiDanh,
-			},
-			{
 				key: 'TT_TOI_DANH',
 				href: '/toi-danh',
 				title: 'Tội danh',
@@ -131,6 +127,12 @@ const items: SideBarItem[] = [
 		title: 'Quản trị',
 		role: 'quan_tri',
 		childs: [
+			{
+				key: 'TT_DON_VI',
+				href: '/don-vi',
+				title: 'Đơn vị',
+				Component: DonVi,
+			},
 			{
 				key: 'QT_CAN_BO',
 				href: '/can-bo',

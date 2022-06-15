@@ -63,6 +63,7 @@ class VuViecController extends BaseController
         $obj->nguoi_tao = $request->user()->id;
         self::setVuViecFields($obj, $request);
         $obj->save();
+        $obj->refresh();
         return $this->sendResponse($obj, "Thêm mới thành công");
     }
 
@@ -82,6 +83,7 @@ class VuViecController extends BaseController
             $model->fill($data);
             self::setVuViecFields($model, $request);
             $model->save();
+            $model->refresh();
             return $this->sendResponse($model, "Cập nhật thành công");
         } else return $this->sendError("Không thể sửa thông tin vụ việc");
     }
