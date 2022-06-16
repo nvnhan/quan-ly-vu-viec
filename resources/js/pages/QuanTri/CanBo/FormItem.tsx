@@ -49,18 +49,18 @@ const form = () => {
 	return (
 		<Row gutter={[12, 0]}>
 			<Col span={12}>
+				<Form.Item name="ho_ten" label="Họ tên" rules={[required]}>
+					<Input placeholder="Nhập họ tên cán bộ" />
+				</Form.Item>
+			</Col>
+			<Col span={12}>
 				<Form.Item
 					name="ten_dang_nhap"
-					label="Tài khoản"
+					label="Tài khoản đăng nhập"
 					tooltip="Không thể thay đổi sau khi thêm mới"
 					rules={[required, numberCharacter]}
 				>
 					<Input.Search placeholder="Nhập tên đăng nhập" onSearch={onSearch} />
-				</Form.Item>
-			</Col>
-			<Col span={12}>
-				<Form.Item name="ho_ten" label="Họ tên" rules={[required]}>
-					<Input placeholder="Nhập họ tên cán bộ" />
 				</Form.Item>
 			</Col>
 			<Col span={12} sm={6}>

@@ -38,6 +38,7 @@ class VuViec extends Model
      * @var array
      */
     protected $fillable = [
+        'ngay_ca_phuong', 'ngay_cqdt',
         'ten_vu_viec', 'loai_vu_viec', 'phan_loai_tin',
         'thoi_diem_xay_ra', 'noi_xay_ra',  'noi_dung_tom_tat',
         'so_ngay_keo_dai', 'ket_qua_giai_quyet', 'ngay_ket_thuc_1', 'ngay_gia_han_xac_minh',

@@ -10,13 +10,8 @@ const getFilters = (username: string): FilterProps[] => {
 		{
 			name: 'q',
 			label: 'Tìm kiếm',
-			render: <Input placeholder="NGUYEN AN..." />,
-			alwaysShow: false,
-			isLarger: true,
-			tooltip: {
-				title: 'Nhập thông tin tìm kiếm',
-				icon: <InfoCircleOutlined />,
-			},
+			render: <Input placeholder="Nhập thông tin tìm kiếm" />,
+			alwaysShow: true,
 		},
 	];
 	// if (username !== '')

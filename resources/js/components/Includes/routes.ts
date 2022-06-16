@@ -1,6 +1,7 @@
 import { lazy } from 'react';
 import items, { SideBarItem } from '../SideBar/SideBarItems';
 
+const VuViecChiTiet = lazy(() => import('../../pages/VuViec/VuViecChiTiet'));
 const NguoiChiTiet = lazy(() => import('../../pages/ThongTin/Nguoi/NguoiChiTiet'));
 const NotFound = lazy(() => import('../../pages/NotFound'));
 const Profile = lazy(() => import('../../pages/Account/Profile'));
@@ -19,6 +20,11 @@ const invisibleRoutes: MyRoute[] = [
 		path: '/nguoi-lien-quan/chi-tiet/*',
 		title: 'Chi tiết người',
 		Component: NguoiChiTiet,
+	},
+	{
+		path: '/vu-viec/chi-tiet/*',
+		title: 'Chi tiết vụ việc',
+		Component: VuViecChiTiet,
 	},
 	{
 		path: '/cai-dat-ca-nhan',

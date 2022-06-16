@@ -1,14 +1,14 @@
 import ArrowLeftOutlined from '@ant-design/icons/ArrowLeftOutlined';
 import SaveOutlined from '@ant-design/icons/SaveOutlined';
 import UnorderedListOutlined from '@ant-design/icons/UnorderedListOutlined';
-import Spin from 'antd/lib/spin';
 import Button from 'antd/lib/button';
 import Form from 'antd/lib/form/index';
+import message from 'antd/lib/message/index';
+import Spin from 'antd/lib/spin';
 import React, { useEffect, useState } from 'react';
+import { parseValues } from '../../../utils';
 import { getApi, putApi } from '../../../utils/services';
 import FormItem from './FormItem';
-import { parseValues } from '../../../utils';
-import { message } from 'antd';
 
 const NguoiChiTiet = () => {
 	const [form] = Form.useForm();

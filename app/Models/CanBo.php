@@ -38,7 +38,7 @@ class CanBo extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'mat_khau', 'khoa_tai_khoan', 'dang_nhap_cuoi', 'cap_bac', 'don_vi'
+        'mat_khau', 'khoa_tai_khoan', 'cap_bac', 'don_vi'
     ];
 
     /**

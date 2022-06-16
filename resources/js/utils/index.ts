@@ -32,8 +32,8 @@ export const queryString = (obj?: { [index: string]: any }): string => {
 export const convertToSQLDateTime = (value: { [index: string]: any } | string) => {
 	const format = 'YYYY-MM-DD HH:mm:ss';
 	if (typeof value === 'string')
-		if (value.match(/(.*?):(.*?)\/(.*?)\//g)) value = moment(value, 'HH:mm DD/MM/YYYY').format(format);
-		else if (value.match(/(.*?)\/(.*?)\//g)) value = moment(value, 'DD/MM/YYYY').format(format);
+		if (value.match(/^(\d+):(.*?)\/(\d+)\/(\d+)$/g)) value = moment(value, 'HH:mm DD/MM/YYYY').format(format);
+		else if (value.match(/^(\d+)\/(\d+)\/(\d+)$/g)) value = moment(value, 'DD/MM/YYYY').format(format);
 	return value;
 };
 
@@ -42,6 +42,7 @@ export const convertToSQLDateTime = (value: { [index: string]: any } | string) =
  */
 export const parseValues = (values: { [index: string]: any }, format = 'YYYY-MM-DD HH:mm:ss'): object => {
 	values = parseTimePeriod(values);
+
 	for (let [key, value] of Object.entries(values)) {
 		if (value)
 			if (typeof value === 'object')
@@ -129,7 +130,7 @@ export const momentRange = (): any => ({
 	'Tháng này': [moment().startOf('month'), moment().endOf('month')],
 });
 
-export const unionDataBy = (target: { [index: string]: any }, source: { [index: string]: any }, key = 'id') => {
+export const unionDataBy = (target: any[], source: any, key = 'id') => {
 	const newData = Array.isArray(source) ? source : [source];
 	const targetLength = target.length;
 
@@ -147,7 +148,7 @@ export const unionDataBy = (target: { [index: string]: any }, source: { [index: 
 				break;
 			}
 		}
-		if (!existingElement) target.push(element); //  Thêm mới
+		if (!existingElement) target.unshift(element); //  Thêm mới
 	}
 	return target;
 };

@@ -68,6 +68,8 @@ class AuthController extends BaseController
         $user = $request->user();
 
         if ($user) {
+            $user->dang_nhap_cuoi = now();
+            $user->save();
             $response = $user->toArray();
             return $this->sendResponse($response, 'Get user successfully');
         } else

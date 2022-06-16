@@ -19,16 +19,16 @@ mix.webpackConfig({
 		chunkFilename: 'js/[name].js',
 	},
 	// output: {
-	//     chunkFilename: "js/[name].[contenthash].js",
-	//     filename: "[name].[contenthash].js"
+	// 	chunkFilename: 'js/[name].[contenthash].js',
+	// 	filename: '[name].[contenthash].js',
 	// },
 	plugins: [
 		// new BundleAnalyzerPlugin(),
-		// new webpack.ContextReplacementPlugin(
-		// 	/moment[\/\\]locale/,
-		// 	// A regular expression matching files that should be included
-		// 	/(vi)\.js/
-		// ),
+		new webpack.ContextReplacementPlugin(
+			/moment[\/\\]locale/,
+			// A regular expression matching files that should be included
+			/(vi)\.js/
+		),
 	],
 })
 	.ts('resources/js/index.tsx', 'public/js')

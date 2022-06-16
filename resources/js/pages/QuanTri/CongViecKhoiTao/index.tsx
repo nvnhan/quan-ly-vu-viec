@@ -1,4 +1,4 @@
-import Tag from 'antd/es/tag';
+import Tag from 'antd/lib/tag';
 import React from 'react';
 import ListForm from '../../../components/ListForm';
 import { ColumnProps } from '../../../components/ListForm/DataTable';

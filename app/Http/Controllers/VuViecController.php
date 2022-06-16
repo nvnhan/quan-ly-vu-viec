@@ -68,6 +68,17 @@ class VuViecController extends BaseController
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\VuViec  $vuViec
+     * @return \Illuminate\Http\Response
+     */
+    public function show(VuViec $vuViec)
+    {
+        return $this->sendResponse($vuViec, "VuViec retrieved successfully");
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

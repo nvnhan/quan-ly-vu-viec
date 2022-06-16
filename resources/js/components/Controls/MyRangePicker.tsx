@@ -1,9 +1,9 @@
 import DatePicker from 'antd/lib/date-picker/index';
+import locale from 'antd/lib/date-picker/locale/vi_VN';
 import React from 'react';
 import { momentRange } from '../../utils';
-const { RangePicker } = DatePicker;
-import locale from 'antd/es/date-picker/locale/vi_VN';
 import { ListFormProps } from '../ListForm';
+const { RangePicker } = DatePicker;
 
 const MyRangePicker = (props: ListFormProps) => (
 	<RangePicker

@@ -1,6 +1,6 @@
+import type { SelectProps } from 'antd/lib/select';
 import Select from 'antd/lib/select';
 import Spin from 'antd/lib/spin';
-import type { SelectProps } from 'antd/es/select';
 import debounce from 'lodash/debounce';
 import React, { useMemo, useRef, useState } from 'react';
 

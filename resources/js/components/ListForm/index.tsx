@@ -5,7 +5,7 @@ import Modal from 'antd/lib/modal/index';
 import axios from 'axios';
 import isEmpty from 'lodash/isEmpty';
 import React, { useEffect, useImperativeHandle, useState } from 'react';
-import { isChangeData, queryString, useMergeState } from '../../utils';
+import { isChangeData, queryString, unionDataBy, useMergeState } from '../../utils';
 import DataTable, { ColumnProps, OtherActionProps } from './DataTable';
 import FilterBox, { FilterProps } from './FilterBox';
 import ModalConfirm from './ModalConfirm';
@@ -168,14 +168,15 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 	const doInsertOrUpdateRows = (response: any, callback?: () => void) => {
 		if (response.data.success) {
 			// Thêm object vào list lấy từ state
-			const newData = Array.isArray(response.data.data) ? response.data.data : [response.data.data];
-			// const mergedData = unionBy(newData, data, primaryKey); // New data is first line
-			let mergedData = [...data];
-			newData.forEach((update: any) => {
-				mergedData = mergedData.map((item: any) =>
-					item[primaryKey ?? 'id'] === update[primaryKey ?? 'id'] ? update : item
-				);
-			});
+			// const newData = Array.isArray(response.data.data) ? response.data.data : [response.data.data];
+			const mergedData = unionDataBy(data, response.data.data, primaryKey ?? 'id'); // New data is first line
+			// let mergedData = [...data];
+			// newData.forEach((update: any) => {
+			// 	mergedData = mergedData.map((item: any) =>
+			// 		item[primaryKey ?? 'id'] === update[primaryKey ?? 'id'] ? update : item
+			// 	);
+			// });
+			console.log('🚀 ~ file: index.tsx ~ line 183 ~ doInsertOrUpdateRows ~ mergedData', mergedData);
 			setState({
 				data: mergedData,
 				selectedRowKeys: [],

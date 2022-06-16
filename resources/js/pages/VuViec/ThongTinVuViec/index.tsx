@@ -51,14 +51,8 @@ const List = () => {
 			align: 'center',
 			optFilter: true,
 			fixedFilter: [
-				{
-					text: 'AĐ',
-					value: 'AĐ',
-				},
-				{
-					text: 'AK',
-					value: 'AK',
-				},
+				{ text: 'AĐ', value: 'AĐ' },
+				{ text: 'AK', value: 'AK' },
 			],
 			onCell,
 		},
@@ -67,7 +61,13 @@ const List = () => {
 			dataIndex: 'phan_loai_tin',
 			width: 100,
 			onCell,
-			// optFilter: true,
+			optFilter: true,
+			fixedFilter: [
+				{ value: 'Tin báo về tội phạm', text: 'Tin báo về tội phạm' },
+				{ value: 'Tố giác về tội phạm', text: 'Tố giác về tội phạm' },
+				{ value: 'Kiến nghị khởi tố', text: 'Kiến nghị khởi tố' },
+				{ value: 'CQĐT trực tiếp phát hiện', text: 'CQĐT trực tiếp phát hiện' },
+			],
 		},
 		{
 			title: 'Xảy ra',
@@ -83,6 +83,20 @@ const List = () => {
 			onCell,
 		},
 		{
+			title: 'Ngày CAP tiếp nhận',
+			dataIndex: 'ngay_ca_phuong',
+			width: 70,
+			align: 'center',
+			onCell,
+		},
+		{
+			title: 'Ngày CQĐT tiếp nhận',
+			dataIndex: 'ngay_cqdt',
+			width: 70,
+			align: 'center',
+			onCell,
+		},
+		{
 			title: 'Kết quả xử lý',
 			dataIndex: 'ket_qua_giai_quyet',
 			width: 100,
@@ -92,11 +106,10 @@ const List = () => {
 			title: 'Ngày tạo',
 			dataIndex: 'created_at',
 			width: 70,
+			align: 'center',
 			onCell,
 		},
 	];
-
-	const hanldeChangeData = (data: any[], query?: object) => {};
 
 	return (
 		<ListForm
@@ -104,14 +117,11 @@ const List = () => {
 			columns={columns}
 			ajax
 			selectable={false}
-			insertable
-			deleteable
-			editable
+			editable={false}
 			filterBox
 			filter={parseValues({
 				thoiGian: [moment().clone().weekday(0).startOf('day'), moment().clone().weekday(6).endOf('day')],
 			})}
-			onChangeData={hanldeChangeData}
 			otherFilter={getFilters(authUser.ten_dang_nhap)}
 			filterInitialValue={{
 				thoiGian: [moment().clone().weekday(0).startOf('day'), moment().clone().weekday(6).endOf('day')],
@@ -121,6 +131,11 @@ const List = () => {
 			tableSize={{ x: 1200 }}
 			modalWidth={1200}
 			formTemplate={<FormItem />}
+			formInitialValues={{
+				ngay_ca_phuong: moment().startOf('day'),
+				ngay_cqdt: moment().startOf('day'),
+				loai_vu_viec: 'AĐ',
+			}}
 		/>
 	);
 };

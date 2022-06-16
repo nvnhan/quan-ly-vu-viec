@@ -1,19 +1,20 @@
 import RetweetOutlined from '@ant-design/icons/RetweetOutlined';
 import Button from 'antd/lib/button/index';
+import Checkbox from 'antd/lib/checkbox/Checkbox';
+import Divider from 'antd/lib/divider';
 import Form from 'antd/lib/form/index';
 import Input from 'antd/lib/input/index';
 import message from 'antd/lib/message/index';
 import Modal from 'antd/lib/modal/index';
+import Typography from 'antd/lib/typography';
 import axios from 'axios';
 import React, { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import ListForm, { ListFormRef } from '../../../components/ListForm';
 import { ColumnProps } from '../../../components/ListForm/DataTable';
-import FormItem from './FormItem';
-import Divider from 'antd/lib/divider';
-import Checkbox from 'antd/lib/checkbox/Checkbox';
 import { RootState } from '../../../store';
 import { required } from '../../../utils/rules';
+import FormItem from './FormItem';
 
 const List = () => {
 	const childRef = useRef<ListFormRef>(null);
@@ -33,16 +34,16 @@ const List = () => {
 			align: 'center',
 		},
 		{
-			title: 'Tài khoản',
-			dataIndex: 'ten_dang_nhap',
-			optFind: true,
-			width: 80,
-		},
-		{
 			title: 'Họ tên',
 			dataIndex: 'ho_ten',
 			optFind: true,
 			width: 120,
+		},
+		{
+			title: 'Tài khoản',
+			dataIndex: 'ten_dang_nhap',
+			optFind: true,
+			width: 80,
 		},
 		{
 			title: 'Cấp bậc',
@@ -53,13 +54,25 @@ const List = () => {
 			title: 'Chức vụ',
 			dataIndex: 'ten_chuc_vu',
 			optFilter: true,
-			width: 80,
+			render: (text, record, index) => (
+				<>
+					{text}
+					{text === 'Lãnh đạo' && (
+						<>
+							<br />
+							<i>{record.chuc_danh_lanh_dao}</i>
+						</>
+					)}
+				</>
+			),
+			width: 100,
 		},
 		{
 			title: 'Đơn vị',
 			dataIndex: 'ten_don_vi',
 			optFilter: true,
-			width: 150,
+			render: (text) => <Typography.Paragraph ellipsis={{ rows: 2 }}>{text}</Typography.Paragraph>,
+			width: 180,
 		},
 		{
 			title: 'SĐT',
@@ -78,6 +91,12 @@ const List = () => {
 			align: 'center',
 			width: 60,
 			render: (bol: boolean, record: object) => <Checkbox checked={bol} />,
+		},
+		{
+			title: 'Đăng nhập cuối',
+			dataIndex: 'dang_nhap_cuoi',
+			align: 'center',
+			width: 100,
 		},
 	];
 
@@ -127,9 +146,9 @@ const List = () => {
 				ref={childRef}
 				url="can-bo"
 				columns={columns}
-				tableSize={{ x: 900 }}
+				tableSize={{ x: 1100 }}
 				modalWidth={800}
-				formTemplate={<FormItem quanTri={authUser.admin} />}
+				formTemplate={<FormItem />}
 				otherActions={authUser.admin ? otherAction : []}
 				formInitialValues={{
 					chuc_vu: 0,

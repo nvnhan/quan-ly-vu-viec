@@ -65,13 +65,14 @@
 	.ant-table-filter-column {
 		justify-content: flex-start;
 
-		.ant-table-column-title {
-			flex: none;
-		}
+		// .ant-table-column-title {
+		// 	flex: none;
+		// }
 
 		.ant-table-filter-trigger {
 			color: $primary-color;
 			font-size: 14px;
+			margin-right: 0;
 		}
 	}
 }
@@ -127,4 +128,12 @@
 .ant-page-header-heading-left,
 .ant-page-header-heading-extra {
 	margin: 0;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+	font-weight: 600;
+}
+
+.ant-tabs > .ant-tabs-nav .ant-tabs-nav-list {
+	padding-left: 12px;
 }
