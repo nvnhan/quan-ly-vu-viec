@@ -41,7 +41,6 @@ class CreateVuViecsTable extends Migration
             $table->string('thoi_gian_gia_han', 6)->nullable();
 
             $table->date('ngay_ket_thuc_dieu_tra')->nullable();
-            $table->string('can_cu_khoi_to', 500)->nullable();
 
             $table->string('so_ho_so', 100)->nullable();
             $table->date('ngay_dang_ky_ho_so')->nullable();

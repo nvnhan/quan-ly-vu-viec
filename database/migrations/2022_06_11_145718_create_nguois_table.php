@@ -44,13 +44,10 @@ class CreateNguoisTable extends Migration
 
             $table->string('ho_ten_bo', 50)->nullable();
             $table->string('nam_sinh_bo', 4)->nullable();
-            $table->string('thuong_tru_bo', 200)->nullable();
             $table->string('ho_ten_me', 50)->nullable();
             $table->string('nam_sinh_me', 4)->nullable();
-            $table->string('thuong_tru_me', 200)->nullable();
             $table->string('ho_ten_vo_chong', 50)->nullable();
             $table->string('nam_sinh_vo_chong', 4)->nullable();
-            $table->string('thuong_tru_vo_chong', 200)->nullable();
 
             $table->bigInteger('id_dp_thong_bao')->unsigned()->nullable();
             $table->string('don_vi_tra_cuu', 200)->nullable();
