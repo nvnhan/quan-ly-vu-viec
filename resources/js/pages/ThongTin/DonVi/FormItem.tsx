@@ -38,6 +38,11 @@ const form = () => {
 					</Select>
 				</Form.Item>
 			</Col>
+			<Col span={12}>
+				<Form.Item name="ma_don_vi" label="Mã đơn vị">
+					<Input />
+				</Form.Item>
+			</Col>
 			<Col span={24}>
 				<Form.Item name="sel_don_vi_cha" label="Đơn vị trực thuộc">
 					<MyDebounceSelect

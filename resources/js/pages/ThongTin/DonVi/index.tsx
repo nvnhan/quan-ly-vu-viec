@@ -25,6 +25,11 @@ const List = () => {
 			width: 80,
 		},
 		{
+			title: 'Mã đơn vị',
+			dataIndex: 'ma_don_vi',
+			width: 50,
+		},
+		{
 			title: 'Đơn vị trực thuộc',
 			dataIndex: 'ten_don_vi_cha',
 			optFind: true,
@@ -32,7 +37,15 @@ const List = () => {
 		},
 	];
 
-	return <ListForm url="don-vi" columns={columns} tableSize={{ x: 700 }} formTemplate={<FormItem />} />;
+	return (
+		<ListForm
+			url="don-vi"
+			columns={columns}
+			tableSize={{ x: 700 }}
+			selectable={false}
+			formTemplate={<FormItem />}
+		/>
+	);
 };
 
 export default React.memo(List);

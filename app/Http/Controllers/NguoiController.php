@@ -55,7 +55,13 @@ class NguoiController extends BaseController
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $nguoi = new Nguoi();
+        $nguoi->fill($data);
+        self::setNguoiFields($nguoi, $request);
+        $nguoi->save();
+        $nguoi->refresh();
+        return $this->sendResponse($nguoi, "Thêm mới thành công");
     }
 
     /**

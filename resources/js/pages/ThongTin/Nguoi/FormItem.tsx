@@ -29,12 +29,12 @@ const form = () => {
 						<Input placeholder="Nhập họ tên..." />
 					</Form.Item>
 				</Col>
-				<Col span={12} sm={6}>
+				<Col span={12} sm={3}>
 					<Form.Item name="ten_khac" label="Tên khác">
 						<Input />
 					</Form.Item>
 				</Col>
-				<Col span={12} sm={6}>
+				<Col span={12} sm={3}>
 					<Form.Item name="gioi_tinh" label="Giới tính" rules={[required]}>
 						<Select>
 							<Select.Option value="Nam">Nam</Select.Option>
@@ -49,15 +49,24 @@ const form = () => {
 					<Form.Item name="thang_sinh" label=" " style={{ flex: 1 }}>
 						<Input placeholder="tháng" />
 					</Form.Item>
-					<Form.Item name="nam_sinh" label=" " style={{ flex: 2 }}>
+					<Form.Item name="nam_sinh" label=" " style={{ flex: 1 }}>
 						<Input placeholder="năm" />
+					</Form.Item>
+				</Col>
+				<Col span={12} sm={6}>
+					<Form.Item name="sdt" label="SĐT">
+						<Input />
 					</Form.Item>
 				</Col>
 			</Row>
 			<Row gutter={[12, 5]}>
 				<Col span={12} sm={6}>
-					<Form.Item name="sdt" label="SĐT">
-						<Input />
+					<Form.Item name="giay_dinh_danh" label="Giấy định danh">
+						<Select>
+							<Select.Option value="CMND">CMND</Select.Option>
+							<Select.Option value="CCCD">CCCD</Select.Option>
+							<Select.Option value="Hộ chiếu">Hộ chiếu</Select.Option>
+						</Select>
 					</Form.Item>
 				</Col>
 				<Col span={12} sm={6}>
@@ -80,12 +89,12 @@ const form = () => {
 						<Input />
 					</Form.Item>
 				</Col>
-				<Col span={12} sm={6}>
+				<Col span={12} sm={3}>
 					<Form.Item name="dan_toc" label="Dân tộc">
 						<Input />
 					</Form.Item>
 				</Col>
-				<Col span={12} sm={6}>
+				<Col span={12} sm={3}>
 					<Form.Item name="ton_giao" label="Tôn giáo">
 						<Input />
 					</Form.Item>
@@ -165,13 +174,6 @@ const form = () => {
 						<Input />
 					</Form.Item>
 				</Col>
-				<Col span={24} sm={12}>
-					<Form.Item name="thuong_tru_bo" label="Nơi thường trú">
-						<Input />
-					</Form.Item>
-				</Col>
-			</Row>
-			<Row gutter={[12, 5]}>
 				<Col span={12} sm={6}>
 					<Form.Item name="ho_ten_me" label="Họ tên mẹ">
 						<Input />
@@ -179,11 +181,6 @@ const form = () => {
 				</Col>
 				<Col span={12} sm={6}>
 					<Form.Item name="nam_sinh_me" label="Năm sinh">
-						<Input />
-					</Form.Item>
-				</Col>
-				<Col span={24} sm={12}>
-					<Form.Item name="thuong_tru_me" label="Nơi thường trú">
 						<Input />
 					</Form.Item>
 				</Col>
@@ -199,17 +196,12 @@ const form = () => {
 						<Input />
 					</Form.Item>
 				</Col>
-				<Col span={24} sm={12}>
-					<Form.Item name="thuong_tru_vo_chong" label="Nơi thường trú">
-						<Input />
-					</Form.Item>
-				</Col>
 			</Row>
 
 			<Divider children="Thông tin khác" orientation="left" />
 			<Row gutter={[12, 5]}>
 				<Col span={24} sm={12}>
-					<Form.Item name="sel_dp_thong_bao" label="Địa phương thông báo">
+					<Form.Item name="sel_dp_thong_bao" label="Địa phương gửi thông báo">
 						<MyDebounceSelect
 							placeholder="Chọn địa phương xã/phường..."
 							fetchOptions={fetchUnitList}

@@ -16,7 +16,7 @@ class DonVi extends Model
      * @var array
      */
     protected $fillable = [
-        'ten_don_vi', 'loai_don_vi',
+        'ten_don_vi', 'loai_don_vi', 'ma_don_vi',
     ];
 
     /**
@@ -49,11 +49,9 @@ class DonVi extends Model
             'value' => $this->id_don_vi_cha,
             'label' => $this->ten_don_vi_cha
         ];
-        if (empty($this->don_vi_cha)) {
-            $data['value'] = null;
-            $data['label'] = '';
-        }
-        return (object)$data;
+        if (empty($this->don_vi_cha)) return null;
+        else
+            return (object)$data;
     }
 
     public function getTenDonViChaAttribute()

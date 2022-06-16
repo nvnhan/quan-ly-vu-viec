@@ -2,6 +2,7 @@ import Tag from 'antd/lib/tag/index';
 import moment from 'moment';
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import ListForm from '../../../components/ListForm';
 import { ColumnProps } from '../../../components/ListForm/DataTable';
 import { RootState } from '../../../store';
@@ -10,7 +11,15 @@ import FormItem from './FormItem';
 import getFilters from './otherFilters';
 
 const List = () => {
+	const navigate = useNavigate();
 	const authUser = useSelector((state: RootState) => state.authUserReducer);
+
+	const handleView = (record: any) => navigate('/vu-viec/chi-tiet/' + record.id);
+
+	const onCell = (record: any) => ({
+		onClick: () => handleView(record), // click row
+		style: { cursor: 'pointer' },
+	});
 
 	const columns: ColumnProps[] = [
 		{
@@ -19,16 +28,18 @@ const List = () => {
 			width: 30,
 			render: (text, record, index) => index !== undefined && <b>{index + 1}</b>,
 			align: 'center',
+			onCell,
 		},
 		{
 			title: 'Tên vụ việc',
 			dataIndex: 'ten_vu_viec',
 			width: 150,
+			onCell,
 		},
 		{
-			title: 'Phân loại',
+			title: 'Loại vụ việc',
 			dataIndex: 'loai_vu_viec',
-			width: 50,
+			width: 60,
 			render: (tt: string, record: object) =>
 				tt === 'AĐ' ? (
 					<Tag color="green">AĐ</Tag>
@@ -49,11 +60,13 @@ const List = () => {
 					value: 'AK',
 				},
 			],
+			onCell,
 		},
 		{
 			title: 'Phân loại tin',
 			dataIndex: 'phan_loai_tin',
 			width: 100,
+			onCell,
 			// optFilter: true,
 		},
 		{
@@ -61,22 +74,25 @@ const List = () => {
 			dataIndex: 'thoi_diem_xay_ra',
 			render: (text: string, record: any) => (
 				<>
-					Thời điểm xảy ra: {text}
+					Thời gian: {text}
 					<br />
 					Tại: {record.noi_xay_ra}
 				</>
 			),
-			width: 150,
+			width: 180,
+			onCell,
 		},
 		{
-			title: 'Kết quả giải quyết',
+			title: 'Kết quả xử lý',
 			dataIndex: 'ket_qua_giai_quyet',
 			width: 100,
+			onCell,
 		},
 		{
 			title: 'Ngày tạo',
 			dataIndex: 'created_at',
-			width: 80,
+			width: 70,
+			onCell,
 		},
 	];
 
@@ -102,7 +118,7 @@ const List = () => {
 			}}
 			tuNgayDenNgay
 			checkUserDoAction
-			tableSize={{ x: 1000 }}
+			tableSize={{ x: 1200 }}
 			modalWidth={1200}
 			formTemplate={<FormItem />}
 		/>

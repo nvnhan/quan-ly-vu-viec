@@ -17,9 +17,9 @@ class Nguoi extends Model
     protected $fillable = [
         'ho_ten', 'ten_khac', 'gioi_tinh', 'ngay_sinh', 'thang_sinh', 'nam_sinh',
         'noi_sinh', 'thuong_tru', 'tam_tru', 'noi_o_hien_nay',
-        'sdt', 'so_dinh_danh', 'noi_cap', 'ngay_cap',
+        'sdt', 'giay_dinh_danh', 'so_dinh_danh', 'noi_cap', 'ngay_cap',
         'quoc_tich', 'dan_toc', 'ton_giao', 'nghe_nghiep', 'noi_lam_viec',
-        'ho_ten_bo', 'ho_ten_me', 'ho_ten_vo_chong',
+        'ho_ten_bo', 'nam_sinh_bo',   'ho_ten_me', 'nam_sinh_me', 'ho_ten_vo_chong', 'nam_sinh_vo_chong',
         'don_vi_tra_cuu',
     ];
 

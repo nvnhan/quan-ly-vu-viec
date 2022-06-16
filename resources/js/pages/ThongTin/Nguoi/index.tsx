@@ -66,7 +66,7 @@ const List = () => {
 		{
 			title: 'Họ tên',
 			dataIndex: 'ho_ten',
-			width: 120,
+			width: 140,
 			onCell,
 		},
 		{
@@ -127,8 +127,10 @@ const List = () => {
 			url="nguoi"
 			ajax
 			columns={columns}
-			tableSize={{ x: 1200 }}
+			tableSize={{ x: 1300 }}
+			// insertable={false}
 			selectable={false}
+			editable={false}
 			deleteable={false}
 			otherActions={otherActions}
 			formInitialValues={{ quoc_tich: 'Việt Nam', dan_toc: 'Kinh', ton_giao: 'Không' }}

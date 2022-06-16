@@ -64,7 +64,7 @@ const index = () => {
 						</Form.Item>
 					</Col>
 				</Row>
-				<Row gutter={[12, 12]}>
+				{/* <Row gutter={[12, 12]}>
 					<Col span={24} md={12}>
 						<Form.Item name="thu_truong" label="Thủ trưởng đơn vị">
 							<Input />
@@ -75,7 +75,7 @@ const index = () => {
 							<Input />
 						</Form.Item>
 					</Col>
-				</Row>
+				</Row> */}
 
 				<Row gutter={[12, 12]}>
 					<Col span={24} md={12}>

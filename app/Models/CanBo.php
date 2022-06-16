@@ -27,7 +27,7 @@ class CanBo extends Authenticatable
      */
     protected $fillable = [
         'ho_ten', 'ten_dang_nhap',
-        'id_cap_bac', 'chuc_vu',
+        'id_cap_bac', 'chuc_vu', 'chuc_danh_lanh_dao',
         'dieu_tra_vien', 'id_don_vi',
         'sdt', 'dia_chi', 'khoa_tai_khoan'
     ];

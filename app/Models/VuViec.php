@@ -15,6 +15,9 @@ class VuViec extends Model
      * @var array
      */
     protected $casts = [
+        'ngay_ca_phuong' => 'datetime:d/m/Y',
+        'ngay_cqdt' => 'datetime:d/m/Y',
+        'ngay_phan_cong' => 'datetime:d/m/Y',
         'ngay_ket_thuc_1' => 'datetime:d/m/Y',
         'ngay_gia_han_xac_minh' => 'datetime:d/m/Y',
         'ngay_ket_thuc_2' => 'datetime:d/m/Y',
@@ -23,6 +26,7 @@ class VuViec extends Model
         'ngay_khoi_to' => 'datetime:d/m/Y',
         'ngay_gia_han' => 'datetime:d/m/Y',
         'ngay_ket_thuc_dieu_tra' => 'datetime:d/m/Y',
+        'ngay_lap_ho_so' => 'datetime:d/m/Y',
         'ngay_dang_ky_ho_so' => 'datetime:d/m/Y',
         'created_at' => 'datetime:d/m/Y',
         'updated_at' => 'datetime:H:i d/m/Y',
@@ -46,7 +50,8 @@ class VuViec extends Model
      * @var array
      */
     protected $hidden = [
-        'dp_xay_ra'
+        'dp_xay_ra', 'toi_danh', 'dtv_chinh', 'can_bo_chinh', 'cong_viecs',
+        'tai_lieus', 'cong_vans', 'vu_viec_nguois',
     ];
 
     protected $appends = ['sel_dp_xay_ra'];
@@ -99,10 +104,12 @@ class VuViec extends Model
     public function getSelDpXayRaAttribute()
     {
         $dv = $this->dp_xay_ra;
-        $data = [
-            'value' => $this->id_dp_xay_ra,
-            'label' => ($dv->ten_don_vi ?? '') . ' - ' . ($dv->ten_dia_phuong ?? '')
-        ];
-        return (object)$data;
+        if ($dv) {
+            $data = [
+                'value' => $this->id_dp_xay_ra,
+                'label' => ($dv->ten_don_vi ?? '') . ' - ' . ($dv->ten_dia_phuong ?? '')
+            ];
+            return (object)$data;
+        } else return null;
     }
 }

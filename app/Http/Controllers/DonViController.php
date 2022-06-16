@@ -46,9 +46,9 @@ class DonViController extends BaseController
         return $this->sendResponse($objs, 'XaPhuong retrieved successfully', count($objs));
     }
 
-    public function setCanBoFields(&$canBo, Request $request)
+    public function setDonViFields(&$donVi, Request $request)
     {
-        $canBo->id_don_vi_cha = $request->sel_don_vi_cha['value'] ?? null;
+        $donVi->id_don_vi_cha = $request->sel_don_vi_cha['value'] ?? null;
     }
 
     /**
@@ -64,7 +64,7 @@ class DonViController extends BaseController
         $obj->fill($data);
         $obj->dia_phuong = env('QUAN_HUYEN_SU_DUNG');
 
-        self::setCanBoFields($obj, $request);
+        self::setDonViFields($obj, $request);
         $obj->save();
         $obj->refresh();
         return $this->sendResponse($obj, "Thêm mới thành công");
@@ -81,10 +81,10 @@ class DonViController extends BaseController
     {
         $donVi->fill($request->all());
 
-        self::setCanBoFields($obj, $request);
-        $obj->save();
-        $obj->refresh();
-        return $this->sendResponse($obj, "Cập nhật thành công");
+        self::setDonViFields($donVi, $request);
+        $donVi->save();
+        $donVi->refresh();
+        return $this->sendResponse($donVi, "Cập nhật thành công");
     }
 
     /**

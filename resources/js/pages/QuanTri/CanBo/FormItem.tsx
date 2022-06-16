@@ -13,11 +13,7 @@ import { RootState } from '../../../store';
 import { numberCharacter, required } from '../../../utils/rules';
 import { checkName, getSearchDonVi } from '../../../utils/services';
 
-interface Props {
-	quanTri?: boolean;
-}
-
-const form = ({ quanTri = false }: Props) => {
+const form = () => {
 	const dispatch = useDispatch();
 	const capBac = useSelector((state: RootState) => state.capBac);
 
@@ -67,7 +63,7 @@ const form = ({ quanTri = false }: Props) => {
 					<Input placeholder="Nhập họ tên cán bộ" />
 				</Form.Item>
 			</Col>
-			<Col span={12}>
+			<Col span={12} sm={6}>
 				<Form.Item name="id_cap_bac" label="Cấp bậc" rules={[required]}>
 					<Select>
 						{capBac.list.map((item) => (
@@ -78,8 +74,8 @@ const form = ({ quanTri = false }: Props) => {
 					</Select>
 				</Form.Item>
 			</Col>
-			<Col span={12}>
-				<Form.Item name="chuc_vu" label="Chức vụ" rules={[required]}>
+			<Col span={12} sm={6}>
+				<Form.Item name="chuc_vu" label="Chức vụ / Vai trò" rules={[required]}>
 					<Select>
 						{chucVu.map((item) => (
 							<Select.Option value={item.id} key={item.id}>
@@ -87,6 +83,11 @@ const form = ({ quanTri = false }: Props) => {
 							</Select.Option>
 						))}
 					</Select>
+				</Form.Item>
+			</Col>
+			<Col span={12}>
+				<Form.Item name="chuc_danh_lanh_dao" label="Chức danh lãnh đạo">
+					<Input />
 				</Form.Item>
 			</Col>
 			<Col span={24}>
