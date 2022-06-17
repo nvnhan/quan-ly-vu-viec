@@ -22,15 +22,18 @@ class CanBoController extends BaseController
         return $this->sendResponse($objs, "User retrieved successfully");
     }
 
-    public function all(Request $request)
+    public function get_can_bo(Request $request)
     {
-        $user = $request->user();
-        if ($user->admin)
-            $objs = CanBo::query();
-        else
-            $objs = CanBo::where('username', $user->username);
-        $objs = $objs->get(['id', 'ten_dang_nhap', 'ho_ten']);
-        return $this->sendResponse($objs, "User retrieved successfully");
+        $q = $request->q;
+        $query = CanBo::where('ho_ten', 'LIKE', "%$q%");
+
+        if ($request->type === 'dtv')
+            $query = $query->where('dieu_tra_vien', true);
+
+        if ($request->l)
+            $query = $query->limit($request->l);
+        $objs = $query->get();
+        return $this->sendResponse($objs, 'CanBo retrieved successfully', count($objs));
     }
 
     public function setCanBoFields(&$canBo, Request $request)

@@ -46,6 +46,8 @@ class VuViecController extends BaseController
     public function setVuViecFields(&$vuViec, Request $request)
     {
         $vuViec->id_dp_xay_ra = $request->sel_dp_xay_ra['value'] ?? null;
+        $vuViec->id_dtv_chinh = $request->sel_dtv_chinh['value'] ?? null;
+        $vuViec->id_can_bo_chinh = $request->sel_can_bo_chinh['value'] ?? null;
     }
 
     /**

@@ -34,8 +34,6 @@ const index = () => {
 	};
 
 	const fetchUserList = async (username: string): Promise<SelectValue[]> => {
-		console.log('fetching user', username);
-
 		return getSearchQuanHuyen({ q: username, l: 7 }).then((body) =>
 			body?.data?.data.map((item: any) => ({
 				label: item.ten_huyen_tinh,

@@ -70,7 +70,7 @@ const VuViecChiTiet = () => {
 			</div>
 
 			<div style={{ padding: '16px 12px' }}>
-				<Row>
+				<Row gutter={[12, 5]}>
 					<Col span={24} sm={12}>
 						<b>Thời điểm xảy ra:</b> {record.thoi_diem_xay_ra}, tại: {record.noi_xay_ra}
 					</Col>

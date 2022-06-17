@@ -94,7 +94,7 @@ class CanBo extends Authenticatable
     public function getSelDonViAttribute()
     {
         $data = [
-            'value' => $this->id_dp_xay_ra,
+            'value' => $this->id_don_vi,
             'label' => $this->ten_don_vi
         ];
         return (object)$data;

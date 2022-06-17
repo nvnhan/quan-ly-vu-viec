@@ -18,7 +18,7 @@ declare module Model {
 	}
 
 	export interface DanhMuc {
-		id: number;
+		id: number | string;
 		value: string;
 	}
 }

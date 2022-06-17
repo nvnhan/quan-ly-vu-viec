@@ -43,6 +43,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('quan-huyen', [QuanHuyenController::class, 'index']);
     Route::get('tim-xa-phuong', [DonViController::class, 'get_xa_phuong']);
     Route::get('tim-don-vi', [DonViController::class, 'get_don_vi']);
+    Route::get('tim-can-bo', [CanBoController::class, 'get_can_bo']);
 
     // Vu Viec
     Route::resource('vu-viec', VuViecController::class);

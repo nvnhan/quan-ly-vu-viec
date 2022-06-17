@@ -24,7 +24,7 @@ class CreateVuViecsTable extends Migration
             $table->bigInteger('id_dp_xay_ra')->unsigned()->nullable();
             $table->string('noi_dung_tom_tat', 500)->nullable();
 
-            $table->string('so_ngay_keo_dai', 6)->nullable();
+            $table->date('ngay_keo_dai')->nullable();
             $table->string('ket_qua_giai_quyet', 200)->nullable();
             $table->date('ngay_ket_thuc_1')->nullable();
             $table->date('ngay_gia_han_xac_minh')->nullable();
@@ -32,7 +32,6 @@ class CreateVuViecsTable extends Migration
             $table->date('ngay_ket_thuc_2')->nullable();
             $table->date('ngay_phuc_hoi')->nullable();
             $table->date('ngay_ket_thuc_phuc_hoi')->nullable();
-            $table->string('ket_qua_phuc_hoi', 200)->nullable();
 
             $table->string('ma_toi_danh', 10)->nullable();
             $table->date('ngay_khoi_to')->nullable();
