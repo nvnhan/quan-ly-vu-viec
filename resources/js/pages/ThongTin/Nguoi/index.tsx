@@ -128,7 +128,7 @@ const List = () => {
 			ajax
 			columns={columns}
 			tableSize={{ x: 1300 }}
-			// insertable={false}
+			insertable={false}
 			selectable={false}
 			editable={false}
 			deleteable={false}

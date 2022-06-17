@@ -101,6 +101,7 @@ export const vndFormater = new Intl.NumberFormat('vi-VN', {
  * @param {*} value
  */
 export const inputFormat = (value: any): string => `${value}`.replace(/(?=(\d{3})+(?!\d))\B/g, ',');
+export const inputNgayThangFormat = (value: any): string => `${value}`.replace(/(?=(\d{2})+(?!\d))\B/g, ' _ ');
 
 /**
  * Input value to number

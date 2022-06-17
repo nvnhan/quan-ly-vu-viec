@@ -62,6 +62,11 @@ class VuViecController extends BaseController
         $obj = new VuViec();
         $obj->fill($data);
 
+        if ($request->ngay_cqdt && $request->loai_vu_viec === 'AĐ') {
+            $obj->ngay_keo_dai = date('Y-m-d H:i:s', strtotime($request->ngay_cqdt . ' +20 days'));
+            $obj->ngay_ket_thuc_1 = date('Y-m-d H:i:s', strtotime($request->ngay_cqdt . ' +2 months'));
+        }
+
         $obj->nguoi_tao = $request->user()->id;
         self::setVuViecFields($obj, $request);
         $obj->save();

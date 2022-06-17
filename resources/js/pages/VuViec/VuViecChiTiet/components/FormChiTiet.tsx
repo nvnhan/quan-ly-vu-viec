@@ -11,6 +11,7 @@ import MyDatePicker from '../../../../components/Controls/MyDatePicker';
 import MyDebounceSelect, { SelectValue } from '../../../../components/Controls/MyDebounceSelect';
 import { fetchToiDanh } from '../../../../reducers/toiDanh';
 import { RootState } from '../../../../store';
+import { inputNgayThangFormat, inputParse } from '../../../../utils';
 import { getSearchCanBo } from '../../../../utils/services';
 import FormItem from '../../ThongTinVuViec/FormItem';
 
@@ -110,8 +111,16 @@ const form = () => {
 						</Form.Item>
 					</Col>
 					<Col span={12} sm={6}>
-						<Form.Item name="thoi_han_dieu_tra" label="Thời hạn điều tra">
-							<InputNumber style={{ width: '100%' }} />
+						<Form.Item
+							name="thoi_han_dieu_tra"
+							label="Thời hạn điều tra"
+							tooltip="Ví dụ: nhập 210 hay 2 _ 10 tương đương với 2 tháng 10 ngày"
+						>
+							<InputNumber
+								style={{ width: '100%' }}
+								formatter={inputNgayThangFormat}
+								parser={inputParse}
+							/>
 						</Form.Item>
 					</Col>
 					<Col span={12} sm={6}>
@@ -125,8 +134,16 @@ const form = () => {
 						</Form.Item>
 					</Col>
 					<Col span={12} sm={6}>
-						<Form.Item name="thoi_gian_gia_han" label="Thời gian gia hạn">
-							<InputNumber style={{ width: '100%' }} />
+						<Form.Item
+							name="thoi_gian_gia_han"
+							label="Thời gian gia hạn"
+							tooltip="Ví dụ: nhập 210 hay 2 _ 10 tương đương với 2 tháng 10 ngày"
+						>
+							<InputNumber
+								style={{ width: '100%' }}
+								formatter={inputNgayThangFormat}
+								parser={inputParse}
+							/>
 						</Form.Item>
 					</Col>
 					<Col span={12} sm={6}>
