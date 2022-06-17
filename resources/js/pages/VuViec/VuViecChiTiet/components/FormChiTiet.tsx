@@ -12,6 +12,7 @@ import MyDebounceSelect, { SelectValue } from '../../../../components/Controls/M
 import { fetchToiDanh } from '../../../../reducers/toiDanh';
 import { RootState } from '../../../../store';
 import { inputNgayThangFormat, inputParse } from '../../../../utils';
+import { KET_QUA_AN, KET_QUA_DON, LOAI_TOI_PHAM } from '../../../../utils/constant';
 import { getSearchCanBo } from '../../../../utils/services';
 import FormItem from '../../ThongTinVuViec/FormItem';
 
@@ -73,9 +74,11 @@ const form = () => {
 					<Col span={12} sm={6}>
 						<Form.Item name="ket_qua_giai_quyet" label="Kết quả giải quyết">
 							<Select>
-								<Select.Option value="Tạm đình chỉ">Tạm đình chỉ</Select.Option>
-								<Select.Option value="Không khởi tố">Không khởi tố</Select.Option>
-								<Select.Option value="Khởi tố">Khởi tố</Select.Option>
+								{KET_QUA_DON.map((td, index) => (
+									<Select.Option value={td} key={index}>
+										{td}
+									</Select.Option>
+								))}
 							</Select>
 						</Form.Item>
 					</Col>
@@ -103,10 +106,11 @@ const form = () => {
 					<Col span={12} sm={6}>
 						<Form.Item name="loai_toi_pham" label="Loại tội phạm">
 							<Select>
-								<Select.Option value="Ít nghiêm trọng">Ít nghiêm trọng</Select.Option>
-								<Select.Option value="Nghiêm trọng">Nghiêm trọng</Select.Option>
-								<Select.Option value="Rất nghiêm trọng">Rất nghiêm trọng</Select.Option>
-								<Select.Option value="Đặc biệt nghiêm trọng">Đặc biệt nghiêm trọng</Select.Option>
+								{LOAI_TOI_PHAM.map((td, index) => (
+									<Select.Option value={td} key={index}>
+										{td}
+									</Select.Option>
+								))}
 							</Select>
 						</Form.Item>
 					</Col>
@@ -149,16 +153,11 @@ const form = () => {
 					<Col span={12} sm={6}>
 						<Form.Item name="ket_qua_an" label="Kết quả án">
 							<Select>
-								<Select.Option value="Tạm đình chỉ">Tạm đình chỉ</Select.Option>
-								<Select.Option value="Gia hạn">Gia hạn</Select.Option>
-								<Select.Option value="Kết luận điều tra">Kết luận điều tra</Select.Option>
-								<Select.Option value="Kết luận điều tra (bổ sung)">
-									Kết luận điều tra (bổ sung)
-								</Select.Option>
-								<Select.Option value="Kết luận điều tra (lại)">Kết luận điều tra (lại)</Select.Option>
-								<Select.Option value="Kết luận điều tra (đình chỉ)">
-									Kết luận điều tra (đình chỉ)
-								</Select.Option>
+								{KET_QUA_AN.map((td, index) => (
+									<Select.Option value={td} key={index}>
+										{td}
+									</Select.Option>
+								))}
 							</Select>
 						</Form.Item>
 					</Col>

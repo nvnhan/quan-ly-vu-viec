@@ -39,7 +39,7 @@ class NguoiController extends BaseController
         return $this->sendResponse($objs, "Nguoi retrieved successfully", $total);
     }
 
-    public function setNguoiFields(&$nguoi, Request $request)
+    public static function setNguoiFields(&$nguoi, Request $request)
     {
         $nguoi->id_dp_thuong_tru = $request->sel_dp_thuong_tru['value'] ?? null;
         $nguoi->id_dp_tam_tru = $request->sel_dp_tam_tru['value'] ?? null;

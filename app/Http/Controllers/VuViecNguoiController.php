@@ -2,29 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Nguoi;
 use App\Models\VuViecNguoi;
 use Illuminate\Http\Request;
 
-class VuViecNguoiController extends Controller
+class VuViecNguoiController extends BaseController
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        if ($request->vu_viec) {
+            $objs = VuViecNguoi::where('id_vu_viec', $request->vu_viec)->with('nguoi')->get();
+            return $this->sendResponse($objs, 'VuViecNguoi retrieved successfully');
+        } else
+            return $this->sendError('You are not allowed to access this data', [], 403);
     }
 
     /**
@@ -35,41 +30,49 @@ class VuViecNguoiController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $data = $request->all();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\VuViecNguoi  $vuViecNguoi
-     * @return \Illuminate\Http\Response
-     */
-    public function show(VuViecNguoi $vuViecNguoi)
-    {
-        //
-    }
+        $nguoi = new Nguoi();
+        if ($request->id_nguoi)
+            $nguoi = Nguoi::find($request->id_nguoi);
+        $nguoi->fill($data);
+        NguoiController::setNguoiFields($nguoi, $request);
+        $nguoi->save();
+        $nguoi->refresh();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\VuViecNguoi  $vuViecNguoi
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(VuViecNguoi $vuViecNguoi)
-    {
-        //
+        $vu_viec_nguoi = new VuViecNguoi();
+        $vu_viec_nguoi->fill($data);
+        $vu_viec_nguoi->id_nguoi = $nguoi->id;
+        $vu_viec_nguoi->id_vu_viec = $request->id_vu_viec;
+        $vu_viec_nguoi->save();
+
+        $vu_viec_nguoi->refresh();
+        $vu_viec_nguoi->nguoi = $nguoi;
+        return $this->sendResponse($vu_viec_nguoi, 'Thêm mới thành công');
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\VuViecNguoi  $vuViecNguoi
+     * @param  \App\Models\VuViecNguoi  $vu_viec_nguoi
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, VuViecNguoi $vuViecNguoi)
+    public function update(Request $request, VuViecNguoi $vu_viec_nguoi)
     {
-        //
+        $data = $request->all();
+        $nguoi = Nguoi::find($vu_viec_nguoi->id_nguoi);
+        $nguoi->fill($data);
+        NguoiController::setNguoiFields($nguoi, $request);
+        $nguoi->save();
+        $nguoi->refresh();
+
+        $vu_viec_nguoi->fill($data);
+        $vu_viec_nguoi->save();
+
+        $vu_viec_nguoi->refresh();
+        $vu_viec_nguoi->nguoi = $nguoi;
+        return $this->sendResponse($vu_viec_nguoi, 'Cập nhật thành công');
     }
 
     /**
@@ -80,6 +83,7 @@ class VuViecNguoiController extends Controller
      */
     public function destroy(VuViecNguoi $vuViecNguoi)
     {
-        //
+        $vuViecNguoi->delete();
+        return $this->sendResponse('', 'Xóa thành công vai trò của người trong vụ việc');
     }
 }

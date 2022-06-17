@@ -21,10 +21,10 @@ class CreateVuViecNguoisTable extends Migration
 
             $table->string('hanh_vi', 200)->nullable();
             $table->text('loi_khai')->nullable();
-            $table->string('ma_toi_danh', 10)->nullable();
+            $table->string('ma_toi_danh_bc', 10)->nullable();
 
-            $table->dateTime('ngay_xay_ra')->nullable();
-            $table->string('noi_xay_ra', 200)->nullable();
+            $table->dateTime('ngay_xay_ra_bc')->nullable();
+            $table->string('noi_xay_ra_bc', 200)->nullable();
 
             $table->date('ngay_bat')->nullable();
             $table->date('ngay_tam_giu')->nullable();
@@ -38,7 +38,7 @@ class CreateVuViecNguoisTable extends Migration
             $table->date('ngay_gia_han_tam_giam_2')->nullable();
             $table->string('thoi_han_gia_han_giam_2', 6)->nullable();
 
-            $table->date('ngay_khoi_to')->nullable();
+            $table->date('ngay_khoi_to_bc')->nullable();
             $table->timestamps();
         });
     }

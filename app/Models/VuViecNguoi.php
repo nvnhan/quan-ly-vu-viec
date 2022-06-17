@@ -26,8 +26,33 @@ class VuViecNguoi extends Model
         'updated_at' => 'datetime:H:i d/m/Y',
     ];
 
-    public function toi_danh()
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'tu_cach_to_tung', 'hanh_vi', 'loi_khai',
+        'ma_toi_danh_bc', 'ngay_xay_ra_bc', 'noi_xay_ra_bc',
+        'ngay_bat', 'truong_hop_bat',
+        'ngay_tam_giu', 'thoi_han_gia_han_tam_giu_1', 'thoi_han_gia_han_tam_giu_2',
+        'ngay_tam_giam', 'thoi_han_giam', 'ngay_khoi_to_bc',
+        'ngay_gia_han_tam_giam_1', 'thoi_han_gia_han_giam_1',
+        'ngay_gia_han_tam_giam_2', 'thoi_han_gia_han_giam_2'
+    ];
+
+    public function toi_danh_bc()
     {
-        return $this->belongsTo('App\Models\ToiDanh', 'ma_toi_danh', 'ma_toi_danh');
+        return $this->belongsTo('App\Models\ToiDanh', 'ma_toi_danh_bc', 'ma_toi_danh');
+    }
+
+    public function nguoi()
+    {
+        return $this->belongsTo('App\Models\Nguoi', 'id_nguoi');
+    }
+
+    public function vu_viec()
+    {
+        return $this->belongsTo('App\Models\VuViec', 'id_vu_viec');
     }
 }

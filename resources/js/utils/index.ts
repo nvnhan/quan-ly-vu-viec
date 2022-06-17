@@ -131,6 +131,13 @@ export const momentRange = (): any => ({
 	'Tháng này': [moment().startOf('month'), moment().endOf('month')],
 });
 
+/**
+ * Insert or Update element to existing data by key
+ * @param target
+ * @param source
+ * @param key
+ * @returns
+ */
 export const unionDataBy = (target: any[], source: any, key = 'id') => {
 	const newData = Array.isArray(source) ? source : [source];
 	const targetLength = target.length;

@@ -11,6 +11,7 @@ use App\Http\Controllers\NguoiController;
 use App\Http\Controllers\NhomCongViecController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\VuViecController;
+use App\Http\Controllers\VuViecNguoiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,6 +48,7 @@ Route::middleware('auth:api')->group(function () {
 
     // Vu Viec
     Route::resource('vu-viec', VuViecController::class);
+    Route::resource('vu-viec-nguoi', VuViecNguoiController::class);
 
     Route::get('nhom-cong-viec', [NhomCongViecController::class, 'index']);
     Route::get('cap-bac', [CapBacController::class, 'index']);

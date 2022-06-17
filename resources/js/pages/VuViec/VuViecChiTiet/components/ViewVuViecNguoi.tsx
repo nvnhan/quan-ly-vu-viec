@@ -1,90 +1,264 @@
+import CloseOutlined from '@ant-design/icons/CloseOutlined';
+import DeleteOutlined from '@ant-design/icons/DeleteOutlined';
+import EditOutlined from '@ant-design/icons/EditOutlined';
+import MenuOutlined from '@ant-design/icons/MenuOutlined';
+import PlusCircleFilled from '@ant-design/icons/PlusCircleFilled';
+import SaveOutlined from '@ant-design/icons/SaveOutlined';
+import message from 'antd/lib/message';
+import Button from 'antd/lib/button';
+import Dropdown from 'antd/lib/dropdown';
 import Form from 'antd/lib/form/index';
-import Col from 'antd/lib/grid/col';
-import Row from 'antd/lib/grid/row';
-import Input from 'antd/lib/input/index';
-import Select from 'antd/lib/select';
-import React from 'react';
-import MyDatePicker from '../../../../components/Controls/MyDatePicker';
-import MyDebounceSelect, { SelectValue } from '../../../../components/Controls/MyDebounceSelect';
-import { required } from '../../../../utils/rules';
-import { getSearchXaPhuong } from '../../../../utils/services';
+import { ItemType } from 'antd/lib/menu/hooks/useItems';
+import Menu from 'antd/lib/menu/index';
+import Table from 'antd/lib/table';
+import Typography from 'antd/lib/typography';
+import axios from 'axios';
+import React, { useEffect } from 'react';
+import { ColumnProps } from '../../../../components/ListForm/DataTable';
+import { parseValues, unionDataBy, useMergeState } from '../../../../utils';
+import { getApi } from '../../../../utils/services';
+import FormChiTietNguoi from '../../../ThongTin/Nguoi/FormItem';
+import FormVuViecNguoi from './FormVuViecNguoi';
+import { groupBy } from 'lodash';
+import { TU_CACH_TO_TUNG } from '../../../../utils/constant';
 
-const ViewVuViecNguoi = () => {
-	const phanLoaiTin = ['Tố giác về tội phạm', 'Tin báo về tội phạm', 'Kiến nghị khởi tố', 'CQĐT trực tiếp phát hiện'];
+const ViewVuViecNguoi = (props: { vuViec: any }) => {
+	const [form] = Form.useForm();
+	const [formState, setFormSate] = useMergeState({
+		data: [],
+		loading: true,
+		view: 'table',
+		record: null,
+		recordNguoi: null,
+		formSubmitting: false,
+	});
+	const { vuViec } = props;
 
-	const fetchUnitList = async (q: string): Promise<SelectValue[]> => {
-		console.log('fetching user', q);
+	useEffect(() => {
+		getApi('vu-viec-nguoi?vu_viec=' + vuViec.id).then((response) => {
+			if (response.data.success) {
+				// populate all field of Nguoi into VuViecNguoi
+				const newData = response.data.data.map((item: any) => {
+					item = { ...item.nguoi, ...item };
+					delete item.nguoi;
+					return item;
+				});
+				setFormSate({ data: convertDataToGroups(newData), loading: false });
+			}
+		});
+	}, []);
 
-		return getSearchXaPhuong({ q, l: 7 }).then((body) =>
-			body?.data?.data.map((item: any) => ({
-				label: `${item.ten_don_vi} - ${item.ten_dia_phuong}`,
-				value: item.id,
-			}))
-		);
+	const convertDataToGroups = (data: any[]) => {
+		const groups = Object.entries(groupBy(data, 'tu_cach_to_tung'));
+		let objs: any[] = [];
+		groups.forEach((group, index) => {
+			objs.push({
+				id: -index,
+				ho_ten:
+					TU_CACH_TO_TUNG.find((tc) => tc.id == Number(group[0]))?.label + ': ' + group[1].length + ' người',
+				children: group[1],
+			});
+		});
+		return objs;
 	};
 
-	return (
-		<Row gutter={[10, 5]}>
-			<Col span={12} sm={6}>
-				<Form.Item name="ngay_ca_phuong" label="Ngày CA phường tiếp nhận">
-					<MyDatePicker format="DD/MM/YYYY" />
-				</Form.Item>
-			</Col>
-			<Col span={12} sm={6}>
-				<Form.Item name="ngay_cqdt" label="Ngày CQĐT tiếp nhận">
-					<MyDatePicker format="DD/MM/YYYY" />
-				</Form.Item>
-			</Col>
-			<Col span={24} sm={12}>
-				<Form.Item name="ten_vu_viec" label="Tên vụ việc" rules={[required]}>
-					<Input placeholder="Thời gian, địa điểm xảy ra, người liên quan, mô tả ngắn gọn..." />
-				</Form.Item>
-			</Col>
-			<Col span={12} sm={6}>
-				<Form.Item name="loai_vu_viec" label="Phân loại" rules={[required]}>
-					<Select>
-						<Select.Option value="AĐ">AĐ</Select.Option>
-						<Select.Option value="AK">AK</Select.Option>
-					</Select>
-				</Form.Item>
-			</Col>
-			<Col span={12} sm={6}>
-				<Form.Item name="phan_loai_tin" label="Phân loại tin">
-					<Select allowClear>
-						{phanLoaiTin.map((pl) => (
-							<Select.Option value={pl} key={pl}>
-								{pl}
-							</Select.Option>
-						))}
-					</Select>
-				</Form.Item>
-			</Col>
+	const columns: ColumnProps[] = [
+		{
+			title: 'TT',
+			dataIndex: 'id',
+			width: 40,
+			render: (text, record, index) => index !== undefined && <b>{index + 1}</b>,
+			align: 'center',
+		},
+		{
+			title: 'Họ tên',
+			dataIndex: 'ho_ten',
+			render: (text, record) => (record.id <= 0 ? <b>{text}</b> : text),
+			width: 140,
+		},
+		{
+			title: 'Giới tính',
+			dataIndex: 'gioi_tinh',
+			align: 'center',
+			width: 60,
+		},
+		{
+			title: 'Ngày sinh',
+			dataIndex: 'ngay_sinh_day_du',
+			width: 80,
+		},
+		{
+			title: 'Số định danh',
+			dataIndex: 'so_dinh_danh',
+			width: 120,
+		},
+		// {
+		// 	title: 'Họ tên bố',
+		// 	dataIndex: 'ho_ten_bo',
+		// 	width: 120,
+		// },
+		// {
+		// 	title: 'Họ tên mẹ',
+		// 	dataIndex: 'ho_ten_me',
+		// 	width: 120,
+		// },
+		// {
+		// 	title: 'Họ tên vợ/chồng',
+		// 	dataIndex: 'ho_ten_vo_chong',
+		// 	width: 120,
+		// },
+		{
+			title: 'Thường trú',
+			dataIndex: 'ten_thuong_tru',
+			width: 170,
+			render: (text) => <Typography.Paragraph ellipsis={{ rows: 2 }}>{text}</Typography.Paragraph>,
+		},
+		{
+			title: 'Nơi ở hiện nay',
+			dataIndex: 'ten_noi_o_hien_nay',
+			width: 170,
+			render: (text) => <Typography.Paragraph ellipsis={{ rows: 2 }}>{text}</Typography.Paragraph>,
+		},
+		{
+			title: '',
+			fixed: 'right',
+			align: 'center',
+			width: 60,
+			dataIndex: 'actions',
+			render: (text, record) =>
+				record.id > 0 && (
+					<Dropdown overlay={layAction(record)}>
+						<Button>
+							<MenuOutlined />
+						</Button>
+					</Dropdown>
+				),
+		},
+	];
 
-			<Col span={12} sm={6}>
-				<Form.Item name="thoi_diem_xay_ra" label="Thời điểm xảy ra">
-					<Input />
-				</Form.Item>
-			</Col>
-			<Col span={12} sm={6}>
-				<Form.Item name="noi_xay_ra" label="Nơi xảy ra">
-					<Input />
-				</Form.Item>
-			</Col>
-			<Col span={24} sm={12}>
-				<Form.Item name="sel_dp_xay_ra" label="Địa phương xảy ra">
-					<MyDebounceSelect
-						placeholder="Chọn địa phương xã/phường..."
-						fetchOptions={fetchUnitList}
-						allowClear
-					/>
-				</Form.Item>
-			</Col>
-			<Col span={24} sm={12}>
-				<Form.Item name="noi_dung_tom_tat" label="Nội dung tóm tắt">
-					<Input.TextArea />
-				</Form.Item>
-			</Col>
-		</Row>
+	const layAction = (record: any) => {
+		let items: ItemType[] = [];
+		items.push({
+			key: 'edit',
+			onClick: () => handleEdit(record),
+			className: 'color-link',
+			label: (
+				<>
+					<EditOutlined /> Chỉnh sửa
+				</>
+			),
+		});
+		items.push({
+			key: 'delete',
+			onClick: () => handleDelete(record),
+			className: 'color-danger',
+			danger: true,
+			label: (
+				<>
+					<DeleteOutlined /> Xóa
+				</>
+			),
+		});
+		return <Menu items={items} />;
+	};
+
+	const handleEdit = (record: any) => {
+		setFormSate({ view: 'edit', record });
+		form.setFieldsValue(record);
+	};
+
+	const handleDelete = (record: any) => {};
+
+	const handleInsert = () => {
+		setFormSate({ view: 'insert', record: null });
+		form.setFieldsValue({ quoc_tich: 'Việt Nam', dan_toc: 'Kinh', ton_giao: 'Không' });
+	};
+	const handleCanel = () => setFormSate({ view: 'table', record: null });
+
+	/**
+	 * On submit form Insert or Update
+	 * @param values
+	 */
+	const onFinish = (values: any) => {
+		setFormSate({ formSubmitting: true });
+		if (formState.view === 'insert') {
+			axios
+				.post(
+					`/api/vu-viec-nguoi`,
+					parseValues({ ...values, id_vu_viec: vuViec.id, id_nguoi: formState.recordNguoi?.id })
+				)
+				.then((response: any) => {
+					const newData = { ...response.data.data.nguoi, ...response.data.data };
+					delete newData.nguoi;
+					const mergedData = unionDataBy(formState.data, newData, 'id'); // New data is first line
+
+					setFormSate({
+						view: 'table',
+						record: null,
+						data: convertDataToGroups(mergedData),
+						formSubmitting: false,
+					});
+					message.success(response.data.message);
+				})
+				.catch((error) => console.log(error));
+		} else {
+			axios
+				.put(`/api/vu-viec-nguoi/${formState.record.id}`, parseValues(values))
+				.then((response: any) => {
+					const newData = { ...response.data.data.nguoi, ...response.data.data };
+					delete newData.nguoi;
+					const mergedData = unionDataBy(formState.data, newData, 'id'); // New data is first line
+
+					setFormSate({
+						view: 'table',
+						record: null,
+						data: convertDataToGroups(mergedData),
+						formSubmitting: false,
+					});
+					message.success(response.data.message);
+				})
+				.catch((error) => console.log(error));
+		}
+	};
+
+	return formState.view === 'table' ? (
+		<>
+			<div className="tools-button">
+				<Button type="primary" onClick={handleInsert}>
+					<PlusCircleFilled /> Thêm mới
+				</Button>
+			</div>
+			<Table
+				columns={columns}
+				loading={formState.loading}
+				dataSource={formState.data}
+				rowKey={(row) => row.id}
+				scroll={{ x: 1200 }}
+			/>
+		</>
+	) : (
+		<>
+			<div className="tools-button">
+				<Button onClick={handleCanel}>
+					<CloseOutlined />
+					Hủy
+				</Button>
+			</div>
+			<Form form={form} layout="vertical" onFinish={onFinish}>
+				<FormChiTietNguoi />
+				<FormVuViecNguoi />
+
+				<div className="tools-button" style={{ textAlign: 'center' }}>
+					<Button onClick={handleCanel}>
+						<CloseOutlined /> Hủy
+					</Button>
+					<Button htmlType="submit" type="primary" loading={formState.formSubmitting}>
+						<SaveOutlined />
+						{formState.view === 'insert' ? 'Thêm mới' : 'Lưu lại'}
+					</Button>
+				</div>
+			</Form>
+		</>
 	);
 };
 

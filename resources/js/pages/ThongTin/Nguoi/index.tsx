@@ -132,7 +132,7 @@ const List = () => {
 			selectable={false}
 			editable={false}
 			deleteable={false}
-			otherActions={otherActions}
+			// otherActions={otherActions}
 			formInitialValues={{ quoc_tich: 'Việt Nam', dan_toc: 'Kinh', ton_giao: 'Không' }}
 			filterBox
 			otherFilter={otherFilters}

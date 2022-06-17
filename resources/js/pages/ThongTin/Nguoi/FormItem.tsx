@@ -1,4 +1,4 @@
-import Divider from 'antd/lib/divider';
+import Collapse from 'antd/lib/collapse';
 import Form from 'antd/lib/form/index';
 import Col from 'antd/lib/grid/col';
 import Row from 'antd/lib/grid/row';
@@ -21,201 +21,205 @@ const form = () => {
 	};
 
 	return (
-		<>
-			<Divider children="Thông tin nhân thân" orientation="left" />
-			<Row gutter={[12, 5]}>
-				<Col span={12} sm={6}>
-					<Form.Item name="ho_ten" label="Họ tên" rules={[required]}>
-						<Input placeholder="Nhập họ tên..." />
-					</Form.Item>
-				</Col>
-				<Col span={12} sm={3}>
-					<Form.Item name="ten_khac" label="Tên khác">
-						<Input />
-					</Form.Item>
-				</Col>
-				<Col span={12} sm={3}>
-					<Form.Item name="gioi_tinh" label="Giới tính" rules={[required]}>
-						<Select>
-							<Select.Option value="Nam">Nam</Select.Option>
-							<Select.Option value="Nữ">Nữ</Select.Option>
-						</Select>
-					</Form.Item>
-				</Col>
-				<Col span={12} sm={6} style={{ display: 'flex' }}>
-					<Form.Item name="ngay_sinh" label="Ngày sinh" style={{ flex: 1 }}>
-						<Input placeholder="Ngày" />
-					</Form.Item>
-					<Form.Item name="thang_sinh" label=" " style={{ flex: 1 }}>
-						<Input placeholder="tháng" />
-					</Form.Item>
-					<Form.Item name="nam_sinh" label=" " style={{ flex: 1 }}>
-						<Input placeholder="năm" />
-					</Form.Item>
-				</Col>
-				<Col span={12} sm={6}>
-					<Form.Item name="sdt" label="SĐT">
-						<Input />
-					</Form.Item>
-				</Col>
-			</Row>
-			<Row gutter={[12, 5]}>
-				<Col span={12} sm={6}>
-					<Form.Item name="giay_dinh_danh" label="Giấy định danh">
-						<Select>
-							<Select.Option value="CMND">CMND</Select.Option>
-							<Select.Option value="CCCD">CCCD</Select.Option>
-							<Select.Option value="Hộ chiếu">Hộ chiếu</Select.Option>
-						</Select>
-					</Form.Item>
-				</Col>
-				<Col span={12} sm={6}>
-					<Form.Item name="so_dinh_danh" label="Số định danh">
-						<Input placeholder="Số CMND/CCCD/ĐDCN" />
-					</Form.Item>
-				</Col>
-				<Col span={12} sm={6}>
-					<Form.Item name="noi_cap" label="Nơi cấp">
-						<Input />
-					</Form.Item>
-				</Col>
-				<Col span={12} sm={6}>
-					<Form.Item name="ngay_cap" label="Ngày cấp">
-						<MyDatePicker format="DD/MM/YYYY" />
-					</Form.Item>
-				</Col>
-				<Col span={12} sm={6}>
-					<Form.Item name="quoc_tich" label="Quốc tịch">
-						<Input />
-					</Form.Item>
-				</Col>
-				<Col span={12} sm={3}>
-					<Form.Item name="dan_toc" label="Dân tộc">
-						<Input />
-					</Form.Item>
-				</Col>
-				<Col span={12} sm={3}>
-					<Form.Item name="ton_giao" label="Tôn giáo">
-						<Input />
-					</Form.Item>
-				</Col>
-				<Col span={12} sm={6}>
-					<Form.Item name="nghe_nghiep" label="Nghề nghiệp">
-						<Input />
-					</Form.Item>
-				</Col>
-				<Col span={12} sm={6}>
-					<Form.Item name="noi_lam_viec" label="Nơi làm việc">
-						<Input />
-					</Form.Item>
-				</Col>
-			</Row>
+		<Collapse defaultActiveKey="ttnt">
+			<Collapse.Panel header="Thông tin nhân thân" key="ttnt">
+				<Row gutter={[12, 5]}>
+					<Col span={12} sm={6}>
+						<Form.Item name="ho_ten" label="Họ tên" rules={[required]}>
+							<Input placeholder="Nhập họ tên..." />
+						</Form.Item>
+					</Col>
+					<Col span={12} sm={3}>
+						<Form.Item name="ten_khac" label="Tên khác">
+							<Input />
+						</Form.Item>
+					</Col>
+					<Col span={12} sm={3}>
+						<Form.Item name="gioi_tinh" label="Giới tính" rules={[required]}>
+							<Select>
+								<Select.Option value="Nam">Nam</Select.Option>
+								<Select.Option value="Nữ">Nữ</Select.Option>
+							</Select>
+						</Form.Item>
+					</Col>
+					<Col span={12} sm={6} style={{ display: 'flex' }}>
+						<Form.Item name="ngay_sinh" label="Ngày sinh" style={{ flex: 1 }}>
+							<Input placeholder="Ngày" />
+						</Form.Item>
+						<Form.Item name="thang_sinh" label=" " style={{ flex: 1 }}>
+							<Input placeholder="tháng" />
+						</Form.Item>
+						<Form.Item name="nam_sinh" label=" " style={{ flex: 1 }}>
+							<Input placeholder="năm" />
+						</Form.Item>
+					</Col>
+					<Col span={12} sm={6}>
+						<Form.Item name="sdt" label="SĐT">
+							<Input />
+						</Form.Item>
+					</Col>
+				</Row>
+				<Row gutter={[12, 5]}>
+					<Col span={12} sm={6}>
+						<Form.Item name="giay_dinh_danh" label="Giấy định danh">
+							<Select>
+								<Select.Option value="CMND">CMND</Select.Option>
+								<Select.Option value="CCCD">CCCD</Select.Option>
+								<Select.Option value="Hộ chiếu">Hộ chiếu</Select.Option>
+							</Select>
+						</Form.Item>
+					</Col>
+					<Col span={12} sm={6}>
+						<Form.Item name="so_dinh_danh" label="Số định danh">
+							<Input placeholder="Số CMND/CCCD/ĐDCN" />
+						</Form.Item>
+					</Col>
+					<Col span={12} sm={6}>
+						<Form.Item name="noi_cap" label="Nơi cấp">
+							<Input />
+						</Form.Item>
+					</Col>
+					<Col span={12} sm={6}>
+						<Form.Item name="ngay_cap" label="Ngày cấp">
+							<MyDatePicker format="DD/MM/YYYY" />
+						</Form.Item>
+					</Col>
+					<Col span={12} sm={6}>
+						<Form.Item name="quoc_tich" label="Quốc tịch">
+							<Input />
+						</Form.Item>
+					</Col>
+					<Col span={12} sm={3}>
+						<Form.Item name="dan_toc" label="Dân tộc">
+							<Input />
+						</Form.Item>
+					</Col>
+					<Col span={12} sm={3}>
+						<Form.Item name="ton_giao" label="Tôn giáo">
+							<Input />
+						</Form.Item>
+					</Col>
+					<Col span={12} sm={6}>
+						<Form.Item name="nghe_nghiep" label="Nghề nghiệp">
+							<Input />
+						</Form.Item>
+					</Col>
+					<Col span={12} sm={6}>
+						<Form.Item name="noi_lam_viec" label="Nơi làm việc">
+							<Input />
+						</Form.Item>
+					</Col>
+				</Row>
+			</Collapse.Panel>
 
-			<Divider children="Địa chỉ cư trú" orientation="left" />
-			<Row gutter={[12, 5]}>
-				<Col span={24} sm={12}>
-					<Form.Item name="noi_sinh" label="Nơi sinh">
-						<Input />
-					</Form.Item>
-				</Col>
-				<Col span={24} sm={6}>
-					<Form.Item name="thuong_tru" label="Thường trú">
-						<Input />
-					</Form.Item>
-				</Col>
-				<Col span={24} sm={6}>
-					<Form.Item name="sel_dp_thuong_tru" label="Địa phương thường trú">
-						<MyDebounceSelect
-							placeholder="Chọn địa phương xã/phường..."
-							fetchOptions={fetchUnitList}
-							allowClear
-						/>
-					</Form.Item>
-				</Col>
-				<Col span={24} sm={6}>
-					<Form.Item name="tam_tru" label="Tạm trú">
-						<Input />
-					</Form.Item>
-				</Col>
-				<Col span={24} sm={6}>
-					<Form.Item name="sel_dp_tam_tru" label="Địa phương tạm trú">
-						<MyDebounceSelect
-							placeholder="Chọn địa phương xã/phường..."
-							fetchOptions={fetchUnitList}
-							allowClear
-						/>
-					</Form.Item>
-				</Col>
-				<Col span={24} sm={6}>
-					<Form.Item name="noi_o_hien_nay" label="Nơi ở hiện nay">
-						<Input />
-					</Form.Item>
-				</Col>
-				<Col span={24} sm={6}>
-					<Form.Item name="sel_dp_noi_o_hien_nay" label="Địa phương nơi ở hiện nay">
-						<MyDebounceSelect
-							placeholder="Chọn địa phương xã/phường..."
-							fetchOptions={fetchUnitList}
-							allowClear
-						/>
-					</Form.Item>
-				</Col>
-			</Row>
+			<Collapse.Panel header="Địa chỉ cư trú" key="dcct">
+				<Row gutter={[12, 5]}>
+					<Col span={24} sm={12}>
+						<Form.Item name="noi_sinh" label="Nơi sinh">
+							<Input />
+						</Form.Item>
+					</Col>
+					<Col span={24} sm={6}>
+						<Form.Item name="thuong_tru" label="Thường trú">
+							<Input />
+						</Form.Item>
+					</Col>
+					<Col span={24} sm={6}>
+						<Form.Item name="sel_dp_thuong_tru" label="Địa phương thường trú">
+							<MyDebounceSelect
+								placeholder="Chọn địa phương xã/phường..."
+								fetchOptions={fetchUnitList}
+								allowClear
+							/>
+						</Form.Item>
+					</Col>
+					<Col span={24} sm={6}>
+						<Form.Item name="tam_tru" label="Tạm trú">
+							<Input />
+						</Form.Item>
+					</Col>
+					<Col span={24} sm={6}>
+						<Form.Item name="sel_dp_tam_tru" label="Địa phương tạm trú">
+							<MyDebounceSelect
+								placeholder="Chọn địa phương xã/phường..."
+								fetchOptions={fetchUnitList}
+								allowClear
+							/>
+						</Form.Item>
+					</Col>
+					<Col span={24} sm={6}>
+						<Form.Item name="noi_o_hien_nay" label="Nơi ở hiện nay">
+							<Input />
+						</Form.Item>
+					</Col>
+					<Col span={24} sm={6}>
+						<Form.Item name="sel_dp_noi_o_hien_nay" label="Địa phương nơi ở hiện nay">
+							<MyDebounceSelect
+								placeholder="Chọn địa phương xã/phường..."
+								fetchOptions={fetchUnitList}
+								allowClear
+							/>
+						</Form.Item>
+					</Col>
+				</Row>
+			</Collapse.Panel>
 
-			<Divider children="Gia đình" orientation="left" />
-			<Row gutter={[12, 5]}>
-				<Col span={12} sm={6}>
-					<Form.Item name="ho_ten_bo" label="Họ tên bố">
-						<Input />
-					</Form.Item>
-				</Col>
-				<Col span={12} sm={6}>
-					<Form.Item name="nam_sinh_bo" label="Năm sinh">
-						<Input />
-					</Form.Item>
-				</Col>
-				<Col span={12} sm={6}>
-					<Form.Item name="ho_ten_me" label="Họ tên mẹ">
-						<Input />
-					</Form.Item>
-				</Col>
-				<Col span={12} sm={6}>
-					<Form.Item name="nam_sinh_me" label="Năm sinh">
-						<Input />
-					</Form.Item>
-				</Col>
-			</Row>
-			<Row gutter={[12, 5]}>
-				<Col span={12} sm={6}>
-					<Form.Item name="ho_ten_vo_chong" label="Họ tên vợ/chồng">
-						<Input />
-					</Form.Item>
-				</Col>
-				<Col span={12} sm={6}>
-					<Form.Item name="nam_sinh_vo_chong" label="Năm sinh">
-						<Input />
-					</Form.Item>
-				</Col>
-			</Row>
+			<Collapse.Panel header="Gia đình" key="gd">
+				<Row gutter={[12, 5]}>
+					<Col span={12} sm={6}>
+						<Form.Item name="ho_ten_bo" label="Họ tên bố">
+							<Input />
+						</Form.Item>
+					</Col>
+					<Col span={12} sm={6}>
+						<Form.Item name="nam_sinh_bo" label="Năm sinh">
+							<Input />
+						</Form.Item>
+					</Col>
+					<Col span={12} sm={6}>
+						<Form.Item name="ho_ten_me" label="Họ tên mẹ">
+							<Input />
+						</Form.Item>
+					</Col>
+					<Col span={12} sm={6}>
+						<Form.Item name="nam_sinh_me" label="Năm sinh">
+							<Input />
+						</Form.Item>
+					</Col>
+				</Row>
+				<Row gutter={[12, 5]}>
+					<Col span={12} sm={6}>
+						<Form.Item name="ho_ten_vo_chong" label="Họ tên vợ/chồng">
+							<Input />
+						</Form.Item>
+					</Col>
+					<Col span={12} sm={6}>
+						<Form.Item name="nam_sinh_vo_chong" label="Năm sinh">
+							<Input />
+						</Form.Item>
+					</Col>
+				</Row>
+			</Collapse.Panel>
 
-			<Divider children="Thông tin khác" orientation="left" />
-			<Row gutter={[12, 5]}>
-				<Col span={24} sm={12}>
-					<Form.Item name="sel_dp_thong_bao" label="Địa phương gửi thông báo">
-						<MyDebounceSelect
-							placeholder="Chọn địa phương xã/phường..."
-							fetchOptions={fetchUnitList}
-							allowClear
-						/>
-					</Form.Item>
-				</Col>
-				<Col span={24} sm={12}>
-					<Form.Item name="don_vi_tra_cuu" label="Đơn vị tra cứu">
-						<Input placeholder="Nơi gửi yêu cầu tra cứu" />
-					</Form.Item>
-				</Col>
-			</Row>
-		</>
+			<Collapse.Panel header="Thông tin khác" key="ttk">
+				<Row gutter={[12, 5]}>
+					<Col span={24} sm={12}>
+						<Form.Item name="sel_dp_thong_bao" label="Địa phương gửi thông báo">
+							<MyDebounceSelect
+								placeholder="Chọn địa phương xã/phường..."
+								fetchOptions={fetchUnitList}
+								allowClear
+							/>
+						</Form.Item>
+					</Col>
+					<Col span={24} sm={12}>
+						<Form.Item name="don_vi_tra_cuu" label="Đơn vị tra cứu">
+							<Input placeholder="Nơi gửi yêu cầu tra cứu" />
+						</Form.Item>
+					</Col>
+				</Row>
+			</Collapse.Panel>
+		</Collapse>
 	);
 };
 

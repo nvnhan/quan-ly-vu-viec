@@ -12,20 +12,11 @@ import { fetchCapBac } from '../../../reducers/capBac';
 import { RootState } from '../../../store';
 import { numberCharacter, required } from '../../../utils/rules';
 import { checkName, getSearchDonVi } from '../../../utils/services';
+import { CHUC_VU } from '../../../utils/constant';
 
 const form = () => {
 	const dispatch = useDispatch();
 	const capBac = useSelector((state: RootState) => state.capBac);
-
-	const chucVu = [
-		{ id: 0, value: 'Cán bộ' },
-		{ id: 1, value: 'Đội phó' },
-		{ id: 2, value: 'Tổng hợp đội' },
-		{ id: 3, value: 'Đội trưởng' },
-		{ id: 4, value: 'Giúp việc PTT' },
-		{ id: 5, value: 'Lãnh đạo' },
-		{ id: 9, value: 'Quản trị viên' },
-	];
 
 	useEffect(() => {
 		capBac.status === 'idle' && dispatch(fetchCapBac());
@@ -77,9 +68,9 @@ const form = () => {
 			<Col span={12} sm={6}>
 				<Form.Item name="chuc_vu" label="Chức vụ / Vai trò" rules={[required]}>
 					<Select>
-						{chucVu.map((item) => (
+						{CHUC_VU.map((item) => (
 							<Select.Option value={item.id} key={item.id}>
-								{item.value}
+								{item.label}
 							</Select.Option>
 						))}
 					</Select>

@@ -6,12 +6,11 @@ import Select from 'antd/lib/select';
 import React from 'react';
 import MyDatePicker from '../../../components/Controls/MyDatePicker';
 import MyDebounceSelect, { SelectValue } from '../../../components/Controls/MyDebounceSelect';
+import { PHAN_LOAI_TIN } from '../../../utils/constant';
 import { required } from '../../../utils/rules';
 import { getSearchXaPhuong } from '../../../utils/services';
 
 const form = () => {
-	const phanLoaiTin = ['Tố giác về tội phạm', 'Tin báo về tội phạm', 'Kiến nghị khởi tố', 'CQĐT trực tiếp phát hiện'];
-
 	const fetchUnitList = async (q: string): Promise<SelectValue[]> => {
 		return getSearchXaPhuong({ q, l: 7 }).then((body) =>
 			body?.data?.data.map((item: any) => ({
@@ -49,8 +48,8 @@ const form = () => {
 			<Col span={12} sm={6}>
 				<Form.Item name="phan_loai_tin" label="Phân loại tin">
 					<Select allowClear>
-						{phanLoaiTin.map((pl) => (
-							<Select.Option value={pl} key={pl}>
+						{PHAN_LOAI_TIN.map((pl, index) => (
+							<Select.Option value={pl} key={index}>
 								{pl}
 							</Select.Option>
 						))}
