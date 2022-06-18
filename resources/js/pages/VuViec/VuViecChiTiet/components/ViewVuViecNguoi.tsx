@@ -27,7 +27,7 @@ import ViewTimNguoi from './ViewTimNguoi';
 
 const ViewVuViecNguoi = (props: { vuViec: any }) => {
 	const [form] = Form.useForm();
-	const [formState, setFormSate] = useMergeState({
+	const [state, setState] = useMergeState({
 		data: [],
 		groupData: [],
 		loading: true,
@@ -39,17 +39,19 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 	const { vuViec } = props;
 
 	useEffect(() => {
-		getApi('vu-viec-nguoi?vu_viec=' + vuViec.id).then((response) => {
-			if (response.data.success) {
-				// populate all field of Nguoi into VuViecNguoi
-				const newData = response.data.data.map((item: any) => {
-					item = { ...item.nguoi, ...item };
-					delete item.nguoi;
-					return item;
-				});
-				setFormSate({ data: newData, groupData: convertDataToGroups(newData), loading: false });
-			}
-		});
+		getApi('vu-viec-nguoi?vu_viec=' + vuViec.id)
+			.then((response) => {
+				if (response.data.success) {
+					// populate all field of Nguoi into VuViecNguoi
+					const newData = response.data.data.map((item: any) => {
+						item = { ...item.nguoi, ...item };
+						delete item.nguoi;
+						return item;
+					});
+					setState({ data: newData, groupData: convertDataToGroups(newData), loading: false });
+				}
+			})
+			.catch((error) => console.log(error));
 	}, []);
 
 	const convertDataToGroups = (data: any[]) => {
@@ -167,7 +169,7 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 	};
 
 	const handleEdit = (record: any) => {
-		setFormSate({ view: 'edit', record });
+		setState({ view: 'edit', record });
 		form.setFieldsValue(record);
 	};
 
@@ -184,8 +186,8 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 					.delete(`/api/vu-viec-nguoi/${record.id}`)
 					.then((response) => {
 						if (response.data.success) {
-							const newData = formState.data.filter((item: any) => item.id !== record.id);
-							setFormSate({
+							const newData = state.data.filter((item: any) => item.id !== record.id);
+							setState({
 								data: newData,
 								groupData: convertDataToGroups(newData),
 							});
@@ -198,29 +200,29 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 	};
 
 	const handleInsert = () => {
-		setFormSate({ view: 'insert', record: null });
+		setState({ view: 'insert', record: null });
 		form.setFieldsValue({ quoc_tich: 'Việt Nam', dan_toc: 'Kinh', ton_giao: 'Không' });
 	};
-	const handleCanel = () => setFormSate({ view: 'table', record: null });
+	const handleCanel = () => setState({ view: 'table', record: null });
 
 	/**
 	 * On submit form Insert or Update
 	 * @param values
 	 */
 	const onFinish = (values: any) => {
-		setFormSate({ formSubmitting: true });
-		if (formState.view === 'insert') {
+		setState({ formSubmitting: true });
+		if (state.view === 'insert') {
 			axios
 				.post(
 					`/api/vu-viec-nguoi`,
-					parseValues({ ...values, id_vu_viec: vuViec.id, id_nguoi: formState.recordNguoi?.id })
+					parseValues({ ...values, id_vu_viec: vuViec.id, id_nguoi: state.recordNguoi?.id })
 				)
 				.then((response: any) => {
 					const newData = { ...response.data.data.nguoi, ...response.data.data };
 					delete newData.nguoi;
-					const mergedData = unionDataBy(formState.data, newData, 'id'); // New data is first line
+					const mergedData = unionDataBy(state.data, newData, 'id'); // New data is first line
 
-					setFormSate({
+					setState({
 						view: 'table',
 						record: null,
 						data: mergedData,
@@ -232,13 +234,13 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 				.catch((error) => console.log(error));
 		} else {
 			axios
-				.put(`/api/vu-viec-nguoi/${formState.record.id}`, parseValues(values))
+				.put(`/api/vu-viec-nguoi/${state.record.id}`, parseValues(values))
 				.then((response: any) => {
 					const newData = { ...response.data.data.nguoi, ...response.data.data };
 					delete newData.nguoi;
-					const mergedData = unionDataBy(formState.data, newData, 'id'); // New data is first line
+					const mergedData = unionDataBy(state.data, newData, 'id'); // New data is first line
 
-					setFormSate({
+					setState({
 						view: 'table',
 						record: null,
 						data: mergedData,
@@ -252,13 +254,13 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 	};
 
 	const onSetNguoi = (recordNguoi: any) => {
-		setFormSate({
+		setState({
 			recordNguoi,
 		});
 		form.setFieldsValue(recordNguoi);
 	};
 
-	return formState.view === 'table' ? (
+	return state.view === 'table' ? (
 		<>
 			<div className="tools-button">
 				<Button type="primary" onClick={handleInsert}>
@@ -267,8 +269,8 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 			</div>
 			<Table
 				columns={columns}
-				loading={formState.loading}
-				dataSource={formState.groupData}
+				loading={state.loading}
+				dataSource={state.groupData}
 				rowKey={(row) => row.id}
 				scroll={{ x: 1200 }}
 			/>
@@ -280,7 +282,7 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 					<CloseOutlined />
 					Hủy
 				</Button>
-				{formState.view === 'insert' && formState.recordNguoi === null && (
+				{state.view === 'insert' && state.recordNguoi === null && (
 					<div style={{ marginTop: '10px' }}>
 						<ViewTimNguoi onSetNguoi={onSetNguoi} id_vu_viec={vuViec.id} />
 					</div>
@@ -294,9 +296,9 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 					<Button onClick={handleCanel}>
 						<CloseOutlined /> Hủy
 					</Button>
-					<Button htmlType="submit" type="primary" loading={formState.formSubmitting}>
+					<Button htmlType="submit" type="primary" loading={state.formSubmitting}>
 						<SaveOutlined />
-						{formState.view === 'insert' ? 'Thêm mới' : 'Lưu lại'}
+						{state.view === 'insert' ? 'Thêm mới' : 'Lưu lại'}
 					</Button>
 				</div>
 			</Form>

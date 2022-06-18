@@ -145,7 +145,7 @@ const VuViecChiTiet = () => {
 						</Form>
 					)}
 					{currentTab === 'Tác nhân liên quan' && <ViewVuViecNguoi vuViec={record} />}
-					{currentTab === 'Công việc' && <ViewVuViecCongViec />}
+					{currentTab === 'Công việc' && <ViewVuViecCongViec vuViec={record} />}
 					{currentTab === 'Tài liệu báo cáo' && <ViewVuViecTaiLieu />}
 					{currentTab === 'Công văn' && <ViewVuViecCongVan />}
 				</Spin>

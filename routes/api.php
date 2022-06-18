@@ -5,6 +5,7 @@ use App\Http\Controllers\QuanHuyenController;
 use App\Http\Controllers\ToiDanhController;
 use App\Http\Controllers\CanBoController;
 use App\Http\Controllers\CapBacController;
+use App\Http\Controllers\CongViecController;
 use App\Http\Controllers\CongViecKhoiTaoController;
 use App\Http\Controllers\DonViController;
 use App\Http\Controllers\NguoiController;
@@ -51,6 +52,9 @@ Route::middleware('auth:api')->group(function () {
     // Vu Viec
     Route::resource('vu-viec', VuViecController::class);
     Route::resource('vu-viec-nguoi', VuViecNguoiController::class);
+
+    Route::resource('cong-viec', CongViecController::class);
+    Route::post('cong-viec/khoi-tao', [CongViecController::class, 'them_khoi_tao']);
 
     Route::get('nhom-cong-viec', [NhomCongViecController::class, 'index']);
     Route::get('cap-bac', [CapBacController::class, 'index']);

@@ -44,6 +44,12 @@ const List = () => {
 			title: 'Thời hạn',
 			dataIndex: 'thoi_han',
 			width: 50,
+			render: (text) => {
+				if (!text) return '';
+				let ngay = text?.slice(-2);
+				let thang = text?.slice(-4, -2);
+				return (thang && Number(thang) + ' tháng ') + (ngay && Number(ngay) + ' ngày');
+			},
 		},
 	];
 

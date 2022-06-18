@@ -42,7 +42,27 @@ class CongViec extends Model
         'updated_at' => 'datetime:H:i d/m/Y',
     ];
 
-    protected $appends = ['ten_trang_thai', 'ten_muc_do_uu_tien'];
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'id_vu_viec', 'id_nhom_cong_viec',
+        'ten_cong_viec', 'noi_dung', 'muc_do_uu_tien',
+        'ngay_het_han', 'ket_qua',  'phe_duyet',
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'can_bo_thu_ly', 'nhom_cong_viec',
+    ];
+
+    protected $appends = ['ten_trang_thai', 'ten_muc_do_uu_tien', 'sel_can_bo', 'ten_nhom_cong_viec'];
 
     public function can_bo_thu_ly()
     {
@@ -54,6 +74,16 @@ class CongViec extends Model
         return $this->belongsTo('App\Models\CanBo', 'nguoi_tao');
     }
 
+    public function nhom_cong_viec()
+    {
+        return $this->belongsTo('App\Models\NhomCongViec', 'id_nhom_cong_viec');
+    }
+
+    public function getTenNhomCongViecAttribute()
+    {
+        return $this->nhom_cong_viec->nhom_cong_viec ?? 'Chưa phân loại';
+    }
+
     public function getTenTrangThaiAttribute()
     {
         return self::TEN_TRANG_THAI[$this->trang_thai];
@@ -62,5 +92,17 @@ class CongViec extends Model
     public function getTenMucDoUuTienAttribute()
     {
         return self::TEN_MUC_DO_UU_TIEN[$this->muc_do_uu_tien];
+    }
+
+    public function getSelCanBoAttribute()
+    {
+        $dv = $this->can_bo_thu_ly;
+        if ($dv) {
+            $data = [
+                'value' => $this->id_can_bo,
+                'label' => $dv->ho_ten . ' - ' . $dv->ten_chuc_vu . ' ' . $dv->ten_don_vi
+            ];
+            return (object)$data;
+        } else return null;
     }
 }

@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchNhomCongViec } from '../../../reducers/nhomCongViec';
 import { RootState } from '../../../store';
 import { required } from '../../../utils/rules';
+import InputNumber from 'antd/lib/input-number';
+import { inputNgayThangFormat, inputParse } from '../../../utils';
 
 const form = () => {
 	const dispatch = useDispatch();
@@ -44,8 +46,12 @@ const form = () => {
 				</Form.Item>
 			</Col>
 			<Col span={24} sm={12}>
-				<Form.Item name="thoi_han" label="Thời hạn">
-					<Input />
+				<Form.Item
+					name="thoi_han"
+					label="Thời hạn"
+					tooltip="Ví dụ: nhập 210 hay 2 _ 10 tương đương với 2 tháng 10 ngày"
+				>
+					<InputNumber style={{ width: '100%' }} formatter={inputNgayThangFormat} parser={inputParse} />
 				</Form.Item>
 			</Col>
 		</Row>
