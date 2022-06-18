@@ -1,5 +1,6 @@
 import DeleteOutlined from '@ant-design/icons/DeleteOutlined';
 import EditOutlined from '@ant-design/icons/EditOutlined';
+import ExclamationCircleOutlined from '@ant-design/icons/ExclamationCircleOutlined';
 import MenuOutlined from '@ant-design/icons/MenuOutlined';
 import SearchOutlined from '@ant-design/icons/SearchOutlined';
 import Button from 'antd/lib/button/index';
@@ -7,14 +8,15 @@ import Dropdown from 'antd/lib/dropdown/index';
 import Input from 'antd/lib/input/index';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
 import Menu from 'antd/lib/menu/index';
+import Modal from 'antd/lib/modal';
 import Table from 'antd/lib/table/index';
 import isEmpty from 'lodash/isEmpty';
+import type { ColumnType } from 'rc-table/lib/interface';
 import React, { useEffect, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 import { useSelector } from 'react-redux';
 import { ListFormProps } from '.';
 import { RootState } from '../../store';
-import type { ColumnType } from 'rc-table/lib/interface';
 
 export interface ColumnProps extends ColumnType<any> {
 	title: string;
@@ -43,7 +45,7 @@ interface DataTableProps extends ListFormProps {
 	data: any[];
 	isLoading: boolean;
 	pagination: { [index: string]: any };
-	handleDelete: (props: any) => void;
+	onDelete: (props: any) => void;
 	handleEdit: (props: any) => void;
 	onChangeSelect: (props: any) => void;
 	onChange: (pagination: any, filter: any, sort: any) => void;
@@ -59,7 +61,7 @@ const DataTable = (props: DataTableProps) => {
 		editable,
 		deleteable,
 		tableSize,
-		handleDelete,
+		onDelete,
 		handleEdit,
 		onChangeSelect,
 		onChange,
@@ -184,8 +186,17 @@ const DataTable = (props: DataTableProps) => {
 		deleteable &&
 			items.push({
 				key: 'delete',
-				onClick: () => handleDelete(record),
-				className: 'color-danger',
+				onClick: () => {
+					Modal.confirm({
+						title: 'Đồng chí có chắc chắn xóa thông tin này?',
+						icon: <ExclamationCircleOutlined />,
+						content: 'Lưu ý: Thao tác không thể hoàn lại',
+						okText: 'Xóa',
+						okType: 'danger',
+						cancelText: 'Hủy',
+						onOk: () => onDelete(record),
+					});
+				},
 				danger: true,
 				label: (
 					<>

@@ -10,7 +10,6 @@ import DataTable, { ColumnProps, OtherActionProps } from './DataTable';
 import FilterBox, { FilterProps } from './FilterBox';
 import ModalConfirm from './ModalConfirm';
 import ToolsButton, { ToolsButtonProps } from './ToolsButton';
-
 const { confirm } = Modal;
 
 /**
@@ -33,11 +32,10 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 			showTotal: (total: number, range: number[]) => `Hiển thị ${range[0]}-${range[1]} / ${total} mục`,
 		},
 		modalVisible: false,
-		modalDeleteVisible: false,
 		selectedRowKeys: [],
 		currentRecord: undefined,
 	});
-	const { data, isLoading, modalVisible, modalDeleteVisible, selectedRowKeys, currentRecord, pagination } = state;
+	const { data, isLoading, modalVisible, selectedRowKeys, currentRecord, pagination } = state;
 	// Filter của filter-box
 	const [ownFilter, setOwnFilter] = useState(filter);
 
@@ -85,7 +83,6 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 	const handleCancelModal = () =>
 		setState({
 			modalVisible: false,
-			modalDeleteVisible: false,
 			currentRecord: undefined,
 		});
 	/**
@@ -108,12 +105,6 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 	 */
 	const handleFilterBox = (newFilter: object) =>
 		isChangeData(newFilter, ownFilter) && setOwnFilter({ ...ownFilter, ...newFilter });
-
-	const handleDelete = (record: any) =>
-		setState({
-			modalDeleteVisible: true,
-			currentRecord: record,
-		});
 
 	//#endregion
 
@@ -202,19 +193,17 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 			.catch((error) => console.log(error));
 	};
 
-	const onDelete = () => {
-		currentRecord !== undefined &&
+	const onDelete = (record: any) => {
+		record !== undefined &&
 			axios
-				.delete(`/api/${url}/${currentRecord[primaryKey as string]}`)
+				.delete(`/api/${url}/${record[primaryKey as string]}`)
 				.then((response) => {
 					if (response.data.success) {
 						const newData = data.filter(
-							(item: { [index: string]: any }) =>
-								item[primaryKey as string] !== currentRecord[primaryKey as string]
+							(item: any) => item[primaryKey as string] !== record[primaryKey as string]
 						);
 						setState({
 							data: newData,
-							modalDeleteVisible: false,
 							currentRecord: undefined,
 						});
 						message.info(response.data.message);
@@ -249,7 +238,7 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 
 	const onMultiDelete = () => {
 		confirm({
-			title: 'Bạn muốn xóa những mục này?',
+			title: 'Đồng chí muốn xóa những thông tin này?',
 			icon: <ExclamationCircleOutlined />,
 			content: 'Tất cả ' + selectedRowKeys.length + ' mục',
 			okText: 'Đồng ý',
@@ -279,7 +268,7 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 				selectedRowKeys={selectedRowKeys}
 				onChangeSelect={onChangeSelect}
 				handleEdit={handleEdit}
-				handleDelete={handleDelete}
+				onDelete={onDelete}
 			/>
 			{props.formTemplate !== undefined && (
 				<ModalConfirm
@@ -291,17 +280,6 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 					handleCancel={handleCancelModal}
 				/>
 			)}
-			<Modal
-				visible={modalDeleteVisible}
-				onOk={onDelete}
-				onCancel={handleCancelModal}
-				title="Bạn muốn xóa mục này?"
-				okText="Xóa"
-				cancelText="Hủy"
-				okType="danger"
-			>
-				<p>Lưu ý: Thao tác không thể hoàn tác</p>
-			</Modal>
 		</div>
 	);
 });

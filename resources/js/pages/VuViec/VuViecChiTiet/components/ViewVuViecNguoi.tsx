@@ -4,23 +4,25 @@ import EditOutlined from '@ant-design/icons/EditOutlined';
 import MenuOutlined from '@ant-design/icons/MenuOutlined';
 import PlusCircleFilled from '@ant-design/icons/PlusCircleFilled';
 import SaveOutlined from '@ant-design/icons/SaveOutlined';
-import message from 'antd/lib/message';
+import ExclamationCircleOutlined from '@ant-design/icons/ExclamationCircleOutlined';
 import Button from 'antd/lib/button';
 import Dropdown from 'antd/lib/dropdown';
 import Form from 'antd/lib/form/index';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
 import Menu from 'antd/lib/menu/index';
+import message from 'antd/lib/message';
+import Modal from 'antd/lib/modal';
 import Table from 'antd/lib/table';
 import Typography from 'antd/lib/typography';
 import axios from 'axios';
+import { groupBy } from 'lodash';
 import React, { useEffect } from 'react';
 import { ColumnProps } from '../../../../components/ListForm/DataTable';
 import { parseValues, unionDataBy, useMergeState } from '../../../../utils';
+import { TU_CACH_TO_TUNG } from '../../../../utils/constant';
 import { getApi } from '../../../../utils/services';
 import FormChiTietNguoi from '../../../ThongTin/Nguoi/FormItem';
 import FormVuViecNguoi from './FormVuViecNguoi';
-import { groupBy } from 'lodash';
-import { TU_CACH_TO_TUNG } from '../../../../utils/constant';
 
 const ViewVuViecNguoi = (props: { vuViec: any }) => {
 	const [form] = Form.useForm();
@@ -167,7 +169,30 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 		form.setFieldsValue(record);
 	};
 
-	const handleDelete = (record: any) => {};
+	const handleDelete = (record: any) => {
+		Modal.confirm({
+			title: 'Đồng chí có chắc chắn xóa thông tin Người - Vụ việc này?',
+			icon: <ExclamationCircleOutlined />,
+			content: 'Lưu ý: Thông tin về người liên quan sẽ vẫn được lưu trữ để phục vụ tra cứu',
+			okText: 'Xóa',
+			okType: 'danger',
+			cancelText: 'Hủy',
+			onOk: () => {
+				axios
+					.delete(`/api/vu-viec-nguoi/${record.id}`)
+					.then((response) => {
+						if (response.data.success) {
+							const newData = formState.data.filter((item: any) => item.id !== record.id);
+							setFormSate({
+								data: convertDataToGroups(newData),
+							});
+							message.info(response.data.message);
+						}
+					})
+					.catch((error) => console.log(error));
+			},
+		});
+	};
 
 	const handleInsert = () => {
 		setFormSate({ view: 'insert', record: null });
