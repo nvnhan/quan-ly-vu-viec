@@ -45,6 +45,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('tim-xa-phuong', [DonViController::class, 'get_xa_phuong']);
     Route::get('tim-don-vi', [DonViController::class, 'get_don_vi']);
     Route::get('tim-can-bo', [CanBoController::class, 'get_can_bo']);
+    Route::get('tim-nguoi', [NguoiController::class, 'get_nguoi']);
+    Route::resource('nguoi', NguoiController::class)->only(['show']);
 
     // Vu Viec
     Route::resource('vu-viec', VuViecController::class);
@@ -59,7 +61,7 @@ Route::middleware('auth:api')->group(function () {
         Route::put('reset/{id}', [CanBoController::class, 'reset']);
         Route::get('can-bo/check/{name}', [CanBoController::class, 'check']);
 
-        Route::resource('nguoi', NguoiController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
+        Route::resource('nguoi', NguoiController::class)->only(['index', 'store', 'update', 'destroy']);
 
         Route::resource('don-vi', DonViController::class)->only(['index', 'store', 'update', 'destroy']);
         Route::resource('nhom-cong-viec', NhomCongViecController::class)->only(['store', 'update', 'destroy']);

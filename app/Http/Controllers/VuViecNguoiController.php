@@ -35,6 +35,10 @@ class VuViecNguoiController extends BaseController
         $nguoi = new Nguoi();
         if ($request->id_nguoi)
             $nguoi = Nguoi::find($request->id_nguoi);
+        else if ($request->so_dinh_danh) {
+            $nguoi = Nguoi::where('so_dinh_danh', $request->so_dinh_danh)->first();
+            if (!$nguoi) $nguoi = new Nguoi();
+        }
         $nguoi->fill($data);
         NguoiController::setNguoiFields($nguoi, $request);
         $nguoi->save();

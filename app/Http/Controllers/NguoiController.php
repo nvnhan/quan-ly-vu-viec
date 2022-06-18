@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Nguoi;
+use App\Models\VuViecNguoi;
 use Illuminate\Http\Request;
 
 class NguoiController extends BaseController
@@ -37,6 +38,23 @@ class NguoiController extends BaseController
         $objs = $query->get();
 
         return $this->sendResponse($objs, "Nguoi retrieved successfully", $total);
+    }
+
+    public function get_nguoi(Request $request)
+    {
+        if ($request->q) {
+            $id_nguoi = VuViecNguoi::where('id_vu_viec', $request->vv)->pluck('id_nguoi');
+            $q = $request->q;
+            $query = Nguoi::whereNotIn('id', $id_nguoi)
+                ->where(fn ($qu) => $qu->where('ho_ten', 'LIKE', "%$q%")
+                    ->orWhere('so_dinh_danh', 'LIKE', "%$q%"));
+
+            if ($request->l)
+                $query = $query->limit($request->l);
+            $objs = $query->select('id', 'ho_ten', 'ngay_sinh', 'thang_sinh', 'nam_sinh', 'so_dinh_danh', 'thuong_tru', 'id_dp_thuong_tru')->get();
+            return $this->sendResponse($objs, 'Nguoi retrieved successfully', count($objs));
+        }
+        return $this->sendError('Error');
     }
 
     public static function setNguoiFields(&$nguoi, Request $request)

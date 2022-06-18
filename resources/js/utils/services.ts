@@ -64,6 +64,11 @@ export const getSearchCanBo = async (payload: any) => {
 	return axios.get(`/api/tim-can-bo?q=${q}&l=${l}`);
 };
 
+export const getSearchNguoi = async (payload: any) => {
+	const { q, l, vv } = payload;
+	return axios.get(`/api/tim-nguoi?q=${q}&l=${l}&vv=${vv}`);
+};
+
 export const getFile = async (url: string, params: object) => {
 	return axios.get(url, {
 		params,

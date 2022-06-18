@@ -1,10 +1,10 @@
 import CloseOutlined from '@ant-design/icons/CloseOutlined';
 import DeleteOutlined from '@ant-design/icons/DeleteOutlined';
 import EditOutlined from '@ant-design/icons/EditOutlined';
+import ExclamationCircleOutlined from '@ant-design/icons/ExclamationCircleOutlined';
 import MenuOutlined from '@ant-design/icons/MenuOutlined';
 import PlusCircleFilled from '@ant-design/icons/PlusCircleFilled';
 import SaveOutlined from '@ant-design/icons/SaveOutlined';
-import ExclamationCircleOutlined from '@ant-design/icons/ExclamationCircleOutlined';
 import Button from 'antd/lib/button';
 import Dropdown from 'antd/lib/dropdown';
 import Form from 'antd/lib/form/index';
@@ -23,11 +23,13 @@ import { TU_CACH_TO_TUNG } from '../../../../utils/constant';
 import { getApi } from '../../../../utils/services';
 import FormChiTietNguoi from '../../../ThongTin/Nguoi/FormItem';
 import FormVuViecNguoi from './FormVuViecNguoi';
+import ViewTimNguoi from './ViewTimNguoi';
 
 const ViewVuViecNguoi = (props: { vuViec: any }) => {
 	const [form] = Form.useForm();
 	const [formState, setFormSate] = useMergeState({
 		data: [],
+		groupData: [],
 		loading: true,
 		view: 'table',
 		record: null,
@@ -45,7 +47,7 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 					delete item.nguoi;
 					return item;
 				});
-				setFormSate({ data: convertDataToGroups(newData), loading: false });
+				setFormSate({ data: newData, groupData: convertDataToGroups(newData), loading: false });
 			}
 		});
 	}, []);
@@ -184,7 +186,8 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 						if (response.data.success) {
 							const newData = formState.data.filter((item: any) => item.id !== record.id);
 							setFormSate({
-								data: convertDataToGroups(newData),
+								data: newData,
+								groupData: convertDataToGroups(newData),
 							});
 							message.info(response.data.message);
 						}
@@ -220,7 +223,8 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 					setFormSate({
 						view: 'table',
 						record: null,
-						data: convertDataToGroups(mergedData),
+						data: mergedData,
+						groupData: convertDataToGroups(mergedData),
 						formSubmitting: false,
 					});
 					message.success(response.data.message);
@@ -237,13 +241,21 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 					setFormSate({
 						view: 'table',
 						record: null,
-						data: convertDataToGroups(mergedData),
+						data: mergedData,
+						groupData: convertDataToGroups(mergedData),
 						formSubmitting: false,
 					});
 					message.success(response.data.message);
 				})
 				.catch((error) => console.log(error));
 		}
+	};
+
+	const onSetNguoi = (recordNguoi: any) => {
+		setFormSate({
+			recordNguoi,
+		});
+		form.setFieldsValue(recordNguoi);
 	};
 
 	return formState.view === 'table' ? (
@@ -256,18 +268,23 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 			<Table
 				columns={columns}
 				loading={formState.loading}
-				dataSource={formState.data}
+				dataSource={formState.groupData}
 				rowKey={(row) => row.id}
 				scroll={{ x: 1200 }}
 			/>
 		</>
 	) : (
 		<>
-			<div className="tools-button">
+			<div style={{ padding: '10px' }}>
 				<Button onClick={handleCanel}>
 					<CloseOutlined />
 					Hủy
 				</Button>
+				{formState.view === 'insert' && formState.recordNguoi === null && (
+					<div style={{ marginTop: '10px' }}>
+						<ViewTimNguoi onSetNguoi={onSetNguoi} id_vu_viec={vuViec.id} />
+					</div>
+				)}
 			</div>
 			<Form form={form} layout="vertical" onFinish={onFinish}>
 				<FormChiTietNguoi />

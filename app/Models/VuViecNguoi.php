@@ -15,13 +15,13 @@ class VuViecNguoi extends Model
      * @var array
      */
     protected $casts = [
-        'ngay_xay_ra' => 'datetime:d/m/Y',
+        'ngay_xay_ra_bc' => 'datetime:H:i d/m/Y',
         'ngay_bat' => 'datetime:d/m/Y',
         'ngay_tam_giu' => 'datetime:d/m/Y',
         'ngay_tam_giam' => 'datetime:d/m/Y',
         'ngay_gia_han_tam_giam_1' => 'datetime:d/m/Y',
         'ngay_gia_han_tam_giam_2' => 'datetime:d/m/Y',
-        'ngay_khoi_to' => 'datetime:d/m/Y',
+        'ngay_khoi_to_bc' => 'datetime:d/m/Y',
         'created_at' => 'datetime:d/m/Y',
         'updated_at' => 'datetime:H:i d/m/Y',
     ];

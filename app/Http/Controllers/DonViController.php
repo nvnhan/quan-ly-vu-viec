@@ -22,28 +22,33 @@ class DonViController extends BaseController
     public function get_xa_phuong(Request $request)
     {
         $q = $request->q;
-        $query = DonVi::where('ten_don_vi', 'LIKE', "%$q%")->whereIn('loai_don_vi', ['Xã', 'Phường', 'Thị trấn']);
-        if ($request->l)
-            $query = $query->limit($request->l);
-        $objs = $query->get();
-        return $this->sendResponse($objs, 'XaPhuong retrieved successfully', count($objs));
+        if ($q) {
+            $query = DonVi::where('ten_don_vi', 'LIKE', "%$q%")->whereIn('loai_don_vi', ['Xã', 'Phường', 'Thị trấn']);
+            if ($request->l)
+                $query = $query->limit($request->l);
+            $objs = $query->get();
+            return $this->sendResponse($objs, 'XaPhuong retrieved successfully', count($objs));
+        } else return $this->sendError("Error");
     }
 
     public function get_don_vi(Request $request)
     {
         $q = $request->q;
-        $qh_su_dung = env('QUAN_HUYEN_SU_DUNG');
-        $query = DonVi::where('ten_don_vi', 'LIKE', "%$q%")
-            ->where('dia_phuong', $qh_su_dung);
+        if ($q) {
+            $qh_su_dung = env('QUAN_HUYEN_SU_DUNG');
+            $query = DonVi::where('ten_don_vi', 'LIKE', "%$q%")
+                ->where('dia_phuong', $qh_su_dung);
 
-        // Xã, phường, thị trấn, đội trực thuộc Quận/huyện
-        if ($request->type)
-            $query = $query->whereNull('id_don_vi_cha');
+            // Xã, phường, thị trấn, đội trực thuộc Quận/huyện
+            if ($request->type)
+                $query = $query->whereNull('id_don_vi_cha');
 
-        if ($request->l)
-            $query = $query->limit($request->l);
-        $objs = $query->get();
-        return $this->sendResponse($objs, 'XaPhuong retrieved successfully', count($objs));
+            if ($request->l)
+                $query = $query->limit($request->l);
+            $objs = $query->get();
+            return $this->sendResponse($objs, 'XaPhuong retrieved successfully', count($objs));
+        } else
+            return $this->sendError('Error');
     }
 
     public function setDonViFields(&$donVi, Request $request)
