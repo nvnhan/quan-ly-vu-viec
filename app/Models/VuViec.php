@@ -112,13 +112,19 @@ class VuViec extends Model
         return $this->can_bo->ho_ten . ' - ' . $this->can_bo->ten_chuc_vu . ' ' . $this->can_bo->ten_don_vi;
     }
 
+    public function getTenDpXayRaAttribute()
+    {
+        $dv = $this->dp_xay_ra;
+        return ($dv->ten_don_vi ?? '') . ' - ' . ($dv->ten_dia_phuong ?? '');
+    }
+
     public function getSelDpXayRaAttribute()
     {
         $dv = $this->dp_xay_ra;
         if ($dv) {
             $data = [
                 'value' => $this->id_dp_xay_ra,
-                'label' => ($dv->ten_don_vi ?? '') . ' - ' . ($dv->ten_dia_phuong ?? '')
+                'label' => $this->ten_dp_xay_ra,
             ];
             return (object)$data;
         } else return null;

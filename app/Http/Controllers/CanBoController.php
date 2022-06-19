@@ -36,6 +36,12 @@ class CanBoController extends BaseController
         return $this->sendResponse($objs, 'CanBo retrieved successfully', count($objs));
     }
 
+    public function get_lanh_dao(Request $request)
+    {
+        $objs = CanBo::where('chuc_vu', 5)->get();
+        return $this->sendResponse($objs, 'LanhDao retrieved successfully', count($objs));
+    }
+
     public function setCanBoFields(&$canBo, Request $request)
     {
         $canBo->id_don_vi = $request->sel_don_vi['value'];

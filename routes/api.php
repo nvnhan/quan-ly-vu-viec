@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BaoCaoController;
 use App\Http\Controllers\QuanHuyenController;
 use App\Http\Controllers\ToiDanhController;
 use App\Http\Controllers\CanBoController;
@@ -56,8 +57,11 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('cong-viec', CongViecController::class);
     Route::post('cong-viec/khoi-tao', [CongViecController::class, 'them_khoi_tao']);
 
+    Route::get('lanh-dao', [CanBoController::class, 'get_lanh_dao']);
     Route::get('nhom-cong-viec', [NhomCongViecController::class, 'index']);
     Route::get('cap-bac', [CapBacController::class, 'index']);
+
+    Route::get('bao-cao', [BaoCaoController::class, 'index']);
 
     // Add middleware checkadmin
     Route::middleware('checkadmin')->group(function () {

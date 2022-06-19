@@ -47,12 +47,19 @@ class Report
         $writer->save('php://output');
     }
 
-    public static function test()
+    public static function docx_report($type, $data)
     {
-        $file = storage_path('app\\reports') . "\\test.docx";
+
+        $file = storage_path('app\\reports') . '\\' . str_replace('.', '\\', $type) . ".docx";
         $templateProcessor = new TemplateProcessor($file);
-        $templateProcessor->setValue('name', 'Ngô Nhận');
-        \Log::debug($file);
-        $templateProcessor->saveAs('D:\aa.docx');
+        $templateProcessor->setValues($data);
+
+        //set the header first, so the result will be treated as an xlsx file.
+        header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        //make it an attachment so we can define filename
+        header('Content-Disposition: attachment;filename="result.docx"');
+
+        // Write file to output
+        $templateProcessor->saveAs('php://output');
     }
 }
