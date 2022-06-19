@@ -3,6 +3,7 @@ import message from 'antd/lib/message/index';
 import { getLogout } from '../utils/services';
 
 const initialState: Model.User = {
+	id: -1,
 	ten_dang_nhap: '',
 	ho_ten: '',
 	admin: false,

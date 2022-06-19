@@ -151,3 +151,48 @@
 		}
 	}
 }
+
+.cong-viec-container {
+	.ant-divider-inner-text {
+		font-weight: 700;
+	}
+
+	.ant-collapse-header {
+		align-items: center !important;
+
+		.title-cong-viec {
+			font-weight: 600;
+			display: block;
+
+			.ant-tag {
+				margin-left: 5px;
+			}
+		}
+
+		.sub-cong-viec {
+			margin-left: 15px;
+			margin-top: 10px;
+			font-size: 12px;
+		}
+
+		.ant-collapse-extra {
+			text-align: right;
+
+			.extra-can-bo {
+				font-size: 12px;
+				margin-bottom: 5px;
+
+				.anticon {
+					background-color: #e9e8e8;
+					border-radius: 50%;
+					padding: 5px;
+				}
+			}
+		}
+	}
+
+	.ant-collapse-content-box {
+		background-color: #fff;
+		padding: 16px !important;
+	}
+}

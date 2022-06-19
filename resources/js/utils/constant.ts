@@ -46,20 +46,20 @@ export const KET_QUA_AN = [
 ];
 
 export const TEN_MUC_DO_UU_TIEN = [
-	{ id: 0, label: 'Thấp' },
-	{ id: 1, label: 'Bình thường' },
-	{ id: 2, label: 'Cao' },
-	{ id: 3, label: 'Khẩn' },
+	{ id: 0, label: 'Thấp', color: '#87d068' },
+	{ id: 1, label: 'Thường', color: '#108ee9' },
+	{ id: 2, label: 'Cao', color: '#fb3' },
+	{ id: 3, label: 'Khẩn', color: '#f50' },
 ];
 
 export const TEN_TRANG_THAI_CONG_VIEC = [
-	{ id: -1, label: 'Hủy' },
-	{ id: 0, label: 'Mới tạo' },
-	{ id: 1, label: 'Mới giao' },
-	{ id: 2, label: 'Đã tiếp nhận' },
-	{ id: 3, label: 'Đang thực hiện' },
-	{ id: 4, label: 'Đã thực hiện' },
-	{ id: 5, label: 'Chưa đạt' },
-	{ id: 6, label: 'Xác nhận' },
-	{ id: 7, label: 'Hoàn thành' },
+	{ id: 0, label: 'Mới tạo', color: 'gold' },
+	{ id: 1, label: 'Mới giao', color: 'cyan' },
+	{ id: 2, label: 'Đã tiếp nhận', color: 'purple' },
+	{ id: 3, label: 'Đang thực hiện', color: 'geekblue' },
+	{ id: 4, label: 'Đã thực hiện', color: 'blue' },
+	{ id: 5, label: 'Chưa đạt', color: 'red' },
+	{ id: 6, label: 'Xác nhận', color: 'cyan' },
+	{ id: 7, label: 'Hoàn thành', color: 'green' },
+	{ id: -1, label: 'Hủy', color: 'default' },
 ];

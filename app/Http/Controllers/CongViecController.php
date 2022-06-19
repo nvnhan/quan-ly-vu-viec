@@ -18,8 +18,13 @@ class CongViecController extends BaseController
     public function index(Request $request)
     {
         if ($request->vu_viec) {
-            $objs = CongViec::where('id_vu_viec', $request->vu_viec)->get();
-            return $this->sendResponse($objs, 'CongViec retrieved successfully');
+            $query = CongViec::where('id_vu_viec', $request->vu_viec);
+            if ($request->trang_thai)
+                $query = $query->where('trang_thai', $request->trang_thai);
+            if ($request->uu_tien)
+                $query = $query->where('muc_do_uu_tien', $request->uu_tien);
+
+            return $this->sendResponse($query->get(), 'CongViec retrieved successfully');
         } else
             return $this->sendError('You are not allowed to access this data', [], 403);
     }
@@ -65,12 +70,17 @@ class CongViecController extends BaseController
                     $cv = new CongViec();
                     $cv->id_vu_viec = $vu_viec;
                     $cv->nguoi_tao = $request->user()->id;
-
                     $cv->id_nhom_cong_viec = $value->id_nhom_cong_viec;
                     $cv->ten_cong_viec = $value->ten_cong_viec;
-                    $ngay = substr($value->thoi_han, -2, 2);
-                    $thang = substr($value->thoi_han, -4, 2);
-                    $cv->ngay_het_han = date('Y-m-d H:i:s', strtotime(now() . " +$thang months +$ngay days"));
+
+                    if ($value->thoi_han != '') {
+                        $ngay = substr($value->thoi_han, -2, 2);
+                        $thang = substr($value->thoi_han, -4, -2);
+                        $s = "+$thang months $ngay days";
+                        if (empty($thang))
+                            $s = "+$ngay days";
+                        $cv->ngay_het_han = date('Y-m-d H:i:s', strtotime($s));
+                    }
 
                     $cv->save();
                 }

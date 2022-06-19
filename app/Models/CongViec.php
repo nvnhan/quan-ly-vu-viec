@@ -59,10 +59,10 @@ class CongViec extends Model
      * @var array
      */
     protected $hidden = [
-        'can_bo_thu_ly', 'nhom_cong_viec',
+        'can_bo_thu_ly', 'nhom_cong_viec', 'can_bo_tao'
     ];
 
-    protected $appends = ['ten_trang_thai', 'ten_muc_do_uu_tien', 'sel_can_bo', 'ten_nhom_cong_viec'];
+    protected $appends = ['ten_nguoi_tao', 'ten_can_bo_thu_ly', 'sel_can_bo', 'ten_nhom_cong_viec'];
 
     public function can_bo_thu_ly()
     {
@@ -104,5 +104,17 @@ class CongViec extends Model
             ];
             return (object)$data;
         } else return null;
+    }
+
+    public function getTenNguoiTaoAttribute()
+    {
+        return $this->can_bo_tao->ho_ten . ' (' . $this->can_bo_tao->ten_dang_nhap . ')';
+    }
+
+    public function getTenCanBoThuLyAttribute()
+    {
+        $dv = $this->can_bo_thu_ly;
+        if ($dv) return $dv->ho_ten . ' (' . $dv->ten_dang_nhap . ')';
+        else return null;
     }
 }

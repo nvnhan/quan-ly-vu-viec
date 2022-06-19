@@ -72,7 +72,7 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 		{
 			title: 'TT',
 			dataIndex: 'id',
-			width: 40,
+			width: 60,
 			render: (text, record, index) => index !== undefined && <b>{index + 1}</b>,
 			align: 'center',
 		},

@@ -1,5 +1,6 @@
 declare module Model {
 	export interface User {
+		readonly id: number;
 		readonly ten_dang_nhap: string;
 		ho_ten: string;
 		admin: boolean;
