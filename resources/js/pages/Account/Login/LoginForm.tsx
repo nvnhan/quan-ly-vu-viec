@@ -32,16 +32,6 @@ const LoginForm = ({ onSetAuth, onRegister }: ComponentProps) => {
 					localStorage.setItem('id', data.id);
 					message.success(response.data.message);
 
-					// Setup default config for axios
-					axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.token;
-					// Add a response interceptor
-					axios.interceptors.response.use(undefined, (error) => {
-						if (error.response.status === 401) {
-							message.warn('Thất bại. Vui lòng đăng nhập lại!');
-							// this.props.onLogout();
-						}
-						return Promise.reject(error);
-					});
 					onSetAuth(data);
 				} else {
 					message.warn(response.data.message);

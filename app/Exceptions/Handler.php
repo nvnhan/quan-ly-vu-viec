@@ -49,6 +49,6 @@ class Handler extends ExceptionHandler
      */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
-        return response()->json(['error' => 'You dont have permission'], 1);
+        return response()->json(['error' => 'You dont have permission'], 401);
     }
 }

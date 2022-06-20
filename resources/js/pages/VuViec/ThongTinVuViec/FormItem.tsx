@@ -32,11 +32,6 @@ const form = () => {
 					<MyDatePicker format="DD/MM/YYYY" />
 				</Form.Item>
 			</Col>
-			<Col span={24} sm={12}>
-				<Form.Item name="ten_vu_viec" label="Tên vụ việc" rules={[required]}>
-					<Input placeholder="Thời gian, địa điểm xảy ra, người liên quan, mô tả ngắn gọn..." />
-				</Form.Item>
-			</Col>
 			<Col span={12} sm={6}>
 				<Form.Item name="loai_vu_viec" label="Loại vụ việc" rules={[required]}>
 					<Select>
@@ -56,6 +51,11 @@ const form = () => {
 					</Select>
 				</Form.Item>
 			</Col>
+			<Col span={24} sm={12}>
+				<Form.Item name="noi_dung_tom_tat" label="Nội dung tóm tắt" rules={[required]}>
+					<Input />
+				</Form.Item>
+			</Col>
 
 			<Col span={12} sm={6}>
 				<Form.Item name="thoi_diem_xay_ra" label="Thời điểm xảy ra">
@@ -70,15 +70,11 @@ const form = () => {
 			<Col span={24} sm={12}>
 				<Form.Item name="sel_dp_xay_ra" label="Địa phương xảy ra">
 					<MyDebounceSelect
+						mode="multiple"
 						placeholder="Chọn địa phương xã/phường..."
 						fetchOptions={fetchUnitList}
 						allowClear
 					/>
-				</Form.Item>
-			</Col>
-			<Col span={24} sm={12}>
-				<Form.Item name="noi_dung_tom_tat" label="Nội dung tóm tắt">
-					<Input.TextArea />
 				</Form.Item>
 			</Col>
 		</Row>

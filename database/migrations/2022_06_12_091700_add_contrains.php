@@ -28,7 +28,7 @@ class AddContrains extends Migration
         });
 
         Schema::table('vu_viecs', function (Blueprint $table) {
-            $table->foreign('id_dp_xay_ra')->references('id')->on('don_vis')->onDelete('set null');
+            // $table->foreign('id_dp_xay_ra')->references('id')->on('don_vis')->onDelete('set null');
             $table->foreign('ma_toi_danh')->references('ma_toi_danh')->on('toi_danhs');
             $table->foreign('id_dtv_chinh')->references('id')->on('can_bos')->onDelete('set null');
             $table->foreign('id_can_bo_chinh')->references('id')->on('can_bos')->onDelete('set null');

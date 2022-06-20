@@ -23,39 +23,21 @@ const MainContainer = () => {
 	const isAuthenticate = () => authUser.ten_dang_nhap !== '';
 
 	useEffect(() => {
-		// Get token from localStorage
-		let token = localStorage.token;
-		if (token !== undefined) {
-			// Setup default config for axios
-			axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-			// Check it in server
-			getUser()
-				.then((response) => {
-					if (response.data.success) {
-						// Add a response interceptor
-						axios.interceptors.response.use(undefined, (error) => {
-							if (error.response.status === 401) {
-								// Unauthorized
-								message.warn('Phiên đăng nhập đã kết thúc. Vui lòng đăng nhập lại');
-								setTimeout(doLogout, 2000);
-							}
-							return Promise.reject(error);
-						});
-						dispatch(setAuth(response.data.data));
-					} else {
-						localStorage.removeItem('token');
-						message.warn(response.data.message);
-					}
-				})
-				.catch((error) => {
-					if (error.response.status === 401) {
-						// Unauthorized
-						message.warn('Phiên đăng nhập đã kết thúc. Vui lòng đăng nhập lại');
-						setTimeout(doLogout, 2000);
-					} else console.log(error);
-				})
-				.then(() => setIsLoading(false));
-		} else setIsLoading(false); // Chuyển tới Login page
+		// Check it in server
+		getUser()
+			.then((response) => {
+				if (response.data.success) {
+					dispatch(setAuth(response.data.data));
+				} else {
+					localStorage.removeItem('token');
+					message.warn(response.data.message);
+				}
+			})
+			.catch((error) => {
+				console.log(error);
+				doLogout();
+			})
+			.then(() => setIsLoading(false));
 	}, []);
 
 	if (isLoading) return <Loader tip="Lấy thông tin người dùng" />;

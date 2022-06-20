@@ -40,7 +40,7 @@ const VuViecChiTiet = () => {
 	});
 	const { modalVisible, typeBaoCao } = stateBaoCao;
 	const [currentTab, setCurrentTab] = useState<
-		'Thông tin chi tiết' | 'Tác nhân liên quan' | 'Tài liệu báo cáo' | 'Công văn' | 'Công việc'
+		'Thông tin chi tiết' | 'Người trong vụ việc' | 'Tài liệu báo cáo' | 'Công văn' | 'Công việc'
 	>('Thông tin chi tiết');
 	const id = window.location.pathname.split('/').pop();
 
@@ -182,10 +182,10 @@ const VuViecChiTiet = () => {
 					tab={
 						<span>
 							<TeamOutlined />
-							Tác nhân liên quan
+							Người trong vụ việc
 						</span>
 					}
-					key="Tác nhân liên quan"
+					key="Người trong vụ việc"
 				/>
 				<Tabs.TabPane
 					tab={
@@ -232,7 +232,7 @@ const VuViecChiTiet = () => {
 							</div>
 						</Form>
 					)}
-					{currentTab === 'Tác nhân liên quan' && <ViewVuViecNguoi vuViec={record} />}
+					{currentTab === 'Người trong vụ việc' && <ViewVuViecNguoi vuViec={record} />}
 					{currentTab === 'Công việc' && <ViewVuViecCongViec vuViec={record} />}
 					{currentTab === 'Tài liệu báo cáo' && <ViewVuViecTaiLieu />}
 					{currentTab === 'Công văn' && <ViewVuViecCongVan />}

@@ -15,14 +15,13 @@ class CreateVuViecsTable extends Migration
     {
         Schema::create('vu_viecs', function (Blueprint $table) {
             $table->id();
-            $table->string('ten_vu_viec', 200)->nullable();
             $table->string('loai_vu_viec', 10)->default('AĐ');
             $table->string('phan_loai_tin', 50)->nullable();
 
             $table->string('thoi_diem_xay_ra', 200)->nullable();
             $table->string('noi_xay_ra', 200)->nullable();
-            $table->bigInteger('id_dp_xay_ra')->unsigned()->nullable();
-            $table->string('noi_dung_tom_tat', 500)->nullable();
+            $table->string('dp_xay_ra', 200)->nullable();
+            $table->string('noi_dung_tom_tat', 200)->nullable();
 
             $table->date('ngay_keo_dai')->nullable();
             $table->string('ket_qua_giai_quyet', 200)->nullable();

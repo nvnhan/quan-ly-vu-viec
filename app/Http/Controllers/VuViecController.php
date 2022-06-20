@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DonVi;
 use App\Models\VuViec;
 use Illuminate\Http\Request;
 
@@ -40,14 +41,28 @@ class VuViecController extends BaseController
             $query = $query->skip(($page - 1) * $size)->take($size);
         $objs = $query->get();
 
+        // foreach ($objs as $key => $value) {
+        //     $dvs = DonVi::whereIn('id', $value->dp_xay_ras)->with('quan_huyen')->get();
+        //     // $huyen = array_column($dvs, 'quan_huyen');
+        //     // \Log::debug($dvs);
+        // }
+
         return $this->sendResponse($objs, "VuViec retrieved successfully", $total);
     }
 
     public function setVuViecFields(&$vuViec, Request $request)
     {
-        $vuViec->id_dp_xay_ra = $request->sel_dp_xay_ra['value'] ?? null;
+        $dp = [];
+        foreach ($request->sel_dp_xay_ra as $key => $value)
+            if ($value['value']) $dp[] = $value['value'];
+        $vuViec->dp_xay_ra = implode(',', $dp);
+
         $vuViec->id_dtv_chinh = $request->sel_dtv_chinh['value'] ?? null;
         $vuViec->id_can_bo_chinh = $request->sel_can_bo_chinh['value'] ?? null;
+
+        if (str_contains($vuViec->thoi_diem_xay_ra, '00:00:00')) {
+            $vuViec->thoi_diem_xay_ra = date('d/m/Y', strtotime($vuViec->thoi_diem_xay_ra));
+        }
     }
 
     /**
@@ -82,6 +97,15 @@ class VuViecController extends BaseController
      */
     public function show(VuViec $vuViec)
     {
+        $result = [];
+        $dvs = DonVi::whereIn('id', $vuViec->dp_xay_ras)->get();
+        foreach ($dvs as $key => $dv)
+            $result[] = (object)[
+                'value' => $dv->id,
+                'label' => ($dv->ten_don_vi ?? '') . ' - ' . ($dv->ten_dia_phuong ?? '')
+            ];
+
+        $vuViec->sel_dp_xay_ra = $result;
         return $this->sendResponse($vuViec, "VuViec retrieved successfully");
     }
 

@@ -40,7 +40,7 @@ class VuViec extends Model
      */
     protected $fillable = [
         'ngay_ca_phuong', 'ngay_cqdt',
-        'ten_vu_viec', 'loai_vu_viec', 'phan_loai_tin',
+        'loai_vu_viec', 'phan_loai_tin',
         'thoi_diem_xay_ra', 'noi_xay_ra',  'noi_dung_tom_tat',
         'ngay_keo_dai', 'ket_qua_giai_quyet', 'ngay_ket_thuc_1', 'ngay_gia_han_xac_minh',
         'ngay_ket_thuc_2', 'ngay_phuc_hoi', 'ngay_ket_thuc_phuc_hoi',
@@ -60,12 +60,7 @@ class VuViec extends Model
         'tai_lieus', 'cong_vans', 'vu_viec_nguois',
     ];
 
-    protected $appends = ['sel_dp_xay_ra', 'sel_dtv_chinh', 'sel_can_bo_chinh', 'ten_nguoi_tao'];
-
-    public function dp_xay_ra()
-    {
-        return $this->belongsTo('App\Models\DonVi', 'id_dp_xay_ra');
-    }
+    protected $appends = ['ten_vu_viec', 'sel_dp_xay_ra', 'sel_dtv_chinh', 'sel_can_bo_chinh', 'ten_nguoi_tao'];
 
     public function toi_danh()
     {
@@ -107,6 +102,11 @@ class VuViec extends Model
         return $this->hasMany('App\Models\VuViecNguoi', 'id_vu_viec');
     }
 
+    public function getTenVuViecAttribute()
+    {
+        return $this->noi_dung_tom_tat;
+    }
+
     public function getTenNguoiTaoAttribute()
     {
         return $this->can_bo->ho_ten . ' - ' . $this->can_bo->ten_chuc_vu . ' ' . $this->can_bo->ten_don_vi;
@@ -114,20 +114,41 @@ class VuViec extends Model
 
     public function getTenDpXayRaAttribute()
     {
-        $dv = $this->dp_xay_ra;
-        return ($dv->ten_don_vi ?? '') . ' - ' . ($dv->ten_dia_phuong ?? '');
+        // $dv = $this->dp_xay_ra;
+        // return ($dv->ten_don_vi ?? '') . ' - ' . ($dv->ten_dia_phuong ?? '');
+        if (property_exists($this, 'ten_dp_xay_ra'))
+            return $this->ten_dp_xay_ra;
+        else return 'ten_dp_xay_ra';
+    }
+
+    public function setTenDpXayRaAttribute($value)
+    {
+        $this->ten_dp_xay_ra = $value;
+    }
+
+    public function getDpXayRasAttribute()
+    {
+        return explode(',', $this->dp_xay_ra);
     }
 
     public function getSelDpXayRaAttribute()
     {
-        $dv = $this->dp_xay_ra;
-        if ($dv) {
-            $data = [
-                'value' => $this->id_dp_xay_ra,
-                'label' => $this->ten_dp_xay_ra,
-            ];
-            return (object)$data;
-        } else return null;
+        // $dv = $this->dp_xay_ra;
+        // if ($dv) {
+        //     $data = [
+        //         'value' => $this->id_dp_xay_ra,
+        //         'label' => $this->ten_dp_xay_ra,
+        //     ];
+        //     return (object)$data;
+        // } else return null;
+        if (property_exists($this, 'sel_dp_xay_ra'))
+            return $this->sel_dp_xay_ra;
+        else return [];
+    }
+
+    public function setSelDpXayRaAttribute($value)
+    {
+        $this->sel_dp_xay_ra = $value;
     }
 
     public function getSelDtvChinhAttribute()
