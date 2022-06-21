@@ -19,7 +19,7 @@ class CreateTaiLieusTable extends Migration
             $table->bigInteger('id_cong_viec')->unsigned()->nullable();
             $table->string('ten_tai_lieu', 100);
             $table->text('noi_dung')->nullable();
-            $table->string('ten_file', 200);
+            $table->string('ten_file', 200)->nullable();
 
             $table->bigInteger('nguoi_tao')->unsigned();
             $table->timestamps();

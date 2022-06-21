@@ -31,28 +31,28 @@ axios.interceptors.response.use(undefined, (error) => {
 		case 404:
 			notification.warning({
 				message: 'Không tìm thấy dữ liệu',
-				description: error?.response?.data?.error?.message || error?.message,
+				description: error?.response?.data?.message || error?.message,
 			});
 			break;
 		case 403:
 		case 405: {
 			notification.warning({
 				message: 'Thao tác không được phép',
-				description: error?.response?.data?.error?.message || error?.message,
+				description: error?.response?.data?.message || error?.message,
 			});
 			break;
 		}
 		case 409: {
 			notification.warning({
 				message: 'Dữ liệu bị trùng lặp',
-				description: error?.response?.data?.error?.message || error?.message,
+				description: error?.response?.data?.message || error?.message,
 			});
 			break;
 		}
 		case 500: {
 			notification.error({
 				message: 'Hệ thống gặp lỗi',
-				description: error?.response?.data?.error?.message || error.message,
+				description: error?.response?.data?.message || error.message,
 			});
 			break;
 		}

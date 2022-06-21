@@ -147,7 +147,7 @@ export const unionDataBy = (target: any[], source: any, key = 'id') => {
 		let existingElement = false;
 
 		// Duyệt các phần tử của mảng cũ
-		for (let j = 0; j < targetLength; j++) {
+		for (let j = target.length - 1; j >= target.length - targetLength; j--) {
 			const element1 = target[j];
 			// Nếu trùng key
 			if (element[key] === element1[key]) {

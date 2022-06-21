@@ -22,7 +22,7 @@ const ModalConfirm = (props: ModalConfirmProps) => {
 	const onOk = () => {
 		setFormSubmitting(true);
 		form.validateFields()
-			.then((value: object) => {
+			.then((value: any) => {
 				handleOk(parseValues(value), () => setFormSubmitting(false));
 				if (insertMore && currentRecord === undefined) {
 					// Nếu form thêm mới thì reset field để thêm record mới

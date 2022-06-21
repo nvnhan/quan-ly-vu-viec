@@ -12,6 +12,7 @@ use App\Http\Controllers\DonViController;
 use App\Http\Controllers\NguoiController;
 use App\Http\Controllers\NhomCongViecController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\TaiLieuController;
 use App\Http\Controllers\VuViecController;
 use App\Http\Controllers\VuViecNguoiController;
 use Illuminate\Support\Facades\Route;
@@ -56,6 +57,11 @@ Route::middleware('auth:api')->group(function () {
 
     Route::resource('cong-viec', CongViecController::class);
     Route::post('cong-viec/khoi-tao', [CongViecController::class, 'them_khoi_tao']);
+
+    Route::resource('tai-lieu', TaiLieuController::class);
+    // Dung cho upload file bang Form Data
+    // Form Data chi up thong qua POST
+    Route::post('tai-lieu/{tai_lieu}', [TaiLieuController::class, 'update']);
 
     Route::get('lanh-dao', [CanBoController::class, 'get_lanh_dao']);
     Route::get('nhom-cong-viec', [NhomCongViecController::class, 'index']);

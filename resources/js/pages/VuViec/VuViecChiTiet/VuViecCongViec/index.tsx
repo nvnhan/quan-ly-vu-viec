@@ -27,7 +27,7 @@ import { RootState } from '../../../../store';
 import { parseValues, unionDataBy, useMergeState } from '../../../../utils';
 import { TEN_MUC_DO_UU_TIEN, TEN_TRANG_THAI_CONG_VIEC } from '../../../../utils/constant';
 import { getApi } from '../../../../utils/services';
-import FormVuViecCongViec from './FormVuViecCongViec';
+import FormVuViecCongViec from './FormItem';
 
 const List = (props: { vuViec: any }) => {
 	const authUser = useSelector((state: RootState) => state.authUserReducer);
@@ -47,7 +47,7 @@ const List = (props: { vuViec: any }) => {
 	const { vuViec } = props;
 
 	const fetchData = (trangThai = '', uuTien = '') => {
-		getApi(`cong-viec?vu_viec=${vuViec.id}&trang_thai=${trangThai}&uu_tien=${uuTien}`)
+		getApi(`cong-viec?vu_viec=${vuViec}&trang_thai=${trangThai}&uu_tien=${uuTien}`)
 			.then((response) => {
 				if (response.data.success) {
 					setState({ data: response.data.data, loading: false });
@@ -96,7 +96,7 @@ const List = (props: { vuViec: any }) => {
 			setState({ formSubmitting: true });
 			if (!record) {
 				axios
-					.post(`/api/cong-viec`, parseValues({ ...values, id_vu_viec: vuViec.id }))
+					.post(`/api/cong-viec`, parseValues({ ...values, id_vu_viec: vuViec }))
 					.then((response: any) => {
 						const mergedData = unionDataBy(data, response.data.data, 'id'); // New data is first line
 
@@ -131,7 +131,7 @@ const List = (props: { vuViec: any }) => {
 	const onInsertAuto = () => {
 		setState({ loading: true, formSubmitting: true });
 		axios
-			.post(`/api/cong-viec/khoi-tao`, { id_vu_viec: vuViec.id })
+			.post(`/api/cong-viec/khoi-tao`, { id_vu_viec: vuViec })
 			.then((response) => {
 				if (response.data.success) {
 					setState({

@@ -82,6 +82,11 @@ class CongViecController extends BaseController
                         $cv->ngay_het_han = date('Y-m-d H:i:s', strtotime($s));
                     }
 
+                    if ($vv->id_can_bo_chinh) {
+                        $cv->id_can_bo = $vv->id_can_bo_chinh;
+                        $cv->trang_thai = 1;
+                        $cv->ngay_giao = now();
+                    }
                     $cv->save();
                 }
                 $result = CongViec::where('id_vu_viec', $vu_viec)->get();

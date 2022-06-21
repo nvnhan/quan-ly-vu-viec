@@ -22,7 +22,7 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 	//#region  Khai báo biến
 	const [form] = Form.useForm();
 
-	const { url, onChangeData, filter, otherParams, primaryKey, filterBox, ajax } = props;
+	const { url, onChangeData, filter, otherParams, primaryKey, filterBox, ajax, formClass, hasUpload } = props;
 	const [state, setState] = useMergeState({
 		data: [],
 		isLoading: true,
@@ -167,7 +167,6 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 			// 		item[primaryKey ?? 'id'] === update[primaryKey ?? 'id'] ? update : item
 			// 	);
 			// });
-			console.log('🚀 ~ file: index.tsx ~ line 183 ~ doInsertOrUpdateRows ~ mergedData', mergedData);
 			setState({
 				data: mergedData,
 				selectedRowKeys: [],
@@ -178,19 +177,49 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 		} else message.error(response.data.message);
 	};
 
+	const getFormData = (value: any) => {
+		const data = new FormData();
+		data.append('file', value?.file?.file);
+		delete value.file;
+		for (let key in value) value[key] !== undefined && data.append(key, value[key]);
+		return data;
+	};
+
 	const onAdd = (value: { [index: string]: any }, callback?: () => void) => {
 		if (otherParams !== undefined) value = Object.assign(value, otherParams);
-		axios
-			.post(`/api/${url}`, value)
-			.then((response) => doInsertOrUpdateRows(response, callback))
-			.catch((error) => console.log(error));
+		if (hasUpload) {
+			axios
+				.post(`/api/${url}`, getFormData(value), {
+					headers: {
+						'Content-Type':
+							'multipart/form-data; charset=utf-8; boundary=' + Math.random().toString().substr(2),
+					},
+				})
+				.then((response) => doInsertOrUpdateRows(response, callback))
+				.catch((error) => console.log(error));
+		} else
+			axios
+				.post(`/api/${url}`, value)
+				.then((response) => doInsertOrUpdateRows(response, callback))
+				.catch((error) => console.log(error));
 	};
 
 	const onUpdate = (value: { [index: string]: any }, callback?: () => void) => {
-		axios
-			.put(`/api/${url}/${currentRecord[primaryKey as string]}`, value)
-			.then((response) => doInsertOrUpdateRows(response, callback))
-			.catch((error) => console.log(error));
+		if (hasUpload)
+			axios
+				.post(`/api/${url}/${currentRecord[primaryKey as string]}`, getFormData(value), {
+					headers: {
+						'Content-Type':
+							'multipart/form-data; charset=utf-8; boundary=' + Math.random().toString().substr(2),
+					},
+				})
+				.then((response) => doInsertOrUpdateRows(response, callback))
+				.catch((error) => console.log(error));
+		else
+			axios
+				.put(`/api/${url}/${currentRecord[primaryKey as string]}`, value)
+				.then((response) => doInsertOrUpdateRows(response, callback))
+				.catch((error) => console.log(error));
 	};
 
 	const onDelete = (record: any) => {
@@ -250,7 +279,7 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 	//#endregion
 
 	return (
-		<div className="list-form">
+		<div className={formClass}>
 			{filterBox && <FilterBox {...props} onFilter={handleFilterBox} />}
 			<ToolsButton
 				{...props}
@@ -296,6 +325,8 @@ const defaultProps = {
 	},
 	filterBox: false,
 	tuNgayDenNgay: true,
+	formClass: 'list-form',
+	hasUpload: false,
 };
 
 export type ListFormProps = {

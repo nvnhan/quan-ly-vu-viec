@@ -21,10 +21,10 @@ import React, { useEffect, useState } from 'react';
 import { parseValues } from '../../../utils';
 import { getApi, putApi } from '../../../utils/services';
 import FormChiTiet from './components/FormChiTiet';
-import ViewVuViecCongVan from './components/ViewVuViecCongVan';
-import ViewVuViecCongViec from './components/ViewVuViecCongViec';
-import ViewVuViecNguoi from './components/ViewVuViecNguoi';
-import ViewVuViecTaiLieu from './components/ViewVuViecTaiLieu';
+import VuViecCongVan from './VuViecCongVan';
+import VuViecCongViec from './VuViecCongViec';
+import VuViecNguoi from './VuViecNguoi';
+import VuViecTaiLieu from './VuViecTaiLieu';
 import FormBaoCao from './components/FormBaoCao';
 import { downloadApi } from '../../../utils/downloadFile';
 
@@ -39,10 +39,11 @@ const VuViecChiTiet = () => {
 		typeBaoCao: {} as { type: string; label: string } | undefined,
 	});
 	const { modalVisible, typeBaoCao } = stateBaoCao;
-	const [currentTab, setCurrentTab] = useState<
-		'Thông tin chi tiết' | 'Người trong vụ việc' | 'Tài liệu báo cáo' | 'Công văn' | 'Công việc'
-	>('Thông tin chi tiết');
 	const id = window.location.pathname.split('/').pop();
+	const hash = window.location.hash.slice(1);
+	const [currentTab, setCurrentTab] = useState<
+		'thong-tin' | 'nguoi' | 'tai-lieu' | 'cong-van' | 'cong-viec' | string
+	>(hash || 'thong-tin');
 
 	useEffect(() => {
 		setLoading(true);
@@ -177,7 +178,7 @@ const VuViecChiTiet = () => {
 							Thông tin chi tiết
 						</span>
 					}
-					key="Thông tin chi tiết"
+					key="thong-tin"
 				/>
 				<Tabs.TabPane
 					tab={
@@ -186,7 +187,7 @@ const VuViecChiTiet = () => {
 							Người trong vụ việc
 						</span>
 					}
-					key="Người trong vụ việc"
+					key="nguoi"
 				/>
 				<Tabs.TabPane
 					tab={
@@ -195,7 +196,7 @@ const VuViecChiTiet = () => {
 							Công việc
 						</span>
 					}
-					key="Công việc"
+					key="cong-viec"
 				/>
 				<Tabs.TabPane
 					tab={
@@ -204,7 +205,7 @@ const VuViecChiTiet = () => {
 							Tài liệu báo cáo
 						</span>
 					}
-					key="Tài liệu báo cáo"
+					key="tai-lieu"
 				/>
 				<Tabs.TabPane
 					tab={
@@ -213,13 +214,13 @@ const VuViecChiTiet = () => {
 							Công văn
 						</span>
 					}
-					key="Công văn"
+					key="cong-van"
 				/>
 			</Tabs>
 
 			<div style={{ padding: '0 12px' }}>
 				<Spin spinning={loading}>
-					{currentTab === 'Thông tin chi tiết' && (
+					{currentTab === 'thong-tin' && (
 						<Form form={form} onFinish={onFinish} layout="vertical">
 							<FormChiTiet />
 							<div className="tools-button" style={{ textAlign: 'center' }}>
@@ -233,10 +234,10 @@ const VuViecChiTiet = () => {
 							</div>
 						</Form>
 					)}
-					{currentTab === 'Người trong vụ việc' && <ViewVuViecNguoi vuViec={record} />}
-					{currentTab === 'Công việc' && <ViewVuViecCongViec vuViec={record} />}
-					{currentTab === 'Tài liệu báo cáo' && <ViewVuViecTaiLieu />}
-					{currentTab === 'Công văn' && <ViewVuViecCongVan />}
+					{currentTab === 'nguoi' && <VuViecNguoi vuViec={id} />}
+					{currentTab === 'cong-viec' && <VuViecCongViec vuViec={id} />}
+					{currentTab === 'tai-lieu' && <VuViecTaiLieu vuViec={id} />}
+					{currentTab === 'cong-van' && <VuViecCongVan />}
 				</Spin>
 			</div>
 
