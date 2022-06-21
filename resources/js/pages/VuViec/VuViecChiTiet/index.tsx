@@ -92,6 +92,7 @@ const VuViecChiTiet = () => {
 				(typeBaoCao?.label ?? 'BaoCao') + '.docx'
 			);
 		});
+		setStateBaoCao({ modalVisible: false, typeBaoCao: undefined });
 	};
 
 	const phanCongToGiac = [

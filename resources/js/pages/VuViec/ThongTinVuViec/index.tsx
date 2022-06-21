@@ -77,6 +77,8 @@ const List = () => {
 					Thời gian: {text}
 					<br />
 					Tại: {record.noi_xay_ra}
+					<br />
+					Địa bàn: {record.khu_vuc_xay_ra}
 				</>
 			),
 			width: 180,
