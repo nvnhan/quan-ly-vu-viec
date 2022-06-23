@@ -1,91 +1,125 @@
-import Form from 'antd/lib/form/index';
-import Col from 'antd/lib/grid/col';
-import Row from 'antd/lib/grid/row';
-import Input from 'antd/lib/input/index';
-import Select from 'antd/lib/select';
-import React from 'react';
-import MyDatePicker from '../../../../components/Controls/MyDatePicker';
-import MyDebounceSelect, { SelectValue } from '../../../../components/Controls/MyDebounceSelect';
-import { required } from '../../../../utils/rules';
-import { getSearchXaPhuong } from '../../../../utils/services';
+import Typography from 'antd/lib/typography';
+import moment from 'moment';
+import React, { useRef, useState } from 'react';
+import ListForm, { ListFormRef } from '../../../../components/ListForm';
+import { ColumnProps, OtherActionProps } from '../../../../components/ListForm/DataTable';
+import FormItem from './FormItem';
+import DoubleRightOutlined from '@ant-design/icons/DoubleRightOutlined';
 
-const ViewVuViecCongVan = () => {
-	const phanLoaiTin = ['Tố giác về tội phạm', 'Tin báo về tội phạm', 'Kiến nghị khởi tố', 'CQĐT trực tiếp phát hiện'];
+const List = (props: { vuViec: any }) => {
+	const [recordCha, setRecordCha] = useState<
+		| {
+				id: number;
+				name: string;
+		  }
+		| undefined
+	>(undefined);
+	const { vuViec } = props;
+	const ref = useRef<ListFormRef>(null);
 
-	const fetchUnitList = async (q: string): Promise<SelectValue[]> => {
-		console.log('fetching user', q);
+	const columns: ColumnProps[] = [
+		{
+			title: 'Tiêu đề công văn',
+			dataIndex: 'tieu_de',
+			optFind: true,
+			width: 180,
+		},
+		{
+			title: 'Số hiệu',
+			dataIndex: 'so_hieu',
+			align: 'center',
+			width: 80,
+		},
+		{
+			title: 'Ngày ban hành',
+			dataIndex: 'ngay_ban_hanh',
+			align: 'center',
+			width: 80,
+		},
+		{
+			title: 'Hạn trả lời',
+			dataIndex: 'han_tra_loi',
+			align: 'center',
+			width: 80,
+		},
+		{
+			title: 'Nơi nhận',
+			dataIndex: 'co_quan_nhan',
+			width: 120,
+		},
+		{
+			title: 'Số CV phản hồi',
+			dataIndex: 'so_cong_van_phan_hoi',
+			align: 'center',
+			width: 80,
+		},
+		{
+			title: 'Ngày phản hồi',
+			dataIndex: 'ngay_phan_hoi',
+			align: 'center',
+			width: 80,
+		},
+		{
+			title: 'Nội dung phản hồi',
+			dataIndex: 'noi_dung_phan_hoi',
+			render: (text: string) => <Typography.Paragraph ellipsis={{ rows: 3 }}>{text}</Typography.Paragraph>,
+			width: 250,
+		},
+		{
+			title: 'Cán bộ thụ lý',
+			dataIndex: 'ten_can_bo_thu_ly',
+			optFilter: true,
+			width: 100,
+		},
+	];
 
-		return getSearchXaPhuong({ q, l: 7 }).then((body) =>
-			body?.data?.data.map((item: any) => ({
-				label: `${item.ten_don_vi} - ${item.ten_dia_phuong}`,
-				value: item.id,
-			}))
-		);
+	const hanldeThemDonDoc = (record: any) => {
+		if (!record.id_cong_van_cha) {
+			setRecordCha({
+				id: record.id,
+				name: record.tieu_de,
+			});
+		} else setRecordCha({ id: record.id_cong_van_cha, name: record.ten_cong_van_cha });
+		ref.current?.triggerInsert();
 	};
 
-	return (
-		<Row gutter={[10, 5]}>
-			<Col span={12} sm={6}>
-				<Form.Item name="ngay_ca_phuong" label="Ngày CA phường tiếp nhận">
-					<MyDatePicker format="DD/MM/YYYY" />
-				</Form.Item>
-			</Col>
-			<Col span={12} sm={6}>
-				<Form.Item name="ngay_cqdt" label="Ngày CQĐT tiếp nhận">
-					<MyDatePicker format="DD/MM/YYYY" />
-				</Form.Item>
-			</Col>
-			<Col span={24} sm={12}>
-				<Form.Item name="ten_vu_viec" label="Tên vụ việc" rules={[required]}>
-					<Input placeholder="Thời gian, địa điểm xảy ra, người liên quan, mô tả ngắn gọn..." />
-				</Form.Item>
-			</Col>
-			<Col span={12} sm={6}>
-				<Form.Item name="loai_vu_viec" label="Phân loại" rules={[required]}>
-					<Select>
-						<Select.Option value="AĐ">AĐ</Select.Option>
-						<Select.Option value="AK">AK</Select.Option>
-					</Select>
-				</Form.Item>
-			</Col>
-			<Col span={12} sm={6}>
-				<Form.Item name="phan_loai_tin" label="Phân loại tin">
-					<Select allowClear>
-						{phanLoaiTin.map((pl) => (
-							<Select.Option value={pl} key={pl}>
-								{pl}
-							</Select.Option>
-						))}
-					</Select>
-				</Form.Item>
-			</Col>
+	/**
+	 * When edit any record in Listform
+	 * @param record
+	 * @returns
+	 */
+	const handleEdit = (record: any) =>
+		record.id_cong_van_cha
+			? setRecordCha({ id: record.id_cong_van_cha, name: record.ten_cong_van_cha })
+			: setRecordCha(undefined);
 
-			<Col span={12} sm={6}>
-				<Form.Item name="thoi_diem_xay_ra" label="Thời điểm xảy ra">
-					<Input />
-				</Form.Item>
-			</Col>
-			<Col span={12} sm={6}>
-				<Form.Item name="noi_xay_ra" label="Nơi xảy ra">
-					<Input />
-				</Form.Item>
-			</Col>
-			<Col span={24} sm={12}>
-				<Form.Item name="sel_dp_xay_ra" label="Địa phương xảy ra">
-					<MyDebounceSelect
-						placeholder="Chọn địa phương xã/phường..."
-						fetchOptions={fetchUnitList}
-						allowClear
-					/>
-				</Form.Item>
-			</Col>
-			<Col span={24} sm={12}>
-				<Form.Item name="noi_dung_tom_tat" label="Nội dung tóm tắt">
-					<Input.TextArea />
-				</Form.Item>
-			</Col>
-		</Row>
+	const otherActions: OtherActionProps[] = [
+		{
+			key: 'don-doc',
+			title: 'Thêm công văn đôn đốc',
+			onClick: hanldeThemDonDoc,
+			icon: <DoubleRightOutlined />,
+			color: '#518F3C',
+		},
+	];
+
+	return (
+		<ListForm
+			ref={ref}
+			formClass=""
+			url="cong-van"
+			columns={columns}
+			otherActions={otherActions}
+			tableSize={{ x: 1300 }}
+			filter={{ vu_viec: vuViec }}
+			otherParams={{ id_vu_viec: vuViec }}
+			selectable={false}
+			formTemplate={<FormItem recordCha={recordCha} />}
+			formInitialValues={{ ngay_ban_hanh: moment().format('DD/MM/YYYY') }}
+			handleEdit={handleEdit}
+			addStt
+		/>
 	);
 };
 
-export default ViewVuViecCongVan;
+export default React.memo(List);

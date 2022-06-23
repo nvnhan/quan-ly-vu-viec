@@ -65,6 +65,8 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 		 * Kích hoạt chức năng thêm hoặc chỉnh sửa 1 hoặc nhiều hàng
 		 */
 		triggerUpdate: (response: any) => doInsertOrUpdateRows(response),
+
+		triggerInsert: () => handleAddNew(),
 	}));
 	//#endregion
 
@@ -364,5 +366,6 @@ ListForm.defaultProps = defaultProps;
 export interface ListFormRef {
 	getCurrentQuery: () => string;
 	triggerUpdate: (response: any) => void;
+	triggerInsert: () => void;
 }
 export default React.memo(ListForm);

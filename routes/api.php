@@ -6,6 +6,7 @@ use App\Http\Controllers\QuanHuyenController;
 use App\Http\Controllers\ToiDanhController;
 use App\Http\Controllers\CanBoController;
 use App\Http\Controllers\CapBacController;
+use App\Http\Controllers\CongVanController;
 use App\Http\Controllers\CongViecController;
 use App\Http\Controllers\CongViecKhoiTaoController;
 use App\Http\Controllers\DonViController;
@@ -63,6 +64,8 @@ Route::middleware('auth:api')->group(function () {
     // Form Data chi up thong qua POST
     Route::post('tai-lieu/{tai_lieu}', [TaiLieuController::class, 'update']);
     Route::get('tai-lieu/{tai_lieu}/tai-file', [TaiLieuController::class, 'tai_file']);
+
+    Route::resource('cong-van', CongVanController::class);
 
     Route::get('lanh-dao', [CanBoController::class, 'get_lanh_dao']);
     Route::get('nhom-cong-viec', [NhomCongViecController::class, 'index']);

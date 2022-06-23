@@ -5,26 +5,40 @@ namespace App\Http\Controllers;
 use App\Models\CongVan;
 use Illuminate\Http\Request;
 
-class CongVanController extends Controller
+class CongVanController extends BaseController
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $query = CongVan::whereNull('id_cong_van_cha');
+        if ($request->bat_dau && $request->ket_thuc)
+            $query = $query->whereBetween('ngay_ban_hanh', [$request->bat_dau, $request->ket_thuc]);
+
+        if (!empty($request->q))
+            $query = $query->where('tieu_de', 'LIKE', "%$request->q%");
+
+        if (!empty($request->vu_viec))
+            $query = $query->where('id_vu_viec', $request->vu_viec);
+
+        $query = $query->orderBy('ngay_ban_hanh', 'DESC');
+        // For AJAX pagination loading
+        $total = $query->count();
+        $page = $request->p;
+        $size = $request->s;
+        if ($page > 0 && $size > 0)
+            $query = $query->skip(($page - 1) * $size)->take($size);
+        $objs = $query->with(['cong_van_don_doc'])->get();
+
+        return $this->sendResponse($objs, "CongVan retrieved successfully", $total);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public static function setCongVanFields(&$congVan, Request $request)
     {
-        //
+        $congVan->id_can_bo = $request->sel_can_bo['value'] ?? null;
     }
 
     /**
@@ -35,29 +49,16 @@ class CongVanController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $data = $request->all();
+        $obj = new CongVan();
+        $obj->fill($data);
+        $obj->nguoi_tao = $request->user()->id;
+        if (empty($obj->id_cong_van_cha))
+            self::setCongVanFields($congVan, $request);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\CongVan  $congVan
-     * @return \Illuminate\Http\Response
-     */
-    public function show(CongVan $congVan)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\CongVan  $congVan
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(CongVan $congVan)
-    {
-        //
+        $obj->save();
+        $obj->refresh();
+        return $this->sendResponse($obj, "Thêm mới thành công");
     }
 
     /**
@@ -69,7 +70,17 @@ class CongVanController extends Controller
      */
     public function update(Request $request, CongVan $congVan)
     {
-        //
+        $user = $request->user();
+        $data = $request->all();
+        if ($user->admin || $user->id == $congVan->nguoi_tao) {
+            $congVan->fill($data);
+            if (empty($congVan->id_cong_van_cha))
+                self::setCongVanFields($congVan, $request);
+
+            $congVan->save();
+            $congVan->refresh();
+            return $this->sendResponse($congVan, "Cập nhật thành công");
+        } else return $this->sendError("Không thể sửa thông tin tài liệu");
     }
 
     /**
@@ -78,8 +89,12 @@ class CongVanController extends Controller
      * @param  \App\Models\CongVan  $congVan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CongVan $congVan)
+    public function destroy(Request $request, CongVan $congVan)
     {
-        //
+        $user = $request->user();
+        if ($user->admin || $user->id == $congVan->nguoi_tao) {
+            $congVan->delete();
+            return $this->sendResponse('', "Xóa thành công tài liệu");
+        } else return $this->sendError("Không thể xóa tài liệu");
     }
 }

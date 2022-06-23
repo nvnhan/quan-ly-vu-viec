@@ -25,6 +25,7 @@ class TaiLieuController extends BaseController
         if (!empty($request->vu_viec))
             $query = $query->where('id_vu_viec', $request->vu_viec);
 
+        $query = $query->orderBy('created_at', 'DESC');
         // For AJAX pagination loading
         $total = $query->count();
         $page = $request->p;
@@ -113,7 +114,7 @@ class TaiLieuController extends BaseController
      * @param  \App\Models\TaiLieu  $taiLieu
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TaiLieu $taiLieu)
+    public function destroy(Request $request, TaiLieu $taiLieu)
     {
         $user = $request->user();
         if ($user->admin || $user->id == $taiLieu->nguoi_tao) {

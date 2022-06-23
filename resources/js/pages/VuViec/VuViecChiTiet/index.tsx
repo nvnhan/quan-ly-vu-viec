@@ -237,7 +237,7 @@ const VuViecChiTiet = () => {
 					{currentTab === 'nguoi' && <VuViecNguoi vuViec={id} />}
 					{currentTab === 'cong-viec' && <VuViecCongViec vuViec={id} />}
 					{currentTab === 'tai-lieu' && <VuViecTaiLieu vuViec={id} />}
-					{currentTab === 'cong-van' && <VuViecCongVan />}
+					{currentTab === 'cong-van' && <VuViecCongVan vuViec={id} />}
 				</Spin>
 			</div>
 
