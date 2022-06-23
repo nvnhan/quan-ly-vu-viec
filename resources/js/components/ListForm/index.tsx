@@ -94,11 +94,13 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 			modalVisible: true,
 		});
 
-	const handleEdit = (record: any) =>
+	const handleEdit = (record: any) => {
 		setState({
 			modalVisible: true,
 			currentRecord: record,
 		});
+		props?.handleEdit && props?.handleEdit(record);
+	};
 
 	/**
 	 * Click Lọc từ filter Box => set lại ownfilter => load lại data từ useEffect
@@ -352,6 +354,7 @@ export type ListFormProps = {
 	setFormValues?: { [index: string]: any };
 	ref?: any;
 	checkUserDoAction?: boolean;
+	handleEdit?: any;
 } & Partial<typeof defaultProps>;
 
 ListForm.defaultProps = defaultProps;

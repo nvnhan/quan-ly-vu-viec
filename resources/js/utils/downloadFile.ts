@@ -22,7 +22,7 @@ const downloadFile = (url: string, name: string) => {
  * Tạo và download file từ url
  */
 export const downloadApi = (url: string, params: object, fileName: string) => {
-	FormWaiting('Đang tạo báo cáo...');
+	FormWaiting('Đang tải dữ liệu...');
 
 	getFile(url, params)
 		.then((response) => {

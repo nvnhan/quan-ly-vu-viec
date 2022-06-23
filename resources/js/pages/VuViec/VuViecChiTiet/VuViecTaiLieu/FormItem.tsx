@@ -10,11 +10,15 @@ import Upload, { RcFile } from 'antd/lib/upload';
 import React, { useEffect, useState } from 'react';
 import { required } from '../../../../utils/rules';
 import { getApi } from '../../../../utils/services';
+import { groupBy } from 'lodash';
 
 const form = (props: any) => {
-	const [congViecList, setCongViecList] = useState<{ id: number; name: string }[]>([]);
-	const { vuViec } = props;
+	const [congViecList, setCongViecList] = useState<{ id: number; group: string; name: string }[]>([]);
+	const { vuViec, defaultFileList } = props;
+	console.log('🚀 ~ file: FormItem.tsx ~ line 18 ~ form ~ defaultFileList', defaultFileList);
 	const [fileList, setFileList] = useState<RcFile[]>([]);
+
+	const groupCongViec = Object.entries(groupBy(congViecList, 'group'));
 
 	useEffect(() => {
 		getApi(`cong-viec?vu_viec=${vuViec}`).then((response) => {
@@ -22,7 +26,8 @@ const form = (props: any) => {
 				setCongViecList(
 					response.data.data.map((item: any) => ({
 						id: item.id,
-						name: item.ten_nhom_cong_viec + ' - ' + item.ten_cong_viec,
+						group: item.ten_nhom_cong_viec,
+						name: item.ten_cong_viec,
 					}))
 				);
 		});
@@ -51,10 +56,14 @@ const form = (props: any) => {
 			<Col span={24}>
 				<Form.Item name="id_cong_viec" label="Công việc báo cáo">
 					<Select allowClear>
-						{congViecList.map((item) => (
-							<Select.Option value={item.id} key={item.id}>
-								{item.name}
-							</Select.Option>
+						{groupCongViec.map((elm, index) => (
+							<Select.OptGroup key={index} label={elm[0] ?? 'Chưa phân loại'}>
+								{elm[1].map((item) => (
+									<Select.Option value={item.id} key={item.id}>
+										{item.name}
+									</Select.Option>
+								))}
+							</Select.OptGroup>
 						))}
 					</Select>
 				</Form.Item>
@@ -72,6 +81,15 @@ const form = (props: any) => {
 						maxCount={1}
 						fileList={fileList}
 						onRemove={onRemove}
+						defaultFileList={[
+							{
+								uid: '1',
+								name: 'xxx.png',
+								status: 'done',
+								response: 'Server Error 500', // custom error message to show
+								url: 'http://www.baidu.com/xxx.png',
+							},
+						]}
 					>
 						<Button icon={<UploadOutlined />}>Chọn tập tin</Button>
 					</Upload>

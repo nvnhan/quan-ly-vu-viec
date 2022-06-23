@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TaiLieu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class TaiLieuController extends BaseController
 {
@@ -80,6 +81,14 @@ class TaiLieuController extends BaseController
             $taiLieu->refresh();
             return $this->sendResponse($taiLieu, "Cập nhật thành công");
         } else return $this->sendError("Không thể sửa thông tin tài liệu");
+    }
+
+    public function tai_file(Request $request, $id)
+    {
+        $taiLieu = TaiLieu::find($id);
+        if ($taiLieu && Storage::exists('upload/tai-lieu/' . $taiLieu->ten_file))
+            return response()->download(storage_path('app\\upload\\tai-lieu\\' . $taiLieu->ten_file), $taiLieu->ten_file);
+        else return $this->sendError('Tập tin không tồn tại', [], 404);
     }
 
     /**

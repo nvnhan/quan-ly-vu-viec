@@ -1,11 +1,27 @@
 import Typography from 'antd/lib/typography';
-import React from 'react';
+import React, { useState } from 'react';
 import ListForm from '../../../../components/ListForm';
 import { ColumnProps } from '../../../../components/ListForm/DataTable';
+import { downloadApi } from '../../../../utils/downloadFile';
 import FormItem from './FormItem';
 
 const List = (props: { vuViec: any }) => {
 	const { vuViec } = props;
+	const [defaultFileList, setDefaultFileList] = useState<any[]>([]);
+
+	const downloadFile = (id_tai_lieu: any, fileName: string) => {
+		downloadApi(`/api/tai-lieu/${id_tai_lieu}/tai-file`, {}, fileName);
+	};
+
+	const handleEdit = (record: any) => {
+		setDefaultFileList([
+			{
+				uid: '1',
+				name: record.ten_file,
+				status: 'done',
+			},
+		]);
+	};
 
 	const columns: ColumnProps[] = [
 		{
@@ -37,6 +53,7 @@ const List = (props: { vuViec: any }) => {
 		{
 			title: 'Tập tin',
 			dataIndex: 'ten_file',
+			render: (text: string, record: any) => <a onClick={() => downloadFile(record.id, text)}>{text}</a>,
 			width: 120,
 		},
 		{
@@ -61,8 +78,9 @@ const List = (props: { vuViec: any }) => {
 			filter={{ vu_viec: vuViec }}
 			otherParams={{ id_vu_viec: vuViec }}
 			selectable={false}
-			formTemplate={<FormItem vuViec={vuViec} />}
+			formTemplate={<FormItem vuViec={vuViec} defaultFileList={defaultFileList} />}
 			hasUpload
+			handleEdit={handleEdit}
 		/>
 	);
 };
