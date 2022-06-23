@@ -42,10 +42,16 @@ class TaiLieuController extends BaseController
         $data = $request->all();
         $obj = new TaiLieu();
         $obj->fill($data);
-
         $obj->nguoi_tao = $request->user()->id;
 
-        // Save File
+        // Save files
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $ext = strtolower($file->getClientOriginalExtension());
+            $name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $file->getClientOriginalName()) . '.' . rand(1000, 9999);
+            $file->storeAs('upload/tai-lieu', "$name.$ext"); // Upload file to storage/app/upload
+            $taiLieu->ten_file = "$name.$ext";
+        }
 
         $obj->save();
         $obj->refresh();
@@ -66,9 +72,14 @@ class TaiLieuController extends BaseController
         if ($user->admin || $user->id == $taiLieu->nguoi_tao) {
             $taiLieu->fill($data);
 
-            //TODO: Delete old file
+            if ($taiLieu->ten_file && ($request->hasFile('file') || $request->file !== 'undefined')) {
+                if (Storage::exists('upload/tai-lieu/' . $taiLieu->ten_file)) {
+                    Storage::delete('upload/tai-lieu/' . $taiLieu->ten_file);
+                    $taiLieu->ten_file = null;
+                }
+            }
 
-            // Save files
+            // Save new files
             if ($request->hasFile('file')) {
                 $file = $request->file('file');
                 $ext = strtolower($file->getClientOriginalExtension());

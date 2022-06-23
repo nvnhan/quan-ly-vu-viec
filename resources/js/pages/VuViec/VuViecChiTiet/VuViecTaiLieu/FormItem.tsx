@@ -15,8 +15,8 @@ import { groupBy } from 'lodash';
 const form = (props: any) => {
 	const [congViecList, setCongViecList] = useState<{ id: number; group: string; name: string }[]>([]);
 	const { vuViec, defaultFileList } = props;
-	console.log('🚀 ~ file: FormItem.tsx ~ line 18 ~ form ~ defaultFileList', defaultFileList);
-	const [fileList, setFileList] = useState<RcFile[]>([]);
+	// console.log('🚀 ~ file: FormItem.tsx ~ line 18 ~ form ~ defaultFileList', defaultFileList);
+	const [fileList, setFileList] = useState<RcFile[]>(defaultFileList);
 
 	const groupCongViec = Object.entries(groupBy(congViecList, 'group'));
 
@@ -81,15 +81,6 @@ const form = (props: any) => {
 						maxCount={1}
 						fileList={fileList}
 						onRemove={onRemove}
-						defaultFileList={[
-							{
-								uid: '1',
-								name: 'xxx.png',
-								status: 'done',
-								response: 'Server Error 500', // custom error message to show
-								url: 'http://www.baidu.com/xxx.png',
-							},
-						]}
 					>
 						<Button icon={<UploadOutlined />}>Chọn tập tin</Button>
 					</Upload>

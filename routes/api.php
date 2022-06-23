@@ -61,8 +61,8 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('tai-lieu', TaiLieuController::class);
     // Dung cho upload file bang Form Data
     // Form Data chi up thong qua POST
-    Route::post('tai-lieu/{id}', [TaiLieuController::class, 'update']);
-    Route::get('tai-lieu/{id}/tai-file', [TaiLieuController::class, 'tai_file']);
+    Route::post('tai-lieu/{tai_lieu}', [TaiLieuController::class, 'update']);
+    Route::get('tai-lieu/{tai_lieu}/tai-file', [TaiLieuController::class, 'tai_file']);
 
     Route::get('lanh-dao', [CanBoController::class, 'get_lanh_dao']);
     Route::get('nhom-cong-viec', [NhomCongViecController::class, 'index']);

@@ -207,6 +207,7 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 	};
 
 	const onUpdate = (value: { [index: string]: any }, callback?: () => void) => {
+		console.log('🚀 ~ file: index.tsx ~ line 210 ~ onUpdate ~ value', value?.file);
 		if (hasUpload)
 			axios
 				.post(`/api/${url}/${currentRecord[primaryKey as string]}`, getFormData(value), {

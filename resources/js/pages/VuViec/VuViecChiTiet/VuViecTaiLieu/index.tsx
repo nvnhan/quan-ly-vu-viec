@@ -65,7 +65,7 @@ const List = (props: { vuViec: any }) => {
 		{
 			title: 'Ngày đăng',
 			dataIndex: 'created_at',
-			width: 80,
+			width: 90,
 		},
 	];
 
@@ -74,7 +74,7 @@ const List = (props: { vuViec: any }) => {
 			formClass=""
 			url="tai-lieu"
 			columns={columns}
-			tableSize={{ x: 850 }}
+			tableSize={{ x: 900 }}
 			filter={{ vu_viec: vuViec }}
 			otherParams={{ id_vu_viec: vuViec }}
 			selectable={false}
