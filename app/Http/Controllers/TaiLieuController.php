@@ -16,6 +16,11 @@ class TaiLieuController extends BaseController
     public function index(Request $request)
     {
         $query = TaiLieu::query();
+        if ($request->bat_dau && $request->ket_thuc)
+            $query = $query->whereBetween('created_at', [$request->bat_dau, $request->ket_thuc]);
+
+        if (!empty($request->q))
+            $query = $query->where('ten_tai_lieu', 'LIKE', "%$request->q%");
 
         if (!empty($request->vu_viec))
             $query = $query->where('id_vu_viec', $request->vu_viec);

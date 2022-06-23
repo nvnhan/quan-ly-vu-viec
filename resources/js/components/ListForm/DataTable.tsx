@@ -71,6 +71,7 @@ const DataTable = (props: DataTableProps) => {
 		renderSummary,
 		checkUserDoAction,
 		ajax,
+		addStt,
 	} = props;
 	const [myColumns, setMyColumns] = useState<ColumnProps[]>([]);
 	const authUser = useSelector((state: RootState) => state.authUserReducer);
@@ -96,6 +97,7 @@ const DataTable = (props: DataTableProps) => {
 	const calColumns = (): ColumnProps[] => {
 		let cols = columns.filter((column) => !column.roles || authUser.admin).map((column) => getColumn(column, data));
 
+		if (addStt) cols.unshift(addSTTColumn());
 		if (editable || deleteable || !isEmpty(otherActions)) cols.push(addActionColumn());
 		return cols;
 	};
@@ -136,6 +138,17 @@ const DataTable = (props: DataTableProps) => {
 		return column;
 	};
 
+	/**
+	 * Thêm cột STT cho table
+	 */
+	const addSTTColumn = (): any => ({
+		title: 'TT',
+		key: 'stt',
+		align: 'center',
+		width: 30,
+		render: (text: string, record: any, index: number) =>
+			index !== undefined && <b>{index + 1 + (ajax ? (pagination.current - 1) * pagination.pageSize : 0)}</b>,
+	});
 	/**
 	 * Thêm cột chức năng cho table
 	 */

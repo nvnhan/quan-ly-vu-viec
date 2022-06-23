@@ -14,13 +14,15 @@ const List = (props: { vuViec: any }) => {
 	};
 
 	const handleEdit = (record: any) => {
-		setDefaultFileList([
-			{
-				uid: '1',
-				name: record.ten_file,
-				status: 'done',
-			},
-		]);
+		if (record.ten_file)
+			setDefaultFileList([
+				{
+					uid: '1',
+					name: record.ten_file,
+					status: 'done',
+				},
+			]);
+		else setDefaultFileList([]);
 	};
 
 	const columns: ColumnProps[] = [

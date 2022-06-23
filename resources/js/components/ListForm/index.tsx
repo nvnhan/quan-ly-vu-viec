@@ -330,6 +330,7 @@ const defaultProps = {
 	tuNgayDenNgay: true,
 	formClass: 'list-form',
 	hasUpload: false,
+	addStt: false,
 };
 
 export type ListFormProps = {

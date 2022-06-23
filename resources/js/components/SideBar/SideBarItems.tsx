@@ -9,6 +9,7 @@ import React, { lazy } from 'react';
 const TrangChu = lazy(() => import('../../pages/TrangChu'));
 
 const VuViec = lazy(() => import('../../pages/VuViec/ThongTinVuViec'));
+const TaiLieu = lazy(() => import('../../pages/VuViec/TaiLieu'));
 
 const ToiDanh = lazy(() => import('../../pages/ThongTin/ToiDanh'));
 const Nguoi = lazy(() => import('../../pages/ThongTin/Nguoi'));
@@ -51,9 +52,10 @@ const items: SideBarItem[] = [
 				Component: VuViec,
 			},
 			{
-				key: 'BC_CONG_NO_CHI_TIET',
-				href: '/cong-no-chi-tiet',
+				key: 'VV_TAI_LIEU',
+				href: '/kho-tai-lieu',
 				title: 'Kho tài liệu',
+				Component: TaiLieu,
 			},
 			{
 				key: 'CONG_VAN',

@@ -23,14 +23,6 @@ const List = () => {
 
 	const columns: ColumnProps[] = [
 		{
-			title: 'TT',
-			dataIndex: 'id',
-			width: 30,
-			render: (text, record, index) => index !== undefined && <b>{index + 1}</b>,
-			align: 'center',
-			onCell,
-		},
-		{
 			title: 'Tên vụ việc',
 			dataIndex: 'ten_vu_viec',
 			width: 150,
@@ -124,7 +116,7 @@ const List = () => {
 			filter={parseValues({
 				thoiGian: [moment().clone().weekday(0).startOf('day'), moment().clone().weekday(6).endOf('day')],
 			})}
-			otherFilter={getFilters(authUser.ten_dang_nhap)}
+			otherFilter={getFilters()}
 			filterInitialValue={{
 				thoiGian: [moment().clone().weekday(0).startOf('day'), moment().clone().weekday(6).endOf('day')],
 			}}
@@ -138,6 +130,7 @@ const List = () => {
 				ngay_cqdt: moment().startOf('day'),
 				loai_vu_viec: 'AĐ',
 			}}
+			addStt
 		/>
 	);
 };
