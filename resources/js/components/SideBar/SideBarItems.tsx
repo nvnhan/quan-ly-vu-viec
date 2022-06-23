@@ -10,6 +10,7 @@ const TrangChu = lazy(() => import('../../pages/TrangChu'));
 
 const VuViec = lazy(() => import('../../pages/VuViec/ThongTinVuViec'));
 const TaiLieu = lazy(() => import('../../pages/VuViec/TaiLieu'));
+const CongVan = lazy(() => import('../../pages/VuViec/CongVan'));
 
 const ToiDanh = lazy(() => import('../../pages/ThongTin/ToiDanh'));
 const Nguoi = lazy(() => import('../../pages/ThongTin/Nguoi'));
@@ -58,10 +59,10 @@ const items: SideBarItem[] = [
 				Component: TaiLieu,
 			},
 			{
-				key: 'CONG_VAN',
+				key: 'VV_CONG_VAN',
 				href: '/cong-van',
 				title: 'Công văn',
-				Component: TrangChu,
+				Component: CongVan,
 			},
 		],
 	},
