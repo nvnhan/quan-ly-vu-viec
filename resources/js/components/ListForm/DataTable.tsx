@@ -324,7 +324,7 @@ const DataTable = (props: DataTableProps) => {
 
 	return (
 		<Table
-			dataSource={data}
+			dataSource={[...data]}
 			columns={myColumns as any[]}
 			loading={isLoading}
 			rowKey={(row) => row[props.primaryKey as string]}
