@@ -8,6 +8,16 @@ export const CHUC_VU = [
 	{ id: 9, label: 'Quản trị viên' },
 ];
 
+export enum MA_CHUC_VU {
+	CAN_BO,
+	DOI_PHO,
+	TONG_HOP_DOI,
+	DOI_TRUONG,
+	GIUP_VIEC_PTT,
+	LANH_DAO,
+	QUAN_TRI_VIEN = 9,
+}
+
 export const TU_CACH_TO_TUNG = [
 	{ id: 1, label: 'Người tố giác' },
 	{ id: 2, label: 'Người bị tố giác' },
@@ -54,12 +64,24 @@ export const TEN_MUC_DO_UU_TIEN = [
 
 export const TEN_TRANG_THAI_CONG_VIEC = [
 	{ id: 0, label: 'Mới tạo', color: 'gold' },
-	{ id: 1, label: 'Mới giao', color: 'cyan' },
+	{ id: 1, label: 'Mới giao', color: 'orange' },
 	{ id: 2, label: 'Đã tiếp nhận', color: 'purple' },
 	{ id: 3, label: 'Đang thực hiện', color: 'geekblue' },
 	{ id: 4, label: 'Đã thực hiện', color: 'blue' },
-	{ id: 5, label: 'Chưa đạt', color: 'red' },
-	{ id: 6, label: 'Xác nhận', color: 'cyan' },
-	{ id: 7, label: 'Hoàn thành', color: 'green' },
-	{ id: -1, label: 'Hủy', color: 'default' },
+	{ id: 5, label: 'Xác nhận', color: 'cyan' },
+	{ id: 6, label: 'Hủy', color: 'default' },
+	{ id: 7, label: 'Chưa đạt', color: 'red' },
+	{ id: 8, label: 'Hoàn thành', color: 'green' },
 ];
+
+export enum MA_TRANG_THAI_CONG_VIEC {
+	MOI_TAO,
+	MOI_GIAO,
+	DA_TIEP_NHAN,
+	DANG_THUC_HIEN,
+	DA_THUC_HIEN,
+	XAC_NHAN,
+	HUY,
+	CHUA_DAT,
+	HOAN_THANH,
+}

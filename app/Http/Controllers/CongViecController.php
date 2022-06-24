@@ -102,9 +102,26 @@ class CongViecController extends BaseController
      * @param  \App\Models\CongViec  $congViec
      * @return \Illuminate\Http\Response
      */
-    public function show(CongViec $congViec)
+    public function sua_trang_thai(Request $request, CongViec $congViec)
     {
-        //
+        $congViec->fill($request->all());
+        switch ($request->trang_thai) {
+            case 3:
+                $congViec->ngay_bat_dau = now();
+                break;
+            case 4:
+                $congViec->ngay_ket_thuc = now();
+                break;
+            case 5:
+                $congViec->ngay_xac_nhan = now();
+                break;
+            case 8:
+                $congViec->ngay_hoan_thanh = now();
+                break;
+        }
+        $congViec->save();
+        $congViec->refresh();
+        return $this->sendResponse($congViec, "Cập nhật trạng thái thành công");
     }
 
     /**

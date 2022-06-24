@@ -7,11 +7,11 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import MyDatePicker from '../../../../components/Controls/MyDatePicker';
 import MyDebounceSelect, { SelectValue } from '../../../../components/Controls/MyDebounceSelect';
-import nhomCongViecReducer, { fetchNhomCongViec } from '../../../../reducers/nhomCongViec';
+import { fetchNhomCongViec } from '../../../../reducers/nhomCongViec';
 import { RootState } from '../../../../store';
 import { TEN_MUC_DO_UU_TIEN } from '../../../../utils/constant';
 import { required } from '../../../../utils/rules';
-import { getSearchCanBo, getSearchXaPhuong } from '../../../../utils/services';
+import { getSearchCanBo } from '../../../../utils/services';
 
 const form = () => {
 	const dispatch = useDispatch();

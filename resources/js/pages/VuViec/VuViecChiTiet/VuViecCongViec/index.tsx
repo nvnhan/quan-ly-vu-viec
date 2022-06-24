@@ -19,19 +19,26 @@ import Row from 'antd/lib/row';
 import Select from 'antd/lib/select';
 import Spin from 'antd/lib/spin';
 import Tag from 'antd/lib/tag';
-import axios from 'axios';
 import { groupBy } from 'lodash';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store';
 import { parseValues, unionDataBy, useMergeState } from '../../../../utils';
-import { TEN_MUC_DO_UU_TIEN, TEN_TRANG_THAI_CONG_VIEC } from '../../../../utils/constant';
+import axios from '../../../../utils/axios';
+import {
+	MA_CHUC_VU,
+	MA_TRANG_THAI_CONG_VIEC,
+	TEN_MUC_DO_UU_TIEN,
+	TEN_TRANG_THAI_CONG_VIEC,
+} from '../../../../utils/constant';
 import { getApi } from '../../../../utils/services';
 import FormVuViecCongViec from './FormItem';
+import FormStatus from './FormStatus';
 
 const List = (props: { vuViec: any }) => {
 	const authUser = useSelector((state: RootState) => state.authUserReducer);
 	const [form] = Form.useForm();
+	const [formStatus] = Form.useForm();
 	const [formFilter] = Form.useForm();
 
 	const [state, setState] = useMergeState({
@@ -42,6 +49,11 @@ const List = (props: { vuViec: any }) => {
 		uuTien: '',
 		modalVisible: false,
 		formSubmitting: false,
+	});
+	const [stateYKien, setStateYKien] = useMergeState({
+		status: null,
+		modalVisible: false,
+		record: null,
 	});
 	const { data, loading, record, modalVisible, formSubmitting, trangThai, uuTien } = state;
 	const { vuViec } = props;
@@ -128,6 +140,8 @@ const List = (props: { vuViec: any }) => {
 		});
 	};
 
+	const onCancel = () => setState({ modalVisible: false });
+
 	const onInsertAuto = () => {
 		setState({ loading: true, formSubmitting: true });
 		axios
@@ -145,8 +159,6 @@ const List = (props: { vuViec: any }) => {
 			.catch((error) => console.log(error));
 	};
 
-	const onCancel = () => setState({ modalVisible: false });
-
 	const onFilter = (values: any) => {
 		if (trangThai !== values.trangThai || uuTien !== values.uuTien) {
 			setState({ loading: true, trangThai: values.trangThai, uuTien: values.uuTien });
@@ -154,7 +166,32 @@ const List = (props: { vuViec: any }) => {
 		}
 	};
 
-	const hanleChangeStatus = (congViec: any, status: any) => {};
+	const onSubmitStatus = (values: any) => {
+		delete values.ten_cong_viec;
+		axios.post(`/api/cong-viec/${values?.id ?? stateYKien.record.id}/trang-thai`, values).then((response) => {
+			if (response.data.success) {
+				message.success(response.data.message);
+				setStateYKien({ record: null, status: null, modalVisible: false });
+
+				const mergedData = unionDataBy(data, response.data.data, 'id'); // New data is first line
+				setState({
+					record: null,
+					data: mergedData,
+					formSubmitting: false,
+					modalVisible: false,
+				});
+			}
+		});
+	};
+
+	const hanleChangeStatus = (congViec: any, status: any) => {
+		if (status.id === MA_TRANG_THAI_CONG_VIEC.DA_TIEP_NHAN || status.id === MA_TRANG_THAI_CONG_VIEC.DANG_THUC_HIEN)
+			onSubmitStatus({ id: congViec.id, trang_thai: status.id }); // Set trang thai luon
+		else {
+			formStatus.setFieldsValue({ ...congViec, trang_thai: status.id });
+			setStateYKien({ record: congViec, status, modalVisible: true }); // Show Modal
+		}
+	};
 
 	const genHeader = (congViec: any, index: number) => (
 		<>
@@ -172,29 +209,75 @@ const List = (props: { vuViec: any }) => {
 						{item.label}
 					</Tag>
 				))}
-				{congViec.trang_thai === 0 && 'Ngày: ' + congViec.created_at}
-				{congViec.trang_thai === 1 && 'Ngày: ' + congViec.ngay_giao}
-				{/* {congViec.trang_thai === 2 && 'Ngày: ' + congViec.ngay_giao} */}
-				{congViec.trang_thai === 3 && 'Ngày: ' + congViec.ngay_bat_dau}
-				{congViec.trang_thai === 4 && 'Ngày: ' + congViec.ngay_ket_thuc}
-				{/* {congViec.trang_thai === 5 && 'Ngày: ' + congViec.created_at} */}
-				{congViec.trang_thai === 6 && 'Ngày: ' + congViec.ngay_xac_nhan}
-				{congViec.trang_thai === 7 && 'Ngày: ' + congViec.ngay_hoan_thanh}
+				{congViec.trang_thai === MA_TRANG_THAI_CONG_VIEC.MOI_TAO && 'Ngày: ' + congViec.created_at}
+				{congViec.trang_thai === MA_TRANG_THAI_CONG_VIEC.MOI_GIAO && 'Ngày: ' + congViec.ngay_giao}
+				{congViec.trang_thai === MA_TRANG_THAI_CONG_VIEC.DANG_THUC_HIEN && 'Ngày: ' + congViec.ngay_bat_dau}
+				{congViec.trang_thai === MA_TRANG_THAI_CONG_VIEC.DA_THUC_HIEN && 'Ngày: ' + congViec.ngay_ket_thuc}
+				{congViec.trang_thai === MA_TRANG_THAI_CONG_VIEC.XAC_NHAN && 'Ngày: ' + congViec.ngay_xac_nhan}
+				{congViec.trang_thai === MA_TRANG_THAI_CONG_VIEC.HOAN_THANH && 'Ngày: ' + congViec.ngay_hoan_thanh}
 				<Divider type="vertical" />
 				Ngày hết hạn: {congViec.ngay_het_han}
 			</div>
 		</>
 	);
 
-	const genMenus = (congViec: any) => (
-		<Menu
-			items={TEN_TRANG_THAI_CONG_VIEC.map((item) => ({
-				key: item.id,
-				label: <Tag color={item.color}>{item.label}</Tag>,
-				onClick: () => hanleChangeStatus(congViec, item),
-			}))}
-		/>
-	);
+	const genMenus = (congViec: any) => {
+		let statusCongViec: any[] = [];
+		// Can bo thu ly
+		if (authUser.id === congViec.id_can_bo) {
+			if (
+				![
+					MA_TRANG_THAI_CONG_VIEC.XAC_NHAN,
+					MA_TRANG_THAI_CONG_VIEC.HUY,
+					MA_TRANG_THAI_CONG_VIEC.HOAN_THANH,
+				].includes(congViec.trang_thai)
+			)
+				statusCongViec = TEN_TRANG_THAI_CONG_VIEC.filter((item) =>
+					[
+						MA_TRANG_THAI_CONG_VIEC.DA_TIEP_NHAN,
+						MA_TRANG_THAI_CONG_VIEC.DANG_THUC_HIEN,
+						MA_TRANG_THAI_CONG_VIEC.DA_THUC_HIEN,
+					].includes(item.id)
+				);
+		}
+		if (authUser.chuc_vu === MA_CHUC_VU.DOI_TRUONG) {
+			// Neu chua hoan thanh thi co the huy
+			if (congViec.trang_thai !== MA_TRANG_THAI_CONG_VIEC.HOAN_THANH)
+				statusCongViec.push(
+					TEN_TRANG_THAI_CONG_VIEC.filter((item) => item.id === MA_TRANG_THAI_CONG_VIEC.HUY)[0]
+				);
+			// Neu da thuc hien co the xac nhan hoac chua dat
+			if (congViec.trang_thai === MA_TRANG_THAI_CONG_VIEC.DA_THUC_HIEN)
+				statusCongViec = statusCongViec.concat(
+					TEN_TRANG_THAI_CONG_VIEC.filter((item) =>
+						[MA_TRANG_THAI_CONG_VIEC.XAC_NHAN, MA_TRANG_THAI_CONG_VIEC.CHUA_DAT].includes(item.id)
+					)
+				);
+		}
+		if (authUser.chuc_vu >= MA_CHUC_VU.GIUP_VIEC_PTT) {
+			// Neu chua hoan thanh thi co the huy
+			if (congViec.trang_thai !== MA_TRANG_THAI_CONG_VIEC.HOAN_THANH)
+				statusCongViec.push(
+					TEN_TRANG_THAI_CONG_VIEC.filter((item) => item.id === MA_TRANG_THAI_CONG_VIEC.HUY)[0]
+				);
+			// Neu da thuc hien co the xac nhan hoac chua dat
+			if (congViec.trang_thai === MA_TRANG_THAI_CONG_VIEC.XAC_NHAN)
+				statusCongViec = statusCongViec.concat(
+					TEN_TRANG_THAI_CONG_VIEC.filter((item) =>
+						[MA_TRANG_THAI_CONG_VIEC.HOAN_THANH, MA_TRANG_THAI_CONG_VIEC.CHUA_DAT].includes(item.id)
+					)
+				);
+		}
+		return (
+			<Menu
+				items={statusCongViec.map((item) => ({
+					key: item.id,
+					label: <Tag color={item.color}>{item.label}</Tag>,
+					onClick: () => hanleChangeStatus(congViec, item),
+				}))}
+			/>
+		);
+	};
 
 	const genExtras = (congViec: any) => (
 		<>
@@ -208,11 +291,14 @@ const List = (props: { vuViec: any }) => {
 				)}
 			</div>
 
-			<Dropdown overlay={() => genMenus(congViec)}>
-				<Button type="link" size="small">
-					<CheckSquareOutlined /> Cập nhật trạng thái công việc
-				</Button>
-			</Dropdown>
+			{congViec.trang_thai !== MA_TRANG_THAI_CONG_VIEC.HOAN_THANH &&
+				congViec.trang_thai !== MA_TRANG_THAI_CONG_VIEC.HUY && (
+					<Dropdown overlay={() => genMenus(congViec)}>
+						<Button type="link" size="small">
+							<CheckSquareOutlined /> Cập nhật trạng thái công việc
+						</Button>
+					</Dropdown>
+				)}
 
 			{(authUser.admin || authUser.id === congViec.nguoi_tao) && (
 				<>
@@ -349,6 +435,7 @@ const List = (props: { vuViec: any }) => {
 				</Spin>
 			</div>
 
+			{/* Modal insert / edit */}
 			<Modal
 				visible={modalVisible}
 				title={record !== undefined ? 'Chỉnh sửa' : 'Thêm mới'}
@@ -364,6 +451,31 @@ const List = (props: { vuViec: any }) => {
 			>
 				<Form layout="vertical" form={form}>
 					<FormVuViecCongViec />
+				</Form>
+			</Modal>
+			{/* Modal update status */}
+			<Modal
+				visible={stateYKien.modalVisible}
+				title="Cập nhật trạng thái công việc"
+				onCancel={() => setStateYKien({ record: null, status: null, modalVisible: false })}
+				footer={[
+					<Button
+						key="back"
+						onClick={() => setStateYKien({ record: null, status: null, modalVisible: false })}
+					>
+						Hủy
+					</Button>,
+					<Button
+						key="submit"
+						type="primary"
+						onClick={() => formStatus.validateFields().then((values) => onSubmitStatus(values))}
+					>
+						Đồng ý
+					</Button>,
+				]}
+			>
+				<Form layout="vertical" form={formStatus}>
+					<FormStatus status={stateYKien.status} />
 				</Form>
 			</Modal>
 		</>

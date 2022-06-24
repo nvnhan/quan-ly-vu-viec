@@ -50,7 +50,7 @@ class CongViec extends Model
     protected $fillable = [
         'id_vu_viec', 'id_nhom_cong_viec',
         'ten_cong_viec', 'noi_dung', 'muc_do_uu_tien',
-        'ngay_het_han', 'ket_qua',  'phe_duyet',
+        'ngay_het_han', 'trang_thai', 'ket_qua',  'phe_duyet',
     ];
 
     /**
