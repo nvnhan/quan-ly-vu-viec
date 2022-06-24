@@ -22,6 +22,9 @@ class TaiLieuController extends BaseController
         if (!empty($request->q))
             $query = $query->where('ten_tai_lieu', 'LIKE', "%$request->q%");
 
+        if (!empty($request->ten_tai_lieu))
+            $query = $query->where('ten_tai_lieu', 'LIKE', "%$request->ten_tai_lieu%");
+
         if (!empty($request->vu_viec))
             $query = $query->where('id_vu_viec', $request->vu_viec);
 

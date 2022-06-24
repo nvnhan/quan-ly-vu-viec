@@ -12,6 +12,8 @@ const VuViec = lazy(() => import('../../pages/VuViec/ThongTinVuViec'));
 const TaiLieu = lazy(() => import('../../pages/VuViec/TaiLieu'));
 const CongVan = lazy(() => import('../../pages/VuViec/CongVan'));
 
+const VanBanPhapLuat = lazy(() => import('../../pages/VanBanPhapLuat'));
+
 const ToiDanh = lazy(() => import('../../pages/ThongTin/ToiDanh'));
 const Nguoi = lazy(() => import('../../pages/ThongTin/Nguoi'));
 const DonVi = lazy(() => import('../../pages/ThongTin/DonVi'));
@@ -103,7 +105,7 @@ const items: SideBarItem[] = [
 		href: '/van-ban-phap-luat',
 		icon: <FileProtectOutlined />,
 		title: 'Văn bản pháp luật',
-		Component: TrangChu,
+		Component: VanBanPhapLuat,
 	},
 	{
 		key: 'SUB_TT',

@@ -31,6 +31,7 @@ const List = () => {
 			title: 'Vụ việc',
 			dataIndex: 'ten_vu_viec',
 			width: 200,
+			optFind: true,
 			onCell,
 		},
 		{
@@ -38,6 +39,7 @@ const List = () => {
 			dataIndex: 'noi_dung',
 			render: (text: string) => <Typography.Paragraph ellipsis={{ rows: 3 }}>{text}</Typography.Paragraph>,
 			width: 250,
+			// optFind: true,
 			onCell,
 		},
 		{
@@ -68,7 +70,7 @@ const List = () => {
 			filter={parseValues({
 				thoiGian: [moment().clone().weekday(0).startOf('day'), moment().clone().weekday(6).endOf('day')],
 			})}
-			otherFilter={getFilters()}
+			// otherFilter={getFilters()}
 			filterInitialValue={{
 				thoiGian: [moment().clone().weekday(0).startOf('day'), moment().clone().weekday(6).endOf('day')],
 			}}

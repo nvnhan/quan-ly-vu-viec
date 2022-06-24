@@ -14,6 +14,7 @@ use App\Http\Controllers\NguoiController;
 use App\Http\Controllers\NhomCongViecController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TaiLieuController;
+use App\Http\Controllers\VanBanPhapLuatController;
 use App\Http\Controllers\VuViecController;
 use App\Http\Controllers\VuViecNguoiController;
 use Illuminate\Support\Facades\Route;
@@ -66,6 +67,12 @@ Route::middleware('auth:api')->group(function () {
     Route::get('tai-lieu/{tai_lieu}/tai-file', [TaiLieuController::class, 'tai_file']);
 
     Route::resource('cong-van', CongVanController::class);
+
+    Route::resource('van-ban-phap-luat', VanBanPhapLuatController::class);
+    // Dung cho upload file bang Form Data
+    // Form Data chi up thong qua POST
+    Route::post('van-ban-phap-luat/{van_ban_phap_luat}', [VanBanPhapLuatController::class, 'update']);
+    Route::get('van-ban-phap-luat/{van_ban_phap_luat}/tai-file', [VanBanPhapLuatController::class, 'tai_file']);
 
     Route::get('lanh-dao', [CanBoController::class, 'get_lanh_dao']);
     Route::get('nhom-cong-viec', [NhomCongViecController::class, 'index']);
