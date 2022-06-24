@@ -79,10 +79,10 @@ class TaiLieuController extends BaseController
             $taiLieu->fill($data);
 
             if ($taiLieu->ten_file && ($request->hasFile('file') || $request->file !== 'undefined')) {
-                if (Storage::exists('upload/tai-lieu/' . $taiLieu->ten_file)) {
+                if (Storage::exists('upload/tai-lieu/' . $taiLieu->ten_file))
                     Storage::delete('upload/tai-lieu/' . $taiLieu->ten_file);
-                    $taiLieu->ten_file = null;
-                }
+
+                $taiLieu->ten_file = null;
             }
 
             // Save new files

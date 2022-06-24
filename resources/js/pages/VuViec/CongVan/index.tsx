@@ -1,8 +1,11 @@
 import Typography from 'antd/lib/typography';
+import moment from 'moment';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import ListForm from '../../../components/ListForm';
 import { ColumnProps } from '../../../components/ListForm/DataTable';
+import { parseValues } from '../../../utils';
+import getFilters from '../ThongTinVuViec/otherFilters';
 
 const List = (props: { vuViec: any }) => {
 	const navigate = useNavigate();
@@ -73,7 +76,7 @@ const List = (props: { vuViec: any }) => {
 		{
 			title: 'Cán bộ thụ lý',
 			dataIndex: 'ten_can_bo_thu_ly',
-			optFilter: true,
+			// optFilter: true,
 			width: 100,
 		},
 	];
@@ -88,6 +91,14 @@ const List = (props: { vuViec: any }) => {
 			editable={false}
 			insertable={false}
 			deleteable={false}
+			filterBox
+			filter={parseValues({
+				thoiGian: [moment().clone().weekday(0).startOf('day'), moment().clone().weekday(6).endOf('day')],
+			})}
+			otherFilter={getFilters()}
+			filterInitialValue={{
+				thoiGian: [moment().clone().weekday(0).startOf('day'), moment().clone().weekday(6).endOf('day')],
+			}}
 			addStt
 		/>
 	);
