@@ -52,10 +52,25 @@ class VuViecController extends BaseController
 
     public function setVuViecFields(&$vuViec, Request $request)
     {
-        $dp = [];
+        $dp = [];       // Xa, phuong
         foreach ($request->sel_dp_xay_ra as $key => $value)
             if ($value['value']) $dp[] = $value['value'];
         $vuViec->dp_xay_ra = implode(',', $dp);
+        // Gen Khu vuc xay ra
+        $don_vis = DonVi::whereIn('id', $dp)->select('dia_phuong')->distinct()->get();
+        if (count($don_vis) === 1)
+            $vuViec->khu_vuc_xay_ra = $don_vis[0]->ten_dia_phuong;  // Quan/Huyen - Tinh/Thanh pho
+        else {
+            $tmp = explode(' - ', $don_vis[0]->ten_dia_phuong)[1] ?? '';        // Tinh/Thanh pho
+            for ($i = 1; $i < count($don_vis); $i++) {
+                $tmp1 = explode(' - ', $don_vis[$i]->ten_dia_phuong)[1] ?? '';
+                if ($tmp !== $tmp1) {
+                    $tmp = 'Toàn quốc';
+                    break;
+                }
+            }
+            $vuViec->khu_vuc_xay_ra = $tmp;
+        }
 
         $vuViec->id_dtv_chinh = $request->sel_dtv_chinh['value'] ?? null;
         $vuViec->id_can_bo_chinh = $request->sel_can_bo_chinh['value'] ?? null;

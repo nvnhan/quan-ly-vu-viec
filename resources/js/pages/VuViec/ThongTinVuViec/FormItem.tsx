@@ -22,6 +22,11 @@ const form = () => {
 
 	return (
 		<Row gutter={[10, 5]}>
+			<Col span={24} sm={12}>
+				<Form.Item name="noi_dung_tom_tat" label="Nội dung tóm tắt" rules={[required]}>
+					<Input />
+				</Form.Item>
+			</Col>
 			<Col span={12} sm={6}>
 				<Form.Item name="ngay_ca_phuong" label="Ngày CA phường tiếp nhận">
 					<MyDatePicker format="DD/MM/YYYY" />
@@ -49,11 +54,6 @@ const form = () => {
 							</Select.Option>
 						))}
 					</Select>
-				</Form.Item>
-			</Col>
-			<Col span={24} sm={12}>
-				<Form.Item name="noi_dung_tom_tat" label="Nội dung tóm tắt" rules={[required]}>
-					<Input />
 				</Form.Item>
 			</Col>
 
