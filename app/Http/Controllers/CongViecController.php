@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CanBo;
 use App\Models\CongViec;
 use App\Models\CongViecKhoiTao;
 use App\Models\VuViec;
@@ -17,16 +18,35 @@ class CongViecController extends BaseController
      */
     public function index(Request $request)
     {
-        if ($request->vu_viec) {
-            $query = CongViec::where('id_vu_viec', $request->vu_viec);
-            if ($request->trang_thai)
-                $query = $query->where('trang_thai', $request->trang_thai);
-            if ($request->uu_tien)
-                $query = $query->where('muc_do_uu_tien', $request->uu_tien);
+        $query = CongViec::query();
+        if ($request->id_can_bo) {
+            $query = $query->where('id_can_bo', $request->id_can_bo);
+            if ($request->bat_dau && $request->ket_thuc)
+                $query = $query->whereBetween('ngay_giao', [$request->bat_dau, $request->ket_thuc]);
+        } else if ($request->bat_dau && $request->ket_thuc)
+            $query = $query->whereBetween('created_at', [$request->bat_dau, $request->ket_thuc]);
 
-            return $this->sendResponse($query->get(), 'CongViec retrieved successfully');
-        } else
-            return $this->sendError('You are not allowed to access this data', [], 403);
+        if ($request->nguoi_tao)
+            $query = $query->where('nguoi_tao', $request->nguoi_tao);
+
+        if ($request->vu_viec)
+            $query = $query->where('id_vu_viec', $request->vu_viec);
+        if ($request->trang_thai)
+            $query = $query->whereIn('trang_thai', explode(',', $request->trang_thai));
+        if ($request->muc_do_uu_tien)
+            $query = $query->whereIn('muc_do_uu_tien', explode(',', $request->muc_do_uu_tien));
+        if ($request->ten_cong_viec)
+            $query = $query->where('ten_cong_viec', 'LIKE', "%$request->ten_cong_viec%");
+
+        $query = $query->orderBy('created_at', 'DESC');
+        // For AJAX pagination loading
+        $total = $query->count();
+        $page = $request->p;
+        $size = $request->s;
+        if ($page > 0 && $size > 0)
+            $query = $query->skip(($page - 1) * $size)->take($size);
+        $objs = $query->get();
+        return $this->sendResponse($objs, 'CongViec retrieved successfully', $total);
     }
 
     public static function setCongViecFields(&$congViec, Request $request)
@@ -115,6 +135,9 @@ class CongViecController extends BaseController
             case 5:
                 $congViec->ngay_xac_nhan = now();
                 break;
+            case 7:
+                $congViec->ngay_ket_thuc = null; // Chua dat
+                break;
             case 8:
                 $congViec->ngay_hoan_thanh = now();
                 break;
@@ -157,5 +180,40 @@ class CongViecController extends BaseController
     {
         $congViec->delete();
         return $this->sendResponse('', 'Xóa thành công vai trò của người trong vụ việc');
+    }
+
+    public function bao_cao_cong_viec(Request $request)
+    {
+        $can_bo = CanBo::where('chuc_vu', '<=', 4)->with('cong_viec_nhans')->get();      // Tu giup viec tro xuong
+        foreach ($can_bo as $key => $cb) {
+            $cb->cv_hoan_thanh_dung_han = $cb->cong_viec_nhans
+                ->where('trang_thai', 8)
+                ->where('ngay_ket_thuc', '<=', 'ngay_het_han')
+                ->count();
+            $cb->cv_hoan_thanh_qua_han = $cb->cong_viec_nhans
+                ->where('trang_thai', 8)
+                ->where('ngay_ket_thuc', '>', 'ngay_het_han')
+                ->count();
+            $cb->cv_cho_danh_gia = $cb->cong_viec_nhans
+                ->whereIn('trang_thai', [4, 5])
+                ->count();
+            $cb->cv_huy = $cb->cong_viec_nhans
+                ->where('trang_thai', 6)
+                ->count();
+            $cb->cv_thuc_hien = $cb->cong_viec_nhans
+                ->whereNotIn('trang_thai', [4, 5, 6, 8])
+                ->count();
+            $cv_muon = CongViec::where('id_can_bo', $cb->id)
+                ->where('trang_thai', '!=', 6)
+                ->where(fn ($query) => $query
+                    ->where(fn ($q) => $q
+                        ->whereNull('ngay_ket_thuc')
+                        ->where('ngay_het_han', '<', Date('Y-m-d')))
+                    ->orWhereRaw('ngay_ket_thuc > ngay_het_han'))->get();
+            \Log::debug($cv_muon);
+            // ->count();
+        }
+
+        return $this->sendResponse($can_bo, 'Successfull', count($can_bo));
     }
 }

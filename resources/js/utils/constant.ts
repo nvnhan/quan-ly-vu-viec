@@ -64,7 +64,7 @@ export const TEN_MUC_DO_UU_TIEN = [
 
 export const TEN_TRANG_THAI_CONG_VIEC = [
 	{ id: 0, label: 'Mới tạo', color: 'gold' },
-	{ id: 1, label: 'Mới giao', color: 'orange' },
+	{ id: 1, label: 'Mới giao', color: 'magenta' },
 	{ id: 2, label: 'Đã tiếp nhận', color: 'purple' },
 	{ id: 3, label: 'Đang thực hiện', color: 'geekblue' },
 	{ id: 4, label: 'Đã thực hiện', color: 'blue' },

@@ -59,10 +59,10 @@ class CongViec extends Model
      * @var array
      */
     protected $hidden = [
-        'can_bo_thu_ly', 'nhom_cong_viec', 'can_bo_tao'
+        'can_bo_thu_ly', 'nhom_cong_viec', 'can_bo_tao', 'vu_viec'
     ];
 
-    protected $appends = ['ten_nguoi_tao', 'ten_can_bo_thu_ly', 'sel_can_bo', 'ten_nhom_cong_viec'];
+    protected $appends = ['ten_nguoi_tao', 'ten_can_bo_thu_ly', 'sel_can_bo', 'ten_nhom_cong_viec', 'ten_vu_viec',];
 
     public function can_bo_thu_ly()
     {
@@ -77,6 +77,16 @@ class CongViec extends Model
     public function nhom_cong_viec()
     {
         return $this->belongsTo('App\Models\NhomCongViec', 'id_nhom_cong_viec');
+    }
+
+    public function vu_viec()
+    {
+        return $this->belongsTo('App\Models\VuViec', 'id_vu_viec');
+    }
+
+    public function getTenVuViecAttribute()
+    {
+        return $this->vu_viec->ten_vu_viec ?? '';
     }
 
     public function getTenNhomCongViecAttribute()

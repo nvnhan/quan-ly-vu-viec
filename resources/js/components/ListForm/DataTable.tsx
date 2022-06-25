@@ -25,7 +25,7 @@ export interface ColumnProps extends ColumnType<any> {
 	optFind?: boolean;
 	ellipsis?: boolean;
 	optFilter?: boolean;
-	fixedFilter?: object[];
+	fixedFilter?: { value: number | string; text: string }[];
 	key?: string;
 	render?: (text: any, record?: any, index?: number) => any;
 	sorter?: (a: any, b: any) => number;

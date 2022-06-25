@@ -12,6 +12,11 @@ const VuViec = lazy(() => import('../../pages/VuViec/ThongTinVuViec'));
 const TaiLieu = lazy(() => import('../../pages/VuViec/TaiLieu'));
 const CongVan = lazy(() => import('../../pages/VuViec/CongVan'));
 
+const TatCaCongViec = lazy(() => import('../../pages/CongViec/TatCa'));
+const CongViecCuaToi = lazy(() => import('../../pages/CongViec/CuaToi'));
+const CongViecDaTao = lazy(() => import('../../pages/CongViec/DaTao'));
+const CongViecBaoCao = lazy(() => import('../../pages/CongViec/BaoCao'));
+
 const VanBanPhapLuat = lazy(() => import('../../pages/VanBanPhapLuat'));
 
 const ToiDanh = lazy(() => import('../../pages/ThongTin/ToiDanh'));
@@ -78,25 +83,25 @@ const items: SideBarItem[] = [
 				key: 'CV_TAT_CA',
 				href: '/tat-ca-cong-viec',
 				title: 'Tất cả công việc',
-				Component: TrangChu,
+				Component: TatCaCongViec,
 			},
 			{
 				key: 'CV_CUA_TOI',
 				href: '/cong-viec-cua-toi',
 				title: 'Công việc của tôi',
-				Component: TrangChu,
+				Component: CongViecCuaToi,
 			},
 			{
 				key: 'CV_DA_TAO',
 				href: '/cong-viec-da-tao',
 				title: 'Công việc đã tạo',
-				Component: TrangChu,
+				Component: CongViecDaTao,
 			},
 			{
 				key: 'CV_TONG_HOP',
 				href: '/tong-hop-cong-viec',
 				title: 'Tổng hợp theo cán bộ',
-				Component: TrangChu,
+				Component: CongViecBaoCao,
 			},
 		],
 	},

@@ -57,9 +57,10 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('vu-viec', VuViecController::class);
     Route::resource('vu-viec-nguoi', VuViecNguoiController::class);
 
-    Route::resource('cong-viec', CongViecController::class);
+    Route::resource('cong-viec', CongViecController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::post('cong-viec/khoi-tao', [CongViecController::class, 'them_khoi_tao']);
     Route::post('cong-viec/{cong_viec}/trang-thai', [CongViecController::class, 'sua_trang_thai']);
+    Route::get('cong-viec/bao-cao', [CongViecController::class, 'bao_cao_cong_viec']);
 
     Route::resource('tai-lieu', TaiLieuController::class);
     // Dung cho upload file bang Form Data
