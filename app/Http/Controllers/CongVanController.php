@@ -20,6 +20,11 @@ class CongVanController extends BaseController
 
         if (!empty($request->q))
             $query = $query->where('tieu_de', 'LIKE', "%$request->q%");
+        if (!empty($request->tieu_de))
+            $query = $query->where('tieu_de', 'LIKE', "%$request->tieu_de%");
+
+        if (!empty($request->co_quan_nhan))
+            $query = $query->where('co_quan_nhan', 'LIKE', "%$request->co_quan_nhan%");
 
         if (!empty($request->vu_viec))
             $query = $query->where('id_vu_viec', $request->vu_viec);
@@ -54,7 +59,7 @@ class CongVanController extends BaseController
         $obj->fill($data);
         $obj->nguoi_tao = $request->user()->id;
         if (empty($obj->id_cong_van_cha))
-            self::setCongVanFields($congVan, $request);
+            self::setCongVanFields($obj, $request);
 
         $obj->save();
         $obj->refresh();

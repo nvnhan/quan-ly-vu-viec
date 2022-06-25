@@ -26,6 +26,7 @@ const List = (props: { vuViec: any }) => {
 			title: 'Tiêu đề công văn',
 			dataIndex: 'tieu_de',
 			width: 180,
+			optFind: true,
 			onCell,
 		},
 		{
@@ -53,6 +54,7 @@ const List = (props: { vuViec: any }) => {
 			title: 'Nơi nhận',
 			dataIndex: 'co_quan_nhan',
 			width: 120,
+			optFind: true,
 			onCell,
 		},
 		{
@@ -95,7 +97,7 @@ const List = (props: { vuViec: any }) => {
 			filter={parseValues({
 				thoiGian: [moment().clone().weekday(0).startOf('day'), moment().clone().weekday(6).endOf('day')],
 			})}
-			otherFilter={getFilters()}
+			// otherFilter={getFilters()}
 			filterInitialValue={{
 				thoiGian: [moment().clone().weekday(0).startOf('day'), moment().clone().weekday(6).endOf('day')],
 			}}

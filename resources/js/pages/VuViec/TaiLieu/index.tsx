@@ -21,17 +21,17 @@ const List = () => {
 
 	const columns: ColumnProps[] = [
 		{
-			title: 'Tên tài liệu',
-			dataIndex: 'ten_tai_lieu',
-			optFind: true,
-			width: 150,
+			title: 'Vụ việc',
+			dataIndex: 'ten_vu_viec',
+			width: 180,
+			// optFind: true,
 			onCell,
 		},
 		{
-			title: 'Vụ việc',
-			dataIndex: 'ten_vu_viec',
-			width: 200,
+			title: 'Tên tài liệu',
+			dataIndex: 'ten_tai_lieu',
 			optFind: true,
+			width: 180,
 			onCell,
 		},
 		{
