@@ -292,7 +292,8 @@ const List = (props: { vuViec: any }) => {
 			</div>
 
 			{congViec.trang_thai !== MA_TRANG_THAI_CONG_VIEC.HOAN_THANH &&
-				congViec.trang_thai !== MA_TRANG_THAI_CONG_VIEC.HUY && (
+				congViec.trang_thai !== MA_TRANG_THAI_CONG_VIEC.HUY &&
+				(authUser.chuc_vu >= MA_CHUC_VU.DOI_TRUONG || authUser.id === congViec.id_can_bo) && (
 					<Dropdown overlay={() => genMenus(congViec)}>
 						<Button type="link" size="small">
 							<CheckSquareOutlined /> Cập nhật trạng thái công việc

@@ -150,6 +150,7 @@ const List = () => {
 				modalWidth={800}
 				formTemplate={<FormItem />}
 				otherActions={authUser.admin ? otherAction : []}
+				selectable={false}
 				formInitialValues={{
 					chuc_vu: 0,
 					dieu_tra_vien: false,

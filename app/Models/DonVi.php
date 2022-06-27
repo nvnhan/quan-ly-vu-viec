@@ -57,22 +57,21 @@ class DonVi extends Model
     public function getTenDonViChaAttribute()
     {
         if (empty($this->don_vi_cha))
-            return 'CA ' . $this->ten_dia_phuong;       // CA huyen
-        else if (in_array($this->don_vi_cha->loai_don_vi, ['Xã', 'Phường', 'Thị trấn']))
-            return 'CA ' . $this->don_vi_cha->ten_don_vi . ' - ' . $this->don_vi_cha->ten_dia_phuong;
-        else return $this->don_vi_cha->ten_don_vi . ' - CA ' . $this->don_vi_cha->ten_dia_phuong;
+            return 'CA ' . $this->ten_dia_phuong;       // CA huyen...
+        else
+            return $this->don_vi_cha->ten_don_vi_day_du;
     }
 
     public function getTenDonViDayDuAttribute()
     {
         if (in_array($this->loai_don_vi, ['Xã', 'Phường', 'Thị trấn']))
-            return 'CA ' . $this->ten_don_vi . ' - ' . $this->ten_dia_phuong;
+            return "CA $this->loai_don_vi $this->ten_don_vi - $this->ten_dia_phuong";       // CA Xã Duyên Hải - Huyện Hưng Hà - Thái Bình
         else
-            return $this->ten_don_vi . ' - ' . $this->ten_don_vi_cha;
+            return $this->ten_don_vi . ' - ' . $this->ten_don_vi_cha;   // Đội Hình sự - CA Huyện Hưng Hà - Thái Bình
     }
 
     public function getTenDiaPhuongAttribute()
     {
-        return $this->quan_huyen->ten_huyen_tinh ?? '';
+        return ($this->quan_huyen->loai . ' ' . $this->quan_huyen->ten_huyen_tinh) ?? '';       // Huyện Hưng Hà - Thái Bình
     }
 }

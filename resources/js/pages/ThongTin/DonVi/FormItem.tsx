@@ -43,6 +43,14 @@ const form = () => {
 					<Input />
 				</Form.Item>
 			</Col>
+			<Col span={12}>
+				<Form.Item name="loai_co_quan" label="Loại cơ quan">
+					<Select allowClear>
+						<Select.Option value="CSĐT">CSĐT</Select.Option>
+						<Select.Option value="ANĐT">ANĐT</Select.Option>
+					</Select>
+				</Form.Item>
+			</Col>
 			<Col span={24}>
 				<Form.Item name="sel_don_vi_cha" label="Đơn vị trực thuộc">
 					<MyDebounceSelect
