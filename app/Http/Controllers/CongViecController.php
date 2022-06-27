@@ -203,15 +203,15 @@ class CongViecController extends BaseController
             $cb->cv_thuc_hien = $cb->cong_viec_nhans
                 ->whereNotIn('trang_thai', [4, 5, 6, 8])
                 ->count();
-            $cv_muon = CongViec::where('id_can_bo', $cb->id)
+            $date = Date('Y-m-d');
+            $cb->cv_muon = CongViec::where('id_can_bo', $cb->id)
                 ->where('trang_thai', '!=', 6)
                 ->where(fn ($query) => $query
                     ->where(fn ($q) => $q
                         ->whereNull('ngay_ket_thuc')
-                        ->where('ngay_het_han', '<', Date('Y-m-d')))
-                    ->orWhereRaw('ngay_ket_thuc > ngay_het_han'))->get();
-            \Log::debug($cv_muon);
-            // ->count();
+                        ->where('ngay_het_han', '<', "'$date'"))
+                    ->orWhere('ngay_ket_thuc', '>', 'ngay_het_han'))
+                ->count();
         }
 
         return $this->sendResponse($can_bo, 'Successfull', count($can_bo));
