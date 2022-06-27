@@ -54,7 +54,7 @@ class CanBo extends Authenticatable
         'updated_at' => 'datetime:H:i d/m/Y',
     ];
 
-    protected $appends = ['ten_chuc_vu', 'admin', 'ten_cap_bac', 'ten_don_vi', 'sel_don_vi'];
+    protected $appends = ['ten_chuc_vu', 'admin', 'ten_cap_bac', 'ten_don_vi', 'sel_don_vi', 'chi_huy', 'quan_tri'];
 
     public function cap_bac()
     {
@@ -74,6 +74,16 @@ class CanBo extends Authenticatable
     public function getAdminAttribute()
     {
         return $this->chuc_vu === 9;
+    }
+
+    public function getQuanTriAttribute()
+    {
+        return $this->chuc_vu >= 4;
+    }
+
+    public function getChiHuyAttribute()
+    {
+        return $this->chuc_vu >= 1;
     }
 
     public function getTenChucVuAttribute()

@@ -7,12 +7,9 @@ const NotFound = lazy(() => import('../../pages/NotFound'));
 const Profile = lazy(() => import('../../pages/Account/Profile'));
 const Password = lazy(() => import('../../pages/Account/Password'));
 
-export interface MyRoute {
+export interface MyRoute extends Partial<SideBarItem> {
 	path: string;
-	title: string;
-	Component: any;
 	menu?: string;
-	role?: string;
 }
 
 const invisibleRoutes: MyRoute[] = [

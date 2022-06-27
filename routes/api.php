@@ -10,6 +10,7 @@ use App\Http\Controllers\CongVanController;
 use App\Http\Controllers\CongViecController;
 use App\Http\Controllers\CongViecKhoiTaoController;
 use App\Http\Controllers\DonViController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NguoiController;
 use App\Http\Controllers\NhomCongViecController;
 use App\Http\Controllers\SettingController;
@@ -44,6 +45,9 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/get-user', [AuthController::class, 'user'])->name('getuser');
     Route::put('/profile', [AuthController::class, 'update'])->name('profile');
     Route::put('/password', [AuthController::class, 'password'])->name('password');
+
+    // Home
+    Route::get('/so-lieu-cong-viec', [HomeController::class, 'so_lieu_cong_viec']);
 
     // Danh Muc
     Route::get('quan-huyen', [QuanHuyenController::class, 'index']);

@@ -46,7 +46,7 @@ const MyHeader = () => {
 		},
 	];
 
-	if (authUser.admin)
+	if (authUser.quan_tri)
 		items = items.concat([
 			{
 				type: 'divider',

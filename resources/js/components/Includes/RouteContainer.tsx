@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 import Login from '../../pages/Account/Login';
 import { changeMenu } from '../../reducers/menuActive';
 import { changeTitle } from '../../reducers/pageTitle';
@@ -12,13 +13,13 @@ const RouteContainer = ({ title, Component, role, menu }: MyRoute) => {
 
 	useEffect(() => {
 		dispatch(changeMenu(menu ?? ''));
-		dispatch(changeTitle(title));
+		dispatch(changeTitle(title ?? ''));
 	});
 
 	// If route has ROLE
 	if (role) {
 		if (!authUser.ten_dang_nhap) return <Login />;
-		// if (!authUser.roles.includes(role)) return <Navigate to="/" />;
+		if (!authUser[role]) return <Navigate to="/" />;
 	}
 
 	// Show component content's page as JSX

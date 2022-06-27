@@ -1,4 +1,5 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { Menu, MenuItem, ProSidebar, SidebarContent, SidebarHeader, SubMenu } from 'react-pro-sidebar';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -8,27 +9,40 @@ import items, { SideBarItem } from './SideBarItems';
 
 const SideBar = () => {
 	const dispatch = useDispatch();
+	const authUser = useSelector((state: RootState) => state.authUserReducer);
 	const menuActive = useSelector((state: RootState) => state.menuActiveReducer);
 	const sideBarCollapsed = useSelector((state: RootState) => state.sideBarReducer.collapsed);
 	const sideBarToggled = useSelector((state: RootState) => state.sideBarReducer.toggled);
+	const [soLieuCongViec, setSoLieuCongViec] = useState<{ [key: string]: number }>();
+
+	useEffect(() => {
+		axios.get(`/api/so-lieu-cong-viec`).then((response) => setSoLieuCongViec(response.data?.data));
+	}, []);
 
 	const onToggle = (toggled: boolean) => dispatch(toogleSideBar({ toggled }));
 
 	const selectedSubMenu = () => 'SUB_' + menuActive.split('_')[0];
 
-	const genMenuItem = (item: any, index: number) => {
-		// if (item.role && !authUser.roles[item.role]) return <React.Fragment key={item.key}></React.Fragment>;
+	const genSuffix = (key: string) => {
+		if (key === 'SUB_CV' && soLieuCongViec?.moi_giao !== 0) return <span className="badge badge-gray"></span>;
+		if (key === 'CV_CUA_TOI' && soLieuCongViec?.moi_giao !== 0)
+			return <span className="badge">{soLieuCongViec?.moi_giao ?? 0}</span>;
+		return null;
+	};
+
+	const genMenuItem = (item: SideBarItem, index: number) => {
+		if (item.role && !authUser[item.role]) return <React.Fragment key={item.key}></React.Fragment>;
 
 		return (
-			<MenuItem key={item.key} icon={item.icon} active={menuActive === item.key} suffix={item.suffix}>
+			<MenuItem key={item.key} icon={item.icon} active={menuActive === item.key} suffix={genSuffix(item.key)}>
 				{item.title}
-				<Link to={item.href} />
+				<Link to={item.href ?? '#'} />
 			</MenuItem>
 		);
 	};
 
 	const genMenu = (item: SideBarItem, index: number) => {
-		// if (item.role && !authUser.roles[item.role]) return <React.Fragment key={item.key}></React.Fragment>;
+		if (item.role && !authUser[item.role]) return <React.Fragment key={item.key}></React.Fragment>;
 
 		if (item.childs) {
 			// Has childs
@@ -37,7 +51,7 @@ const SideBar = () => {
 					key={item.key}
 					icon={item.icon}
 					title={item.title}
-					suffix={item.suffix}
+					suffix={genSuffix(item.key)}
 					defaultOpen={item.key === selectedSubMenu()}
 				>
 					{item.childs.map(genMenuItem)}

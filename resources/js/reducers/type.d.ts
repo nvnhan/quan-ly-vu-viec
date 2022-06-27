@@ -11,6 +11,8 @@ declare module Model {
 		id_don_vi?: number;
 		sdt?: string;
 		dia_chi?: string;
+		quan_tri?: boolean;
+		chi_huy?: bolean;
 	}
 
 	export interface SideBarProps {

@@ -35,9 +35,19 @@
 	.badge {
 		background-color: #dd5555;
 		border-radius: 15px;
-		padding: 1px 5px;
+		height: 17px;
+		width: 17px;
+		line-height: 17px;
 		font-size: 11px;
 		color: white;
+		display: block;
+		text-align: center;
+	}
+
+	.badge-gray {
+		background-color: #999;
+		height: 11px;
+		width: 11px;
 	}
 }
 

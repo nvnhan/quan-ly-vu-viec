@@ -7,6 +7,8 @@ const initialState: Model.User = {
 	ten_dang_nhap: '',
 	ho_ten: '',
 	admin: false,
+	quan_tri: false,
+	chi_huy: false,
 	chuc_vu: 0,
 	ten_chuc_vu: 'Cán bộ',
 };

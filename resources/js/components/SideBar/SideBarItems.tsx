@@ -35,7 +35,7 @@ export interface SideBarItem {
 	href?: string;
 	icon?: React.ReactNode;
 	suffix?: React.ReactNode;
-	role?: string;
+	role?: 'admin' | 'quan_tri' | 'chi_huy';
 	childs?: SideBarItem[];
 }
 
@@ -51,7 +51,6 @@ const items: SideBarItem[] = [
 		key: 'SUB_VV',
 		icon: <ReadOutlined />,
 		title: 'Vụ việc hình sự',
-		role: 'chuc_nang',
 		childs: [
 			{
 				key: 'VV_VU_VIEC',
@@ -77,7 +76,6 @@ const items: SideBarItem[] = [
 		key: 'SUB_CV',
 		title: 'Công việc',
 		icon: <ScheduleOutlined />,
-		suffix: <span className="badge">3</span>,
 		childs: [
 			{
 				key: 'CV_TAT_CA',
@@ -102,6 +100,7 @@ const items: SideBarItem[] = [
 				href: '/tong-hop-cong-viec',
 				title: 'Tổng hợp theo cán bộ',
 				Component: CongViecBaoCao,
+				role: 'chi_huy',
 			},
 		],
 	},
@@ -116,7 +115,6 @@ const items: SideBarItem[] = [
 		key: 'SUB_TT',
 		icon: <BarsOutlined />,
 		title: 'Thông tin chung',
-		role: 'chuc_nang',
 		childs: [
 			{
 				key: 'TT_NGUOI',
@@ -143,24 +141,28 @@ const items: SideBarItem[] = [
 				href: '/don-vi',
 				title: 'Đơn vị',
 				Component: DonVi,
+				role: 'quan_tri',
 			},
 			{
 				key: 'QT_CAN_BO',
 				href: '/can-bo',
 				title: 'Tổ chức cán bộ',
 				Component: CanBo,
+				role: 'quan_tri',
 			},
 			{
 				key: 'QT_NHOM_CONG_VIEC',
 				href: '/nhom-cong-viec',
 				title: 'Nhóm công việc',
 				Component: NhomCongViec,
+				role: 'quan_tri',
 			},
 			{
 				key: 'QT_CONG_VIEC_KHOI_TAO',
 				href: '/cong-viec-khoi-tao',
 				title: 'Công việc khởi tạo',
 				Component: CongViecKhoiTao,
+				role: 'quan_tri',
 			},
 			{
 				key: 'QT_CAI_DAT',
