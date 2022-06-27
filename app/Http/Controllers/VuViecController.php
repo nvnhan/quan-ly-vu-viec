@@ -59,9 +59,11 @@ class VuViecController extends BaseController
         $vuViec->dp_xay_ra = implode(',', $dp);
         // Gen Khu vuc xay ra
         $don_vis = DonVi::whereIn('id', $dp)->select('dia_phuong')->distinct()->get();
-        if (count($dp) === 1)
-            $vuViec->khu_vuc_xay_ra = $don_vis[0]->loai . ' ' . $don_vis[0]->ten_don_vi . ' - ' . $don_vis[0]->ten_dia_phuong;  //  Xa/Phuong Quan/Huyen - Tinh/Thanh pho
-        if (count($don_vis) === 1)
+
+        if (count($dp) === 1) {
+            $dv = DonVi::whereIn('id', $dp)->get();
+            $vuViec->khu_vuc_xay_ra = $dv[0]->loai_don_vi . ' ' . $dv[0]->ten_don_vi . ' - ' . $don_vis[0]->ten_dia_phuong;  //  Xa/Phuong Quan/Huyen - Tinh/Thanh pho
+        } else if (count($don_vis) === 1)
             $vuViec->khu_vuc_xay_ra = $don_vis[0]->ten_dia_phuong;  // Quan/Huyen - Tinh/Thanh pho
         else {
             $tmp = explode(' - ', $don_vis[0]->ten_dia_phuong ?? '')[1] ?? '';        // Tinh/Thanh pho

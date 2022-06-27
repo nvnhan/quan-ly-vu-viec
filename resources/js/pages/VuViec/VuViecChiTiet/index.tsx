@@ -100,26 +100,32 @@ const VuViecChiTiet = () => {
 		{
 			label: 'Thông báo tiếp nhận tố giác',
 			type: 'PhanCongToGiac.TBTiepNhanToGiac',
+			hasLanhDao: true,
 		},
 		{
 			label: 'Báo cáo đề xuất phân công tố giác',
 			type: 'PhanCongToGiac.BCDXPhanCongToGiac',
+			hasLanhDao: true,
 		},
 		{
 			label: 'Phân công PTT giải quyết tố giác',
 			type: 'PhanCongToGiac.PCPTTGiaiQuyetToGiac',
+			hasLanhDao: true,
 		},
 		{
 			label: 'Phân công ĐTV giải quyết tố giác',
 			type: 'PhanCongToGiac.QDPhanCongDTVGiaiQuyetToGiac',
+			hasLanhDao: true,
 		},
 		{
 			label: 'Kế hoạch xác minh tố giác',
 			type: 'PhanCongToGiac.KHXMToGiac',
+			hasLanhDao: true,
 		},
 		{
 			label: 'Quyết định lập hồ sơ tố giác',
 			type: 'PhanCongToGiac.LapHoSoADToGiac',
+			hasLanhDao: true,
 		},
 	];
 

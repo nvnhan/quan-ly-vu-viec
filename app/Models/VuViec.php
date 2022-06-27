@@ -102,6 +102,11 @@ class VuViec extends Model
         return $this->hasMany('App\Models\VuViecNguoi', 'id_vu_viec');
     }
 
+    public function don_vi()
+    {
+        return $this->belongsTo('App\Models\DonVi', 'id_don_vi');
+    }
+
     public function getTenVuViecAttribute()
     {
         return $this->noi_dung_tom_tat;
@@ -118,7 +123,7 @@ class VuViec extends Model
         // return ($dv->ten_don_vi ?? '') . ' - ' . ($dv->ten_dia_phuong ?? '');
         if (property_exists($this, 'ten_dp_xay_ra'))
             return $this->ten_dp_xay_ra;
-        else return 'ten_dp_xay_ra';
+        else return '';
     }
 
     public function setTenDpXayRaAttribute($value)
