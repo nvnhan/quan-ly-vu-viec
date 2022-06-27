@@ -28,6 +28,7 @@
 		"sass-loader": "^12.1.0"
 	},
 	"dependencies": {
+		"@ant-design/plots": "^1.0.9",
 		"@reduxjs/toolkit": "^1.8.2",
 		"@types/react-highlight-words": "^0.16.4",
 		"antd": "^4.19.2",

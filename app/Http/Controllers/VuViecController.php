@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CanBo;
 use App\Models\DonVi;
 use App\Models\VuViec;
 use Illuminate\Http\Request;
@@ -58,10 +59,12 @@ class VuViecController extends BaseController
         $vuViec->dp_xay_ra = implode(',', $dp);
         // Gen Khu vuc xay ra
         $don_vis = DonVi::whereIn('id', $dp)->select('dia_phuong')->distinct()->get();
+        if (count($dp) === 1)
+            $vuViec->khu_vuc_xay_ra = $don_vis[0]->loai . ' ' . $don_vis[0]->ten_don_vi . ' - ' . $don_vis[0]->ten_dia_phuong;  //  Xa/Phuong Quan/Huyen - Tinh/Thanh pho
         if (count($don_vis) === 1)
             $vuViec->khu_vuc_xay_ra = $don_vis[0]->ten_dia_phuong;  // Quan/Huyen - Tinh/Thanh pho
         else {
-            $tmp = explode(' - ', $don_vis[0]->ten_dia_phuong)[1] ?? '';        // Tinh/Thanh pho
+            $tmp = explode(' - ', $don_vis[0]->ten_dia_phuong ?? '')[1] ?? '';        // Tinh/Thanh pho
             for ($i = 1; $i < count($don_vis); $i++) {
                 $tmp1 = explode(' - ', $don_vis[$i]->ten_dia_phuong)[1] ?? '';
                 if ($tmp !== $tmp1) {
@@ -74,6 +77,14 @@ class VuViecController extends BaseController
 
         $vuViec->id_dtv_chinh = $request->sel_dtv_chinh['value'] ?? null;
         $vuViec->id_can_bo_chinh = $request->sel_can_bo_chinh['value'] ?? null;
+        $cb = CanBo::whereIn('id', [$vuViec->id_dtv_chinh, $vuViec->id_can_bo_chinh])->with('don_vi')->get();
+        foreach ($cb as $c) {
+            if (!empty($c->don_vi->id_don_vi_cha))
+                $vuViec->id_don_vi = $c->don_vi->id_don_vi_cha;
+            else
+                $vuViec->id_don_vi = $c->id_don_vi;
+            break;
+        }
 
         if (str_contains($vuViec->thoi_diem_xay_ra, '00:00:00')) {
             $vuViec->thoi_diem_xay_ra = date('d/m/Y', strtotime($vuViec->thoi_diem_xay_ra));

@@ -5,7 +5,7 @@ import { momentRange } from '../../utils';
 import { ListFormProps } from '../ListForm';
 const { RangePicker } = DatePicker;
 
-const MyRangePicker = (props: ListFormProps) => (
+const MyRangePicker = (props: Partial<ListFormProps>) => (
 	<RangePicker
 		allowClear={false}
 		style={{ width: '100%' }}

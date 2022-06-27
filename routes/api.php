@@ -48,6 +48,7 @@ Route::middleware('auth:api')->group(function () {
 
     // Home
     Route::get('/so-lieu-cong-viec', [HomeController::class, 'so_lieu_cong_viec']);
+    Route::get('/tong-quan', [HomeController::class, 'index']);
 
     // Danh Muc
     Route::get('quan-huyen', [QuanHuyenController::class, 'index']);

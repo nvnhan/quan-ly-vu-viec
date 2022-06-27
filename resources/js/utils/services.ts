@@ -51,7 +51,7 @@ export const getSearchQuanHuyen = async (payload: any) => {
 
 export const getSearchDonVi = async (payload: any) => {
 	const { q, l } = payload;
-	return axios.get(`/api/tim-don-vi?q=${q}&l=${l}`);
+	return axios.get(`/api/tim-don-vi?q=${q}&l=${l}&type=${payload?.type}`);
 };
 
 export const getSearchXaPhuong = async (payload: any) => {

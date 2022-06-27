@@ -16,7 +16,7 @@ class DonVi extends Model
      * @var array
      */
     protected $fillable = [
-        'ten_don_vi', 'loai_don_vi', 'ma_don_vi',
+        'ten_don_vi', 'loai_don_vi', 'ma_don_vi', 'loai_co_quan'
     ];
 
     /**

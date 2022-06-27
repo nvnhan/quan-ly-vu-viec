@@ -196,3 +196,43 @@
 		padding: 16px !important;
 	}
 }
+
+.dashboard {
+	margin-top: 24px;
+
+	.ant-spin-container {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.title-report {
+		text-transform: uppercase;
+	}
+
+	.ant-card {
+		transition: 0.3s;
+		cursor: pointer;
+	}
+
+	.ant-card:hover {
+		@include shadow;
+	}
+
+	.amount {
+		font-size: 2.2rem;
+		line-height: 2.2rem;
+		font-weight: 600;
+		color: $primary-color;
+	}
+
+	.sub-title {
+		font-size: 0.8rem;
+	}
+
+	@include md {
+		.ant-row {
+			text-align: center;
+		}
+	}
+}
