@@ -46,7 +46,7 @@ class AddContrains extends Migration
             $table->foreign('id_vu_viec')->references('id')->on('vu_viecs')->onDelete('cascade');
             $table->foreign('id_nguoi')->references('id')->on('nguois')->onDelete('cascade');
 
-            $table->foreign('ma_toi_danh')->references('ma_toi_danh')->on('toi_danhs');
+            $table->foreign('ma_toi_danh_bc')->references('ma_toi_danh')->on('toi_danhs');
         });
 
         Schema::table('cong_viecs', function (Blueprint $table) {
@@ -68,7 +68,7 @@ class AddContrains extends Migration
         });
 
         Schema::table('cong_vans', function (Blueprint $table) {
-            $table->foreign('id_vu_viec')->references('id')->on('vu_viecs')->onDelete('set cascade');
+            $table->foreign('id_vu_viec')->references('id')->on('vu_viecs')->onDelete('cascade');
             $table->foreign('id_can_bo')->references('id')->on('can_bos')->onDelete('set null');
             $table->foreign('nguoi_tao')->references('id')->on('can_bos')->onDelete('set null');
         });
