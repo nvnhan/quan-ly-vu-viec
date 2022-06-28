@@ -52,26 +52,25 @@ const CardCongViec = (props: any) => {
 				type: 'element-active',
 			},
 		],
-		statistic: {
-			title: false,
-			content: {
-				style: {
-					fontSize: '20px',
-				},
-				content: props?.tong_so + '\nCông việc',
-			},
-		},
-		legend: {
-			position: 'bottom',
-			maxRow: 5,
-		},
 	};
 
 	return (
 		<Card title="Trạng thái công việc">
 			<Row>
 				<Col span={24}>
-					<Pie {...config} />
+					<Pie
+						{...config}
+						statistic={{
+							title: false,
+							content: {
+								style: {
+									fontSize: '20px',
+								},
+								content: props?.tong_so + '\nCông việc',
+							},
+						}}
+						legend={{ position: 'bottom', maxRow: 5 }}
+					/>
 				</Col>
 			</Row>
 		</Card>
