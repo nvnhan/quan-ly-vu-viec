@@ -1,4 +1,4 @@
-TRUNCATE `toi_danhs`;
+
 INSERT INTO `toi_danhs` (`ma_toi_danh`, `toi_danh`) VALUES
 ('108', 'Tội phản bội Tổ quốc'),
 ('109', 'Tội hoạt động nhằm lật đổ chính quyền nhân dân'),

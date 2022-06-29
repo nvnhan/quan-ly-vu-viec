@@ -20,8 +20,9 @@ class DatabaseSeeder extends Seeder
             'Thiếu tá', 'Trung tá', 'Thượng tá', 'Đại tá',
             'Thiếu tướng', 'Trung tướng', 'Thượng tướng', 'Đại tướng'
         ];
-
-        // DB::table('cap_bacs')->truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        DB::table('cap_bacs')->truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         foreach ($cap_bacs as $key => $value) {
             DB::table('cap_bacs')->insert([

@@ -15,7 +15,7 @@ class CreateDonVisTable extends Migration
     {
         Schema::create('don_vis', function (Blueprint $table) {
             $table->id();
-            $table->string('id_tam', 10);
+            $table->string('id_tam', 10)->nullable();
             $table->string('ten_don_vi', 200);
             $table->bigInteger('id_don_vi_cha')->unsigned()->nullable();
             $table->string('dia_phuong', 10);
