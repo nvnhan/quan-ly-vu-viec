@@ -68,6 +68,25 @@ class HomeController extends BaseController
             ->count();
         $data['cong_viec_chi_tiet'] = $cong_viec_chi_tiet;
 
+        // Can Bo xuat sac
+        $can_bos = $can_bo->with('cong_viec_nhans')->get();
+        $can_bo_xuat_sac = [];
+        foreach ($can_bos as $key => $cb) {
+            $tong_cong_viec = $cb->cong_viec_nhans()
+                ->where('trang_thai', '!=', 6)
+                ->whereBetween('ngay_giao', [$request->bat_dau, $request->ket_thuc])->count();
+            $cong_viec_hoan_thanh = $cb->cong_viec_nhans()
+                ->where('trang_thai', 8)
+                ->whereBetween('ngay_giao', [$request->bat_dau, $request->ket_thuc])->count();
+            $can_bo_xuat_sac[] = (object)[
+                'id' => $cb->id,
+                'ho_ten' => $cb->ho_ten,
+                'tong_cong_viec' => $tong_cong_viec,
+                'cong_viec_hoan_thanh' => $cong_viec_hoan_thanh,
+            ];
+        }
+        $data['can_bo_xuat_sac'] = $can_bo_xuat_sac;
+
         return $this->sendResponse($data, 'Home retrieved successfully');
     }
 

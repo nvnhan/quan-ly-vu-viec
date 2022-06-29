@@ -13,7 +13,7 @@ import { parseValues, queryString } from '../../utils';
 import CardTitle from './CardTitle';
 import { useNavigate } from 'react-router-dom';
 import CardCongViec from './CardCongViec';
-import CardCanBo from './CardCanBo';
+import CardCanBo, { CanBoXuatSac } from './CardCanBo';
 
 const TrangChu = () => {
 	const [form] = Form.useForm();
@@ -26,6 +26,7 @@ const TrangChu = () => {
 		tai_lieu: number;
 		cong_van: number;
 		cong_viec_chi_tiet: any;
+		can_bo_xuat_sac: CanBoXuatSac[];
 	}>();
 
 	useEffect(() => {
@@ -128,7 +129,7 @@ const TrangChu = () => {
 							<CardCongViec {...data?.cong_viec_chi_tiet} tong_so={data?.cong_viec} />
 						</Col>
 						<Col span={24} sm={12} md={8}>
-							<CardCanBo nhan_vien={undefined} />
+							<CardCanBo nhan_vien={data?.can_bo_xuat_sac} />
 						</Col>
 					</Row>
 				</Spin>

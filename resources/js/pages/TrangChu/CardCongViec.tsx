@@ -55,10 +55,11 @@ const CardCongViec = (props: any) => {
 	};
 
 	return (
-		<Card title="Trạng thái công việc">
+		<Card title="Trạng thái công việc" bodyStyle={{ padding: '5px 10px' }}>
 			<Row>
 				<Col span={24}>
 					<Pie
+						height={474}
 						{...config}
 						statistic={{
 							title: false,
