@@ -16,7 +16,8 @@ class CanBo extends Authenticatable
         'Tổng hợp đội',
         'Đội trưởng',
         'Giúp việc PTT',
-        'Lãnh đạo',
+        'Phó trưởng Công an Quận',
+        'Trưởng Công an Quận',
         9 => 'Quản trị viên'
     ];
 

@@ -54,17 +54,12 @@ const List = () => {
 			title: 'Chức vụ',
 			dataIndex: 'ten_chuc_vu',
 			optFilter: true,
-			render: (text, record, index) => (
-				<>
-					{text}
-					{text === 'Lãnh đạo' && (
-						<>
-							<br />
-							<i>{record.chuc_danh_lanh_dao}</i>
-						</>
-					)}
-				</>
-			),
+			width: 100,
+		},
+		{
+			title: 'Chức danh',
+			dataIndex: 'chuc_danh_lanh_dao',
+			optFilter: true,
 			width: 100,
 		},
 		{
@@ -86,29 +81,12 @@ const List = () => {
 			width: 120,
 		},
 		{
-			title: 'Điều tra viên',
-			dataIndex: 'dieu_tra_vien',
-			align: 'center',
-			width: 60,
-			render: (bol: boolean, record: object) => <Checkbox checked={bol} />,
-		},
-		{
 			title: 'Đăng nhập cuối',
 			dataIndex: 'dang_nhap_cuoi',
 			align: 'center',
 			width: 100,
 		},
 	];
-
-	// const onChangeInsertCheckbox = (check: boolean, record: any) => {
-	// 	// console.log(check, record);
-	// 	axios
-	// 		.put(`/api/sua-them-moi/` + record.id, { check })
-	// 		.then((response) => {
-	// 			if (childRef.current) childRef.current.triggerUpdate(response);
-	// 		})
-	// 		.catch((error) => console.log(error));
-	// };
 
 	const onClickRow = (selectedKey: any) => {
 		formReset.setFieldsValue({ pass: '123' });

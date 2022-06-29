@@ -28,7 +28,7 @@ class CanBoController extends BaseController
         $query = CanBo::where('ho_ten', 'LIKE', "%$q%");
 
         if ($request->type === 'dtv')
-            $query = $query->where('dieu_tra_vien', true);
+            $query = $query->where('chuc_danh_lanh_dao', 'Điều tra viên');
 
         if ($request->l)
             $query = $query->limit($request->l);
@@ -38,13 +38,13 @@ class CanBoController extends BaseController
 
     public function get_lanh_dao(Request $request)
     {
-        $objs = CanBo::where('chuc_vu', 5)->get();
+        $objs = CanBo::whereIn('chuc_vu', [5, 6])->get();
         return $this->sendResponse($objs, 'LanhDao retrieved successfully', count($objs));
     }
 
     public function setCanBoFields(&$canBo, Request $request)
     {
-        $canBo->id_don_vi = $request->sel_don_vi['value'];
+        $canBo->id_don_vi = $request->sel_don_vi['value'] ?? null;
     }
 
     /**

@@ -4,8 +4,17 @@ export const CHUC_VU = [
 	{ id: 2, label: 'Tổng hợp đội' },
 	{ id: 3, label: 'Đội trưởng' },
 	{ id: 4, label: 'Giúp việc PTT' },
-	{ id: 5, label: 'Lãnh đạo' },
+	{ id: 5, label: 'Phó trưởng Công an Quận' },
+	{ id: 6, label: 'Trưởng Công an Quận' },
 	{ id: 9, label: 'Quản trị viên' },
+];
+
+export const TEN_CHUC_DANH = [
+	'Cán bộ',
+	'Cán bộ điều tra',
+	'Điều tra viên',
+	'Phó Thủ trưởng Cơ quan điều tra',
+	'Thủ trưởng Cơ quan điều tra',
 ];
 
 export enum MA_CHUC_VU {

@@ -12,7 +12,7 @@ import { fetchCapBac } from '../../../reducers/capBac';
 import { RootState } from '../../../store';
 import { numberCharacter, required } from '../../../utils/rules';
 import { checkName, getSearchDonVi } from '../../../utils/services';
-import { CHUC_VU } from '../../../utils/constant';
+import { CHUC_VU, TEN_CHUC_DANH } from '../../../utils/constant';
 
 const form = () => {
 	const dispatch = useDispatch();
@@ -44,7 +44,7 @@ const form = () => {
 					<Input placeholder="Nhập họ tên cán bộ" />
 				</Form.Item>
 			</Col>
-			<Col span={12}>
+			<Col span={12} sm={6}>
 				<Form.Item
 					name="ten_dang_nhap"
 					label="Tài khoản đăng nhập"
@@ -65,8 +65,8 @@ const form = () => {
 					</Select>
 				</Form.Item>
 			</Col>
-			<Col span={12} sm={6}>
-				<Form.Item name="chuc_vu" label="Chức vụ / Vai trò" rules={[required]}>
+			<Col span={12}>
+				<Form.Item name="chuc_vu" label="Chức vụ" rules={[required]}>
 					<Select>
 						{CHUC_VU.map((item) => (
 							<Select.Option value={item.id} key={item.id}>
@@ -77,13 +77,23 @@ const form = () => {
 				</Form.Item>
 			</Col>
 			<Col span={12}>
-				<Form.Item name="chuc_danh_lanh_dao" label="Chức danh lãnh đạo">
-					<Input />
+				<Form.Item name="chuc_danh_lanh_dao" label="Chức danh">
+					<Select>
+						{TEN_CHUC_DANH.map((item) => (
+							<Select.Option value={item} key={item}>
+								{item}
+							</Select.Option>
+						))}
+					</Select>
 				</Form.Item>
 			</Col>
 			<Col span={24}>
-				<Form.Item name="sel_don_vi" label="Đơn vị công tác" rules={[required]}>
-					<MyDebounceSelect placeholder="Chọn đơn vị: Tổ, đội, xã/phường" fetchOptions={fetchDonViList} />
+				<Form.Item name="sel_don_vi" label="Đơn vị công tác">
+					<MyDebounceSelect
+						placeholder="Chọn đơn vị: Tổ, đội, xã/phường (Nếu bỏ trống là CA Quận/Huyện)"
+						fetchOptions={fetchDonViList}
+						allowClear
+					/>
 				</Form.Item>
 			</Col>
 
@@ -97,11 +107,11 @@ const form = () => {
 					<Input />
 				</Form.Item>
 			</Col>
-			<Col span={12}>
+			{/* <Col span={12}>
 				<Form.Item name="dieu_tra_vien" valuePropName="checked">
 					<Checkbox>Chức danh điều tra viên</Checkbox>
 				</Form.Item>
-			</Col>
+			</Col> */}
 			<Col span={12}>
 				<Form.Item name="khoa_tai_khoan" valuePropName="checked">
 					<Checkbox>Khóa tài khoản</Checkbox>
