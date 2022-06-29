@@ -36,11 +36,11 @@ class DatabaseSeeder extends Seeder
             'chuc_vu' => 9,
             'id_don_vi' => 1,
             'ten_dang_nhap' => 'nhannv',
-            'mat_khau' => '$2y$10$8HKjK4tSQ3mU4ODm8T13o.8Blt0q8jhVlh2r/bZDfkC/TQAwBH4Jm',
+            'mat_khau' => '$2y$10$bBdq06TyrKWHworMe1ASSeVcQPyvsJeznnhItGULE70VMECL7WK5S',
             'created_at' => now(),
             'updated_at' => now()
         ]);
     }
 }
 
-// @D...3620
+// @D...0306

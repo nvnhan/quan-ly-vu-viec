@@ -13,6 +13,7 @@ import { parseValues, queryString } from '../../utils';
 import CardTitle from './CardTitle';
 import { useNavigate } from 'react-router-dom';
 import CardCongViec from './CardCongViec';
+import CardCanBo from './CardCanBo';
 
 const TrangChu = () => {
 	const [form] = Form.useForm();
@@ -125,6 +126,9 @@ const TrangChu = () => {
 					<Row gutter={[12, 12]}>
 						<Col span={24} sm={12} md={8}>
 							<CardCongViec {...data?.cong_viec_chi_tiet} tong_so={data?.cong_viec} />
+						</Col>
+						<Col span={24} sm={12} md={8}>
+							<CardCanBo nhan_vien={undefined} />
 						</Col>
 					</Row>
 				</Spin>
