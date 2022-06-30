@@ -35,6 +35,14 @@ export const TU_CACH_TO_TUNG = [
 	{ id: 5, label: 'Người liên quan khác' },
 ];
 
+export const TU_CACH_TO_TUNG_KHOI_TO = [
+	// { id: 1, label: 'Người tố giác' },
+	{ id: 2, label: 'Bị can' },
+	{ id: 3, label: 'Người bị hại' },
+	{ id: 4, label: 'Người làm chứng' },
+	{ id: 5, label: 'Người liên quan khác' },
+];
+
 export const TRUONG_HOP_BAT = [
 	'Đầu thú',
 	'Tự thú',
@@ -44,12 +52,12 @@ export const TRUONG_HOP_BAT = [
 	'Bắt người bị giữ trong trường hợp khẩn cấp',
 ];
 
-export const PHAN_LOAI_TIN = [
-	'Tố giác về tội phạm',
-	'Tin báo về tội phạm',
-	'Kiến nghị khởi tố',
-	'CQĐT trực tiếp phát hiện',
-];
+export enum PHAN_LOAI_TIN {
+	TO_GIAC_TOI_PHAM = 'Tố giác về tội phạm',
+	TIN_BAO_TOI_PHAM = 'Tin báo về tội phạm',
+	KIEN_NGHI_KHOI_TO = 'Kiến nghị khởi tố',
+	CQDT_PHAT_HIEN = 'CQĐT trực tiếp phát hiện',
+}
 
 export const LOAI_TOI_PHAM = ['Ít nghiêm trọng', 'Nghiêm trọng', 'Rất nghiêm trọng', 'Đặc biệt nghiêm trọng'];
 

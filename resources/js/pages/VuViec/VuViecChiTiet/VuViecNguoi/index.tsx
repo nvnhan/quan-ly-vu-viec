@@ -19,7 +19,7 @@ import { groupBy } from 'lodash';
 import React, { useEffect } from 'react';
 import { ColumnProps } from '../../../../components/ListForm/DataTable';
 import { parseValues, unionDataBy, useMergeState } from '../../../../utils';
-import { TU_CACH_TO_TUNG } from '../../../../utils/constant';
+import { TU_CACH_TO_TUNG, TU_CACH_TO_TUNG_KHOI_TO } from '../../../../utils/constant';
 import { getApi } from '../../../../utils/services';
 import FormChiTietNguoi from '../../../ThongTin/Nguoi/FormItem';
 import FormVuViecNguoi from './FormItem';
@@ -39,7 +39,7 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 	const { vuViec } = props;
 
 	useEffect(() => {
-		getApi('vu-viec-nguoi?vu_viec=' + vuViec)
+		getApi('vu-viec-nguoi?vu_viec=' + vuViec.id)
 			.then((response) => {
 				if (response.data.success) {
 					// populate all field of Nguoi into VuViecNguoi
@@ -61,7 +61,12 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 			objs.push({
 				id: -index,
 				ho_ten:
-					TU_CACH_TO_TUNG.find((tc) => tc.id == Number(group[0]))?.label + ': ' + group[1].length + ' người',
+					(vuViec.loai_vu_viec === 'AĐ' ? TU_CACH_TO_TUNG : TU_CACH_TO_TUNG_KHOI_TO).find(
+						(tc) => tc.id == Number(group[0])
+					)?.label +
+					': ' +
+					group[1].length +
+					' người',
 				children: group[1],
 			});
 		});
@@ -215,7 +220,7 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 			axios
 				.post(
 					`/api/vu-viec-nguoi`,
-					parseValues({ ...values, id_vu_viec: vuViec, id_nguoi: state.recordNguoi?.id })
+					parseValues({ ...values, id_vu_viec: vuViec.id, id_nguoi: state.recordNguoi?.id })
 				)
 				.then((response: any) => {
 					const newData = { ...response.data.data.nguoi, ...response.data.data };
@@ -284,13 +289,13 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 				</Button>
 				{state.view === 'insert' && state.recordNguoi === null && (
 					<div style={{ marginTop: '10px' }}>
-						<ViewTimNguoi onSetNguoi={onSetNguoi} id_vu_viec={vuViec} />
+						<ViewTimNguoi onSetNguoi={onSetNguoi} id_vu_viec={vuViec.id} />
 					</div>
 				)}
 			</div>
 			<Form form={form} layout="vertical" onFinish={onFinish}>
 				<FormChiTietNguoi />
-				<FormVuViecNguoi />
+				<FormVuViecNguoi vuViec={vuViec} />
 
 				<div className="tools-button" style={{ textAlign: 'center' }}>
 					<Button onClick={handleCanel}>

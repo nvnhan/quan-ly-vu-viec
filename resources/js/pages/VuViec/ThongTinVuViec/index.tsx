@@ -7,6 +7,7 @@ import ListForm from '../../../components/ListForm';
 import { ColumnProps } from '../../../components/ListForm/DataTable';
 import { RootState } from '../../../store';
 import { parseValues } from '../../../utils';
+import { PHAN_LOAI_TIN } from '../../../utils/constant';
 import FormItem from './FormItem';
 import getFilters from './otherFilters';
 
@@ -54,12 +55,7 @@ const List = () => {
 			width: 100,
 			onCell,
 			optFilter: true,
-			fixedFilter: [
-				{ value: 'Tin báo về tội phạm', text: 'Tin báo về tội phạm' },
-				{ value: 'Tố giác về tội phạm', text: 'Tố giác về tội phạm' },
-				{ value: 'Kiến nghị khởi tố', text: 'Kiến nghị khởi tố' },
-				{ value: 'CQĐT trực tiếp phát hiện', text: 'CQĐT trực tiếp phát hiện' },
-			],
+			fixedFilter: Object.values(PHAN_LOAI_TIN).map((pl) => ({ value: pl, text: pl })),
 		},
 		{
 			title: 'Xảy ra',
@@ -77,13 +73,6 @@ const List = () => {
 			onCell,
 		},
 		{
-			title: 'Ngày CAP tiếp nhận',
-			dataIndex: 'ngay_ca_phuong',
-			width: 70,
-			align: 'center',
-			onCell,
-		},
-		{
 			title: 'Ngày CQĐT tiếp nhận',
 			dataIndex: 'ngay_cqdt',
 			width: 70,
@@ -91,7 +80,14 @@ const List = () => {
 			onCell,
 		},
 		{
-			title: 'Kết quả xử lý',
+			title: 'Ngày CAP tiếp nhận',
+			dataIndex: 'ngay_ca_phuong',
+			width: 70,
+			align: 'center',
+			onCell,
+		},
+		{
+			title: 'Kết quả xử lý tin',
 			dataIndex: 'ket_qua_giai_quyet',
 			width: 100,
 			onCell,

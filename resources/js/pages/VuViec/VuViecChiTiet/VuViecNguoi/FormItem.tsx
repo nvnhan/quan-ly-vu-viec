@@ -11,12 +11,13 @@ import MyDatePicker from '../../../../components/Controls/MyDatePicker';
 import { fetchToiDanh } from '../../../../reducers/toiDanh';
 import { RootState } from '../../../../store';
 import { inputNgayThangFormat, inputParse } from '../../../../utils';
-import { TRUONG_HOP_BAT, TU_CACH_TO_TUNG } from '../../../../utils/constant';
+import { TRUONG_HOP_BAT, TU_CACH_TO_TUNG, TU_CACH_TO_TUNG_KHOI_TO } from '../../../../utils/constant';
 import { required } from '../../../../utils/rules';
 
-const form = () => {
+const form = (props: { vuViec: any }) => {
 	const dispatch = useDispatch();
 	const toiDanh = useSelector((state: RootState) => state.toiDanh);
+	const { vuViec } = props;
 
 	useEffect(() => {
 		toiDanh.status === 'idle' && dispatch(fetchToiDanh());
@@ -29,11 +30,13 @@ const form = () => {
 					<Col span={12} sm={6}>
 						<Form.Item name="tu_cach_to_tung" label="Tư cách tố tụng" rules={[required]}>
 							<Select>
-								{TU_CACH_TO_TUNG.map((item) => (
-									<Select.Option value={item.id} key={item.id}>
-										{item.label}
-									</Select.Option>
-								))}
+								{(vuViec.loai_vu_viec === 'AĐ' ? TU_CACH_TO_TUNG : TU_CACH_TO_TUNG_KHOI_TO).map(
+									(item) => (
+										<Select.Option value={item.id} key={item.id}>
+											{item.label}
+										</Select.Option>
+									)
+								)}
 							</Select>
 						</Form.Item>
 					</Col>
@@ -44,7 +47,7 @@ const form = () => {
 					</Col>
 					<Col span={12} sm={6}>
 						<Form.Item name="ngay_xay_ra_bc" label="Ngày xảy ra">
-							<MyDatePicker format="HH:mm DD/MM/YYYY" showTime />
+							<MyDatePicker format="DD/MM/YYYY" />
 						</Form.Item>
 					</Col>
 					<Col span={12} sm={6}>

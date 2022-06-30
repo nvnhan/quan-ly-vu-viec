@@ -130,9 +130,18 @@ class VuViecController extends BaseController
         foreach ($dvs as $key => $dv)
             $result[] = (object)[
                 'value' => $dv->id,
-                'label' => ($dv->ten_don_vi ?? '') . ' - ' . ($dv->ten_dia_phuong ?? '')
+                'label' => ($dv->loai_don_vi ?? '') . ' ' . ($dv->ten_don_vi ?? '') . ' - ' . ($dv->ten_dia_phuong ?? '')
             ];
 
+        if ($vuViec->loai_vu_viec === 'AĐ') {
+            $nguoi_to_giac = $vuViec->vu_viec_nguois()->where('tu_cach_to_tung', 1)->count();
+            if ($nguoi_to_giac <= 0)
+                $vuViec->canh_bao = "Vụ việc này hiện chưa có thông tin người tố giác";
+        } else if ($vuViec->loai_vu_viec === 'AK') {
+            $bi_can = $vuViec->vu_viec_nguois()->where('tu_cach_to_tung', 2)->count();
+            if ($bi_can <= 0)
+                $vuViec->canh_bao = "Vụ việc này hiện chưa có thông tin bị can";
+        }
         $vuViec->sel_dp_xay_ra = $result;
         return $this->sendResponse($vuViec, "VuViec retrieved successfully");
     }

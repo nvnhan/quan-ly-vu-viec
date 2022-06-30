@@ -209,8 +209,8 @@ class CongViecController extends BaseController
                 ->where(fn ($query) => $query
                     ->where(fn ($q) => $q
                         ->whereNull('ngay_ket_thuc')
-                        ->where('ngay_het_han', '<', "'$date'"))
-                    ->orWhere('ngay_ket_thuc', '>', 'ngay_het_han'))
+                        ->whereRaw("ngay_het_han < '$date'"))
+                    ->orWhereRaw("ngay_ket_thuc > ngay_het_han"))
                 ->count();
         }
 

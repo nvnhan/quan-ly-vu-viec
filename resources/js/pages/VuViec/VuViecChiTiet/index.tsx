@@ -7,6 +7,7 @@ import OrderedListOutlined from '@ant-design/icons/OrderedListOutlined';
 import PaperClipOutlined from '@ant-design/icons/PaperClipOutlined';
 import SaveOutlined from '@ant-design/icons/SaveOutlined';
 import TeamOutlined from '@ant-design/icons/TeamOutlined';
+import Alert from 'antd/lib/alert';
 import Button from 'antd/lib/button';
 import Col from 'antd/lib/col';
 import Dropdown from 'antd/lib/dropdown';
@@ -19,14 +20,14 @@ import Spin from 'antd/lib/spin';
 import Tabs from 'antd/lib/tabs';
 import React, { useEffect, useState } from 'react';
 import { parseValues } from '../../../utils';
+import { downloadApi } from '../../../utils/downloadFile';
 import { getApi, putApi } from '../../../utils/services';
+import FormBaoCao from './components/FormBaoCao';
 import FormChiTiet from './components/FormChiTiet';
 import VuViecCongVan from './VuViecCongVan';
 import VuViecCongViec from './VuViecCongViec';
 import VuViecNguoi from './VuViecNguoi';
 import VuViecTaiLieu from './VuViecTaiLieu';
-import FormBaoCao from './components/FormBaoCao';
-import { downloadApi } from '../../../utils/downloadFile';
 
 const VuViecChiTiet = () => {
 	const [form] = Form.useForm();
@@ -96,6 +97,8 @@ const VuViecChiTiet = () => {
 		setStateBaoCao({ modalVisible: false, typeBaoCao: undefined });
 	};
 
+	// Menu Report
+
 	const phanCongToGiac = [
 		{
 			label: 'Thông báo tiếp nhận tố giác',
@@ -150,7 +153,12 @@ const VuViecChiTiet = () => {
 			</div>
 
 			<div style={{ padding: '16px 12px' }}>
-				<Row gutter={[12, 5]}>
+				<Row gutter={[12, 12]}>
+					{record?.canh_bao && (
+						<Col span={24}>
+							<Alert message={record.canh_bao} type="error" showIcon />
+						</Col>
+					)}
 					<Col span={24} sm={12}>
 						<b>Thời điểm xảy ra:</b> {record.thoi_diem_xay_ra}, tại: {record.noi_xay_ra}
 					</Col>
@@ -228,7 +236,7 @@ const VuViecChiTiet = () => {
 				<Spin spinning={loading}>
 					{currentTab === 'thong-tin' && (
 						<Form form={form} onFinish={onFinish} layout="vertical">
-							<FormChiTiet />
+							<FormChiTiet form={form} loading={loading} />
 							<div className="tools-button" style={{ textAlign: 'center' }}>
 								<Button onClick={() => window.history.back()}>
 									<ArrowLeftOutlined /> Quay lại
@@ -240,7 +248,7 @@ const VuViecChiTiet = () => {
 							</div>
 						</Form>
 					)}
-					{currentTab === 'nguoi' && <VuViecNguoi vuViec={id} />}
+					{currentTab === 'nguoi' && <VuViecNguoi vuViec={record} />}
 					{currentTab === 'cong-viec' && <VuViecCongViec vuViec={id} />}
 					{currentTab === 'tai-lieu' && <VuViecTaiLieu vuViec={id} />}
 					{currentTab === 'cong-van' && <VuViecCongVan vuViec={id} />}
