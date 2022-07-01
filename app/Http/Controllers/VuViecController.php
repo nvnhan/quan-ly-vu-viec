@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CanBo;
 use App\Models\DonVi;
 use App\Models\VuViec;
+use App\Models\VuViecNguoi;
 use Illuminate\Http\Request;
 
 class VuViecController extends BaseController
@@ -57,9 +58,9 @@ class VuViecController extends BaseController
         foreach ($request->sel_dp_xay_ra as $key => $value)
             if ($value['value']) $dp[] = $value['value'];
         $vuViec->dp_xay_ra = implode(',', $dp);
+
         // Gen Khu vuc xay ra
         $don_vis = DonVi::whereIn('id', $dp)->select('dia_phuong')->distinct()->get();
-
         if (count($dp) === 1) {
             $dv = DonVi::whereIn('id', $dp)->get();
             $vuViec->khu_vuc_xay_ra = $dv[0]->loai_don_vi . ' ' . $dv[0]->ten_don_vi . ' - ' . $don_vis[0]->ten_dia_phuong;  //  Xa/Phuong Quan/Huyen - Tinh/Thanh pho
@@ -77,6 +78,7 @@ class VuViecController extends BaseController
             $vuViec->khu_vuc_xay_ra = $tmp;
         }
 
+        // Don Vi xay ra: Cấp Đội
         $vuViec->id_dtv_chinh = $request->sel_dtv_chinh['value'] ?? null;
         $vuViec->id_can_bo_chinh = $request->sel_can_bo_chinh['value'] ?? null;
         $cb = CanBo::whereIn('id', [$vuViec->id_dtv_chinh, $vuViec->id_can_bo_chinh])->with('don_vi')->get();
@@ -91,6 +93,32 @@ class VuViecController extends BaseController
         if (str_contains($vuViec->thoi_diem_xay_ra, '00:00:00')) {
             $vuViec->thoi_diem_xay_ra = date('d/m/Y', strtotime($vuViec->thoi_diem_xay_ra));
         }
+    }
+
+    public static function calTenVuViec(VuViec $vuViec)
+    {
+        $ten = "$vuViec->noi_dung_tom_tat xảy ra vào $vuViec->thoi_diem_xay_ra tại $vuViec->noi_xay_ra";
+
+        if ($vuViec->loai_vu_viec === 'AK') {
+            $bc = VuViecNguoi::where('id_vu_viec', $vuViec->id)->where('tu_cach_to_tung', 2)->with('nguoi')->get();
+            $nguoi = [];
+            foreach ($bc as $key => $value)
+                $nguoi[] = $value->nguoi->ho_ten ?? '';
+
+            if (!empty($nguoi))
+                $ten = implode(', ', $nguoi) . ' ' . $ten;
+        } else {
+            $bc = VuViecNguoi::where('id_vu_viec', $vuViec->id)->where('tu_cach_to_tung', 1)->with('nguoi')->get();
+            $nguoi = [];
+            foreach ($bc as $key => $value)
+                $nguoi[] = $value->nguoi->ho_ten ?? '';
+
+            if (!empty($nguoi))
+                $ten = implode(', ', $nguoi) . ' ' . $vuViec->phan_loai_tin . ' ' . $ten;
+            if ($vuViec->phan_loai_tin === 'Tin báo về tội phạm')
+                $ten = "Tin báo về tội phạm của $vuViec->don_vi_chuyen_tin về việc $ten";
+        }
+        return $ten;
     }
 
     /**
@@ -112,6 +140,7 @@ class VuViecController extends BaseController
 
         $obj->nguoi_tao = $request->user()->id;
         self::setVuViecFields($obj, $request);
+        $obj->ten_vu_viec = self::calTenVuViec($obj);
         $obj->save();
         $obj->refresh();
         return $this->sendResponse($obj, "Thêm mới thành công");
@@ -140,7 +169,7 @@ class VuViecController extends BaseController
         } else if ($vuViec->loai_vu_viec === 'AK') {
             $bi_can = $vuViec->vu_viec_nguois()->where('tu_cach_to_tung', 2)->count();
             if ($bi_can <= 0)
-                $vuViec->canh_bao = "Vụ việc này hiện chưa có thông tin bị can";
+                $vuViec->canh_bao = "Vụ án này hiện chưa có thông tin bị can";
         }
         $vuViec->sel_dp_xay_ra = $result;
         return $this->sendResponse($vuViec, "VuViec retrieved successfully");
@@ -161,6 +190,7 @@ class VuViecController extends BaseController
         if ($user->admin || $user->id == $model->id) {
             $model->fill($data);
             self::setVuViecFields($model, $request);
+            $model->ten_vu_viec = self::calTenVuViec($model);
             $model->save();
             $model->refresh();
             return $this->sendResponse($model, "Cập nhật thành công");

@@ -28,19 +28,17 @@ export enum MA_CHUC_VU {
 }
 
 export const TU_CACH_TO_TUNG = [
-	{ id: 1, label: 'Người tố giác' },
+	{ id: 1, label: 'Người tố giác / Bị hại' },
 	{ id: 2, label: 'Người bị tố giác' },
-	{ id: 3, label: 'Người bị hại' },
-	{ id: 4, label: 'Người làm chứng' },
-	{ id: 5, label: 'Người liên quan khác' },
+	{ id: 3, label: 'Người làm chứng' },
+	{ id: 4, label: 'Người liên quan khác' },
 ];
 
 export const TU_CACH_TO_TUNG_KHOI_TO = [
-	// { id: 1, label: 'Người tố giác' },
+	{ id: 1, label: 'Người bị hại' },
 	{ id: 2, label: 'Bị can' },
-	{ id: 3, label: 'Người bị hại' },
-	{ id: 4, label: 'Người làm chứng' },
-	{ id: 5, label: 'Người liên quan khác' },
+	{ id: 3, label: 'Người làm chứng' },
+	{ id: 4, label: 'Người liên quan khác' },
 ];
 
 export const TRUONG_HOP_BAT = [
@@ -59,7 +57,12 @@ export enum PHAN_LOAI_TIN {
 	CQDT_PHAT_HIEN = 'CQĐT trực tiếp phát hiện',
 }
 
-export const LOAI_TOI_PHAM = ['Ít nghiêm trọng', 'Nghiêm trọng', 'Rất nghiêm trọng', 'Đặc biệt nghiêm trọng'];
+export enum LOAI_TOI_PHAM {
+	IT_NGHIEM_TRONG = 'Ít nghiêm trọng',
+	NGHIEM_TRONG = 'Nghiêm trọng',
+	RAT_NGHIEM_TRONG = 'Rất nghiêm trọng',
+	DAC_BIET_NGHIEM_TRONG = 'Đặc biệt nghiêm trọng',
+}
 
 export const KET_QUA_DON = ['Tạm đình chỉ', 'Không khởi tố', 'Khởi tố'];
 

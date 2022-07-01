@@ -1,3 +1,4 @@
+import Typography from 'antd/lib/typography';
 import Tag from 'antd/lib/tag/index';
 import moment from 'moment';
 import React from 'react';
@@ -26,7 +27,8 @@ const List = () => {
 		{
 			title: 'Tên vụ việc',
 			dataIndex: 'ten_vu_viec',
-			width: 150,
+			width: 200,
+			render: (text: string) => <Typography.Paragraph ellipsis={{ rows: 4 }}>{text}</Typography.Paragraph>,
 			onCell,
 		},
 		{
@@ -79,13 +81,13 @@ const List = () => {
 			align: 'center',
 			onCell,
 		},
-		{
-			title: 'Ngày CAP tiếp nhận',
-			dataIndex: 'ngay_ca_phuong',
-			width: 70,
-			align: 'center',
-			onCell,
-		},
+		// {
+		// 	title: 'Ngày CAP tiếp nhận',
+		// 	dataIndex: 'ngay_ca_phuong',
+		// 	width: 70,
+		// 	align: 'center',
+		// 	onCell,
+		// },
 		{
 			title: 'Kết quả xử lý tin',
 			dataIndex: 'ket_qua_giai_quyet',
@@ -124,6 +126,7 @@ const List = () => {
 			formInitialValues={{
 				ngay_ca_phuong: moment().startOf('day'),
 				ngay_cqdt: moment().startOf('day'),
+				ngay_phan_cong: moment().startOf('day'),
 				loai_vu_viec: 'AĐ',
 			}}
 			addStt

@@ -145,7 +145,7 @@ const DataTable = (props: DataTableProps) => {
 		title: 'TT',
 		key: 'stt',
 		align: 'center',
-		width: 80,
+		width: 40,
 		render: (text: string, record: any, index: number) =>
 			index !== undefined && <b>{index + 1 + (ajax ? (pagination.current - 1) * pagination.pageSize : 0)}</b>,
 	});

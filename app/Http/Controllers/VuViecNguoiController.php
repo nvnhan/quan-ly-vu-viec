@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Nguoi;
+use App\Models\VuViec;
 use App\Models\VuViecNguoi;
 use Illuminate\Http\Request;
 
@@ -50,6 +51,10 @@ class VuViecNguoiController extends BaseController
         $vu_viec_nguoi->id_vu_viec = $request->id_vu_viec;
         $vu_viec_nguoi->save();
 
+        $vuViec = VuViec::find($request->id_vu_viec);
+        $vuViec->ten_vu_viec = VuViecController::calTenVuViec($vuViec);
+        $vuViec->save();
+
         $vu_viec_nguoi->refresh();
         $vu_viec_nguoi->nguoi = $nguoi;
         return $this->sendResponse($vu_viec_nguoi, 'Thêm mới thành công');
@@ -73,6 +78,10 @@ class VuViecNguoiController extends BaseController
 
         $vu_viec_nguoi->fill($data);
         $vu_viec_nguoi->save();
+
+        $vuViec = VuViec::find($vu_viec_nguoi->id_vu_viec);
+        $vuViec->ten_vu_viec = VuViecController::calTenVuViec($vuViec);
+        $vuViec->save();
 
         $vu_viec_nguoi->refresh();
         $vu_viec_nguoi->nguoi = $nguoi;

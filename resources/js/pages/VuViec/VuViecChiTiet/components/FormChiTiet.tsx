@@ -45,6 +45,34 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean }) => {
 		});
 	};
 
+	const onChangeLoaiToiPham = (val: LOAI_TOI_PHAM) => {
+		let thoi_han = 400;
+		if (val === LOAI_TOI_PHAM.IT_NGHIEM_TRONG) thoi_han = 200;
+		else if (val === LOAI_TOI_PHAM.NGHIEM_TRONG) thoi_han = 300;
+		props.form?.setFieldsValue({ thoi_han_dieu_tra: thoi_han });
+		onChangeThoiHanDieuTra(thoi_han);
+	};
+
+	const onChangeNgayKhoiTo = (val: moment.Moment) => {
+		const thoi_han = props.form?.getFieldValue('thoi_han_dieu_tra') as number;
+		const m = thoi_han / 100;
+		const d = thoi_han % 100;
+		if (thoi_han > 0 && val)
+			props.form?.setFieldsValue({
+				ngay_ket_thuc_dieu_tra: val.clone().add(m, 'months').add(d, 'days'),
+			});
+	};
+
+	const onChangeThoiHanDieuTra = (thoi_han: number) => {
+		const m = thoi_han / 100;
+		const d = thoi_han % 100;
+		const val = props.form?.getFieldValue('ngay_khoi_to');
+		if (thoi_han > 0 && val)
+			props.form?.setFieldsValue({
+				ngay_ket_thuc_dieu_tra: val.clone().add(m, 'months').add(d, 'days'),
+			});
+	};
+
 	return (
 		<Collapse defaultActiveKey="ttbd">
 			<Collapse.Panel key="ttbd" header="Thông tin ban đầu">
@@ -102,7 +130,7 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean }) => {
 					<Row gutter={[10, 5]}>
 						<Col span={12} sm={6}>
 							<Form.Item name="ngay_khoi_to" label="Ngày khởi tố">
-								<MyDatePicker format="DD/MM/YYYY" />
+								<MyDatePicker format="DD/MM/YYYY" onChange={onChangeNgayKhoiTo} />
 							</Form.Item>
 						</Col>
 						<Col span={12} sm={6}>
@@ -118,8 +146,8 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean }) => {
 						</Col>
 						<Col span={12} sm={6}>
 							<Form.Item name="loai_toi_pham" label="Loại tội phạm">
-								<Select>
-									{LOAI_TOI_PHAM.map((td, index) => (
+								<Select onChange={onChangeLoaiToiPham}>
+									{Object.values(LOAI_TOI_PHAM).map((td, index) => (
 										<Select.Option value={td} key={index}>
 											{td}
 										</Select.Option>
@@ -137,6 +165,7 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean }) => {
 									style={{ width: '100%' }}
 									formatter={inputNgayThangFormat}
 									parser={inputParse}
+									onChange={onChangeThoiHanDieuTra}
 								/>
 							</Form.Item>
 						</Col>
@@ -178,7 +207,7 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean }) => {
 				</Collapse.Panel>
 			)}
 
-			<Collapse.Panel key="hs" header="Hồ sơ vụ việc">
+			<Collapse.Panel key="hs" header="Thông tin hồ sơ">
 				<Row gutter={[10, 5]}>
 					<Col span={12} sm={6}>
 						<Form.Item name="ngay_lap_ho_so" label="Ngày lập hồ sơ">

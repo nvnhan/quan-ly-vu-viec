@@ -125,7 +125,7 @@ const TrangChu = () => {
 						</Col>
 					</Row>
 					<Row gutter={[12, 12]}>
-						<Col span={24} sm={12} md={8}>
+						<Col span={24} sm={12} md={16}>
 							<CardCongViec {...data?.cong_viec_chi_tiet} tong_so={data?.cong_viec} />
 						</Col>
 						<Col span={24} sm={12} md={8}>

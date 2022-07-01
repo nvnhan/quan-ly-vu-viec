@@ -29,7 +29,7 @@ const CardCongViec = (props: any) => {
 	];
 
 	const config = {
-		appendPadding: 5,
+		appendPadding: 10,
 		data,
 		angleField: 'value',
 		colorField: 'type',

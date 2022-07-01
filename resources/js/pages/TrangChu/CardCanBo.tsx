@@ -23,7 +23,7 @@ const CardCanBo = (props: { nhan_vien?: CanBoXuatSac[] }) => {
 		const newData: CanBoXuatSac[] =
 			nhan_vien?.map((nv) => ({
 				...nv,
-				ti_le: (nv.cong_viec_hoan_thanh * 100) / nv.tong_cong_viec,
+				ti_le: nv.tong_cong_viec !== 0 ? (nv.cong_viec_hoan_thanh * 100) / nv.tong_cong_viec : 0,
 			})) ?? [];
 		newData.sort((a, b) => (b.ti_le ?? 0) - (a.ti_le ?? 0));
 		// .sort((a, b) => (b.tong_cong_viec ?? 0) - (a.tong_cong_viec ?? 0));
@@ -44,11 +44,12 @@ const CardCanBo = (props: { nhan_vien?: CanBoXuatSac[] }) => {
 									title={item.ho_ten}
 									description={
 										<>
-											Công việc đã hoàn thành: {item.cong_viec_hoan_thanh}/{item.tong_cong_viec}
+											Công việc đã hoàn thành: {item.cong_viec_hoan_thanh}/{item.tong_cong_viec} (
+											{item.ti_le}%)
 											<Progress
 												percent={item.ti_le ?? 0}
 												showInfo={false}
-												status={item.ti_le !== 100 ? 'active' : undefined}
+												status="active"
 												size="small"
 											/>
 										</>

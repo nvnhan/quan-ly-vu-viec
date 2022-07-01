@@ -56,7 +56,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('tim-don-vi', [DonViController::class, 'get_don_vi']);
     Route::get('tim-can-bo', [CanBoController::class, 'get_can_bo']);
     Route::get('tim-nguoi', [NguoiController::class, 'get_nguoi']);
-    Route::resource('nguoi', NguoiController::class)->only(['show']);
+    Route::resource('nguoi', NguoiController::class)->only(['index', 'show']);
 
     // Vu Viec
     Route::resource('vu-viec', VuViecController::class);
@@ -87,18 +87,21 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('bao-cao', [BaoCaoController::class, 'index']);
 
-    // Add middleware checkadmin
-    Route::middleware('checkadmin')->group(function () {
+    // Check Quan tri
+    Route::middleware('check.quantri')->group(function () {
         Route::resource('can-bo', CanBoController::class)->only(['index', 'store', 'update', 'destroy']);
         Route::put('reset/{id}', [CanBoController::class, 'reset']);
         Route::get('can-bo/check/{name}', [CanBoController::class, 'check']);
 
-        Route::resource('nguoi', NguoiController::class)->only(['index', 'store', 'update', 'destroy']);
+        Route::resource('nguoi', NguoiController::class)->only(['store', 'update', 'destroy']);
 
         Route::resource('don-vi', DonViController::class)->only(['index', 'store', 'update', 'destroy']);
         Route::resource('nhom-cong-viec', NhomCongViecController::class)->only(['store', 'update', 'destroy']);
         Route::resource('cong-viec-khoi-tao', CongViecKhoiTaoController::class)->only(['index', 'store', 'update', 'destroy']);
+    });
 
+    // Add middleware check Admin tong
+    Route::middleware('check.admin')->group(function () {
         Route::get('cai-dat', [SettingController::class, 'index']);
         Route::put('cai-dat', [SettingController::class, 'update']);
     });

@@ -6,27 +6,31 @@ import Form from 'antd/lib/form/index';
 import message from 'antd/lib/message/index';
 import Spin from 'antd/lib/spin';
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store';
 import { parseValues } from '../../../utils';
 import { getApi, putApi } from '../../../utils/services';
 import FormItem from './FormItem';
 
 const NguoiChiTiet = () => {
 	const [form] = Form.useForm();
-	const [record, setRecord] = useState<{ [key: string]: any }>({});
+	// const [record, setRecord] = useState<{ [key: string]: any }>({});
 	const [loading, setLoading] = useState(true);
 	const [formSubmitting, setFormSubmitting] = useState(false);
+	const authUser = useSelector((state: RootState) => state.authUserReducer);
 	const id = window.location.pathname.split('/').pop();
 
 	useEffect(() => {
 		setLoading(true);
 
-		getApi('nguoi/' + id).then((response) => {
-			if (response.data.success) {
-				setRecord(response.data.data);
-				form.setFieldsValue(response.data.data);
-				setLoading(false);
-			}
-		});
+		getApi('nguoi/' + id)
+			.then((response) => {
+				if (response.data.success) {
+					// setRecord(response.data.data);
+					form.setFieldsValue(response.data.data);
+				}
+			})
+			.finally(() => setLoading(false));
 	}, []);
 
 	const onFinish = (values: any) => {
@@ -58,10 +62,14 @@ const NguoiChiTiet = () => {
 							<Button onClick={() => window.history.back()}>
 								<ArrowLeftOutlined /> Quay lại
 							</Button>
-							<Button htmlType="submit" type="primary" loading={formSubmitting}>
-								<SaveOutlined />
-								Lưu lại
-							</Button>
+
+							{authUser.quan_tri && (
+								<Button htmlType="submit" type="primary" loading={formSubmitting}>
+									<SaveOutlined />
+									Lưu lại
+								</Button>
+							)}
+
 							<Button>
 								<UnorderedListOutlined />
 								Vụ việc liên quan

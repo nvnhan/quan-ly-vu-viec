@@ -1,6 +1,5 @@
 import ArrowLeftOutlined from '@ant-design/icons/ArrowLeftOutlined';
-import DownOutlined from '@ant-design/icons/DownOutlined';
-import FileWordTwoTone from '@ant-design/icons/FileWordTwoTone';
+import FileWordOutlined from '@ant-design/icons/FileWordOutlined';
 import FormOutlined from '@ant-design/icons/FormOutlined';
 import MailOutlined from '@ant-design/icons/MailOutlined';
 import OrderedListOutlined from '@ant-design/icons/OrderedListOutlined';
@@ -10,20 +9,18 @@ import TeamOutlined from '@ant-design/icons/TeamOutlined';
 import Alert from 'antd/lib/alert';
 import Button from 'antd/lib/button';
 import Col from 'antd/lib/col';
-import Dropdown from 'antd/lib/dropdown';
 import Form from 'antd/lib/form/index';
-import Menu from 'antd/lib/menu';
 import message from 'antd/lib/message';
-import Modal from 'antd/lib/modal';
 import Row from 'antd/lib/row';
 import Spin from 'antd/lib/spin';
 import Tabs from 'antd/lib/tabs';
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store';
 import { parseValues } from '../../../utils';
-import { downloadApi } from '../../../utils/downloadFile';
 import { getApi, putApi } from '../../../utils/services';
-import FormBaoCao from './components/FormBaoCao';
 import FormChiTiet from './components/FormChiTiet';
+import VuViecBieuMau from './VuViecBieuMau';
 import VuViecCongVan from './VuViecCongVan';
 import VuViecCongViec from './VuViecCongViec';
 import VuViecNguoi from './VuViecNguoi';
@@ -31,19 +28,15 @@ import VuViecTaiLieu from './VuViecTaiLieu';
 
 const VuViecChiTiet = () => {
 	const [form] = Form.useForm();
-	const [formBaoCao] = Form.useForm();
-	const [record, setRecord] = useState<{ [key: string]: any }>({});
+	const [record, setRecord] = useState<Model.VuViec>();
 	const [loading, setLoading] = useState(true);
 	const [formSubmitting, setFormSubmitting] = useState(false);
-	const [stateBaoCao, setStateBaoCao] = useState({
-		modalVisible: false,
-		typeBaoCao: {} as { type: string; label: string } | undefined,
-	});
-	const { modalVisible, typeBaoCao } = stateBaoCao;
+	const authUser = useSelector((state: RootState) => state.authUserReducer);
+
 	const id = window.location.pathname.split('/').pop();
 	const hash = window.location.hash.slice(1);
 	const [currentTab, setCurrentTab] = useState<
-		'thong-tin' | 'nguoi' | 'tai-lieu' | 'cong-van' | 'cong-viec' | string
+		'thong-tin' | 'nguoi' | 'tai-lieu' | 'cong-van' | 'cong-viec' | 'bieu-mau' | string
 	>(hash || 'thong-tin');
 
 	useEffect(() => {
@@ -79,77 +72,16 @@ const VuViecChiTiet = () => {
 
 	const onChange = (tab: any) => setCurrentTab(tab);
 
-	const showBaoCao = (bc: any) => setStateBaoCao({ modalVisible: true, typeBaoCao: bc });
-
-	const onCancel = () => setStateBaoCao({ modalVisible: false, typeBaoCao: undefined });
-
-	/**
-	 * Submit form download BIEU MAU
-	 */
-	const onSubmit = () => {
-		formBaoCao.validateFields().then((values) => {
-			downloadApi(
-				'/api/bao-cao',
-				{ vu_viec: id, type: typeBaoCao?.type, lanh_dao: values.lanh_dao },
-				(typeBaoCao?.label ?? 'BaoCao') + '.docx'
-			);
-		});
-		setStateBaoCao({ modalVisible: false, typeBaoCao: undefined });
-	};
-
-	// Menu Report
-
-	const phanCongToGiac = [
-		{
-			label: 'Thông báo tiếp nhận tố giác',
-			type: 'PhanCongToGiac.TBTiepNhanToGiac',
-			hasLanhDao: true,
-		},
-		{
-			label: 'Báo cáo đề xuất phân công tố giác',
-			type: 'PhanCongToGiac.BCDXPhanCongToGiac',
-			hasLanhDao: true,
-		},
-		{
-			label: 'Phân công PTT giải quyết tố giác',
-			type: 'PhanCongToGiac.PCPTTGiaiQuyetToGiac',
-			hasLanhDao: true,
-		},
-		{
-			label: 'Phân công ĐTV giải quyết tố giác',
-			type: 'PhanCongToGiac.QDPhanCongDTVGiaiQuyetToGiac',
-			hasLanhDao: true,
-		},
-		{
-			label: 'Kế hoạch xác minh tố giác',
-			type: 'PhanCongToGiac.KHXMToGiac',
-			hasLanhDao: true,
-		},
-		{
-			label: 'Quyết định lập hồ sơ tố giác',
-			type: 'PhanCongToGiac.LapHoSoADToGiac',
-			hasLanhDao: true,
-		},
-	];
-
-	const menuPhanCongToGiac = (
-		<Menu
-			items={phanCongToGiac.map((pc) => ({
-				label: pc.label,
-				key: pc.type,
-				onClick: () => showBaoCao(pc),
-				icon: <FileWordTwoTone />,
-			}))}
-		/>
-	);
-
 	return (
 		<div className="list-form">
 			<div className="filter-box">
 				<Button onClick={() => window.history.back()} type="link">
 					<ArrowLeftOutlined /> Quay lại
 				</Button>
-				<b style={{ fontSize: '1.15rem' }}>Vụ: {record.ten_vu_viec}</b>
+				{/* <b style={{ fontSize: '1.1rem' }}>
+					{record?.loai_vu_viec === 'AĐ' ? 'Vụ việc: ' : 'Vụ án: '}
+					{record?.ten_vu_viec}
+				</b> */}
 			</div>
 
 			<div style={{ padding: '16px 12px' }}>
@@ -159,27 +91,10 @@ const VuViecChiTiet = () => {
 							<Alert message={record.canh_bao} type="error" showIcon />
 						</Col>
 					)}
-					<Col span={24} sm={12}>
-						<b>Thời điểm xảy ra:</b> {record.thoi_diem_xay_ra}, tại: {record.noi_xay_ra}
-					</Col>
-					<Col span={24} sm={12}>
-						<b>Nội dung tóm tắt:</b> {record.noi_dung_tom_tat}
-					</Col>
-
 					<Col span={24}>
-						<b>Trích xuất biểu mẫu:</b>
-						<Dropdown overlay={menuPhanCongToGiac}>
-							<Button style={{ margin: '2px 5px' }}>
-								Phân công tố giác
-								<DownOutlined />
-							</Button>
-						</Dropdown>
-						<Dropdown overlay={menuPhanCongToGiac}>
-							<Button style={{ margin: '2px 5px' }}>
-								Không khởi tố tố giác
-								<DownOutlined />
-							</Button>
-						</Dropdown>
+						<p>
+							<b>Trích yếu: </b> {record?.ten_vu_viec}
+						</p>
 					</Col>
 				</Row>
 			</div>
@@ -198,10 +113,19 @@ const VuViecChiTiet = () => {
 					tab={
 						<span>
 							<TeamOutlined />
-							Người trong vụ việc
+							{record?.loai_vu_viec === 'AĐ' ? 'Người trong vụ việc' : 'Người trong vụ án'}
 						</span>
 					}
 					key="nguoi"
+				/>
+				<Tabs.TabPane
+					tab={
+						<span>
+							<FileWordOutlined />
+							Trích xuất biểu mẫu
+						</span>
+					}
+					key="bieu-mau"
 				/>
 				<Tabs.TabPane
 					tab={
@@ -241,37 +165,22 @@ const VuViecChiTiet = () => {
 								<Button onClick={() => window.history.back()}>
 									<ArrowLeftOutlined /> Quay lại
 								</Button>
-								<Button htmlType="submit" type="primary" loading={formSubmitting}>
-									<SaveOutlined />
-									Lưu lại
-								</Button>
+								{(authUser.admin || authUser.id === record?.id) && (
+									<Button htmlType="submit" type="primary" loading={formSubmitting}>
+										<SaveOutlined />
+										Lưu lại
+									</Button>
+								)}
 							</div>
 						</Form>
 					)}
 					{currentTab === 'nguoi' && <VuViecNguoi vuViec={record} />}
+					{currentTab === 'bieu-mau' && <VuViecBieuMau vuViec={record} />}
 					{currentTab === 'cong-viec' && <VuViecCongViec vuViec={id} />}
 					{currentTab === 'tai-lieu' && <VuViecTaiLieu vuViec={id} />}
 					{currentTab === 'cong-van' && <VuViecCongVan vuViec={id} />}
 				</Spin>
 			</div>
-
-			<Modal
-				visible={modalVisible}
-				title="Trích xuất biểu mẫu"
-				onCancel={onCancel}
-				footer={[
-					<Button key="back" onClick={onCancel}>
-						Hủy
-					</Button>,
-					<Button key="submit" type="primary" loading={formSubmitting} onClick={onSubmit}>
-						Đồng ý
-					</Button>,
-				]}
-			>
-				<Form layout="vertical" form={formBaoCao}>
-					<FormBaoCao />
-				</Form>
-			</Modal>
 		</div>
 	);
 };

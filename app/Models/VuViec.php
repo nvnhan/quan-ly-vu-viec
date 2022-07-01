@@ -39,7 +39,7 @@ class VuViec extends Model
      * @var array
      */
     protected $fillable = [
-        'ngay_ca_phuong', 'ngay_cqdt',
+        'ngay_ca_phuong', 'ngay_cqdt', 'don_vi_chuyen_tin',
         'loai_vu_viec', 'phan_loai_tin',
         'thoi_diem_xay_ra', 'noi_xay_ra',  'noi_dung_tom_tat',
         'ngay_keo_dai', 'ket_qua_giai_quyet', 'ngay_ket_thuc_1', 'ngay_gia_han_xac_minh',
@@ -60,7 +60,7 @@ class VuViec extends Model
         'tai_lieus', 'cong_vans', 'vu_viec_nguois',
     ];
 
-    protected $appends = ['ten_vu_viec', 'sel_dp_xay_ra', 'sel_dtv_chinh', 'sel_can_bo_chinh', 'ten_nguoi_tao'];
+    protected $appends = ['sel_dp_xay_ra', 'sel_dtv_chinh', 'sel_can_bo_chinh', 'ten_nguoi_tao'];
 
     public function toi_danh()
     {
@@ -105,11 +105,6 @@ class VuViec extends Model
     public function don_vi()
     {
         return $this->belongsTo('App\Models\DonVi', 'id_don_vi');
-    }
-
-    public function getTenVuViecAttribute()
-    {
-        return $this->noi_dung_tom_tat;
     }
 
     public function getTenNguoiTaoAttribute()

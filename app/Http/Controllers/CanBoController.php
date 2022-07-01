@@ -16,10 +16,11 @@ class CanBoController extends BaseController
     public function index(Request $request)
     {
         $user = $request->user();
-        if ($user->admin)
-            $objs = CanBo::all();
-        else $objs = [];
-        return $this->sendResponse($objs, "User retrieved successfully");
+        $query = CanBo::query();
+        if (!$user->admin)
+            $query = $query->where('chuc_vu', '<', 9);
+
+        return $this->sendResponse($query->get(), "User retrieved successfully");
     }
 
     public function get_can_bo(Request $request)

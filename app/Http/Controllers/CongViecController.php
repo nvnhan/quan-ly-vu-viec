@@ -20,9 +20,13 @@ class CongViecController extends BaseController
     {
         $query = CongViec::query();
         if ($request->id_can_bo) {
+            // Cong viec cua toi
             $query = $query->where('id_can_bo', $request->id_can_bo);
+            // Trong khoang thoi gian hoaac vu viec can chu y
             if ($request->bat_dau && $request->ket_thuc)
-                $query = $query->whereBetween('ngay_giao', [$request->bat_dau, $request->ket_thuc]);
+                $query = $query->where(fn ($q) =>  $q
+                    ->whereBetween('ngay_giao', [$request->bat_dau, $request->ket_thuc])
+                    ->orWhereIn('trang_thai', [1, 2, 3, 7]));
         } else if ($request->bat_dau && $request->ket_thuc)
             $query = $query->whereBetween('created_at', [$request->bat_dau, $request->ket_thuc]);
 

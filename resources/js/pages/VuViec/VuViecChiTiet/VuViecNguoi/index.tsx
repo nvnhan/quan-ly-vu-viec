@@ -73,6 +73,15 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 		return objs;
 	};
 
+	const onCell = (record: any) => {
+		if (record.id > 0)
+			return {
+				onClick: () => handleEdit(record),
+				style: { cursor: 'pointer' },
+			};
+		return {};
+	};
+
 	const columns: ColumnProps[] = [
 		{
 			title: 'TT',
@@ -80,28 +89,33 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 			width: 60,
 			render: (text, record, index) => index !== undefined && <b>{index + 1}</b>,
 			align: 'center',
+			onCell,
 		},
 		{
 			title: 'Họ tên',
 			dataIndex: 'ho_ten',
 			render: (text, record) => (record.id <= 0 ? <b>{text}</b> : text),
 			width: 140,
+			onCell,
 		},
 		{
 			title: 'Giới tính',
 			dataIndex: 'gioi_tinh',
 			align: 'center',
 			width: 60,
+			onCell,
 		},
 		{
 			title: 'Ngày sinh',
 			dataIndex: 'ngay_sinh_day_du',
 			width: 80,
+			onCell,
 		},
 		{
 			title: 'Số định danh',
 			dataIndex: 'so_dinh_danh',
 			width: 120,
+			onCell,
 		},
 		// {
 		// 	title: 'Họ tên bố',
@@ -123,12 +137,14 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 			dataIndex: 'ten_thuong_tru',
 			width: 170,
 			render: (text) => <Typography.Paragraph ellipsis={{ rows: 2 }}>{text}</Typography.Paragraph>,
+			onCell,
 		},
 		{
 			title: 'Nơi ở hiện nay',
 			dataIndex: 'ten_noi_o_hien_nay',
 			width: 170,
 			render: (text) => <Typography.Paragraph ellipsis={{ rows: 2 }}>{text}</Typography.Paragraph>,
+			onCell,
 		},
 		{
 			title: '',
@@ -175,6 +191,7 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 
 	const handleEdit = (record: any) => {
 		setState({ view: 'edit', record });
+		form.resetFields();
 		form.setFieldsValue(record);
 	};
 
@@ -206,8 +223,17 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 
 	const handleInsert = () => {
 		setState({ view: 'insert', record: null });
-		form.setFieldsValue({ quoc_tich: 'Việt Nam', dan_toc: 'Kinh', ton_giao: 'Không' });
+		form.resetFields();
+		form.setFieldsValue({
+			quoc_tich: 'Việt Nam',
+			dan_toc: 'Kinh',
+			ton_giao: 'Không',
+			nghe_nghiep: 'Lao động tự do',
+			noi_cap: 'Cục Cảnh sát QLHC về TTXH',
+			giay_dinh_danh: 'CCCD',
+		});
 	};
+
 	const handleCanel = () => setState({ view: 'table', record: null });
 
 	/**
@@ -295,7 +321,7 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 			</div>
 			<Form form={form} layout="vertical" onFinish={onFinish}>
 				<FormChiTietNguoi />
-				<FormVuViecNguoi vuViec={vuViec} />
+				<FormVuViecNguoi vuViec={vuViec} form={form} record={state.record} />
 
 				<div className="tools-button" style={{ textAlign: 'center' }}>
 					<Button onClick={handleCanel}>
