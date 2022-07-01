@@ -5,6 +5,9 @@ import Modal from 'antd/lib/modal';
 import React, { useState } from 'react';
 import { downloadApi } from '../../../../utils/downloadFile';
 import FormBaoCao from './FormBaoCao';
+import { ad } from './bieuMauAD';
+import { ak } from './bieuMauAK';
+import List from 'antd/lib/list';
 
 const VuViecBieuMau = (props: { vuViec?: Model.VuViec }) => {
 	const [formBaoCao] = Form.useForm();
@@ -33,45 +36,22 @@ const VuViecBieuMau = (props: { vuViec?: Model.VuViec }) => {
 		});
 		setStateBaoCao({ modalVisible: false, typeBaoCao: undefined });
 	};
-	// Menu Report
-
-	const phanCongToGiac = [
-		{
-			label: 'Thông báo tiếp nhận tố giác',
-			type: 'PhanCongToGiac.TBTiepNhanToGiac',
-			hasLanhDao: true,
-		},
-		{
-			label: 'Báo cáo đề xuất phân công tố giác',
-			type: 'PhanCongToGiac.BCDXPhanCongToGiac',
-			hasLanhDao: true,
-		},
-		{
-			label: 'Phân công PTT giải quyết tố giác',
-			type: 'PhanCongToGiac.PCPTTGiaiQuyetToGiac',
-			hasLanhDao: true,
-		},
-		{
-			label: 'Phân công ĐTV giải quyết tố giác',
-			type: 'PhanCongToGiac.QDPhanCongDTVGiaiQuyetToGiac',
-			hasLanhDao: true,
-		},
-		{
-			label: 'Kế hoạch xác minh tố giác',
-			type: 'PhanCongToGiac.KHXMToGiac',
-			hasLanhDao: true,
-		},
-		{
-			label: 'Quyết định lập hồ sơ tố giác',
-			type: 'PhanCongToGiac.LapHoSoADToGiac',
-			hasLanhDao: true,
-		},
-	];
 
 	return (
 		<>
-			<Collapse defaultActiveKey="ttbd">
-				<Collapse.Panel key="ttdt" header="Thời hạn xác minh"></Collapse.Panel>
+			<Collapse>
+				{ad.map((item, index) => (
+					<Collapse.Panel header={index + 1 + '. ' + item.path} key={item.path}>
+						<List
+							dataSource={item.childs}
+							renderItem={(item, index) => (
+								<List.Item style={{ cursor: 'pointer' }} onClick={() => showBaoCao(item)}>
+									{index + 1} - {item.path}
+								</List.Item>
+							)}
+						/>
+					</Collapse.Panel>
+				))}
 			</Collapse>
 
 			<Modal

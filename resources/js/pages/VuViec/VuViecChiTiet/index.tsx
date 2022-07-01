@@ -70,7 +70,10 @@ const VuViecChiTiet = () => {
 			.then(() => setFormSubmitting(false));
 	};
 
-	const onChange = (tab: any) => setCurrentTab(tab);
+	const onChangeTab = (tab: any) => {
+		setCurrentTab(tab);
+		window.location.hash = '#' + tab;
+	};
 
 	return (
 		<div className="list-form">
@@ -99,7 +102,7 @@ const VuViecChiTiet = () => {
 				</Row>
 			</div>
 
-			<Tabs type="card" onChange={onChange} defaultActiveKey={currentTab}>
+			<Tabs type="card" onChange={onChangeTab} defaultActiveKey={currentTab}>
 				<Tabs.TabPane
 					tab={
 						<span>
