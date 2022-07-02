@@ -40,13 +40,13 @@ const VuViecBieuMau = (props: { vuViec?: Model.VuViec }) => {
 	return (
 		<>
 			<Collapse>
-				{ad.map((item, index) => (
-					<Collapse.Panel header={index + 1 + '. ' + item.path} key={item.path}>
+				{(vuViec?.loai_vu_viec === 'AĐ' ? ad : ak).map((item, index) => (
+					<Collapse.Panel header={index + 1 + '. ' + item.name} key={item.path}>
 						<List
 							dataSource={item.childs}
 							renderItem={(item, index) => (
 								<List.Item style={{ cursor: 'pointer' }} onClick={() => showBaoCao(item)}>
-									{index + 1} - {item.path}
+									{index + 1} - {item.name}
 								</List.Item>
 							)}
 						/>
