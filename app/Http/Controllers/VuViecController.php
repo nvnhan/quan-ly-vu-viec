@@ -115,7 +115,7 @@ class VuViecController extends BaseController
                 $nguoi[] = $value->nguoi->ho_ten ?? '';
 
             if (!empty($nguoi))
-                $ten = implode(', ', $nguoi) . ' ' . $vuViec->phan_loai_tin . ' ' . $ten;
+                $ten = $vuViec->phan_loai_tin . ' của ' . implode(', ', $nguoi) . ' '  . $ten;
             if ($vuViec->phan_loai_tin === 'Tin báo về tội phạm')
                 $ten = "Tin báo về tội phạm của $vuViec->don_vi_chuyen_tin về việc $ten";
         }
@@ -164,11 +164,11 @@ class VuViecController extends BaseController
             ];
 
         if ($vuViec->loai_vu_viec === 'AĐ') {
-            $nguoi_to_giac = $vuViec->vu_viec_nguois()->where('tu_cach_to_tung', 1)->count();
+            $nguoi_to_giac = $vuViec->vu_viec_nguois()->where('tu_cach_to_tung', 7)->count();
             if ($nguoi_to_giac <= 0)
                 $vuViec->canh_bao = "Vụ việc này hiện chưa có thông tin người tố giác";
         } else if ($vuViec->loai_vu_viec === 'AK') {
-            $bi_can = $vuViec->vu_viec_nguois()->where('tu_cach_to_tung', 2)->count();
+            $bi_can = $vuViec->vu_viec_nguois()->where('tu_cach_to_tung', 6)->count();
             if ($bi_can <= 0)
                 $vuViec->canh_bao = "Vụ án này hiện chưa có thông tin bị can";
         }

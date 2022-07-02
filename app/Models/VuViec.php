@@ -25,8 +25,10 @@ class VuViec extends Model
         'ngay_phuc_hoi' => 'datetime:d/m/Y',
         'ngay_ket_thuc_phuc_hoi' => 'datetime:d/m/Y',
         'ngay_khoi_to' => 'datetime:d/m/Y',
-        'ngay_gia_han' => 'datetime:d/m/Y',
         'ngay_ket_thuc_dieu_tra' => 'datetime:d/m/Y',
+        'ngay_ket_thuc_dieu_tra_1' => 'datetime:d/m/Y',
+        'ngay_ket_thuc_dieu_tra_2' => 'datetime:d/m/Y',
+        'ngay_ket_thuc_dieu_tra_3' => 'datetime:d/m/Y',
         'ngay_lap_ho_so' => 'datetime:d/m/Y',
         'ngay_dang_ky_ho_so' => 'datetime:d/m/Y',
         'created_at' => 'datetime:d/m/Y',
@@ -45,8 +47,8 @@ class VuViec extends Model
         'ngay_keo_dai', 'ket_qua_giai_quyet', 'ngay_ket_thuc_1', 'ngay_gia_han_xac_minh',
         'ngay_ket_thuc_2', 'ngay_phuc_hoi', 'ngay_ket_thuc_phuc_hoi',
         'ngay_khoi_to', 'ma_toi_danh', 'loai_toi_pham',
-        'thoi_han_dieu_tra', 'ngay_ket_thuc_dieu_tra', 'ngay_gia_han', 'thoi_gian_gia_han',
-        'ket_qua_an',
+        'ngay_ket_thuc_dieu_tra', 'ngay_ket_thuc_dieu_tra_1', 'ngay_ket_thuc_dieu_tra_2', 'ngay_ket_thuc_dieu_tra_3',
+        'ket_qua_an', 'phuong_thuc_pham_toi', 'noi_thuc_hien_pham_toi',
         'ngay_lap_ho_so', 'ngay_dang_ky_ho_so', 'so_ho_so',
     ];
 

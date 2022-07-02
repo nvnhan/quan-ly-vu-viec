@@ -15,13 +15,14 @@ class VuViecNguoi extends Model
      * @var array
      */
     protected $casts = [
-        'ngay_xay_ra_bc' => 'datetime:H:i d/m/Y',
+        'ngay_xay_ra_bc' => 'datetime:d/m/Y',
         'ngay_bat' => 'datetime:d/m/Y',
         'ngay_tam_giu' => 'datetime:d/m/Y',
         'ngay_tam_giam' => 'datetime:d/m/Y',
-        'ngay_gia_han_tam_giam_1' => 'datetime:d/m/Y',
-        'ngay_gia_han_tam_giam_2' => 'datetime:d/m/Y',
         'ngay_khoi_to_bc' => 'datetime:d/m/Y',
+        'ngay_ket_thuc_tam_giam' => 'datetime:d/m/Y',
+        'ngay_ket_thuc_tam_giam_1' => 'datetime:d/m/Y',
+        'ngay_ket_thuc_tam_giam_2' => 'datetime:d/m/Y',
         'created_at' => 'datetime:d/m/Y',
         'updated_at' => 'datetime:H:i d/m/Y',
     ];
@@ -35,10 +36,10 @@ class VuViecNguoi extends Model
         'tu_cach_to_tung', 'hanh_vi', 'loi_khai',
         'ma_toi_danh_bc', 'ngay_xay_ra_bc', 'noi_xay_ra_bc',
         'ngay_bat', 'truong_hop_bat',
-        'ngay_tam_giu', 'thoi_han_gia_han_tam_giu_1', 'thoi_han_gia_han_tam_giu_2',
-        'ngay_tam_giam', 'thoi_han_giam', 'ngay_khoi_to_bc',
-        'ngay_gia_han_tam_giam_1', 'thoi_han_gia_han_giam_1',
-        'ngay_gia_han_tam_giam_2', 'thoi_han_gia_han_giam_2'
+        'ngay_tam_giu',
+        'ngay_tam_giam', 'ngay_khoi_to_bc',
+        'so_ngay_tam_giu', 'so_ngay_tam_giu_1', 'so_ngay_tam_giu_2',
+        'ngay_ket_thuc_tam_giam', 'ngay_ket_thuc_tam_giam_1', 'ngay_ket_thuc_tam_giam_2'
     ];
 
     public function toi_danh_bc()

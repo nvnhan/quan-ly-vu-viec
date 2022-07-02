@@ -1,3 +1,5 @@
+import { LOAI_TOI_PHAM } from '../utils/constant';
+
 declare module Model {
 	export interface User {
 		readonly id: number;
@@ -35,7 +37,7 @@ declare module Model {
 		ket_qua_an?: string;
 		ket_qua_giai_quyet?: string;
 		khu_vuc_xay_ra?: string;
-		loai_toi_pham?: string;
+		loai_toi_pham?: LOAI_TOI_PHAM;
 		loai_vu_viec: 'AĐ' | 'AK';
 		ma_toi_danh?: string;
 		ngay_ca_phuong?: string;

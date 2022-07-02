@@ -19,7 +19,7 @@ import { groupBy } from 'lodash';
 import React, { useEffect } from 'react';
 import { ColumnProps } from '../../../../components/ListForm/DataTable';
 import { parseValues, unionDataBy, useMergeState } from '../../../../utils';
-import { TU_CACH_TO_TUNG, TU_CACH_TO_TUNG_KHOI_TO } from '../../../../utils/constant';
+import { TU_CACH_TO_TUNG } from '../../../../utils/constant';
 import { getApi } from '../../../../utils/services';
 import FormChiTietNguoi from '../../../ThongTin/Nguoi/FormItem';
 import FormVuViecNguoi from './FormItem';
@@ -39,7 +39,7 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 	const { vuViec } = props;
 
 	useEffect(() => {
-		getApi('vu-viec-nguoi?vu_viec=' + vuViec.id)
+		getApi('vu-viec-nguoi?vu_viec=' + vuViec?.id)
 			.then((response) => {
 				if (response.data.success) {
 					// populate all field of Nguoi into VuViecNguoi
@@ -52,7 +52,7 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 				}
 			})
 			.catch((error) => console.log(error));
-	}, []);
+	}, [vuViec]);
 
 	const convertDataToGroups = (data: any[]) => {
 		const groups = Object.entries(groupBy(data, 'tu_cach_to_tung'));
@@ -61,12 +61,7 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 			objs.push({
 				id: -index,
 				ho_ten:
-					(vuViec.loai_vu_viec === 'AĐ' ? TU_CACH_TO_TUNG : TU_CACH_TO_TUNG_KHOI_TO).find(
-						(tc) => tc.id == Number(group[0])
-					)?.label +
-					': ' +
-					group[1].length +
-					' người',
+					TU_CACH_TO_TUNG.find((tc) => tc.id == Number(group[0]))?.label + ': ' + group[1].length + ' người',
 				children: group[1],
 			});
 		});

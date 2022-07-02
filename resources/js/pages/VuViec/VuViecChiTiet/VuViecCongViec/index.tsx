@@ -293,7 +293,7 @@ const List = (props: { vuViec: any }) => {
 
 			{congViec.trang_thai !== MA_TRANG_THAI_CONG_VIEC.HOAN_THANH &&
 				congViec.trang_thai !== MA_TRANG_THAI_CONG_VIEC.HUY &&
-				(authUser.chuc_vu >= MA_CHUC_VU.DOI_TRUONG || authUser.id === congViec.id_can_bo) && (
+				(authUser.chi_huy || authUser.id === congViec.id_can_bo || authUser.id === congViec.nguoi_tao) && (
 					<Dropdown overlay={() => genMenus(congViec)}>
 						<Button type="link" size="small">
 							<CheckSquareOutlined /> Cập nhật trạng thái công việc
@@ -301,7 +301,7 @@ const List = (props: { vuViec: any }) => {
 					</Dropdown>
 				)}
 
-			{(authUser.admin || authUser.id === congViec.nguoi_tao) && (
+			{(authUser.chi_huy || authUser.id === congViec.nguoi_tao) && (
 				<>
 					<Divider type="vertical" />
 					<Button type="link" size="small" title="Chỉnh sửa" onClick={() => handleEdit(congViec)}>

@@ -5,6 +5,7 @@ import Row from 'antd/lib/grid/row';
 import InputNumber from 'antd/lib/input-number';
 import Input from 'antd/lib/input/index';
 import Select from 'antd/lib/select';
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import MyDatePicker from '../../../../components/Controls/MyDatePicker';
 import MyDebounceSelect, { SelectValue } from '../../../../components/Controls/MyDebounceSelect';
@@ -31,20 +32,16 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean }) => {
 		});
 	};
 
-	const onChangeNgayKhoiTo = (val: moment.Moment) => {
-		const thoi_han = props.form?.getFieldValue('thoi_han_dieu_tra') as number;
-		const m = thoi_han / 100;
-		const d = thoi_han % 100;
-		if (thoi_han > 0 && val)
-			props.form?.setFieldsValue({
-				ngay_ket_thuc_dieu_tra: val.clone().add(m, 'months').add(d, 'days'),
-			});
-	};
+	const onChangeData = () => {
+		const loai_tp = props.form?.getFieldValue('loai_toi_pham') as LOAI_TOI_PHAM;
+		let thoi_han = 400;
+		if (loai_tp === LOAI_TOI_PHAM.IT_NGHIEM_TRONG) thoi_han = 200;
+		else if (loai_tp === LOAI_TOI_PHAM.NGHIEM_TRONG) thoi_han = 300;
 
-	const onChangeThoiHanDieuTra = (thoi_han: number) => {
 		const m = thoi_han / 100;
 		const d = thoi_han % 100;
-		const val = props.form?.getFieldValue('ngay_khoi_to');
+		let val = props.form?.getFieldValue('ngay_khoi_to');
+		if (typeof val === 'string') val = moment(val, 'DD/MM/YYYY');
 		if (thoi_han > 0 && val)
 			props.form?.setFieldsValue({
 				ngay_ket_thuc_dieu_tra: val.clone().add(m, 'months').add(d, 'days'),
@@ -58,7 +55,7 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean }) => {
 					form={props.form}
 					loading={props.loading}
 					setLoaiVuViec={setLoaiVuViec}
-					onChangeThoiHanDieuTra={onChangeThoiHanDieuTra}
+					onChangeData={onChangeData}
 				/>
 			</Collapse.Panel>
 
@@ -113,45 +110,28 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean }) => {
 					<Row gutter={[10, 5]}>
 						<Col span={12} sm={6}>
 							<Form.Item name="ngay_khoi_to" label="Ngày khởi tố">
-								<MyDatePicker format="DD/MM/YYYY" onChange={onChangeNgayKhoiTo} />
+								<MyDatePicker format="DD/MM/YYYY" onChange={onChangeData} />
 							</Form.Item>
 						</Col>
 
-						<Col span={12} sm={6}>
-							<Form.Item
-								name="thoi_han_dieu_tra"
-								label="Thời hạn điều tra"
-								tooltip="Ví dụ: nhập 210 hay 2 _ 10 tương đương với 2 tháng 10 ngày"
-							>
-								<InputNumber
-									style={{ width: '100%' }}
-									formatter={inputNgayThangFormat}
-									parser={inputParse}
-									onChange={onChangeThoiHanDieuTra}
-								/>
-							</Form.Item>
-						</Col>
 						<Col span={12} sm={6}>
 							<Form.Item name="ngay_ket_thuc_dieu_tra" label="Ngày kết thúc điều tra">
 								<MyDatePicker format="DD/MM/YYYY" />
 							</Form.Item>
 						</Col>
 						<Col span={12} sm={6}>
-							<Form.Item name="ngay_gia_han" label="Ngày gia hạn">
+							<Form.Item name="ngay_ket_thuc_dieu_tra_1" label="Ngày kết thúc điều tra 1">
 								<MyDatePicker format="DD/MM/YYYY" />
 							</Form.Item>
 						</Col>
 						<Col span={12} sm={6}>
-							<Form.Item
-								name="thoi_gian_gia_han"
-								label="Thời gian gia hạn"
-								tooltip="Ví dụ: nhập 210 hay 2 _ 10 tương đương với 2 tháng 10 ngày"
-							>
-								<InputNumber
-									style={{ width: '100%' }}
-									formatter={inputNgayThangFormat}
-									parser={inputParse}
-								/>
+							<Form.Item name="ngay_ket_thuc_dieu_tra_2" label="Ngày kết thúc điều tra 2">
+								<MyDatePicker format="DD/MM/YYYY" />
+							</Form.Item>
+						</Col>
+						<Col span={12} sm={6}>
+							<Form.Item name="ngay_ket_thuc_dieu_tra_3" label="Ngày kết thúc điều tra 3">
+								<MyDatePicker format="DD/MM/YYYY" />
 							</Form.Item>
 						</Col>
 						<Col span={12} sm={6}>

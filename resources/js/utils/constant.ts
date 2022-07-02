@@ -28,18 +28,26 @@ export enum MA_CHUC_VU {
 }
 
 export const TU_CACH_TO_TUNG = [
-	{ id: 1, label: 'Người tố giác / Bị hại' },
-	{ id: 2, label: 'Người bị tố giác' },
-	{ id: 3, label: 'Người làm chứng' },
-	{ id: 4, label: 'Người liên quan khác' },
+	{ id: 1, label: 'Người bị tố giác' },
+	{ id: 2, label: 'Người bị kiến nghị khởi tố' },
+	{ id: 3, label: 'Người bị giữ trong trường hợp khẩn cấp' },
+	{ id: 4, label: 'Người bị bắt' },
+	{ id: 5, label: 'Người bị tạm giữ' },
+	{ id: 6, label: 'Bị can' },
+	{ id: 7, label: 'Người tố giác, báo tin về tội phạm, kiến nghị khởi tố' },
+	{ id: 8, label: 'Bị hại' },
+	{ id: 9, label: 'Người có quyền lợi, nghĩa vụ liên quan đến vụ án' },
+	{ id: 10, label: 'Người làm chứng' },
+	{ id: 11, label: 'Người chứng kiến' },
+	{ id: 12, label: 'Người liên quan khác' },
 ];
 
-export const TU_CACH_TO_TUNG_KHOI_TO = [
-	{ id: 1, label: 'Người bị hại' },
-	{ id: 2, label: 'Bị can' },
-	{ id: 3, label: 'Người làm chứng' },
-	{ id: 4, label: 'Người liên quan khác' },
-];
+// export const TU_CACH_TO_TUNG_KHOI_TO = [
+// 	{ id: 1, label: 'Người bị hại' },
+// 	{ id: 2, label: 'Bị can' },
+// 	{ id: 3, label: 'Người làm chứng' },
+// 	{ id: 4, label: 'Người liên quan khác' },
+// ];
 
 export const TRUONG_HOP_BAT = [
 	'Đầu thú',
@@ -73,6 +81,71 @@ export const KET_QUA_AN = [
 	'Kết luận điều tra (Bổ sung)',
 	'Kết luận điều tra (Lại)',
 	'Kết luận điều tra (Đình chỉ)',
+];
+
+export const PHUONG_THUC_PHAM_TOI = [
+	'Trộm quả tang',
+	'Trộm đột nhập',
+	'Trộm cơ hội',
+	'Trộm chung cư',
+	'Trộm mới',
+	'Trộm truyền thống',
+	'Lừa đảo truyền thống',
+	'Lừa đảo qua công nghệ cao',
+	'Lừa đảo qua mạng xã hội Facebook',
+	'Lừa đảo qua mạng xã hội Zalo',
+	'Lừa đảo qua mạng xã hội Viber',
+	'Lừa đảo qua mạng xã hội Telegram',
+	'Lừa đảo qua mạng xã hội khác',
+	'Lừa đảo giả danh người thân',
+	'Lừa đảo bằng giả danh cán bộ tư pháp',
+	'Lừa đảo mới',
+	'Chiếm đoạt tài sản (Điều 290) dưới hình thức nhận làm cộng tác viên sàn thương mại điện tử',
+	'Chiếm đoạt tài sản (Điều 290) bằng gửi liên kết lạ (Link)',
+	'Chiếm đoạt tài sản (Điều 290) mới',
+	'Cướp giật tài sản bằng phương tiện giao thông',
+	'Cướp giật tài sản chạy bộ',
+	'Cướp giật tài sản phương thức mới',
+	'Cướp tài sản do đòi nợ',
+	'Cướp tài sản truyền thống',
+	'Cướp tài sản mới',
+	'Giết người dùng vũ khí nóng',
+	'Giết người dùng vũ khí thô sơ',
+	'Giết người bằng tay không',
+	'Giết người bằng đầu độc',
+	'Giết người bằng hình thức mới',
+	'Cố ý gây thương tích bằng vũ khí nóng',
+	'Cố ý gây thương tích bằng vũ khí thô sơ',
+	'Cố ý gây thương tích bằng hung khí',
+	'Cố ý gây thương tích bằng tay không',
+	'Cố ý gây thương tích bằng phương tiện giao thông',
+	'Cố ý gây thương tích bằng hình thức mới',
+	'Đánh bạc bằng trang Web',
+	'Đánh bạc bằng ứng dụng',
+	'Đánh bạc truyền thống',
+	'Đánh bạc dạng cá độ',
+	'Đánh bạc dạng sát phạt',
+	'Đánh bạc hình thức mới',
+	'Tổ chức đánh bạc bằng trang Web',
+	'Tổ chức đánh bạc bằng ứng dụng',
+	'Tổ chức đánh bạc truyền thống',
+	'Tổ chức Đánh bạc dạng cá độ',
+	'Tổ chức Đánh bạc dạng sát phạt',
+	'Tổ chức Đánh bạc hình thức mới',
+	'Phạm tội có sử dụng vũ khí nóng',
+	'Phạm tội có sử dụng vũ khí thô sơ',
+	'Phạm tội có sử dụng hung khí',
+	'Phạm tội bằng hình thức truyền thống',
+	'Phạm tội bằng hình thức phi truyền thống',
+];
+
+export const NOI_THUC_HIEN_PHAM_TOI = [
+	'Nhà riêng',
+	'Chung cư',
+	'Công cộng',
+	'Không gian mạng',
+	'Cơ sở vàng bạc',
+	'Ngân hàng',
 ];
 
 export const TEN_MUC_DO_UU_TIEN = [

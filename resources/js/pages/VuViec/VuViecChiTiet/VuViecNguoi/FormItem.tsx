@@ -9,9 +9,9 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import MyDatePicker from '../../../../components/Controls/MyDatePicker';
 import { fetchToiDanh } from '../../../../reducers/toiDanh';
+import { Model } from '../../../../reducers/type';
 import { RootState } from '../../../../store';
-import { inputNgayThangFormat, inputParse } from '../../../../utils';
-import { TRUONG_HOP_BAT, TU_CACH_TO_TUNG, TU_CACH_TO_TUNG_KHOI_TO } from '../../../../utils/constant';
+import { LOAI_TOI_PHAM, TRUONG_HOP_BAT, TU_CACH_TO_TUNG } from '../../../../utils/constant';
 import { required } from '../../../../utils/rules';
 
 const form = (props: { form?: FormInstance<any>; vuViec: Model.VuViec; record: any }) => {
@@ -28,7 +28,22 @@ const form = (props: { form?: FormInstance<any>; vuViec: Model.VuViec; record: a
 		onChangeTuCachToTung(props.record?.tu_cach_to_tung);
 	}, [props.record]);
 
-	const onChangeTuCachToTung = (val: any) => setBiCan(val === 2);
+	const onChangeTuCachToTung = (val: any) => setBiCan(val <= 6);
+
+	const onChangeNgayTamGiam = (val: moment.Moment) => {
+		let thoi_han_giam = 120;
+		if (vuViec.loai_toi_pham === LOAI_TOI_PHAM.IT_NGHIEM_TRONG) thoi_han_giam = 60;
+		else if (vuViec.loai_toi_pham === LOAI_TOI_PHAM.NGHIEM_TRONG) thoi_han_giam = 90;
+		const so_ngay_tam_giu = props.form?.getFieldValue('so_ngay_tam_giu') ?? 0;
+		const so_ngay_tam_giu_1 = props.form?.getFieldValue('so_ngay_tam_giu_1') ?? 0;
+		const so_ngay_tam_giu_2 = props.form?.getFieldValue('so_ngay_tam_giu_2') ?? 0;
+
+		props.form?.setFieldsValue({
+			ngay_ket_thuc_tam_giam: val
+				.clone()
+				.add(thoi_han_giam - so_ngay_tam_giu - so_ngay_tam_giu_1 - so_ngay_tam_giu_2 - 1, 'days'),
+		});
+	};
 
 	return (
 		<Collapse defaultActiveKey="ttvt">
@@ -37,13 +52,11 @@ const form = (props: { form?: FormInstance<any>; vuViec: Model.VuViec; record: a
 					<Col span={12} sm={6}>
 						<Form.Item name="tu_cach_to_tung" label="Tư cách tố tụng" rules={[required]}>
 							<Select onChange={onChangeTuCachToTung}>
-								{(vuViec.loai_vu_viec === 'AĐ' ? TU_CACH_TO_TUNG : TU_CACH_TO_TUNG_KHOI_TO).map(
-									(item) => (
-										<Select.Option value={item.id} key={item.id}>
-											{item.label}
-										</Select.Option>
-									)
-								)}
+								{TU_CACH_TO_TUNG.map((item) => (
+									<Select.Option value={item.id} key={item.id}>
+										{item.label}
+									</Select.Option>
+								))}
 							</Select>
 						</Form.Item>
 					</Col>
@@ -113,87 +126,40 @@ const form = (props: { form?: FormInstance<any>; vuViec: Model.VuViec; record: a
 									<MyDatePicker format="DD/MM/YYYY" />
 								</Form.Item>
 							</Col>
-							<Col span={6} sm={3}>
-								<Form.Item
-									name="thoi_han_gia_han_tam_giu_1"
-									label="Gia hạn TG 1"
-									tooltip="Ví dụ: nhập 210 hay 2 _ 10 tương đương với 2 tháng 10 ngày"
-								>
-									<InputNumber
-										style={{ width: '100%' }}
-										formatter={inputNgayThangFormat}
-										parser={inputParse}
-									/>
+							<Col span={12} sm={6}>
+								<Form.Item name="so_ngay_tam_giu" label="Số ngày tạm giữ">
+									<InputNumber style={{ width: '100%' }} min={0} step={1} max={3} />
 								</Form.Item>
 							</Col>
-							<Col span={6} sm={3}>
-								<Form.Item
-									name="thoi_han_gia_han_tam_giu_2"
-									label="Gia hạn TG 2"
-									tooltip="Ví dụ: nhập 210 hay 2 _ 10 tương đương với 2 tháng 10 ngày"
-								>
-									<InputNumber
-										style={{ width: '100%' }}
-										formatter={inputNgayThangFormat}
-										parser={inputParse}
-									/>
+							<Col span={12} sm={6}>
+								<Form.Item name="so_ngay_tam_giu_1" label="Số ngày tạm giữ 1">
+									<InputNumber style={{ width: '100%' }} min={0} step={1} max={3} />
+								</Form.Item>
+							</Col>
+							<Col span={12} sm={6}>
+								<Form.Item name="so_ngay_tam_giu_2 " label="Số ngày tạm giữ 2">
+									<InputNumber style={{ width: '100%' }} min={0} step={1} max={3} />
 								</Form.Item>
 							</Col>
 
 							<Col span={12} sm={6}>
 								<Form.Item name="ngay_tam_giam" label="Ngày tạm giam">
+									<MyDatePicker onChange={onChangeNgayTamGiam} format="DD/MM/YYYY" />
+								</Form.Item>
+							</Col>
+							<Col span={12} sm={6}>
+								<Form.Item name="ngay_ket_thuc_tam_giam" label="Ngày kết thúc tạm giam">
 									<MyDatePicker format="DD/MM/YYYY" />
 								</Form.Item>
 							</Col>
 							<Col span={12} sm={6}>
-								<Form.Item
-									name="thoi_han_giam"
-									label="Thời hạn tạm giam"
-									tooltip="Ví dụ: nhập 210 hay 2 _ 10 tương đương với 2 tháng 10 ngày"
-								>
-									<InputNumber
-										style={{ width: '100%' }}
-										formatter={inputNgayThangFormat}
-										parser={inputParse}
-									/>
-								</Form.Item>
-							</Col>
-
-							<Col span={12} sm={6}>
-								<Form.Item name="ngay_gia_han_tam_giam_1" label="Ngày gia hạn tạm giam 1">
+								<Form.Item name="ngay_ket_thuc_tam_giam_1" label="Ngày kết thúc tạm giam 1">
 									<MyDatePicker format="DD/MM/YYYY" />
 								</Form.Item>
 							</Col>
 							<Col span={12} sm={6}>
-								<Form.Item
-									name="thoi_han_gia_han_giam_1"
-									label="Thời hạn GH tạm giam 1"
-									tooltip="Ví dụ: nhập 210 hay 2 _ 10 tương đương với 2 tháng 10 ngày"
-								>
-									<InputNumber
-										style={{ width: '100%' }}
-										formatter={inputNgayThangFormat}
-										parser={inputParse}
-									/>
-								</Form.Item>
-							</Col>
-
-							<Col span={12} sm={6}>
-								<Form.Item name="ngay_gia_han_tam_giam_2" label="Ngày gia hạn tạm giam 2">
+								<Form.Item name="ngay_ket_thuc_tam_giam_2" label="Ngày kết thúc tạm giam 2">
 									<MyDatePicker format="DD/MM/YYYY" />
-								</Form.Item>
-							</Col>
-							<Col span={12} sm={6}>
-								<Form.Item
-									name="thoi_han_gia_han_giam_2"
-									label="Thời hạn GH tạm giam 2"
-									tooltip="Ví dụ: nhập 210 hay 2 _ 10 tương đương với 2 tháng 10 ngày"
-								>
-									<InputNumber
-										style={{ width: '100%' }}
-										formatter={inputNgayThangFormat}
-										parser={inputParse}
-									/>
 								</Form.Item>
 							</Col>
 						</>

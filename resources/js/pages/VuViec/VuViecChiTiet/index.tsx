@@ -168,7 +168,7 @@ const VuViecChiTiet = () => {
 								<Button onClick={() => window.history.back()}>
 									<ArrowLeftOutlined /> Quay lại
 								</Button>
-								{(authUser.admin || authUser.id === record?.id) && (
+								{(authUser.quan_tri || authUser.id === record?.id) && (
 									<Button htmlType="submit" type="primary" loading={formSubmitting}>
 										<SaveOutlined />
 										Lưu lại

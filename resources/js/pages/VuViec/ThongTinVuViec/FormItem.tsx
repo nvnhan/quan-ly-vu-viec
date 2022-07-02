@@ -10,16 +10,11 @@ import MyDebounceSelect, { SelectValue } from '../../../components/Controls/MyDe
 import { fetchToiDanh } from '../../../reducers/toiDanh';
 import { RootState } from '../../../store';
 import { useMergeState } from '../../../utils';
-import { LOAI_TOI_PHAM, PHAN_LOAI_TIN } from '../../../utils/constant';
+import { LOAI_TOI_PHAM, NOI_THUC_HIEN_PHAM_TOI, PHAN_LOAI_TIN, PHUONG_THUC_PHAM_TOI } from '../../../utils/constant';
 import { required } from '../../../utils/rules';
 import { getSearchXaPhuong } from '../../../utils/services';
 
-const form = (props: {
-	form?: FormInstance<any>;
-	loading?: boolean;
-	setLoaiVuViec?: any;
-	onChangeThoiHanDieuTra?: any;
-}) => {
+const form = (props: { form?: FormInstance<any>; loading?: boolean; setLoaiVuViec?: any; onChangeData?: any }) => {
 	const dispatch = useDispatch();
 	const toiDanh = useSelector((state: RootState) => state.toiDanh);
 	const [state, setState] = useMergeState<{
@@ -94,16 +89,8 @@ const form = (props: {
 
 	const onChangeLoaiVuViec = (val: string) => {
 		setLoaiVuViec(val);
-		props?.setLoaiVuViec(val);
+		props?.setLoaiVuViec && props?.setLoaiVuViec(val);
 		if (val === 'AK') setState({ noiDungLabel: 'Nội dung tóm tắt' });
-	};
-
-	const onChangeLoaiToiPham = (val: LOAI_TOI_PHAM) => {
-		let thoi_han = 400;
-		if (val === LOAI_TOI_PHAM.IT_NGHIEM_TRONG) thoi_han = 200;
-		else if (val === LOAI_TOI_PHAM.NGHIEM_TRONG) thoi_han = 300;
-		props.form?.setFieldsValue({ thoi_han_dieu_tra: thoi_han });
-		props?.onChangeThoiHanDieuTra(thoi_han);
 	};
 
 	return (
@@ -165,8 +152,30 @@ const form = (props: {
 						</Col>
 						<Col span={12} sm={6}>
 							<Form.Item name="loai_toi_pham" label="Loại tội phạm">
-								<Select onChange={onChangeLoaiToiPham}>
+								<Select onChange={props.onChangeData}>
 									{Object.values(LOAI_TOI_PHAM).map((td, index) => (
+										<Select.Option value={td} key={index}>
+											{td}
+										</Select.Option>
+									))}
+								</Select>
+							</Form.Item>
+						</Col>
+						<Col span={12} sm={6}>
+							<Form.Item name="phuong_thuc_pham_toi" label="Phương thức phạm tội">
+								<Select showSearch>
+									{PHUONG_THUC_PHAM_TOI.map((td, index) => (
+										<Select.Option value={td} key={index}>
+											{td}
+										</Select.Option>
+									))}
+								</Select>
+							</Form.Item>
+						</Col>
+						<Col span={12} sm={6}>
+							<Form.Item name="noi_thuc_hien_pham_toi" label="Nơi thực hiện phạm tội">
+								<Select>
+									{NOI_THUC_HIEN_PHAM_TOI.map((td, index) => (
 										<Select.Option value={td} key={index}>
 											{td}
 										</Select.Option>
