@@ -55,8 +55,9 @@ class VuViecController extends BaseController
     public function setVuViecFields(&$vuViec, Request $request)
     {
         $dp = [];       // Xa, phuong
-        foreach ($request->sel_dp_xay_ra as $key => $value)
-            if ($value['value']) $dp[] = $value['value'];
+        if (!empty($request->sel_dp_xay_ra))
+            foreach ($request->sel_dp_xay_ra as $key => $value)
+                if ($value['value']) $dp[] = $value['value'];
         $vuViec->dp_xay_ra = implode(',', $dp);
 
         // Gen Khu vuc xay ra

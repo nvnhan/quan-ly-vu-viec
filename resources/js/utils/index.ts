@@ -5,8 +5,8 @@ import { useState } from 'react';
 /**
  * useState mới, dùng tương đương (MERGE) state của Class component
  */
-export const useMergeState = (initialState: { [index: string]: any }): any => {
-	const [state, setState] = useState(initialState);
+export const useMergeState = <Type>(initialState: Type): any => {
+	const [state, setState] = useState<Type>(initialState);
 	const setMergedState = (newState: { [index: string]: any }): void =>
 		setState((prevState) => Object.assign({}, prevState, newState));
 

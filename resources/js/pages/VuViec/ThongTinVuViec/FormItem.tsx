@@ -4,15 +4,25 @@ import Row from 'antd/lib/grid/row';
 import Input from 'antd/lib/input/index';
 import Select from 'antd/lib/select';
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import MyDatePicker from '../../../components/Controls/MyDatePicker';
 import MyDebounceSelect, { SelectValue } from '../../../components/Controls/MyDebounceSelect';
+import { fetchToiDanh } from '../../../reducers/toiDanh';
+import { RootState } from '../../../store';
 import { useMergeState } from '../../../utils';
-import { PHAN_LOAI_TIN } from '../../../utils/constant';
+import { LOAI_TOI_PHAM, PHAN_LOAI_TIN } from '../../../utils/constant';
 import { required } from '../../../utils/rules';
 import { getSearchXaPhuong } from '../../../utils/services';
 
-const form = (props: { form?: FormInstance<any>; loading?: boolean; setLoaiVuViec?: any }) => {
-	const [state, setState] = useState<{
+const form = (props: {
+	form?: FormInstance<any>;
+	loading?: boolean;
+	setLoaiVuViec?: any;
+	onChangeThoiHanDieuTra?: any;
+}) => {
+	const dispatch = useDispatch();
+	const toiDanh = useSelector((state: RootState) => state.toiDanh);
+	const [state, setState] = useMergeState<{
 		ngayCAPVisible: boolean;
 		ngayCAPLabel: string;
 		noiDungLabel: string;
@@ -23,10 +33,17 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean; setLoaiVuVie
 		noiDungLabel: 'Nội dung tóm tắt',
 		donViChuyenTinVisible: false,
 	});
+	const [loaiVuViec, setLoaiVuViec] = useState('AĐ');
+
+	useEffect(() => {
+		toiDanh.status === 'idle' && dispatch(fetchToiDanh());
+	}, []);
 
 	useEffect(() => {
 		const val = props.form?.getFieldValue('phan_loai_tin');
 		onChangePhanLoaiTin(val);
+		const loaiVV = props.form?.getFieldValue('loai_vu_viec');
+		loaiVV && onChangeLoaiVuViec(loaiVV);
 	}, [props.loading]);
 
 	const fetchUnitList = async (q: string): Promise<SelectValue[]> => {
@@ -75,46 +92,89 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean; setLoaiVuVie
 		});
 	};
 
+	const onChangeLoaiVuViec = (val: string) => {
+		setLoaiVuViec(val);
+		props?.setLoaiVuViec(val);
+		if (val === 'AK') setState({ noiDungLabel: 'Nội dung tóm tắt' });
+	};
+
+	const onChangeLoaiToiPham = (val: LOAI_TOI_PHAM) => {
+		let thoi_han = 400;
+		if (val === LOAI_TOI_PHAM.IT_NGHIEM_TRONG) thoi_han = 200;
+		else if (val === LOAI_TOI_PHAM.NGHIEM_TRONG) thoi_han = 300;
+		props.form?.setFieldsValue({ thoi_han_dieu_tra: thoi_han });
+		props?.onChangeThoiHanDieuTra(thoi_han);
+	};
+
 	return (
 		<>
 			<Row gutter={[10, 5]}>
 				<Col span={12} sm={6}>
 					<Form.Item name="loai_vu_viec" label="Loại vụ việc" rules={[required]}>
-						<Select onChange={props?.setLoaiVuViec}>
+						<Select onChange={onChangeLoaiVuViec}>
 							<Select.Option value="AĐ">Tiếp nhận tin ban đầu</Select.Option>
 							<Select.Option value="AK">Vụ án khởi tố</Select.Option>
 						</Select>
 					</Form.Item>
 				</Col>
-				<Col span={12} sm={6}>
-					<Form.Item name="phan_loai_tin" label="Phân loại tin">
-						<Select onChange={onChangePhanLoaiTin}>
-							{Object.values(PHAN_LOAI_TIN).map((pl, index) => (
-								<Select.Option value={pl} key={index}>
-									{pl}
-								</Select.Option>
-							))}
-						</Select>
-					</Form.Item>
-				</Col>
-				<Col span={12} sm={6}>
-					<Form.Item name="ngay_cqdt" label="Ngày CQĐT tiếp nhận">
-						<MyDatePicker format="DD/MM/YYYY" onChange={onChangeNgayCQDT} />
-					</Form.Item>
-				</Col>
-				{state.ngayCAPVisible && (
-					<Col span={12} sm={6}>
-						<Form.Item name="ngay_ca_phuong" label={state.ngayCAPLabel}>
-							<MyDatePicker format="DD/MM/YYYY" />
-						</Form.Item>
-					</Col>
-				)}
-				{state.donViChuyenTinVisible && (
-					<Col span={12} sm={6}>
-						<Form.Item name="don_vi_chuyen_tin" label="Đơn vị chuyển tin">
-							<Input />
-						</Form.Item>
-					</Col>
+				{loaiVuViec === 'AĐ' ? (
+					<>
+						<Col span={12} sm={6}>
+							<Form.Item name="phan_loai_tin" label="Phân loại tin">
+								<Select onChange={onChangePhanLoaiTin}>
+									{Object.values(PHAN_LOAI_TIN).map((pl, index) => (
+										<Select.Option value={pl} key={index}>
+											{pl}
+										</Select.Option>
+									))}
+								</Select>
+							</Form.Item>
+						</Col>
+						<Col span={12} sm={6}>
+							<Form.Item name="ngay_cqdt" label="Ngày CQĐT tiếp nhận">
+								<MyDatePicker format="DD/MM/YYYY" onChange={onChangeNgayCQDT} />
+							</Form.Item>
+						</Col>
+						{state.ngayCAPVisible && (
+							<Col span={12} sm={6}>
+								<Form.Item name="ngay_ca_phuong" label={state.ngayCAPLabel}>
+									<MyDatePicker format="DD/MM/YYYY" />
+								</Form.Item>
+							</Col>
+						)}
+						{state.donViChuyenTinVisible && (
+							<Col span={12} sm={6}>
+								<Form.Item name="don_vi_chuyen_tin" label="Đơn vị chuyển tin">
+									<Input />
+								</Form.Item>
+							</Col>
+						)}
+					</>
+				) : (
+					<>
+						<Col span={12} sm={6}>
+							<Form.Item name="ma_toi_danh" label="Tội danh">
+								<Select allowClear showSearch placeholder="Chọn tội danh">
+									{toiDanh.list.map((td) => (
+										<Select.Option value={td.id} key={td.id}>
+											Điều {td.id} {td.value}
+										</Select.Option>
+									))}
+								</Select>
+							</Form.Item>
+						</Col>
+						<Col span={12} sm={6}>
+							<Form.Item name="loai_toi_pham" label="Loại tội phạm">
+								<Select onChange={onChangeLoaiToiPham}>
+									{Object.values(LOAI_TOI_PHAM).map((td, index) => (
+										<Select.Option value={td} key={index}>
+											{td}
+										</Select.Option>
+									))}
+								</Select>
+							</Form.Item>
+						</Col>
+					</>
 				)}
 			</Row>
 

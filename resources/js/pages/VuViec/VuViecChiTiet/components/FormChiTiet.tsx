@@ -6,29 +6,15 @@ import InputNumber from 'antd/lib/input-number';
 import Input from 'antd/lib/input/index';
 import Select from 'antd/lib/select';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import MyDatePicker from '../../../../components/Controls/MyDatePicker';
 import MyDebounceSelect, { SelectValue } from '../../../../components/Controls/MyDebounceSelect';
-import { fetchToiDanh } from '../../../../reducers/toiDanh';
-import { RootState } from '../../../../store';
 import { inputNgayThangFormat, inputParse } from '../../../../utils';
 import { KET_QUA_AN, KET_QUA_DON, LOAI_TOI_PHAM } from '../../../../utils/constant';
 import { getSearchCanBo } from '../../../../utils/services';
 import FormItem from '../../ThongTinVuViec/FormItem';
 
 const form = (props: { form?: FormInstance<any>; loading?: boolean }) => {
-	const dispatch = useDispatch();
-	const toiDanh = useSelector((state: RootState) => state.toiDanh);
 	const [loaiVuViec, setLoaiVuViec] = useState('AĐ');
-
-	useEffect(() => {
-		toiDanh.status === 'idle' && dispatch(fetchToiDanh());
-	}, []);
-
-	useEffect(() => {
-		const loaiVV = props.form?.getFieldValue('loai_vu_viec');
-		setLoaiVuViec(loaiVV);
-	}, [props.loading]);
 
 	const fetchCanBoList = async (q: string, type: string): Promise<SelectValue[]> => {
 		return getSearchCanBo({ q, l: 7 }).then((body) =>
@@ -43,14 +29,6 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean }) => {
 		props.form?.setFieldsValue({
 			ngay_ket_thuc_phuc_hoi: val.clone().add(1, 'month'),
 		});
-	};
-
-	const onChangeLoaiToiPham = (val: LOAI_TOI_PHAM) => {
-		let thoi_han = 400;
-		if (val === LOAI_TOI_PHAM.IT_NGHIEM_TRONG) thoi_han = 200;
-		else if (val === LOAI_TOI_PHAM.NGHIEM_TRONG) thoi_han = 300;
-		props.form?.setFieldsValue({ thoi_han_dieu_tra: thoi_han });
-		onChangeThoiHanDieuTra(thoi_han);
 	};
 
 	const onChangeNgayKhoiTo = (val: moment.Moment) => {
@@ -76,7 +54,12 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean }) => {
 	return (
 		<Collapse defaultActiveKey="ttbd">
 			<Collapse.Panel key="ttbd" header="Thông tin ban đầu">
-				<FormItem form={props.form} loading={props.loading} setLoaiVuViec={setLoaiVuViec} />
+				<FormItem
+					form={props.form}
+					loading={props.loading}
+					setLoaiVuViec={setLoaiVuViec}
+					onChangeThoiHanDieuTra={onChangeThoiHanDieuTra}
+				/>
 			</Collapse.Panel>
 
 			<Collapse.Panel key="ttdt" header="Thời hạn xác minh">
@@ -133,28 +116,7 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean }) => {
 								<MyDatePicker format="DD/MM/YYYY" onChange={onChangeNgayKhoiTo} />
 							</Form.Item>
 						</Col>
-						<Col span={12} sm={6}>
-							<Form.Item name="ma_toi_danh" label="Tội danh">
-								<Select allowClear showSearch placeholder="Chọn tội danh">
-									{toiDanh.list.map((td) => (
-										<Select.Option value={td.id} key={td.id}>
-											Điều {td.id} {td.value}
-										</Select.Option>
-									))}
-								</Select>
-							</Form.Item>
-						</Col>
-						<Col span={12} sm={6}>
-							<Form.Item name="loai_toi_pham" label="Loại tội phạm">
-								<Select onChange={onChangeLoaiToiPham}>
-									{Object.values(LOAI_TOI_PHAM).map((td, index) => (
-										<Select.Option value={td} key={index}>
-											{td}
-										</Select.Option>
-									))}
-								</Select>
-							</Form.Item>
-						</Col>
+
 						<Col span={12} sm={6}>
 							<Form.Item
 								name="thoi_han_dieu_tra"
