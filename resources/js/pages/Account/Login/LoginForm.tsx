@@ -7,6 +7,7 @@ import message from 'antd/lib/message/index';
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Model } from '../../../reducers/type';
 import { postLogin } from '../../../utils/services';
 
 interface ComponentProps {

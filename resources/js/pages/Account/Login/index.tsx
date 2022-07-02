@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setAuth } from '../../../reducers/authUser';
 import { changeTitle } from '../../../reducers/pageTitle';
+import { Model } from '../../../reducers/type';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 

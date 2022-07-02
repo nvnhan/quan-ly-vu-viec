@@ -16,6 +16,8 @@ import Spin from 'antd/lib/spin';
 import Tabs from 'antd/lib/tabs';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { Model } from '../../../reducers/type';
 import { RootState } from '../../../store';
 import { parseValues } from '../../../utils';
 import { getApi, putApi } from '../../../utils/services';
@@ -28,6 +30,7 @@ import VuViecTaiLieu from './VuViecTaiLieu';
 
 const VuViecChiTiet = () => {
 	const [form] = Form.useForm();
+	const navigate = useNavigate();
 	const [record, setRecord] = useState<Model.VuViec>();
 	const [loading, setLoading] = useState(true);
 	const [formSubmitting, setFormSubmitting] = useState(false);
@@ -78,7 +81,7 @@ const VuViecChiTiet = () => {
 	return (
 		<div className="list-form">
 			<div className="filter-box">
-				<Button onClick={() => window.history.back()} type="link">
+				<Button onClick={() => navigate('/vu-viec')} type="link">
 					<ArrowLeftOutlined /> Quay lại
 				</Button>
 				{/* <b style={{ fontSize: '1.1rem' }}>

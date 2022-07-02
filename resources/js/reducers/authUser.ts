@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import message from 'antd/lib/message/index';
 import { getLogout } from '../utils/services';
+import { Model } from './type';
 
 const initialState: Model.User = {
 	id: -1,

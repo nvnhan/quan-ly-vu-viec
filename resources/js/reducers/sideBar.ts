@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Model } from './type';
 
 var initialState: Model.SideBarProps = {
 	collapsed: false,

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getApi } from '../utils/services';
+import { Model } from './type';
 
 export const fetchCapBac = createAsyncThunk('capBac/fetch', async () => {
 	const response = await getApi('cap-bac');

@@ -83,6 +83,7 @@ class VuViecController extends BaseController
         $vuViec->id_dtv_chinh = $request->sel_dtv_chinh['value'] ?? null;
         $vuViec->id_can_bo_chinh = $request->sel_can_bo_chinh['value'] ?? null;
         $cb = CanBo::whereIn('id', [$vuViec->id_dtv_chinh, $vuViec->id_can_bo_chinh])->with('don_vi')->get();
+        \Log::debug($cb[0]);
         foreach ($cb as $c) {
             if (!empty($c->don_vi->id_don_vi_cha))
                 $vuViec->id_don_vi = $c->don_vi->id_don_vi_cha;
