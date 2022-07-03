@@ -82,6 +82,8 @@ class BaoCaoController extends Controller
                 'ChucDanhLanhDao' => $lanh_dao->chuc_danh_lanh_dao,
                 'CHUCDANHLANHDAO' => mb_strtoupper($lanh_dao->chuc_danh_lanh_dao),
                 'CapBacLanhDao' => $lanh_dao->ten_cap_bac,
+                'ChucVuLanhDao' => $lanh_dao->ten_chuc_vu,
+                'CHUCVULANHDAO' => mb_strtoupper($lanh_dao->ten_chuc_vu),
                 'TenLanhDao' => $lanh_dao->ho_ten,
                 'TENLANHDAO' => mb_strtoupper($lanh_dao->ho_ten),
 
@@ -93,7 +95,11 @@ class BaoCaoController extends Controller
 
                 'DTVChinh' => $vu_viec->dtv_chinh->ho_ten ?? '',
                 'CBChinh' => $vu_viec->can_bo_chinh->ho_ten ?? '',
-                'TenDonVi' => $vu_viec->don_vi->ten_don_vi_day_du ?? '',
+                'CanBoChinh' => $vu_viec->can_bo_chinh->ho_ten ?? '',
+                'CapBacCanBo' => $vu_viec->can_bo_chinh->ten_cap_bac ?? '',
+                'ChucVuCanBo' => $vu_viec->can_bo_chinh->ten_chuc_vu ?? '',
+
+                'TenDonVi' => $vu_viec->don_vi->ten_don_vi ?? '',
                 'CoQuanHoSo' => "Phòng Hồ sơ - CA " . ($huyen->tinh->loai ?? '') . ' ' . $huyen->ten_tinh,
             ];
             return Report::docx_report($request->full_path, $data);
