@@ -161,30 +161,30 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean; setLoaiVuVie
 								</Select>
 							</Form.Item>
 						</Col>
-						<Col span={12} sm={6}>
-							<Form.Item name="phuong_thuc_pham_toi" label="Phương thức phạm tội">
-								<Select showSearch>
-									{PHUONG_THUC_PHAM_TOI.map((td, index) => (
-										<Select.Option value={td} key={index}>
-											{td}
-										</Select.Option>
-									))}
-								</Select>
-							</Form.Item>
-						</Col>
-						<Col span={12} sm={6}>
-							<Form.Item name="noi_thuc_hien_pham_toi" label="Nơi thực hiện phạm tội">
-								<Select>
-									{NOI_THUC_HIEN_PHAM_TOI.map((td, index) => (
-										<Select.Option value={td} key={index}>
-											{td}
-										</Select.Option>
-									))}
-								</Select>
-							</Form.Item>
-						</Col>
 					</>
 				)}
+				<Col span={12} sm={6}>
+					<Form.Item name="phuong_thuc_pham_toi" label="Phương thức phạm tội">
+						<Select showSearch>
+							{PHUONG_THUC_PHAM_TOI.map((td, index) => (
+								<Select.Option value={td} key={index}>
+									{td}
+								</Select.Option>
+							))}
+						</Select>
+					</Form.Item>
+				</Col>
+				<Col span={12} sm={6}>
+					<Form.Item name="noi_thuc_hien_pham_toi" label="Nơi thực hiện phạm tội">
+						<Select>
+							{NOI_THUC_HIEN_PHAM_TOI.map((td, index) => (
+								<Select.Option value={td} key={index}>
+									{td}
+								</Select.Option>
+							))}
+						</Select>
+					</Form.Item>
+				</Col>
 			</Row>
 
 			<Row gutter={[10, 5]}>

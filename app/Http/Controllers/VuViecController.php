@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CanBo;
 use App\Models\DonVi;
+use App\Models\ToiDanh;
 use App\Models\VuViec;
 use App\Models\VuViecNguoi;
 use Illuminate\Http\Request;
@@ -109,30 +110,34 @@ class VuViecController extends BaseController
         $ten = "$vuViec->noi_dung_tom_tat";
         $tmp = [];
         if (!empty($vuViec->thoi_diem_xay_ra))
-            $tmp[] = "vào $vuViec->thoi_diem_xay_ra";
+            if (preg_match("/^[0-9]+\/[0-9]+\/[0-9]{2,4}$/i", $vuViec->thoi_diem_xay_ra))
+                $tmp[] = "vào ngày $vuViec->thoi_diem_xay_ra";
+            else $tmp[] = "vào $vuViec->thoi_diem_xay_ra";
         if (!empty($vuViec->noi_xay_ra))
             $tmp[] = "tại $vuViec->noi_xay_ra";
         if (!empty($tmp))
             $ten .= " xảy ra " . implode(', ', $tmp);
 
         if ($vuViec->loai_vu_viec === 'AK') {
-            $bc = VuViecNguoi::where('id_vu_viec', $vuViec->id)->whereIn('tu_cach_to_tung', [1, 2, 3, 4, 5, 6])->with('nguoi')->get();
-            $nguoi = [];
-            foreach ($bc as $key => $value)
-                $nguoi[] = $value->nguoi->ho_ten ?? '';
+            // $bc = VuViecNguoi::where('id_vu_viec', $vuViec->id)->whereIn('tu_cach_to_tung', [1, 2, 3, 4, 5, 6])->with('nguoi')->get();
+            // $nguoi = [];
+            // foreach ($bc as $key => $value)
+            //     $nguoi[] = $value->nguoi->ho_ten ?? '';
 
-            if (!empty($nguoi))
-                $ten = implode(', ', $nguoi) . ' ' . $ten;
+            // if (!empty($nguoi))
+            //     $ten = implode(', ', $nguoi) . ' ' . $ten;
+            $ten = ucfirst(str_replace("Tội ", '', $vuViec->toi_danh->toi_danh ?? '')) . " xảy ra " . implode(', ', $tmp);
         } else {
             $bc = VuViecNguoi::where('id_vu_viec', $vuViec->id)->where('tu_cach_to_tung', 7)->with('nguoi')->get();
             $nguoi = [];
             foreach ($bc as $key => $value)
                 $nguoi[] = $value->nguoi->ho_ten ?? '';
+            $ten = implode(', ', $nguoi) . " $ten";
 
             if ($vuViec->phan_loai_tin === 'Tin báo về tội phạm')
                 $ten = "Tin báo về tội phạm của $vuViec->don_vi_chuyen_tin về việc $ten";
             else if (!empty($nguoi))
-                $ten = $vuViec->phan_loai_tin . ' của ' . implode(', ', $nguoi) . ' '  . $ten;
+                $ten = $vuViec->phan_loai_tin . " của $ten";
         }
         return $ten;
     }

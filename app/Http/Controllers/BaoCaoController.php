@@ -110,7 +110,7 @@ class BaoCaoController extends Controller
                 'NgayXayRa' => $vu_viec->thoi_diem_xay_ra,
 
                 'PhuongThucPhamToi' => $vu_viec->phuong_thuc_pham_toi,
-                'ToiDanh' => substr($vu_viec->toi_danh->toi_danh ?? '', 4),
+                'ToiDanh' => str_replace("Tội ", '', $vu_viec->toi_danh->toi_danh ?? ''),
                 'MaToiDanh' => $vu_viec->ma_toi_danh,
                 'NgayKTVA' => date('d/m/Y', strtotime($vu_viec->ngay_khoi_to)),
 
