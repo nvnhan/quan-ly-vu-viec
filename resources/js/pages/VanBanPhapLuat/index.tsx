@@ -72,9 +72,9 @@ const List = () => {
 			columns={columns}
 			tableSize={{ x: 1000 }}
 			selectable={false}
-			insertable={authUser?.admin}
-			editable={authUser?.admin}
-			deleteable={authUser?.admin}
+			insertable={authUser?.quan_tri}
+			editable={authUser?.quan_tri}
+			deleteable={authUser?.quan_tri}
 			formTemplate={<FormItem defaultFileList={defaultFileList} />}
 			handleEdit={handleEdit}
 			hasUpload

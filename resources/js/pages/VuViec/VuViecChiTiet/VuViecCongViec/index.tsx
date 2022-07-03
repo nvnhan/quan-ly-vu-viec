@@ -240,7 +240,7 @@ const List = (props: { vuViec: any }) => {
 					].includes(item.id)
 				);
 		}
-		if (authUser.chuc_vu === MA_CHUC_VU.DOI_TRUONG) {
+		if (authUser.chuc_vu >= MA_CHUC_VU.DOI_PHO) {
 			// Neu chua hoan thanh thi co the huy
 			if (congViec.trang_thai !== MA_TRANG_THAI_CONG_VIEC.HOAN_THANH)
 				statusCongViec.push(
@@ -261,7 +261,10 @@ const List = (props: { vuViec: any }) => {
 					TEN_TRANG_THAI_CONG_VIEC.filter((item) => item.id === MA_TRANG_THAI_CONG_VIEC.HUY)[0]
 				);
 			// Neu da thuc hien co the xac nhan hoac chua dat
-			if (congViec.trang_thai === MA_TRANG_THAI_CONG_VIEC.XAC_NHAN)
+			if (
+				congViec.trang_thai === MA_TRANG_THAI_CONG_VIEC.XAC_NHAN ||
+				congViec.trang_thai === MA_TRANG_THAI_CONG_VIEC.DA_THUC_HIEN
+			)
 				statusCongViec = statusCongViec.concat(
 					TEN_TRANG_THAI_CONG_VIEC.filter((item) =>
 						[MA_TRANG_THAI_CONG_VIEC.HOAN_THANH, MA_TRANG_THAI_CONG_VIEC.CHUA_DAT].includes(item.id)

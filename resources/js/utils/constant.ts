@@ -1,7 +1,7 @@
 export const CHUC_VU = [
 	{ id: 0, label: 'Cán bộ' },
-	{ id: 1, label: 'Đội phó' },
-	{ id: 2, label: 'Tổng hợp đội' },
+	{ id: 1, label: 'Tổng hợp đội' },
+	{ id: 2, label: 'Đội phó' },
 	{ id: 3, label: 'Đội trưởng' },
 	{ id: 4, label: 'Giúp việc PTT' },
 	{ id: 5, label: 'Phó trưởng Công an Quận' },

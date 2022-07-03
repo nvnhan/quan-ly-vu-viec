@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CanBo;
 use App\Models\CongViec;
 use App\Models\CongViecKhoiTao;
+use App\Models\DonVi;
 use App\Models\VuViec;
 use Illuminate\Http\Request;
 use phpseclib3\Crypt\RC2;
@@ -19,19 +20,37 @@ class CongViecController extends BaseController
     public function index(Request $request)
     {
         $query = CongViec::query();
+        // Cong viec cua toi
         if ($request->id_can_bo) {
-            // Cong viec cua toi
             $query = $query->where('id_can_bo', $request->id_can_bo);
+
             // Trong khoang thoi gian hoaac vu viec can chu y
             if ($request->bat_dau && $request->ket_thuc)
                 $query = $query->where(fn ($q) =>  $q
                     ->whereBetween('ngay_giao', [$request->bat_dau, $request->ket_thuc])
                     ->orWhereIn('trang_thai', [1, 2, 3, 7]));
-        } else if ($request->bat_dau && $request->ket_thuc)
-            $query = $query->whereBetween('created_at', [$request->bat_dau, $request->ket_thuc]);
+        } else {
+            if ($request->bat_dau && $request->ket_thuc)
+                $query = $query->whereBetween('created_at', [$request->bat_dau, $request->ket_thuc]);
 
-        if ($request->nguoi_tao)
-            $query = $query->where('nguoi_tao', $request->nguoi_tao);
+            if ($request->nguoi_tao)
+                $query = $query->where('nguoi_tao', $request->nguoi_tao);
+            // Mac dinh: show tat ca cong viec
+            else {
+                if ($request->user()->chuc_vu === 0)        // Neu la can bo
+                    $query = $query->where(fn ($q) =>  $q
+                        ->where('nguoi_tao', $request->user()->id)
+                        ->orWhere('id_can_bo', $request->user()->id));
+                else if ($request->user()->chuc_vu <= 3) {      // Chi huy
+                    $don_vi_truc_thuoc = DonVi::where('id', $request->user()->id_don_vi)->orWhere('id_don_vi_cha', $request->user()->id_don_vi)->pluck('id');
+                    $can_bo = CanBo::whereIn('id_don_vi', $don_vi_truc_thuoc)->pluck('id');
+                    $query = $query->where(fn ($q) =>  $q
+                        ->whereIn('nguoi_tao', $can_bo)
+                        ->orWhereIn('id_can_bo', $can_bo));
+                }
+                // Neu la lanh dao thi show het cua can bo
+            }
+        }
 
         if ($request->vu_viec)
             $query = $query->where('id_vu_viec', $request->vu_viec);

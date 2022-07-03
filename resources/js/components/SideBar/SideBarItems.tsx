@@ -82,6 +82,7 @@ const items: SideBarItem[] = [
 				href: '/tat-ca-cong-viec',
 				title: 'Tất cả công việc',
 				Component: TatCaCongViec,
+				role: 'chi_huy',
 			},
 			{
 				key: 'CV_CUA_TOI',
