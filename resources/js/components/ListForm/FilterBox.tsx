@@ -47,7 +47,13 @@ const FilterBox = (props: ComponentProps) => {
 	const renderSingleFilter = (filter: FilterProps) =>
 		filter.isLarger ? (
 			<Col span={24} md={16} lg={12} xl={10} key={filter.name}>
-				<Form.Item name={filter.name} label={filter.label} tooltip={filter.tooltip}>
+				<Form.Item
+					name={filter.name}
+					label={filter.label}
+					tooltip={filter.tooltip}
+					labelCol={{ span: 4 }}
+					wrapperCol={{ span: 20 }}
+				>
 					{filter.render}
 				</Form.Item>
 			</Col>
@@ -68,8 +74,8 @@ const FilterBox = (props: ComponentProps) => {
 							<Form.Item
 								name="thoiGian"
 								label="Thời gian"
-								labelCol={{ span: 4, xl: 6 }}
-								wrapperCol={{ span: 20, xl: 18 }}
+								labelCol={{ span: 4 }}
+								wrapperCol={{ span: 20 }}
 							>
 								<MyRangePicker {...props} />
 							</Form.Item>

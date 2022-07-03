@@ -19,22 +19,28 @@ class VuViecController extends BaseController
     {
         $query = VuViec::query();
         if ($request->bat_dau && $request->ket_thuc)
-            $query = $query->whereBetween('created_at', [$request->bat_dau, $request->ket_thuc]);
+            $query->whereBetween('created_at', [$request->bat_dau, $request->ket_thuc]);
 
         if (!empty($request->q)) {
-            $query = $query->where('ten_vu_viec', 'LIKE', "%$request->q%");
+            $query->where('ten_vu_viec', 'LIKE', "%$request->q%");
         }
 
         if (!empty($request->loai_vu_viec)) {
             $tt = explode(",", $request->loai_vu_viec);
-            $query = $query->whereIn('loai_vu_viec', $tt);
+            $query->whereIn('loai_vu_viec', $tt);
         }
 
         if (!empty($request->phan_loai_tin)) {
             $tt = explode(",", $request->phan_loai_tin);
-            $query = $query->whereIn('phan_loai_tin', $tt);
+            $query->whereIn('phan_loai_tin', $tt);
         }
 
+        if (!empty($request->phuong_thuc_pham_toi)) {
+            $tt = explode(",", $request->phuong_thuc_pham_toi);
+            $query->whereIn('phuong_thuc_pham_toi', $tt);
+        }
+
+        $query->orderBy('created_at', 'DESC');
         // For AJAX pagination loading
         $total = $query->count();
         $page = $request->p;

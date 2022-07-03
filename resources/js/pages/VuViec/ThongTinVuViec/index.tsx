@@ -75,6 +75,12 @@ const List = () => {
 			onCell,
 		},
 		{
+			title: 'Phương thức phạm tội',
+			dataIndex: 'phuong_thuc_pham_toi',
+			width: 100,
+			onCell,
+		},
+		{
 			title: 'Ngày CQĐT tiếp nhận',
 			dataIndex: 'ngay_cqdt',
 			width: 70,
@@ -94,13 +100,13 @@ const List = () => {
 			width: 100,
 			onCell,
 		},
-		{
-			title: 'Ngày tạo',
-			dataIndex: 'created_at',
-			width: 70,
-			align: 'center',
-			onCell,
-		},
+		// {
+		// 	title: 'Ngày tạo',
+		// 	dataIndex: 'created_at',
+		// 	width: 70,
+		// 	align: 'center',
+		// 	onCell,
+		// },
 	];
 
 	return (
