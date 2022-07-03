@@ -7,9 +7,12 @@ import { downloadApi } from '../../../../utils/downloadFile';
 import FormBaoCao from './FormBaoCao';
 import { ad } from './bieuMauAD';
 import { ak } from './bieuMauAK';
+import { adCaNhan } from './bieuMauADCaNhan';
+import { akCaNhan } from './bieuMauAKCaNhan';
 import List from 'antd/lib/list';
 import { Model } from '../../../../reducers/type';
 import { getApi } from '../../../../utils/services';
+import { Divider } from 'antd';
 
 const VuViecBieuMau = (props: { vuViec?: Model.VuViec }) => {
 	const [formBaoCao] = Form.useForm();
@@ -17,8 +20,9 @@ const VuViecBieuMau = (props: { vuViec?: Model.VuViec }) => {
 		modalVisible: boolean;
 		typeBaoCao?: BieuMau.Item;
 		fullPath?: string;
+		caNhan?: boolean;
 	}>({ modalVisible: false });
-	const { modalVisible, typeBaoCao, fullPath } = stateBaoCao;
+	const { modalVisible, typeBaoCao, fullPath, caNhan } = stateBaoCao;
 	const [listNguoi, setListNguoi] = useState<any[]>();
 	const { vuViec } = props;
 
@@ -34,8 +38,8 @@ const VuViecBieuMau = (props: { vuViec?: Model.VuViec }) => {
 			.catch((error) => console.log(error));
 	}, [vuViec]);
 
-	const showBaoCao = (typeBaoCao: any, path: string) =>
-		setStateBaoCao({ modalVisible: true, typeBaoCao, fullPath: path });
+	const showBaoCao = (typeBaoCao: any, path: string, caNhan?: boolean) =>
+		setStateBaoCao({ modalVisible: true, typeBaoCao, fullPath: path, caNhan });
 
 	const onCancel = () => setStateBaoCao({ modalVisible: false, typeBaoCao: undefined, fullPath: '' });
 
@@ -55,6 +59,7 @@ const VuViecBieuMau = (props: { vuViec?: Model.VuViec }) => {
 
 	return (
 		<>
+			<Divider orientation="left">Biểu mẫu chung</Divider>
 			<Collapse>
 				{(vuViec?.loai_vu_viec === 'AĐ' ? ad : ak).map((item, index) => (
 					<Collapse.Panel header={index + 1 + '. ' + item.name} key={item.path}>
@@ -78,7 +83,31 @@ const VuViecBieuMau = (props: { vuViec?: Model.VuViec }) => {
 					</Collapse.Panel>
 				))}
 			</Collapse>
-
+			<Divider orientation="left">Biểu mẫu cá nhân</Divider>
+			<Collapse>
+				{(vuViec?.loai_vu_viec === 'AĐ' ? adCaNhan : akCaNhan).map((item, index) => (
+					<Collapse.Panel header={index + 1 + '. ' + item.name} key={item.path}>
+						<List
+							dataSource={item.childs}
+							renderItem={(child, i) => (
+								<List.Item
+									style={{ cursor: 'pointer' }}
+									onClick={() =>
+										showBaoCao(
+											child,
+											(vuViec?.loai_vu_viec === 'AĐ' ? 'CaNhanVuViec' : 'CaNhanVuAn') +
+												`.${item.path}.${child.path}`,
+											true
+										)
+									}
+								>
+									{i + 1} - {child.name}
+								</List.Item>
+							)}
+						/>
+					</Collapse.Panel>
+				))}
+			</Collapse>
 			<Modal
 				visible={modalVisible}
 				title="Trích xuất biểu mẫu"
@@ -93,7 +122,7 @@ const VuViecBieuMau = (props: { vuViec?: Model.VuViec }) => {
 				]}
 			>
 				<Form layout="vertical" form={formBaoCao}>
-					<FormBaoCao listNguoi={listNguoi} typeBaoCao={typeBaoCao} />
+					<FormBaoCao listNguoi={listNguoi} typeBaoCao={typeBaoCao} caNhan={caNhan} />
 				</Form>
 			</Modal>
 		</>

@@ -82,13 +82,15 @@ class VuViecController extends BaseController
         // Don Vi xay ra: Cấp Đội
         $vuViec->id_dtv_chinh = $request->sel_dtv_chinh['value'] ?? null;
         $vuViec->id_can_bo_chinh = $request->sel_can_bo_chinh['value'] ?? null;
-        $cb = CanBo::whereIn('id', [$vuViec->id_dtv_chinh, $vuViec->id_can_bo_chinh])->with('don_vi')->get();
+        $vuViec->id_don_vi = null;
+        $cb = CanBo::whereIn('id', [$vuViec->id_dtv_chinh, $vuViec->id_can_bo_chinh, $vuViec->nguoi_tao])->with('don_vi')->get();
         foreach ($cb as $c) {
             if (!empty($c->don_vi->id_don_vi_cha))
                 $vuViec->id_don_vi = $c->don_vi->id_don_vi_cha;
-            else
+            else if (!empty($c->id_don_vi))
                 $vuViec->id_don_vi = $c->id_don_vi;
-            break;
+            if (!empty($vuViec->id_don_vi))
+                break;
         }
 
         if (str_contains($vuViec->thoi_diem_xay_ra, '00:00:00')) {

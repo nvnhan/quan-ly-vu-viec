@@ -35,7 +35,6 @@ class DatabaseSeeder extends Seeder
             'ho_ten' => 'Ngô Nhận',
             'id_cap_bac' => 6,
             'chuc_vu' => 9,
-            'id_don_vi' => 1,
             'ten_dang_nhap' => 'nhannv',
             'mat_khau' => '$2y$10$bBdq06TyrKWHworMe1ASSeVcQPyvsJeznnhItGULE70VMECL7WK5S',
             'created_at' => now(),

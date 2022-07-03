@@ -8,10 +8,10 @@ import { fetchLanhDao } from '../../../../reducers/lanhDao';
 import { RootState } from '../../../../store';
 import { required } from '../../../../utils/rules';
 
-const form = (props: { listNguoi?: any[]; typeBaoCao?: BieuMau.Item }) => {
+const form = (props: { listNguoi?: any[]; typeBaoCao?: BieuMau.Item; caNhan?: boolean }) => {
 	const dispatch = useDispatch();
 	const lanhDao = useSelector((state: RootState) => state.lanhDao);
-	const { listNguoi, typeBaoCao } = props;
+	const { listNguoi, typeBaoCao, caNhan } = props;
 
 	useEffect(() => {
 		lanhDao.status === 'idle' && dispatch(fetchLanhDao());
@@ -33,8 +33,21 @@ const form = (props: { listNguoi?: any[]; typeBaoCao?: BieuMau.Item }) => {
 					</Select>
 				</Form.Item>
 			</Col>
+			{caNhan !== true && (
+				<Col span={24}>
+					<Form.Item name="lanh_dao_1" label="Lãnh đạo 2">
+						<Select placeholder="Chọn lãnh đạo...">
+							{lanhDao.list.map((td, index) => (
+								<Select.Option value={td.id} key={index}>
+									{td.value}
+								</Select.Option>
+							))}
+						</Select>
+					</Form.Item>
+				</Col>
+			)}
 			<Col span={24}>
-				<Form.Item name="nguoi" label="Người trong vụ">
+				<Form.Item name="nguoi" label="Người trong vụ" rules={caNhan ? [required] : undefined}>
 					<Select placeholder="Chọn người để báo cáo...">
 						{listNguoi?.map((nguoi, index) => (
 							<Select.Option value={nguoi.id} key={index}>
