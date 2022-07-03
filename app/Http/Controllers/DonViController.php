@@ -40,7 +40,7 @@ class DonViController extends BaseController
                 ->where('dia_phuong', $qh_su_dung);
 
             // Xã, phường, thị trấn, đội trực thuộc Quận/huyện
-            if ($request->type)
+            if (!empty($request->type))
                 $query = $query->whereNull('id_don_vi_cha');
 
             if ($request->l)

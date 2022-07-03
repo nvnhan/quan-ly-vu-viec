@@ -1,5 +1,7 @@
 import DeleteOutlined from '@ant-design/icons/DeleteOutlined';
 import EditOutlined from '@ant-design/icons/EditOutlined';
+import FilterFilled from '@ant-design/icons/FilterFilled';
+import FilterOutlined from '@ant-design/icons/FilterOutlined';
 import ExclamationCircleOutlined from '@ant-design/icons/ExclamationCircleOutlined';
 import MenuOutlined from '@ant-design/icons/MenuOutlined';
 import SearchOutlined from '@ant-design/icons/SearchOutlined';
@@ -116,19 +118,19 @@ const DataTable = (props: DataTableProps) => {
 				column.fixedFilter ??
 				objs.map((el) => {
 					return {
-						text: el !== null ? el : '(không có)',
+						text: el && el !== '' ? el : '(bỏ trống)',
 						value: el,
 					};
 				});
 			Object.assign(column, {
 				filters,
-				// specify the condition of filtering result
-				// here is that finding the name started with `value`
 				onFilter: ajax
 					? undefined
-					: (value: string, record: { [index: string]: any }) =>
+					: (value: string, record: any) =>
 							record[column.dataIndex] === value ||
-							(record[column.dataIndex] !== null && record[column.dataIndex].indexOf(value) === 0),
+							(value && record[column.dataIndex] && record[column.dataIndex].indexOf(value) === 0),
+				filterIcon: (filtered: boolean) =>
+					filtered ? <FilterFilled /> : <FilterOutlined style={{ color: '#777' }} />,
 			});
 		} else if (column.optFind) {
 			Object.assign(column, {
@@ -159,7 +161,7 @@ const DataTable = (props: DataTableProps) => {
 		align: 'center',
 		width: 60,
 		render: (text: string, record: any) => {
-			if (checkUserDoAction && record['nguoi_tao'] !== authUser.ten_dang_nhap && !authUser.admin) return <></>;
+			if (checkUserDoAction && record['nguoi_tao'] !== authUser.id && !authUser.quan_tri) return <></>;
 			else
 				return (
 					<Dropdown overlay={layAction(record)}>
@@ -262,7 +264,7 @@ const DataTable = (props: DataTableProps) => {
 		filterIcon: (filtered: boolean) => (
 			<SearchOutlined
 				style={{
-					color: filtered ? '#731a2b' : undefined,
+					color: filtered ? undefined : '#777',
 				}}
 			/>
 		),
