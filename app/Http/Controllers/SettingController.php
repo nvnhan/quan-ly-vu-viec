@@ -17,14 +17,16 @@ class SettingController extends BaseController
     {
         $qh = env("QUAN_HUYEN_SU_DUNG");
         $obj = QuanHuyen::find($qh);
+        if ($obj)
+            $data = (object)[
+                'value' => $qh,
+                'label' =>  "$obj->loai $obj->ten_huyen_tinh" ?? ''
+            ];
+        else $data = null;
         $data = [
-            'value' => $qh,
-            'label' => $obj->ten_huyen_tinh ?? ''
-        ];
-        $data = [
-            'quan_huyen' => (object) $data,
-            'thu_truong' => env('THU_TRUONG'),
-            'pho_thu_truong' => env('PHO_THU_TRUONG'),
+            'quan_huyen' => $data,
+            // 'thu_truong' => env('THU_TRUONG'),
+            // 'pho_thu_truong' => env('PHO_THU_TRUONG'),
         ];
         return $this->sendResponse((object) $data, "Setting retrieved successfully");
     }
@@ -38,9 +40,11 @@ class SettingController extends BaseController
      */
     public function update(Request $request)
     {
-        Util::updateDotEnv('QUAN_HUYEN_SU_DUNG', $request->quan_huyen['value']);
-        Util::updateDotEnv('THU_TRUONG', $request->thu_truong);
-        Util::updateDotEnv('PHO_THU_TRUONG', $request->pho_thu_truong);
+        $ma_huyen = str_pad($request->quan_huyen['value'] ?? '', 3, '0', STR_PAD_LEFT);
+        Util::updateDotEnv('QUAN_HUYEN_SU_DUNG', $ma_huyen);
+
+        // Util::updateDotEnv('THU_TRUONG', $request->thu_truong);
+        // Util::updateDotEnv('PHO_THU_TRUONG', $request->pho_thu_truong);
 
         return $this->sendResponse([], "Cập nhật thành công");
     }

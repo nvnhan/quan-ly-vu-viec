@@ -59,14 +59,6 @@ const List = () => {
 			width: 100,
 		},
 		{
-			title: 'Nội dung',
-			dataIndex: 'noi_dung',
-			render: (text: string) => <Typography.Paragraph ellipsis={{ rows: 3 }}>{text}</Typography.Paragraph>,
-			width: 250,
-			// optFind: true,
-			onCell,
-		},
-		{
 			title: 'Mức độ ưu tiên',
 			dataIndex: 'muc_do_uu_tien',
 			render: (text: number) =>
@@ -87,7 +79,22 @@ const List = () => {
 			title: 'Ngày hết hạn',
 			dataIndex: 'ngay_het_han',
 			align: 'center',
+			render: (text) => {
+				let date = moment(text, 'DD/MM/YYYY');
+				let diff = moment().diff(date, 'days');
+				if (diff > 0) return <span style={{ color: 'red' }}>{text}</span>;
+				else if (diff <= 0 && diff >= -1) return <span style={{ color: '#dbde00' }}>{text}</span>;
+				else return text;
+			},
 			width: 80,
+		},
+		{
+			title: 'Nội dung',
+			dataIndex: 'noi_dung',
+			render: (text: string) => <Typography.Paragraph ellipsis={{ rows: 3 }}>{text}</Typography.Paragraph>,
+			width: 250,
+			// optFind: true,
+			onCell,
 		},
 		{
 			title: 'Cán bộ thụ lý',

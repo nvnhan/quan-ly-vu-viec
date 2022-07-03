@@ -9,6 +9,7 @@ use App\Models\DonVi;
 use App\Models\TaiLieu;
 use App\Models\VuViec;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 
 class HomeController extends BaseController
 {
@@ -92,6 +93,8 @@ class HomeController extends BaseController
 
     public function so_lieu_cong_viec(Request $request)
     {
+        // Artisan::call('migrate');
+
         $moi_giao = CongViec::where('id_can_bo', $request->user()->id)->whereIn('trang_thai', [1, 2, 3, 7])->count();
         $data = [
             'moi_giao' => $moi_giao
