@@ -51,18 +51,55 @@ class BaoCaoController extends Controller
                 'TINH' => mb_strtoupper($huyen->ten_tinh),
                 'DonViSuDung' => $huyen->loai . ' ' . $huyen->ten_huyen_tinh,
 
+                'SoPhanCong' => $vu_viec->so_phan_cong,
+                'NgayPhanCong' => date('d/m/Y', strtotime($vu_viec->ngay_phan_cong)),
+                'NgayKeoDai' => date('d/m/Y', strtotime($vu_viec->ngay_keo_dai)),
+                'NgayKetThuc1' => date('d/m/Y', strtotime($vu_viec->ngay_ket_thuc_1)),
+                'NgayGiaHanXacMinh' => date('d/m/Y', strtotime($vu_viec->ngay_gia_han_xac_minh)),
+                'NgayKetThuc2' => date('d/m/Y', strtotime($vu_viec->ngay_ket_thuc_2)),
+
                 'NhanXung' => $nguoi->nhan_xung ?? '',
                 'HoTen' => $nguoi->ho_ten ?? '',
-                'NamSinh' => $nguoi->nam_sinh ?? '',
+                'HOTEN' => mb_strtoupper($nguoi->ho_ten ?? ''),
+                'TenKhac' => $nguoi->ten_khac ?? '',
+                'GioiTinh' => $nguoi->gioi_tinh ?? '',
+
+                'NoiSinh' => $nguoi->noi_sinh ?? '',
                 'HKTT' => $nguoi->ten_thuong_tru ?? '',
                 'DPThuongTru' =>  '',
+                'TamTru' => $nguoi->ten_tam_tru,
+                'DPTamTru' => '',
+                'NoiOHienNay' => $nguoi->ten_noi_o_hien_nay,
+                'DPNoiO' => '',
 
-                'NgaySinh' => $nguoi->ngay_sinh_day_du ?? '.../.../.......',
+                'NgaySinh' => $nguoi->ngay_sinh ?? '...',
+                'ThangSinh' => $nguoi->thang_sinh ?? '...',
+                'NamSinh' => $nguoi->nam_sinh ?? '',
                 'GiayDinhDanh' => $nguoi->giay_dinh_danh ?? 'Số CCCD/CMND/Hộ chiếu',
-                'NgayCap' => $nguoi->ngay_cap,
+                'SoDinhDanh' => $nguoi->so_dinh_danh,
+                'NgayCap' => date('d/m/Y', strtotime($nguoi->ngay_cap)),
                 'NoiCap' => $nguoi->noi_cap,
 
+                'QuocTich' => $nguoi->quoc_tich,
+                'DanToc' => $nguoi->dan_toc,
+                'TonGiao' => $nguoi->ton_giao,
+                'NgheNghiep' => $nguoi->nghe_nghiep,
+                'SDT' => $nguoi->sdt,
+
+                'HoTenBo' => $nguoi->ho_ten_bo,
+                'HoTenMe' => $nguoi->ho_ten_me,
+                'HoTenVoChong' => $nguoi->ho_ten_vo_chong,
+                'NamSinhBo' => $nguoi->nam_sinh_bo,
+                'NamSinhMe' => $nguoi->nam_sinh_me,
+                'NamSinhVoChong' => $nguoi->nam_sinh_vo_chong,
+
                 'HanhVi' => $vu_viec_nguoi->hanh_vi,
+                'TuCachToTung' => $vu_viec_nguoi->ten_tu_cach_to_tung,
+                'MaCachToTung' => '',
+
+                'THBat' => $vu_viec_nguoi->truong_hop_bat,
+                'NgayBat' => date('d/m/Y', strtotime($vu_viec_nguoi->ngay_bat)),
+                'MaCachToTung' => '',
 
                 'DonViChuyenTin' => $vu_viec->don_vi_chuyen_tin,
                 'PhanLoaiTin' => $vu_viec->phan_loai_tin,
@@ -76,8 +113,6 @@ class BaoCaoController extends Controller
                 'ToiDanh' => substr($vu_viec->toi_danh->toi_danh ?? '', 4),
                 'MaToiDanh' => $vu_viec->ma_toi_danh,
                 'NgayKTVA' => date('d/m/Y', strtotime($vu_viec->ngay_khoi_to)),
-
-                'SoHoSo' => $vu_viec->so_ho_so,
 
                 'ChucDanhLanhDao' => $lanh_dao->chuc_danh_lanh_dao,
                 'CHUCDANHLANHDAO' => mb_strtoupper($lanh_dao->chuc_danh_lanh_dao),
@@ -99,6 +134,7 @@ class BaoCaoController extends Controller
                 'CapBacCanBo' => $vu_viec->can_bo_chinh->ten_cap_bac ?? '',
                 'ChucVuCanBo' => $vu_viec->can_bo_chinh->ten_chuc_vu ?? '',
 
+                'SoHoSo' => $vu_viec->so_ho_so,
                 'TenDonVi' => $vu_viec->don_vi->ten_don_vi ?? '',
                 'CoQuanHoSo' => "Phòng Hồ sơ - CA " . ($huyen->tinh->loai ?? '') . ' ' . $huyen->ten_tinh,
             ];

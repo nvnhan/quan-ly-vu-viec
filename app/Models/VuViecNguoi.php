@@ -9,6 +9,21 @@ class VuViecNguoi extends Model
 {
     use HasFactory;
 
+    const TU_CACH_TO_TUNG = [
+        1 => 'Người bị tố giác',
+        2 => 'Người bị kiến nghị khởi tố',
+        3 => 'Người bị giữ trong trường hợp khẩn cấp',
+        4 => 'Người bị bắt',
+        5 => 'Người bị tạm giữ',
+        6 => 'Bị can',
+        7 => 'Người tố giác, báo tin về tội phạm, kiến nghị khởi tố',
+        8 => 'Bị hại',
+        9 => 'Người có quyền lợi, nghĩa vụ liên quan đến vụ án',
+        10 => 'Người làm chứng',
+        11 => 'Người chứng kiến',
+        12 => 'Người liên quan khác',
+    ];
+
     /**
      * The attributes that should be cast to native types.
      *
@@ -55,5 +70,10 @@ class VuViecNguoi extends Model
     public function vu_viec()
     {
         return $this->belongsTo('App\Models\VuViec', 'id_vu_viec');
+    }
+
+    public function getTenTuCachToTungAttribute()
+    {
+        return self::TU_CACH_TO_TUNG[$this->tu_cach_to_tung];
     }
 }
