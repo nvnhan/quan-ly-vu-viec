@@ -21,6 +21,11 @@ class BaoCaoController extends Controller
                 $nguoi = Nguoi::find($request->nguoi);
             else $nguoi = new Nguoi();
 
+            $vu_viec_nguoi = VuViecNguoi::where('id_vu_viec', $request->vu_viec)
+                ->where('id_nguoi', $request->nguoi)->first();
+            if (!$vu_viec_nguoi)
+                $vu_viec_nguoi = new VuViecNguoi();
+
             if ($request->lanh_dao)
                 $lanh_dao = CanBo::find($request->lanh_dao);
             else $lanh_dao = new CanBo();
@@ -51,6 +56,13 @@ class BaoCaoController extends Controller
                 'NamSinh' => $nguoi->nam_sinh ?? '',
                 'HKTT' => $nguoi->ten_thuong_tru ?? '',
                 'DPThuongTru' =>  '',
+
+                'NgaySinh' => $nguoi->ngay_sinh_day_du ?? '.../.../.......',
+                'GiayDinhDanh' => $nguoi->giay_dinh_danh ?? 'Số CCCD/CMND/Hộ chiếu',
+                'NgayCap' => $nguoi->ngay_cap,
+                'NoiCap' => $nguoi->noi_cap,
+
+                'HanhVi' => $vu_viec_nguoi->hanh_vi,
 
                 'DonViChuyenTin' => $vu_viec->don_vi_chuyen_tin,
                 'PhanLoaiTin' => $vu_viec->phan_loai_tin,
