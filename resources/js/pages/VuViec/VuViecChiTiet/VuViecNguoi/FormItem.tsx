@@ -277,7 +277,7 @@ const form = (props: { form?: FormInstance<any>; vuViec: Model.VuViec; record: a
 																})
 															}
 														>
-															Ngày kết thúc 2
+															Ngày kết thúc tạm giam 1
 														</Button>
 													)}
 												</Col>
@@ -301,7 +301,7 @@ const form = (props: { form?: FormInstance<any>; vuViec: Model.VuViec; record: a
 																	})
 																}
 															>
-																Ngày kết thúc 2
+																Ngày kết thúc tạm giam 2
 															</Button>
 														)}
 													</Col>
