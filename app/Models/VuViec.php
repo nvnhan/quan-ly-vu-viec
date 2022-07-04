@@ -104,6 +104,11 @@ class VuViec extends Model
         return $this->hasMany('App\Models\VuViecNguoi', 'id_vu_viec');
     }
 
+    /**
+     * Đơn vị cấp đội
+     *
+     * @return void
+     */
     public function don_vi()
     {
         return $this->belongsTo('App\Models\DonVi', 'id_don_vi');

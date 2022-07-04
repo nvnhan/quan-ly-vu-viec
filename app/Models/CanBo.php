@@ -12,8 +12,8 @@ class CanBo extends Authenticatable
 
     const TEN_CHUC_VU = [
         'Cán bộ',
-        'Tổng hợp đội',
         'Đội phó',
+        'Tổng hợp đội',
         'Đội trưởng',
         'Giúp việc PTT',
         'Phó trưởng Công an Quận',

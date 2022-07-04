@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CanBo;
+use App\Models\CongViec;
 use App\Models\DonVi;
 use App\Models\ToiDanh;
 use App\Models\VuViec;
@@ -41,6 +42,22 @@ class VuViecController extends BaseController
             $query->whereIn('phuong_thuc_pham_toi', $tt);
         }
 
+        $user = $request->user();
+        if ($user->chuc_vu === 0)        // Neu la can bo
+        {
+            $vv = CongViec::where('id_can_bo', $user->id)->pluck('id_vu_viec');
+            $query = $query->where(fn ($q) =>  $q
+                ->where('id_dtv_chinh', $user->id)
+                ->orWhere('id_can_bo_chinh', $user->id)
+                ->orWhere('nguoi_tao', $user->id)
+                ->orWhereIn('id', $vv));
+        } else if ($user->chuc_vu <= 3) {      // Chi huy
+            $dv = DonVi::where('id', $user->id_don_vi)->get();
+            $don_vi_cha = $dv->id_don_vi_cha ?? $dv->id;
+            $query = $query->where('id_don_vi', $don_vi_cha);
+        }
+        // Neu la lanh dao thi show het cua can bo
+
         $query->orderBy('created_at', 'DESC');
         // For AJAX pagination loading
         $total = $query->count();
@@ -49,12 +66,6 @@ class VuViecController extends BaseController
         if ($page > 0 && $size > 0)
             $query = $query->skip(($page - 1) * $size)->take($size);
         $objs = $query->get();
-
-        // foreach ($objs as $key => $value) {
-        //     $dvs = DonVi::whereIn('id', $value->dp_xay_ras)->with('quan_huyen')->get();
-        //     // $huyen = array_column($dvs, 'quan_huyen');
-        //     // \Log::debug($dvs);
-        // }
 
         return $this->sendResponse($objs, "VuViec retrieved successfully", $total);
     }
