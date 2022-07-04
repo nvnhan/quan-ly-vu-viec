@@ -87,7 +87,7 @@ class Nguoi extends Model
     {
         if ($this->dp_tam_tru)
             return $this->tam_tru . ' - ' . $this->dp_tam_tru->loai_don_vi . ' ' . $this->dp_tam_tru->ten_don_vi . ' - ' . $this->dp_tam_tru->ten_dia_phuong;
-        else return $this->thuong_tru;
+        else return $this->tam_tru;
     }
 
     public function getTenNoiOHienNayAttribute()
