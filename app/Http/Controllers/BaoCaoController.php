@@ -107,9 +107,9 @@ class BaoCaoController extends Controller
                 'NoiDungTomTat' => $vu_viec->noi_dung_tom_tat,
                 'NoiXayRa' => $vu_viec->noi_xay_ra,
                 'DPXayRa' =>  $vu_viec->khu_vuc_xay_ra,
-                'NgayXayRa' => $vu_viec->thoi_diem_xay_ra,
+                'NgayXayRa' => mb_strtolower($vu_viec->thoi_diem_xay_ra),
 
-                'PhuongThucPhamToi' => $vu_viec->phuong_thuc_pham_toi,
+                'PhuongThucPhamToi' => $vu_viec->phuong_thuc_pham_toi ?? "Chưa phân loại",
                 'ToiDanh' => str_replace("Tội ", '', $vu_viec->toi_danh->toi_danh ?? ''),
                 'MaToiDanh' => $vu_viec->ma_toi_danh,
                 'NgayKTVA' => date('d/m/Y', strtotime($vu_viec->ngay_khoi_to)),
@@ -130,7 +130,7 @@ class BaoCaoController extends Controller
 
                 'DTVChinh' => $vu_viec->dtv_chinh->ho_ten ?? '',
                 'CBChinh' => $vu_viec->can_bo_chinh->ho_ten ?? '',
-                'CanBoChinh' => $vu_viec->can_bo_chinh->ho_ten ?? '',
+                // 'CanBoChinh' => $vu_viec->can_bo_chinh->ho_ten ?? '',
                 'CapBacCanBo' => $vu_viec->can_bo_chinh->ten_cap_bac ?? '',
                 'ChucVuCanBo' => $vu_viec->can_bo_chinh->ten_chuc_vu ?? '',
 
