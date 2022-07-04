@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\VanBanPhapLuat;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class VanBanPhapLuatController extends BaseController
 {

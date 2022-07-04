@@ -316,7 +316,7 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 			</div>
 			<Form form={form} layout="vertical" onFinish={onFinish}>
 				<FormChiTietNguoi />
-				<FormVuViecNguoi vuViec={vuViec} form={form} record={state.record} />
+				<FormVuViecNguoi vuViec={vuViec} form={form} record={state.record} loading={state.loading} />
 
 				<div className="tools-button" style={{ textAlign: 'center' }}>
 					<Button onClick={handleCanel}>

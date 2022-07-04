@@ -75,7 +75,7 @@ class BaoCaoController extends Controller
                 'NgaySinh' => $nguoi->ngay_sinh ?? '...',
                 'ThangSinh' => $nguoi->thang_sinh ?? '...',
                 'NamSinh' => $nguoi->nam_sinh ?? '',
-                'GiayDinhDanh' => $nguoi->giay_dinh_danh ?? 'Số CCCD/CMND/Hộ chiếu',
+                'GiayDinhDanh' => !empty($nguoi->so_dinh_danh) ? "Số " . $nguoi->giay_dinh_danh : 'Số CCCD/CMND/Hộ chiếu',
                 'SoDinhDanh' => $nguoi->so_dinh_danh,
                 'NgayCap' => date('d/m/Y', strtotime($nguoi->ngay_cap)),
                 'NoiCap' => $nguoi->noi_cap,
@@ -95,7 +95,7 @@ class BaoCaoController extends Controller
 
                 'HanhVi' => $vu_viec_nguoi->hanh_vi,
                 'TuCachToTung' => $vu_viec_nguoi->ten_tu_cach_to_tung,
-                'MaCachToTung' => '',
+                'MaCachToTung' => $vu_viec_nguoi->tu_cach_to_tung === 7 ? '56' : '',
 
                 'THBat' => $vu_viec_nguoi->truong_hop_bat,
                 'NgayBat' => date('d/m/Y', strtotime($vu_viec_nguoi->ngay_bat)),

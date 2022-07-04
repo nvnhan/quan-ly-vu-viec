@@ -184,8 +184,21 @@ class VuViecController extends BaseController
      * @param  \App\Models\VuViec  $vuViec
      * @return \Illuminate\Http\Response
      */
-    public function show(VuViec $vuViec)
+    public function show(Request $request, VuViec $vuViec)
     {
+        $user = $request->user();
+        if ($user->chuc_vu === 0)        // Neu la can bo
+        {
+            $vv = CongViec::where('id_can_bo', $user->id)->where('id_vu_viec', $vuViec->id)->count();
+            if ($vv <= 0 && $vuViec->id_dtv_chinh != $user->id && $vuViec->id_can_bo_chinh != $user->id && $vuViec->nguoi_tao != $user->id)
+                return $this->sendError("You don't have permission to access this resource", [], 403);
+        } else if ($user->chuc_vu <= 3) {      // Chi huy
+            $dv = DonVi::where('id', $user->id_don_vi)->get();
+            $don_vi_cha = $dv->id_don_vi_cha ?? $dv->id;
+            if ($vuViec->id_don_vi != $don_vi_cha)
+                return $this->sendError("You don't have permission to access this resource", [], 403);
+        }
+
         $result = [];
         $dvs = DonVi::whereIn('id', $vuViec->dp_xay_ras)->get();
         foreach ($dvs as $key => $dv)

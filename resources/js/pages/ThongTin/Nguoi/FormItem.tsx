@@ -35,8 +35,8 @@ const form = () => {
 						</Form.Item>
 					</Col>
 					<Col span={12} sm={3}>
-						<Form.Item name="gioi_tinh" label="Giới tính" rules={[required]}>
-							<Select>
+						<Form.Item name="gioi_tinh" label="Giới tính">
+							<Select allowClear>
 								<Select.Option value="Nam">Nam</Select.Option>
 								<Select.Option value="Nữ">Nữ</Select.Option>
 							</Select>

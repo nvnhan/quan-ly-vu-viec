@@ -140,6 +140,6 @@ class Nguoi extends Model
 
     public function getNhanXungAttribute()
     {
-        return $this->gioi_tinh === 'Nam' ? 'Ông' : 'Bà';
+        return $this->gioi_tinh === 'Nam' ? 'Ông' : ($this->gioi_tinh === 'Nữ' ? 'Bà' : '');
     }
 }
