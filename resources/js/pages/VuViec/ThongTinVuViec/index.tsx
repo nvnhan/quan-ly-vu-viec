@@ -14,7 +14,6 @@ import getFilters from './otherFilters';
 
 const List = () => {
 	const navigate = useNavigate();
-	const authUser = useSelector((state: RootState) => state.authUserReducer);
 
 	const handleView = (record: any) => navigate('/vu-viec/chi-tiet/' + record.id);
 

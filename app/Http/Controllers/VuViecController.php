@@ -21,7 +21,7 @@ class VuViecController extends BaseController
     {
         $query = VuViec::query();
         if ($request->bat_dau && $request->ket_thuc)
-            $query->whereBetween('created_at', [$request->bat_dau, $request->ket_thuc]);
+            $query->whereBetween('ngay_cqdt', [$request->bat_dau, $request->ket_thuc]);
 
         if (!empty($request->q)) {
             $query->where('ten_vu_viec', 'LIKE', "%$request->q%");
@@ -58,7 +58,7 @@ class VuViecController extends BaseController
         }
         // Neu la lanh dao thi show het cua can bo
 
-        $query->orderBy('created_at', 'DESC');
+        $query->orderBy('ngay_cqdt', 'DESC');
         // For AJAX pagination loading
         $total = $query->count();
         $page = $request->p;
@@ -103,10 +103,10 @@ class VuViecController extends BaseController
         $vuViec->id_don_vi = null;
         $cb = CanBo::whereIn('id', [$vuViec->id_dtv_chinh, $vuViec->id_can_bo_chinh, $vuViec->nguoi_tao])->with('don_vi')->get();
         foreach ($cb as $c) {
-            if (!empty($c->don_vi->id_don_vi_cha))
-                $vuViec->id_don_vi = $c->don_vi->id_don_vi_cha;
-            else if (!empty($c->id_don_vi))
-                $vuViec->id_don_vi = $c->id_don_vi;
+            // if (!empty($c->don_vi->id_don_vi_cha))
+            //     $vuViec->id_don_vi = $c->don_vi->id_don_vi_cha;
+            // else if (!empty($c->id_don_vi))
+            $vuViec->id_don_vi = $c->id_don_vi;         // Đơn vị cấp tổ
             if (!empty($vuViec->id_don_vi))
                 break;
         }

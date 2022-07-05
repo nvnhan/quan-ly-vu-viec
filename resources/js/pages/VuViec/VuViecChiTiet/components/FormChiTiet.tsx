@@ -15,8 +15,9 @@ import { inputNgayThangFormat, inputParse, useMergeState } from '../../../../uti
 import { KET_QUA_AN, KET_QUA_DON, LOAI_TOI_PHAM } from '../../../../utils/constant';
 import { getSearchCanBo } from '../../../../utils/services';
 import FormItem from '../../ThongTinVuViec/FormItem';
+import { Model } from '../../../../reducers/type';
 
-const form = (props: { form?: FormInstance<any>; loading?: boolean }) => {
+const form = (props: { form?: FormInstance<any>; loading?: boolean; authUser?: Model.User; nguoi_tao?: number }) => {
 	const [form] = Form.useForm();
 	const [loaiVuViec, setLoaiVuViec] = useState('AĐ');
 	const [dataUpdate, setDataUpdate] = useState<{
@@ -31,6 +32,8 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean }) => {
 		ngay_ket_thuc_dieu_tra_1?: any;
 		ngay_ket_thuc_dieu_tra_2?: any;
 		ngay_ket_thuc_dieu_tra_3?: any;
+		ngay_phuc_hoi?: any;
+		ket_qua_giai_quyet?: string;
 	}>({});
 
 	useEffect(() => {
@@ -41,6 +44,8 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean }) => {
 			'ngay_ket_thuc_dieu_tra_1',
 			'ngay_ket_thuc_dieu_tra_2',
 			'ngay_ket_thuc_dieu_tra_3',
+			'ngay_phuc_hoi',
+			'ket_qua_giai_quyet',
 		]);
 		setDataBinding(val);
 	}, [props.loading]);
@@ -58,6 +63,7 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean }) => {
 		props.form?.setFieldsValue({
 			ngay_ket_thuc_phuc_hoi: val.clone().add(1, 'month'),
 		});
+		setDataBinding({ ngay_phuc_hoi: val });
 	};
 
 	const onChangeData = () => {
@@ -105,6 +111,7 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean }) => {
 						loading={props.loading}
 						setLoaiVuViec={setLoaiVuViec}
 						onChangeData={onChangeData}
+						edit={true}
 					/>
 				</Collapse.Panel>
 
@@ -154,18 +161,8 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean }) => {
 
 					<Row gutter={[10, 5]}>
 						<Col span={12} sm={6}>
-							<Form.Item name="ngay_phuc_hoi" label="Ngày phục hồi">
-								<MyDatePicker format="DD/MM/YYYY" onChange={onChangeNgayPhucHoi} />
-							</Form.Item>
-						</Col>
-						<Col span={12} sm={6}>
-							<Form.Item name="ngay_ket_thuc_phuc_hoi" label="Ngày kết thúc phục hồi">
-								<MyDatePicker format="DD/MM/YYYY" />
-							</Form.Item>
-						</Col>
-						<Col span={12} sm={6}>
 							<Form.Item name="ket_qua_giai_quyet" label="Kết quả giải quyết">
-								<Select allowClear>
+								<Select allowClear onChange={(val) => setDataBinding({ ket_qua_giai_quyet: val })}>
 									{KET_QUA_DON.map((td, index) => (
 										<Select.Option value={td} key={index}>
 											{td}
@@ -174,6 +171,34 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean }) => {
 								</Select>
 							</Form.Item>
 						</Col>
+						{dataBinding.ket_qua_giai_quyet === 'Tạm đình chỉ' &&
+							(dataBinding.ngay_phuc_hoi ? (
+								<>
+									<Col span={12} sm={6}>
+										<Form.Item name="ngay_phuc_hoi" label="Ngày phục hồi">
+											<MyDatePicker format="DD/MM/YYYY" onChange={onChangeNgayPhucHoi} />
+										</Form.Item>
+									</Col>
+									<Col span={12} sm={6}>
+										<Form.Item name="ngay_ket_thuc_phuc_hoi" label="Ngày kết thúc phục hồi">
+											<MyDatePicker format="DD/MM/YYYY" />
+										</Form.Item>
+									</Col>
+								</>
+							) : (
+								<Col span={12} sm={6}>
+									<Button
+										onClick={() => {
+											setDataBinding({ ngay_phuc_hoi: moment() });
+											props.form?.setFieldsValue({ ngay_phuc_hoi: moment() });
+											onChangeNgayPhucHoi(moment());
+										}}
+										type="link"
+									>
+										Thêm ngày phục hồi
+									</Button>
+								</Col>
+							))}
 					</Row>
 				</Collapse.Panel>
 
@@ -326,6 +351,7 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean }) => {
 									allowClear
 									placeholder="Tìm theo tên cán bộ..."
 									fetchOptions={(q) => fetchCanBoList(q, 'dtv')}
+									disabled={!props?.authUser?.quan_tri || props.nguoi_tao !== props.authUser?.id}
 								/>
 							</Form.Item>
 						</Col>
@@ -335,12 +361,18 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean }) => {
 									allowClear
 									placeholder="Tìm theo tên cán bộ..."
 									fetchOptions={(q) => fetchCanBoList(q, '')}
+									disabled={!props?.authUser?.quan_tri || props.nguoi_tao !== props.authUser?.id}
 								/>
 							</Form.Item>
 						</Col>
 						<Col span={24} sm={12}>
 							<Form.Item name="ten_nguoi_tao" label="Người tạo vụ việc">
-								<Input readOnly />
+								<Input disabled />
+							</Form.Item>
+						</Col>
+						<Col span={12} sm={6}>
+							<Form.Item name="ten_don_vi" label="Đơn vị thụ lý">
+								<Input disabled />
 							</Form.Item>
 						</Col>
 						<Col span={12} sm={6}>

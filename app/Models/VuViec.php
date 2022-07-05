@@ -59,10 +59,10 @@ class VuViec extends Model
      */
     protected $hidden = [
         'dp_xay_ra', 'toi_danh', 'can_bo', 'dtv_chinh', 'can_bo_chinh', 'cong_viecs',
-        'tai_lieus', 'cong_vans', 'vu_viec_nguois',
+        'tai_lieus', 'cong_vans', 'vu_viec_nguois', 'don_vi'
     ];
 
-    protected $appends = ['sel_dp_xay_ra', 'sel_dtv_chinh', 'sel_can_bo_chinh', 'ten_nguoi_tao'];
+    protected $appends = ['sel_dp_xay_ra', 'sel_dtv_chinh', 'sel_can_bo_chinh', 'ten_nguoi_tao', 'ten_don_vi'];
 
     public function toi_danh()
     {
@@ -105,13 +105,18 @@ class VuViec extends Model
     }
 
     /**
-     * Đơn vị cấp đội
+     * Đơn vị cấp tổ
      *
      * @return void
      */
     public function don_vi()
     {
         return $this->belongsTo('App\Models\DonVi', 'id_don_vi');
+    }
+
+    public function getTenDonViAttribute()
+    {
+        return $this->don_vi->ten_don_vi_day_du ?? '';
     }
 
     public function getTenNguoiTaoAttribute()

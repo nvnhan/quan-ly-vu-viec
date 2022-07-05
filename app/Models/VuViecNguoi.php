@@ -33,6 +33,9 @@ class VuViecNguoi extends Model
         'ngay_xay_ra_bc' => 'datetime:d/m/Y',
         'ngay_bat' => 'datetime:d/m/Y',
         'ngay_tam_giu' => 'datetime:d/m/Y',
+        'ngay_ket_thuc_tam_giu' => 'datetime:d/m/Y',
+        'ngay_ket_thuc_tam_giu_1' => 'datetime:d/m/Y',
+        'ngay_ket_thuc_tam_giu_2' => 'datetime:d/m/Y',
         'ngay_tam_giam' => 'datetime:d/m/Y',
         'ngay_khoi_to_bc' => 'datetime:d/m/Y',
         'ngay_ket_thuc_tam_giam' => 'datetime:d/m/Y',
@@ -53,7 +56,7 @@ class VuViecNguoi extends Model
         'ngay_bat', 'truong_hop_bat',
         'ngay_tam_giu',
         'ngay_tam_giam', 'ngay_khoi_to_bc',
-        'so_ngay_tam_giu', 'so_ngay_tam_giu_1', 'so_ngay_tam_giu_2',
+        'ngay_ket_thuc_tam_giu', 'ngay_ket_thuc_tam_giu_1', 'ngay_ket_thuc_tam_giu_2',
         'ngay_ket_thuc_tam_giam', 'ngay_ket_thuc_tam_giam_1', 'ngay_ket_thuc_tam_giam_2'
     ];
 

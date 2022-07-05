@@ -70,10 +70,10 @@ const NguoiChiTiet = () => {
 								</Button>
 							)}
 
-							<Button>
+							{/* <Button>
 								<UnorderedListOutlined />
 								Vụ việc liên quan
-							</Button>
+							</Button> */}
 						</div>
 					</Form>
 				</Spin>

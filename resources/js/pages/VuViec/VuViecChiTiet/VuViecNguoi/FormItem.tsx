@@ -32,9 +32,9 @@ const form = (props: { form?: FormInstance<any>; vuViec: Model.VuViec; record: a
 	}>({ visible: false });
 	const [dataBinding, setDataBinding] = useMergeState<{
 		ngay_tam_giu?: any;
-		so_ngay_tam_giu?: any;
-		so_ngay_tam_giu_1?: any;
-		so_ngay_tam_giu_2?: any;
+		ngay_ket_thuc_tam_giu?: any;
+		ngay_ket_thuc_tam_giu_1?: any;
+		ngay_ket_thuc_tam_giu_2?: any;
 		ngay_tam_giam?: any;
 		ngay_ket_thuc_tam_giam?: any;
 		ngay_ket_thuc_tam_giam_1?: any;
@@ -48,9 +48,9 @@ const form = (props: { form?: FormInstance<any>; vuViec: Model.VuViec; record: a
 	useEffect(() => {
 		const val = props.form?.getFieldsValue([
 			'ngay_tam_giu',
-			'so_ngay_tam_giu',
-			'so_ngay_tam_giu_1',
-			'so_ngay_tam_giu_2',
+			'ngay_ket_thuc_tam_giu',
+			'ngay_ket_thuc_tam_giu_1',
+			'ngay_ket_thuc_tam_giu_2',
 			'ngay_tam_giam',
 			'ngay_ket_thuc_tam_giam',
 			'ngay_ket_thuc_tam_giam_1',
@@ -66,27 +66,32 @@ const form = (props: { form?: FormInstance<any>; vuViec: Model.VuViec; record: a
 	const onChangeTuCachToTung = (val: any) => setBiCan(val <= 6);
 
 	const onChangeNgayTamGiam = (val: moment.Moment) => {
-		let thoi_han_giam = 120;
-		if (vuViec.loai_toi_pham === LOAI_TOI_PHAM.IT_NGHIEM_TRONG) thoi_han_giam = 60;
-		else if (vuViec.loai_toi_pham === LOAI_TOI_PHAM.NGHIEM_TRONG) thoi_han_giam = 90;
-		const so_ngay_tam_giu = props.form?.getFieldValue('so_ngay_tam_giu') ?? 0;
-		const so_ngay_tam_giu_1 = props.form?.getFieldValue('so_ngay_tam_giu_1') ?? 0;
-		const so_ngay_tam_giu_2 = props.form?.getFieldValue('so_ngay_tam_giu_2') ?? 0;
-
-		if (val)
+		if (val) {
+			let thoi_han_giam = 120;
+			if (vuViec.loai_toi_pham === LOAI_TOI_PHAM.IT_NGHIEM_TRONG) thoi_han_giam = 60;
+			else if (vuViec.loai_toi_pham === LOAI_TOI_PHAM.NGHIEM_TRONG) thoi_han_giam = 90;
+			let ngay_ket_thuc_tam_giu = moment(
+				dataBinding.ngay_ket_thuc_tam_giu_2 ??
+					dataBinding.ngay_ket_thuc_tam_giu_1 ??
+					dataBinding.ngay_ket_thuc_tam_giu,
+				'DD/MM/YYYY'
+			);
+			if (val < ngay_ket_thuc_tam_giu) ngay_ket_thuc_tam_giu = val;
+			let so_ngay_tam_giu_thuc_te = moment
+				.duration(ngay_ket_thuc_tam_giu.diff(moment(dataBinding.ngay_tam_giu, 'DD/MM/YYYY')))
+				.days();
+			if (isNaN(so_ngay_tam_giu_thuc_te)) so_ngay_tam_giu_thuc_te = 0;
 			props.form?.setFieldsValue({
-				ngay_ket_thuc_tam_giam: val
-					.clone()
-					?.add(thoi_han_giam - so_ngay_tam_giu - so_ngay_tam_giu_1 - so_ngay_tam_giu_2 - 1, 'days'),
+				ngay_ket_thuc_tam_giam: val.clone()?.add(thoi_han_giam - so_ngay_tam_giu_thuc_te - 1, 'days'),
 			});
-		else props.form?.setFieldsValue({ ngay_ket_thuc_tam_giam: null });
+		} else props.form?.setFieldsValue({ ngay_ket_thuc_tam_giam: null });
 		onChangeDataInternal(['ngay_tam_giam', 'ngay_ket_thuc_tam_giam']);
 	};
 
 	const onChangeNgayTamGiu = (val: moment.Moment) => {
-		if (val) props.form?.setFieldsValue({ so_ngay_tam_giu: 3 });
-		else props.form?.setFieldsValue({ so_ngay_tam_giu: null });
-		onChangeDataInternal(['ngay_tam_giu', 'so_ngay_tam_giu']);
+		if (val) props.form?.setFieldsValue({ ngay_ket_thuc_tam_giu: val.clone().add(3, 'days') });
+		else props.form?.setFieldsValue({ ngay_ket_thuc_tam_giu: null });
+		onChangeDataInternal(['ngay_tam_giu', 'ngay_ket_thuc_tam_giu']);
 	};
 
 	const onChangeDataInternal = (field: string[]) => {
@@ -195,39 +200,77 @@ const form = (props: { form?: FormInstance<any>; vuViec: Model.VuViec; record: a
 								{dataBinding.ngay_tam_giu && (
 									<>
 										<Col span={12} sm={6}>
-											<Form.Item name="so_ngay_tam_giu" label="Số ngày tạm giữ">
-												<InputNumber
-													onChange={() => onChangeDataInternal(['so_ngay_tam_giu'])}
-													style={{ width: '100%' }}
-													min={0}
-													step={1}
-													max={3}
+											<Form.Item name="ngay_ket_thuc_tam_giu" label="Ngày kết thúc tạm giữ">
+												<MyDatePicker
+													format="DD/MM/YYYY"
+													onChange={() => onChangeDataInternal(['ngay_ket_thuc_tam_giu'])}
 												/>
 											</Form.Item>
 										</Col>
-										{dataBinding.so_ngay_tam_giu > 0 && (
+										{dataBinding.ngay_ket_thuc_tam_giu && (
 											<>
 												<Col span={12} sm={6}>
-													<Form.Item name="so_ngay_tam_giu_1" label="Số ngày tạm giữ 1">
-														<InputNumber
-															onChange={() => onChangeDataInternal(['so_ngay_tam_giu_1'])}
-															style={{ width: '100%' }}
-															min={0}
-															step={1}
-															max={3}
-														/>
-													</Form.Item>
-												</Col>
-												{dataBinding.so_ngay_tam_giu_1 > 0 && (
-													<Col span={12} sm={6}>
-														<Form.Item name="so_ngay_tam_giu_2 " label="Số ngày tạm giữ 2">
-															<InputNumber
-																style={{ width: '100%' }}
-																min={0}
-																step={1}
-																max={3}
+													{dataBinding.ngay_ket_thuc_tam_giu_1 ? (
+														<Form.Item
+															name="ngay_ket_thuc_tam_giu_1"
+															label="Ngày kết thúc tạm giữ 1"
+														>
+															<MyDatePicker
+																format="DD/MM/YYYY"
+																onChange={() =>
+																	onChangeDataInternal(['ngay_ket_thuc_tam_giu_1'])
+																}
 															/>
 														</Form.Item>
+													) : (
+														<Button
+															type="link"
+															onClick={() => {
+																props.form?.setFieldsValue({
+																	ngay_ket_thuc_tam_giu_1:
+																		dataBinding.ngay_ket_thuc_tam_giu
+																			.clone()
+																			.add(3, 'days'),
+																});
+																onChangeDataInternal(['ngay_ket_thuc_tam_giu_1']);
+															}}
+														>
+															Gia hạn tạm giữ lần 1
+														</Button>
+													)}
+												</Col>
+												{dataBinding.ngay_ket_thuc_tam_giu_1 > 0 && (
+													<Col span={12} sm={6}>
+														{dataBinding.ngay_ket_thuc_tam_giu_2 ? (
+															<Form.Item
+																name="ngay_ket_thuc_tam_giu_2"
+																label="Ngày kết thúc tạm giữ 2"
+															>
+																<MyDatePicker
+																	format="DD/MM/YYYY"
+																	onChange={() =>
+																		onChangeDataInternal([
+																			'ngay_ket_thuc_tam_giu_2',
+																		])
+																	}
+																/>
+															</Form.Item>
+														) : (
+															<Button
+																type="link"
+																onClick={() => {
+																	props.form?.setFieldsValue({
+																		ngay_ket_thuc_tam_giu_2:
+																			dataBinding.ngay_ket_thuc_tam_giu_1
+																				.clone()
+																				.add(3, 'days'),
+																	});
+																	onChangeDataInternal(['ngay_ket_thuc_tam_giu_2']);
+																}}
+															>
+																Gia hạn tạm giữ lần 2
+															</Button>
+														)}
 													</Col>
 												)}
 											</>

@@ -166,12 +166,20 @@ const VuViecChiTiet = () => {
 				<Spin spinning={loading}>
 					{currentTab === 'thong-tin' && (
 						<Form form={form} onFinish={onFinish} layout="vertical">
-							<FormChiTiet form={form} loading={loading} />
+							<FormChiTiet
+								form={form}
+								loading={loading}
+								authUser={authUser}
+								nguoi_tao={record?.nguoi_tao}
+							/>
 							<div className="tools-button" style={{ textAlign: 'center' }}>
 								<Button onClick={() => window.history.back()}>
 									<ArrowLeftOutlined /> Quay lại
 								</Button>
-								{(authUser.quan_tri || authUser.id === record?.id) && (
+								{(authUser.quan_tri ||
+									[record?.nguoi_tao, record?.id_dtv_chinh, record?.id_can_bo_chinh].includes(
+										authUser.id
+									)) && (
 									<Button htmlType="submit" type="primary" loading={formSubmitting}>
 										<SaveOutlined />
 										Lưu lại

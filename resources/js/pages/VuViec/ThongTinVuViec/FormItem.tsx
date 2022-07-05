@@ -14,7 +14,14 @@ import { LOAI_TOI_PHAM, NOI_THUC_HIEN_PHAM_TOI, PHAN_LOAI_TIN, PHUONG_THUC_PHAM_
 import { required } from '../../../utils/rules';
 import { getSearchXaPhuong } from '../../../utils/services';
 
-const form = (props: { form?: FormInstance<any>; loading?: boolean; setLoaiVuViec?: any; onChangeData?: any }) => {
+const form = (props: {
+	form?: FormInstance<any>;
+	loading?: boolean;
+	setLoaiVuViec?: any;
+	onChangeData?: any;
+	edit?: boolean;
+}) => {
+	const authUser = useSelector((state: RootState) => state.authUserReducer);
 	const dispatch = useDispatch();
 	const toiDanh = useSelector((state: RootState) => state.toiDanh);
 	const [state, setState] = useMergeState<{
@@ -104,6 +111,16 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean; setLoaiVuVie
 						</Select>
 					</Form.Item>
 				</Col>
+				<Col span={12} sm={6}>
+					<Form.Item name="ngay_cqdt" label="Ngày CQĐT tiếp nhận" rules={[required]}>
+						<MyDatePicker
+							format="DD/MM/YYYY"
+							onChange={onChangeNgayCQDT}
+							disabled={props.edit && !authUser.quan_tri}
+						/>
+					</Form.Item>
+				</Col>
+
 				{loaiVuViec === 'AĐ' ? (
 					<>
 						<Col span={12} sm={6}>
@@ -115,11 +132,6 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean; setLoaiVuVie
 										</Select.Option>
 									))}
 								</Select>
-							</Form.Item>
-						</Col>
-						<Col span={12} sm={6}>
-							<Form.Item name="ngay_cqdt" label="Ngày CQĐT tiếp nhận">
-								<MyDatePicker format="DD/MM/YYYY" onChange={onChangeNgayCQDT} />
 							</Form.Item>
 						</Col>
 						{state.ngayCAPVisible && (
@@ -165,7 +177,7 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean; setLoaiVuVie
 				)}
 				<Col span={12} sm={6}>
 					<Form.Item name="phuong_thuc_pham_toi" label="Phương thức phạm tội">
-						<Select showSearch>
+						<Select showSearch allowClear>
 							{PHUONG_THUC_PHAM_TOI.map((td, index) => (
 								<Select.Option value={td} key={index}>
 									{td}
@@ -200,7 +212,7 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean; setLoaiVuVie
 				</Col>
 				<Col span={24} sm={12}>
 					<Form.Item name="noi_dung_tom_tat" label={state.noiDungLabel} rules={[required]}>
-						<Input />
+						<Input disabled={props.edit && !authUser.quan_tri} />
 					</Form.Item>
 				</Col>
 				<Col span={12} sm={6}>
