@@ -79,21 +79,21 @@ class Nguoi extends Model
     public function getTenThuongTruAttribute()
     {
         if ($this->dp_thuong_tru)
-            return $this->thuong_tru . ' - ' . $this->dp_thuong_tru->loai_don_vi . ' ' . $this->dp_thuong_tru->ten_don_vi . ' - ' . $this->dp_thuong_tru->ten_dia_phuong;
+            return $this->thuong_tru . ' - ' . $this->dp_thuong_tru->ten_xa_phuong;
         else return $this->thuong_tru;
     }
 
     public function getTenTamTruAttribute()
     {
         if ($this->dp_tam_tru)
-            return $this->tam_tru . ' - ' . $this->dp_tam_tru->loai_don_vi . ' ' . $this->dp_tam_tru->ten_don_vi . ' - ' . $this->dp_tam_tru->ten_dia_phuong;
+            return $this->tam_tru . ' - ' . $this->dp_tam_tru->ten_xa_phuong;
         else return $this->tam_tru;
     }
 
     public function getTenNoiOHienNayAttribute()
     {
         if ($this->dp_noi_o_hien_nay)
-            return $this->noi_o_hien_nay . ' - ' . $this->dp_noi_o_hien_nay->loai_don_vi . ' ' . $this->dp_noi_o_hien_nay->ten_don_vi . ' - ' . $this->dp_noi_o_hien_nay->ten_dia_phuong;
+            return $this->noi_o_hien_nay . ' - ' . $this->dp_noi_o_hien_nay->ten_xa_phuong;
         else return $this->noi_o_hien_nay;
     }
 
@@ -102,7 +102,7 @@ class Nguoi extends Model
         if ($this->dp_thuong_tru)
             return (object)[
                 'value' => $this->id_dp_thuong_tru,
-                'label' => $this->dp_thuong_tru->loai_don_vi . ' ' . $this->dp_thuong_tru->ten_don_vi . ' - ' . $this->dp_thuong_tru->ten_dia_phuong
+                'label' => $this->dp_thuong_tru->ten_xa_phuong
             ];
         else
             return null;
@@ -113,7 +113,7 @@ class Nguoi extends Model
         if ($this->dp_tam_tru)
             return (object)[
                 'value' => $this->id_dp_tam_tru,
-                'label' => $this->dp_tam_tru->loai_don_vi . ' ' . $this->dp_tam_tru->ten_don_vi . ' - ' . $this->dp_tam_tru->ten_dia_phuong
+                'label' => $this->dp_tam_tru->ten_xa_phuong
             ];
         else return null;
     }
@@ -123,7 +123,7 @@ class Nguoi extends Model
         if ($this->dp_noi_o_hien_nay)
             return (object)[
                 'value' => $this->id_dp_noi_o_hien_nay,
-                'label' => $this->dp_noi_o_hien_nay->loai_don_vi . ' ' . $this->dp_noi_o_hien_nay->ten_don_vi . ' - ' . $this->dp_noi_o_hien_nay->ten_dia_phuong
+                'label' => $this->dp_noi_o_hien_nay->ten_xa_phuong
             ];
         else return null;
     }

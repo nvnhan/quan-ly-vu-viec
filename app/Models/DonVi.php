@@ -62,6 +62,14 @@ class DonVi extends Model
             return $this->don_vi_cha->ten_don_vi_day_du;
     }
 
+    public function getTenXaPhuongAttribute()
+    {
+        if (in_array($this->loai_don_vi, ['Xã', 'Phường', 'Thị trấn']))
+            return "$this->loai_don_vi $this->ten_don_vi - $this->ten_dia_phuong";       // CA Xã Duyên Hải - Huyện Hưng Hà - Thái Bình
+        else
+            return '';
+    }
+
     public function getTenDonViDayDuAttribute()
     {
         if (in_array($this->loai_don_vi, ['Xã', 'Phường', 'Thị trấn']))

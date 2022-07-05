@@ -14,7 +14,7 @@ const form = () => {
 	const fetchUnitList = async (q: string): Promise<SelectValue[]> => {
 		return getSearchXaPhuong({ q, l: 7 }).then((body) =>
 			body?.data?.data.map((item: any) => ({
-				label: `${item.ten_don_vi} - ${item.ten_dia_phuong}`,
+				label: `${item.loai_don_vi} ${item.ten_don_vi} - ${item.ten_dia_phuong}`,
 				value: item.id,
 			}))
 		);

@@ -155,7 +155,7 @@ const VuViecChiTiet = () => {
 					tab={
 						<span>
 							<MailOutlined />
-							Công văn
+							Văn bản tố tụng
 						</span>
 					}
 					key="cong-van"
