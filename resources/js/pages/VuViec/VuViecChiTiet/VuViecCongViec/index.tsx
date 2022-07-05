@@ -454,7 +454,7 @@ const List = (props: { vuViec: any }) => {
 				]}
 			>
 				<Form layout="vertical" form={form}>
-					<FormVuViecCongViec />
+					<FormVuViecCongViec authUser={authUser} />
 				</Form>
 			</Modal>
 			{/* Modal update status */}

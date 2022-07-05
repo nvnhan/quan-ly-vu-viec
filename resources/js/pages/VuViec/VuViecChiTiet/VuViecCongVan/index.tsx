@@ -5,8 +5,11 @@ import ListForm, { ListFormRef } from '../../../../components/ListForm';
 import { ColumnProps, OtherActionProps } from '../../../../components/ListForm/DataTable';
 import FormItem from './FormItem';
 import DoubleRightOutlined from '@ant-design/icons/DoubleRightOutlined';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store';
 
 const List = (props: { vuViec: any }) => {
+	const authUser = useSelector((state: RootState) => state.authUserReducer);
 	const [recordCha, setRecordCha] = useState<
 		| {
 				id: number;
@@ -114,7 +117,7 @@ const List = (props: { vuViec: any }) => {
 			filter={{ vu_viec: vuViec }}
 			otherParams={{ id_vu_viec: vuViec }}
 			selectable={false}
-			formTemplate={<FormItem recordCha={recordCha} />}
+			formTemplate={<FormItem recordCha={recordCha} authUser={authUser} />}
 			formInitialValues={{ ngay_ban_hanh: moment().format('DD/MM/YYYY') }}
 			handleEdit={handleEdit}
 			addStt

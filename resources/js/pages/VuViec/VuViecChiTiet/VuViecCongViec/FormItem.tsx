@@ -8,12 +8,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import MyDatePicker from '../../../../components/Controls/MyDatePicker';
 import MyDebounceSelect, { SelectValue } from '../../../../components/Controls/MyDebounceSelect';
 import { fetchNhomCongViec } from '../../../../reducers/nhomCongViec';
+import { Model } from '../../../../reducers/type';
 import { RootState } from '../../../../store';
 import { TEN_MUC_DO_UU_TIEN } from '../../../../utils/constant';
 import { required } from '../../../../utils/rules';
 import { getSearchCanBo } from '../../../../utils/services';
 
-const form = () => {
+const form = (props: { authUser: Model.User }) => {
 	const dispatch = useDispatch();
 	const nhomCongViec = useSelector((state: RootState) => state.nhomCongViec);
 
@@ -65,14 +66,20 @@ const form = () => {
 				</Form.Item>
 			</Col>
 
-			<Col span={24}>
-				<Form.Item name="sel_can_bo" label="Giao cho">
-					<MyDebounceSelect placeholder="Chọn cán bộ thụ lý..." fetchOptions={fetchCanBoList} allowClear />
-				</Form.Item>
-			</Col>
+			{props.authUser.chuc_vu !== 0 && (
+				<Col span={24}>
+					<Form.Item name="sel_can_bo" label="Giao cho">
+						<MyDebounceSelect
+							placeholder="Chọn cán bộ thụ lý..."
+							fetchOptions={fetchCanBoList}
+							allowClear
+						/>
+					</Form.Item>
+				</Col>
+			)}
 
 			<Col span={24} sm={12}>
-				<Form.Item name="ngay_het_han" label="Ngày hết hạn">
+				<Form.Item name="ngay_het_han" label="Ngày hết hạn" rules={[required]}>
 					<MyDatePicker format="DD/MM/YYYY" />
 				</Form.Item>
 			</Col>

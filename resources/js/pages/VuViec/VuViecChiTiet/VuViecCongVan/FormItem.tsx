@@ -8,8 +8,9 @@ import MyDatePicker from '../../../../components/Controls/MyDatePicker';
 import MyDebounceSelect, { SelectValue } from '../../../../components/Controls/MyDebounceSelect';
 import { required } from '../../../../utils/rules';
 import { getSearchCanBo } from '../../../../utils/services';
+import { Model } from '../../../../reducers/type';
 
-const form = (props: { recordCha?: { id: number; name: string } }) => {
+const form = (props: { recordCha?: { id: number; name: string }; authUser?: Model.User }) => {
 	const { recordCha } = props;
 
 	const fetchCanBoList = async (q: string): Promise<SelectValue[]> => {
@@ -76,15 +77,17 @@ const form = (props: { recordCha?: { id: number; name: string } }) => {
 							<Input.TextArea />
 						</Form.Item>
 					</Col>
-					<Col span={24}>
-						<Form.Item name="sel_can_bo" label="Cán bộ thụ lý">
-							<MyDebounceSelect
-								allowClear
-								placeholder="Tìm theo tên cán bộ..."
-								fetchOptions={fetchCanBoList}
-							/>
-						</Form.Item>
-					</Col>
+					{props.authUser?.chuc_vu !== 0 && (
+						<Col span={24}>
+							<Form.Item name="sel_can_bo" label="Cán bộ thụ lý">
+								<MyDebounceSelect
+									allowClear
+									placeholder="Tìm theo tên cán bộ..."
+									fetchOptions={fetchCanBoList}
+								/>
+							</Form.Item>
+						</Col>
+					)}
 				</>
 			)}
 		</Row>

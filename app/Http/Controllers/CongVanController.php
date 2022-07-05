@@ -43,7 +43,9 @@ class CongVanController extends BaseController
 
     public static function setCongVanFields(&$congVan, Request $request)
     {
-        $congVan->id_can_bo = $request->sel_can_bo['value'] ?? null;
+        if ($request->user()->chuc_vu !== 0)
+            $congVan->id_can_bo = $request->sel_can_bo['value'] ?? null;
+        else $congViec->id_can_bo = $request->user()->id;
     }
 
     /**

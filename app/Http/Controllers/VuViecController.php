@@ -51,10 +51,12 @@ class VuViecController extends BaseController
                 ->orWhere('id_can_bo_chinh', $user->id)
                 ->orWhere('nguoi_tao', $user->id)
                 ->orWhereIn('id', $vv));
-        } else if ($user->chuc_vu <= 3) {      // Chi huy
-            $dv = DonVi::where('id', $user->id_don_vi)->get();
-            $don_vi_cha = $dv->id_don_vi_cha ?? $dv->id;
-            $query = $query->where('id_don_vi', $don_vi_cha);
+        } else if ($user->chuc_vu === 1) {      // Doi pho
+            $query = $query->where('id_don_vi', $user->id_don_vi);
+        } else if ($user->chuc_vu <= 3) {      // Đội trưởng, tổng hợp đội
+            $dv_con = DonVi::where('id_don_vi_cha', $user->id_don_vi)->pluck('id');
+            $dv_con[] = $user->id_don_vi;
+            $query = $query->whereIn('id_don_vi', $dv_con);
         }
         // Neu la lanh dao thi show het cua can bo
 
@@ -97,7 +99,7 @@ class VuViecController extends BaseController
             $vuViec->khu_vuc_xay_ra = $tmp;
         }
 
-        // Don Vi xay ra: Cấp Đội
+        // Don Vi xay ra: Cấp Tổ
         $vuViec->id_dtv_chinh = $request->sel_dtv_chinh['value'] ?? null;
         $vuViec->id_can_bo_chinh = $request->sel_can_bo_chinh['value'] ?? null;
         $vuViec->id_don_vi = null;

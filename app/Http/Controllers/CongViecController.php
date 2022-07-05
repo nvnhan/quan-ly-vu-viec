@@ -74,7 +74,9 @@ class CongViecController extends BaseController
 
     public static function setCongViecFields(&$congViec, Request $request)
     {
-        $congViec->id_can_bo = $request->sel_can_bo['value'] ?? null;
+        if ($request->user()->chuc_vu !== 0)
+            $congViec->id_can_bo = $request->sel_can_bo['value'] ?? null;
+        else $congViec->id_can_bo = $request->user()->id;
     }
 
     /**
