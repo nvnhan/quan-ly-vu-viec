@@ -23,7 +23,7 @@ const List = (props: { vuViec: any }) => {
 			onCell,
 		},
 		{
-			title: 'Tiêu đề công văn',
+			title: 'Tiêu đề văn bản',
 			dataIndex: 'tieu_de',
 			width: 180,
 			optFind: true,

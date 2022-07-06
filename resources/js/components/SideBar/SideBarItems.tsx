@@ -66,8 +66,8 @@ const items: SideBarItem[] = [
 			},
 			{
 				key: 'VV_CONG_VAN',
-				href: '/cong-van',
-				title: 'Công văn',
+				href: '/van-ban-to-tung',
+				title: 'Văn bản tố tụng',
 				Component: CongVan,
 			},
 		],

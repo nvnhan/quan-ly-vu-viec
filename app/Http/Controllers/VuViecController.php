@@ -250,12 +250,11 @@ class VuViecController extends BaseController
      * @param  \App\Models\VuViec  $vuViec
      * @return \Illuminate\Http\Response
      */
-    public function destroy(VuViec $vuViec)
+    public function destroy(Request $request, VuViec $vuViec)
     {
         $user = $request->user();
-        $model = VuViec::find($id);
-        if ($user->admin || $user->id == $model->id) {
-            $model->delete();
+        if ($user->admin || $user->id == $vuViec->nguoi_tao) {
+            $vuViec->delete();
             return $this->sendResponse('', "Xóa thành công vụ việc");
         } else return $this->sendError("Không thể xóa vụ việc");
     }
