@@ -121,7 +121,9 @@ class VuViec extends Model
 
     public function getTenNguoiTaoAttribute()
     {
-        return $this->can_bo->ho_ten . ' - ' . $this->can_bo->ten_chuc_vu . ' ' . $this->can_bo->ten_don_vi;
+        if ($this->can_bo)
+            return $this->can_bo->ho_ten . ' - ' . $this->can_bo->ten_chuc_vu . ' ' . $this->can_bo->ten_don_vi;
+        else return '';
     }
 
     public function getTenDpXayRaAttribute()
