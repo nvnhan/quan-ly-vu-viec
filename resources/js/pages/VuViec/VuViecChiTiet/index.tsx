@@ -66,6 +66,7 @@ const VuViecChiTiet = () => {
 				if (response.data.success) {
 					setFormSubmitting(false);
 					setRecord(response.data.data);
+					form.setFieldsValue(response.data.data);
 					message.success(response.data.message);
 				} else message.error(response.data.message);
 			})

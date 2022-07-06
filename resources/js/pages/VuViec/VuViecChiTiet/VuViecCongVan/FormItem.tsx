@@ -26,7 +26,7 @@ const form = (props: { recordCha?: { id: number; name: string }; authUser?: Mode
 		<Row gutter={[10, 0]}>
 			{recordCha && (
 				<Col span={24}>
-					<Form.Item name="id_cong_van_cha" label="Công văn chính" initialValue={recordCha.id}>
+					<Form.Item name="id_cong_van_cha" label="Văn bản chính" initialValue={recordCha.id}>
 						<Select disabled>
 							<Select.Option value={recordCha.id}>{recordCha.name}</Select.Option>
 						</Select>
@@ -34,12 +34,12 @@ const form = (props: { recordCha?: { id: number; name: string }; authUser?: Mode
 				</Col>
 			)}
 			<Col span={24}>
-				<Form.Item name="tieu_de" label="Tiêu đề công văn" rules={[required]}>
+				<Form.Item name="tieu_de" label="Tiêu đề văn bản" rules={[required]}>
 					<Input />
 				</Form.Item>
 			</Col>
 			<Col span={12}>
-				<Form.Item name="so_hieu" label="Số hiệu văn bản">
+				<Form.Item name="so_hieu" label="Số hiệu">
 					<Input />
 				</Form.Item>
 			</Col>

@@ -180,27 +180,8 @@ class VuViecController extends BaseController
         return $this->sendResponse($obj, "Thêm mới thành công");
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\VuViec  $vuViec
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Request $request, VuViec $vuViec)
+    public function chi_tiet_vu_viec(&$vuViec)
     {
-        $user = $request->user();
-        if ($user->chuc_vu === 0)        // Neu la can bo
-        {
-            $vv = CongViec::where('id_can_bo', $user->id)->where('id_vu_viec', $vuViec->id)->count();
-            if ($vv <= 0 && $vuViec->id_dtv_chinh != $user->id && $vuViec->id_can_bo_chinh != $user->id && $vuViec->nguoi_tao != $user->id)
-                return $this->sendError("You don't have permission to access this resource", [], 403);
-        } else if ($user->chuc_vu <= 3) {      // Chi huy
-            $dv = DonVi::where('id', $user->id_don_vi)->get();
-            $don_vi_cha = $dv->id_don_vi_cha ?? $dv->id;
-            if ($vuViec->id_don_vi != $don_vi_cha)
-                return $this->sendError("You don't have permission to access this resource", [], 403);
-        }
-
         $result = [];
         $dvs = DonVi::whereIn('id', $vuViec->dp_xay_ras)->get();
         foreach ($dvs as $key => $dv)
@@ -219,6 +200,30 @@ class VuViecController extends BaseController
                 $vuViec->canh_bao = "Vụ án này hiện chưa có thông tin bị can";
         }
         $vuViec->sel_dp_xay_ra = $result;
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\VuViec  $vuViec
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Request $request, VuViec $vuViec)
+    {
+        $user = $request->user();
+        if ($user->chuc_vu === 0)        // Neu la can bo
+        {
+            $vv = CongViec::where('id_can_bo', $user->id)->where('id_vu_viec', $vuViec->id)->count();
+            if ($vv <= 0 && $vuViec->id_dtv_chinh != $user->id && $vuViec->id_can_bo_chinh != $user->id && $vuViec->nguoi_tao != $user->id)
+                return $this->sendError("Đồng chí không được phép truy cập nội dung này", [], 403);
+        } else if ($user->chuc_vu <= 3) {      // Chi huy
+            $dv = DonVi::where('id', $vuViec->id_don_vi)->get();
+            // $don_vi_cha = $dv->id_don_vi_cha ?? $dv->id;
+            if ($user->id_don_vi != $dv->id_don_vi_cha && $user->id_don_vi != $dv->id)
+                return $this->sendError("Đồng chí không được phép truy cập nội dung này", [], 403);
+        }
+        self::chi_tiet_vu_viec($vuViec);
+
         return $this->sendResponse($vuViec, "VuViec retrieved successfully");
     }
 
@@ -240,6 +245,7 @@ class VuViecController extends BaseController
             $model->ten_vu_viec = self::calTenVuViec($model);
             $model->save();
             $model->refresh();
+            self::chi_tiet_vu_viec($model);
             return $this->sendResponse($model, "Cập nhật thành công");
         } else return $this->sendError("Không thể sửa thông tin vụ việc");
     }

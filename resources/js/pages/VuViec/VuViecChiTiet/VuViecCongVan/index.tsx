@@ -22,7 +22,7 @@ const List = (props: { vuViec: any }) => {
 
 	const columns: ColumnProps[] = [
 		{
-			title: 'Tiêu đề công văn',
+			title: 'Tiêu đề văn bản',
 			dataIndex: 'tieu_de',
 			optFind: true,
 			width: 180,
