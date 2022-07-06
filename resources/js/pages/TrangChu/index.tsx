@@ -112,8 +112,8 @@ const TrangChu = () => {
 						<Col span={24} sm={12} md={8} xl={6} onClick={() => navigate('/kho-tai-lieu')}>
 							<CardTitle title="Tài liệu" subTitle="Tài liệu, báo cáo" amount={data?.tai_lieu ?? 0} />
 						</Col>
-						<Col span={24} sm={12} md={8} xl={6} onClick={() => navigate('/cong-van')}>
-							<CardTitle title="Công văn" subTitle="Tổng số công văn" amount={data?.cong_van ?? 0} />
+						<Col span={24} sm={12} md={8} xl={6} onClick={() => navigate('/van-ban-to-tung')}>
+							<CardTitle title="Văn bản" subTitle="Tổng số văn bản" amount={data?.cong_van ?? 0} />
 						</Col>
 						<Col span={24} sm={12} md={8} xl={6} onClick={() => navigate('/can-bo')}>
 							<CardTitle title="Cán bộ" subTitle="Số cán bộ trong đơn vị" amount={data?.can_bo ?? 0} />

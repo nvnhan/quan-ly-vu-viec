@@ -351,7 +351,7 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean; authUser?: M
 									allowClear
 									placeholder="Tìm theo tên cán bộ..."
 									fetchOptions={(q) => fetchCanBoList(q, 'dtv')}
-									disabled={!props?.authUser?.quan_tri || props.nguoi_tao !== props.authUser?.id}
+									disabled={!props?.authUser?.quan_tri && props.nguoi_tao !== props.authUser?.id}
 								/>
 							</Form.Item>
 						</Col>
@@ -361,7 +361,7 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean; authUser?: M
 									allowClear
 									placeholder="Tìm theo tên cán bộ..."
 									fetchOptions={(q) => fetchCanBoList(q, '')}
-									disabled={!props?.authUser?.quan_tri || props.nguoi_tao !== props.authUser?.id}
+									disabled={!props?.authUser?.quan_tri && props.nguoi_tao !== props.authUser?.id}
 								/>
 							</Form.Item>
 						</Col>

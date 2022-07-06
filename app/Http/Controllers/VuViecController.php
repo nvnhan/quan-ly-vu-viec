@@ -239,7 +239,7 @@ class VuViecController extends BaseController
         $user = $request->user();
         $data = $request->all();
         $model = VuViec::find($vuViec->id);
-        if ($user->admin || $user->id == $model->id) {
+        if ($user->quan_tri || $user->id == $model->id) {
             $model->fill($data);
             self::setVuViecFields($model, $request);
             $model->ten_vu_viec = self::calTenVuViec($model);
@@ -259,7 +259,7 @@ class VuViecController extends BaseController
     public function destroy(Request $request, VuViec $vuViec)
     {
         $user = $request->user();
-        if ($user->admin || $user->id == $vuViec->nguoi_tao) {
+        if ($user->quan_tri || $user->id == $vuViec->nguoi_tao) {
             $vuViec->delete();
             return $this->sendResponse('', "Xóa thành công vụ việc");
         } else return $this->sendError("Không thể xóa vụ việc");

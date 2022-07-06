@@ -118,7 +118,7 @@ class CanBoController extends BaseController
     public function reset(Request $request, $id)
     {
         $auth = CanBo::where('ten_dang_nhap', $request->user()->ten_dang_nhap)->first();
-        if (Hash::check($request->mat_khau, $auth->mat_khau)) {
+        if (Hash::check($request->password, $auth->mat_khau)) {
             $user = CanBo::find($id);
             $user->mat_khau = Hash::make('123');
             $user->save();

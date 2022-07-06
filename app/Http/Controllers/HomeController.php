@@ -23,7 +23,7 @@ class HomeController extends BaseController
         $can_bo = CanBo::where('chuc_vu', '<=', 4); // Tu giup viec tro xuong
 
         if ($request->bat_dau && $request->ket_thuc) {
-            $vu_viec->whereBetween('created_at', [$request->bat_dau, $request->ket_thuc]);
+            $vu_viec->whereBetween('ngay_cqdt', [$request->bat_dau, $request->ket_thuc]);
             $cong_viec->whereBetween('created_at', [$request->bat_dau, $request->ket_thuc]);
             $cong_van->whereBetween('created_at', [$request->bat_dau, $request->ket_thuc]);
             $tai_lieu->whereBetween('created_at', [$request->bat_dau, $request->ket_thuc]);
