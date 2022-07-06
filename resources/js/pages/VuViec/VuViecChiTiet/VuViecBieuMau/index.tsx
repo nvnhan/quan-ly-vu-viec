@@ -13,9 +13,13 @@ import List from 'antd/lib/list';
 import { Model } from '../../../../reducers/type';
 import { getApi } from '../../../../utils/services';
 import { Divider } from 'antd';
+import { danhChoGiupViecVaPTT } from './DanhChoGiupViecPTT';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store';
 
 const VuViecBieuMau = (props: { vuViec?: Model.VuViec }) => {
 	const [formBaoCao] = Form.useForm();
+	const authUser = useSelector((state: RootState) => state.authUserReducer);
 	const [stateBaoCao, setStateBaoCao] = useState<{
 		modalVisible: boolean;
 		typeBaoCao?: BieuMau.Item;
@@ -108,6 +112,28 @@ const VuViecBieuMau = (props: { vuViec?: Model.VuViec }) => {
 					</Collapse.Panel>
 				))}
 			</Collapse>
+			{authUser.quan_tri && (
+				<>
+					<Divider orientation="left">Biểu mẫu khác</Divider>
+					<Collapse>
+						{danhChoGiupViecVaPTT.map((item, index) => (
+							<Collapse.Panel header={index + 1 + '. ' + item.name} key={item.path}>
+								<List
+									dataSource={item.childs}
+									renderItem={(child, i) => (
+										<List.Item
+											style={{ cursor: 'pointer' }}
+											onClick={() => showBaoCao(child, `${item.path}.${child.path}`)}
+										>
+											{i + 1} - {child.name}
+										</List.Item>
+									)}
+								/>
+							</Collapse.Panel>
+						))}
+					</Collapse>
+				</>
+			)}
 			<Modal
 				visible={modalVisible}
 				title="Trích xuất biểu mẫu"

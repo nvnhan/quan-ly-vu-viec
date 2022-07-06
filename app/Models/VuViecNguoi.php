@@ -77,6 +77,8 @@ class VuViecNguoi extends Model
 
     public function getTenTuCachToTungAttribute()
     {
-        return self::TU_CACH_TO_TUNG[$this->tu_cach_to_tung];
+        if ($this->tu_cach_to_tung)
+            return self::TU_CACH_TO_TUNG[$this->tu_cach_to_tung];
+        else return '';
     }
 }
