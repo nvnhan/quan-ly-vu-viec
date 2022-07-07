@@ -93,7 +93,7 @@ class HomeController extends BaseController
 
     public function so_lieu_cong_viec(Request $request)
     {
-        Artisan::call('migrate');
+        // Artisan::call('migrate');
 
         $moi_giao = CongViec::where('id_can_bo', $request->user()->id)->whereIn('trang_thai', [1, 2, 3, 7])->count();
         $data = [
