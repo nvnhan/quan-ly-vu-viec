@@ -107,4 +107,15 @@ export const ak: BieuMau.Item[] = [
 			},
 		],
 	},
+	{
+		path: 'TamDinhChiAK',
+		name: 'Tạm đình chỉ vụ án hình sự',
+		childs: [
+			{ path: 'BBTbaoTamDinhChiAn.docx', name: 'Biên bản thông báo tạm đình chỉ vụ án', lanh_dao: true },
+			{ path: 'QDTamDinhChiVuAn.docx', name: 'Quyết định tạm đình chỉ vụ án hình sự', lanh_dao: true },
+			{ path: 'SoKetTamDinhChi.docx', name: 'Sơ kết tạm đình chỉ vụ án', lanh_dao: true },
+			{ path: 'TBKetQuaB10c.docx', name: 'Thông báo cho Cơ quan hồ sơ', lanh_dao: true },
+			{ path: 'TbTamDinhChiVuAn.docx', name: 'Thông báo tạm đình chỉ vụ án', lanh_dao: true },
+		],
+	},
 ];

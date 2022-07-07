@@ -164,7 +164,7 @@ const form = (props: {
 						</Col>
 						<Col span={12} sm={6}>
 							<Form.Item name="loai_toi_pham" label="Loại tội phạm">
-								<Select onChange={props.onChangeData}>
+								<Select onChange={props.onChangeData} allowClear>
 									{Object.values(LOAI_TOI_PHAM).map((td, index) => (
 										<Select.Option value={td} key={index}>
 											{td}
@@ -188,7 +188,7 @@ const form = (props: {
 				</Col>
 				<Col span={12} sm={6}>
 					<Form.Item name="noi_thuc_hien_pham_toi" label="Nơi thực hiện phạm tội">
-						<Select>
+						<Select allowClear>
 							{NOI_THUC_HIEN_PHAM_TOI.map((td, index) => (
 								<Select.Option value={td} key={index}>
 									{td}

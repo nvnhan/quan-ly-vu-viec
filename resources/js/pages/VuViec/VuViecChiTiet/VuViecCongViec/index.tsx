@@ -264,7 +264,7 @@ const List = (props: { vuViec: any }) => {
 				);
 			if (congViec.trang_thai === MA_TRANG_THAI_CONG_VIEC.DA_THUC_HIEN)
 				statusCongViec.push(
-					TEN_TRANG_THAI_CONG_VIEC.filter((item) => item.id === MA_TRANG_THAI_CONG_VIEC.HOAN_THANH)
+					TEN_TRANG_THAI_CONG_VIEC.filter((item) => item.id === MA_TRANG_THAI_CONG_VIEC.HOAN_THANH)[0]
 				);
 		}
 		return (
