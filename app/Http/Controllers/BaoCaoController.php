@@ -34,6 +34,10 @@ class BaoCaoController extends Controller
                 $lanh_dao_1 = CanBo::find($request->lanh_dao_1);
             else $lanh_dao_1 = new CanBo();
 
+            $don_vi = $vu_viec->don_vi;
+            if ($don_vi->don_vi_cha)
+                $don_vi = $don_vi->don_vi_cha;
+
             $huyen = QuanHuyen::find(env('QUAN_HUYEN_SU_DUNG'));
 
             $data = [
@@ -41,10 +45,10 @@ class BaoCaoController extends Controller
                 'HUYEN' => mb_strtoupper($huyen->ten_huyen),
                 'Loai' => $huyen->loai,
                 'LOAI' => mb_strtoupper($huyen->loai),
-                'LOAICQDT' => (($vu_viec->don_vi->loai_co_quan ?? "") === 'ANĐT') ? "AN NINH ĐIỀU TRA" : 'CẢNH SÁT ĐIỀU TRA',
-                'LoaiCQDT' => (($vu_viec->don_vi->loai_co_quan ?? "") === 'ANĐT') ? "An ninh điều tra" : 'Cảnh sát điều tra',
-                'MaCQDT' => $vu_viec->don_vi->loai_co_quan ?? '',
-                'MaDoi' => $vu_viec->don_vi->ma_don_vi ?? '',
+                'LOAICQDT' => (($don_vi->loai_co_quan ?? "") === 'ANĐT') ? "AN NINH ĐIỀU TRA" : 'CẢNH SÁT ĐIỀU TRA',
+                'LoaiCQDT' => (($don_vi->loai_co_quan ?? "") === 'ANĐT') ? "An ninh điều tra" : 'Cảnh sát điều tra',
+                'MaCQDT' => $don_vi->loai_co_quan ?? '',
+                'MaDoi' => $don_vi->ma_don_vi ?? '',
 
                 'NgayCQDT' => date('d/m/Y', strtotime($vu_viec->ngay_cqdt)),
                 'Tinh' => $huyen->ten_tinh,
@@ -66,11 +70,11 @@ class BaoCaoController extends Controller
 
                 'NoiSinh' => $nguoi->noi_sinh ?? '',
                 'HKTT' => $nguoi->thuong_tru ?? '',
-                'DPThuongTru' => $nguoi->thuong_tru->ten_xa_phuong ?? '',
+                'DPThuongTru' => $nguoi->dp_thuong_tru->ten_xa_phuong ?? '',
                 'TamTru' => $nguoi->tam_tru,
-                'DPTamTru' => $nguoi->tam_tru->ten_xa_phuong ?? '',
+                'DPTamTru' => $nguoi->dp_tam_tru->ten_xa_phuong ?? '',
                 'NoiOHienNay' => $nguoi->noi_o_hien_nay,
-                'DPNoiO' => $nguoi->noi_o_hien_nay->ten_xa_phuong ?? '',
+                'DPNoiO' => $nguoi->dp_noi_o_hien_nay->ten_xa_phuong ?? '',
 
                 'NgaySinh' => $nguoi->ngay_sinh ?? '...',
                 'ThangSinh' => $nguoi->thang_sinh ?? '...',
@@ -134,7 +138,7 @@ class BaoCaoController extends Controller
                 'ChucVuCanBo' => $vu_viec->can_bo_chinh->ten_chuc_vu ?? '',
 
                 'SoHoSo' => $vu_viec->so_ho_so,
-                'TenDonVi' => $vu_viec->don_vi->ten_don_vi ?? '',
+                'TenDonVi' => $don_vi->ten_don_vi ?? '',
                 'CoQuanHoSo' => "Phòng Hồ sơ - CA " . ($huyen->tinh->loai ?? '') . ' ' . $huyen->ten_tinh,
             ];
             return Report::docx_report($request->full_path, $data);

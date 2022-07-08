@@ -45,7 +45,7 @@ class CongVanController extends BaseController
     {
         if ($request->user()->chuc_vu !== 0)
             $congVan->id_can_bo = $request->sel_can_bo['value'] ?? null;
-        else $congViec->id_can_bo = $request->user()->id;
+        else $congVan->id_can_bo = $request->user()->id;
     }
 
     /**
@@ -79,7 +79,7 @@ class CongVanController extends BaseController
     {
         $user = $request->user();
         $data = $request->all();
-        if ($user->admin || $user->id == $congVan->nguoi_tao) {
+        if ($user->quan_tri || $user->id == $congVan->nguoi_tao) {
             $congVan->fill($data);
             if (empty($congVan->id_cong_van_cha))
                 self::setCongVanFields($congVan, $request);
@@ -99,7 +99,7 @@ class CongVanController extends BaseController
     public function destroy(Request $request, CongVan $congVan)
     {
         $user = $request->user();
-        if ($user->admin || $user->id == $congVan->nguoi_tao) {
+        if ($user->quan_tri || $user->id == $congVan->nguoi_tao) {
             $congVan->delete();
             return $this->sendResponse('', "Xóa thành công tài liệu");
         } else return $this->sendError("Không thể xóa tài liệu");
