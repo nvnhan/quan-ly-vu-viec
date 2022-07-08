@@ -28,7 +28,7 @@ class CongViecController extends BaseController
             if ($request->bat_dau && $request->ket_thuc)
                 $query = $query->where(fn ($q) =>  $q
                     ->whereBetween('ngay_giao', [$request->bat_dau, $request->ket_thuc])
-                    ->orWhereIn('trang_thai', [1, 2, 3, 7]));
+                    ->orWhereIn('trang_thai', [1, 2, 3, 5]));
         } else {
             if ($request->bat_dau && $request->ket_thuc)
                 $query = $query->whereBetween('created_at', [$request->bat_dau, $request->ket_thuc]);
@@ -61,7 +61,7 @@ class CongViecController extends BaseController
         if ($request->ten_cong_viec)
             $query = $query->where('ten_cong_viec', 'LIKE', "%$request->ten_cong_viec%");
 
-        $query = $query->orderBy('muc_do_uu_tien', 'DESC')->orderBy('ngay_het_han', 'DESC');
+        $query = $query->orderBy('trang_thai')->orderBy('muc_do_uu_tien', 'DESC')->orderBy('ngay_het_han', 'DESC');
         // For AJAX pagination loading
         $total = $query->count();
         $page = $request->p;
@@ -157,13 +157,13 @@ class CongViecController extends BaseController
             case 4:
                 $congViec->ngay_ket_thuc = now();
                 break;
-            case 5:
+            case 6:
                 $congViec->ngay_xac_nhan = now();
                 break;
-            case 7:
+            case 5:
                 $congViec->ngay_ket_thuc = null; // Chua dat
                 break;
-            case 8:
+            case 7:
                 $congViec->ngay_hoan_thanh = now();
                 break;
         }
@@ -212,25 +212,25 @@ class CongViecController extends BaseController
         $can_bo = CanBo::where('chuc_vu', '<=', 4)->with('cong_viec_nhans')->get();      // Tu giup viec tro xuong
         foreach ($can_bo as $key => $cb) {
             $cb->cv_hoan_thanh_dung_han = $cb->cong_viec_nhans
-                ->where('trang_thai', 8)
+                ->where('trang_thai', 7)
                 ->where('ngay_ket_thuc', '<=', 'ngay_het_han')
                 ->count();
             $cb->cv_hoan_thanh_qua_han = $cb->cong_viec_nhans
-                ->where('trang_thai', 8)
+                ->where('trang_thai', 7)
                 ->where('ngay_ket_thuc', '>', 'ngay_het_han')
                 ->count();
             $cb->cv_cho_danh_gia = $cb->cong_viec_nhans
-                ->whereIn('trang_thai', [4, 5])
+                ->whereIn('trang_thai', [4, 6])
                 ->count();
             $cb->cv_huy = $cb->cong_viec_nhans
-                ->where('trang_thai', 6)
+                ->where('trang_thai', 8)
                 ->count();
             $cb->cv_thuc_hien = $cb->cong_viec_nhans
-                ->whereNotIn('trang_thai', [4, 5, 6, 8])
+                ->whereNotIn('trang_thai', [4, 6, 7, 8])
                 ->count();
             $date = Date('Y-m-d');
             $cb->cv_muon = CongViec::where('id_can_bo', $cb->id)
-                ->where('trang_thai', '!=', 6)
+                ->where('trang_thai', '!=', 8)
                 ->where(fn ($query) => $query
                     ->where(fn ($q) => $q
                         ->whereNull('ngay_ket_thuc')

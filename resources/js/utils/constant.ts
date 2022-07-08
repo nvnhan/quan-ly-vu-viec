@@ -161,10 +161,10 @@ export const TEN_TRANG_THAI_CONG_VIEC = [
 	{ id: 2, label: 'Đã tiếp nhận', color: 'purple' },
 	{ id: 3, label: 'Đang thực hiện', color: 'geekblue' },
 	{ id: 4, label: 'Đã thực hiện', color: 'blue' },
-	{ id: 5, label: 'Xác nhận', color: 'cyan' },
-	{ id: 6, label: 'Hủy', color: 'default' },
-	{ id: 7, label: 'Chưa đạt', color: 'red' },
-	{ id: 8, label: 'Hoàn thành', color: 'green' },
+	{ id: 5, label: 'Chưa đạt', color: 'red' },
+	{ id: 6, label: 'Xác nhận', color: 'cyan' },
+	{ id: 7, label: 'Hoàn thành', color: 'green' },
+	{ id: 8, label: 'Hủy', color: 'default' },
 ];
 
 export enum MA_TRANG_THAI_CONG_VIEC {
@@ -173,8 +173,8 @@ export enum MA_TRANG_THAI_CONG_VIEC {
 	DA_TIEP_NHAN,
 	DANG_THUC_HIEN,
 	DA_THUC_HIEN,
-	XAC_NHAN,
-	HUY,
 	CHUA_DAT,
+	XAC_NHAN,
 	HOAN_THANH,
+	HUY,
 }

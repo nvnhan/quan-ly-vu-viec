@@ -79,19 +79,19 @@ class HomeController extends BaseController
 
         $cong_viec_chi_tiet = [];
         $cv = clone $cong_viec;
-        $cong_viec_chi_tiet['hoan_thanh_dung_han'] = $cv->where('trang_thai', 8)->where('ngay_ket_thuc', '<=', 'ngay_het_han')->count();
+        $cong_viec_chi_tiet['hoan_thanh_dung_han'] = $cv->where('trang_thai', 7)->where('ngay_ket_thuc', '<=', 'ngay_het_han')->count();
         $cv = clone $cong_viec;
-        $cong_viec_chi_tiet['hoan_thanh_qua_han'] = $cv->where('trang_thai', 8)
+        $cong_viec_chi_tiet['hoan_thanh_qua_han'] = $cv->where('trang_thai', 7)
             ->where('ngay_ket_thuc', '>', 'ngay_het_han')
             ->count();
         $cv = clone $cong_viec;
-        $cong_viec_chi_tiet['cho_danh_gia'] = $cv->whereIn('trang_thai', [4, 5])
+        $cong_viec_chi_tiet['cho_danh_gia'] = $cv->whereIn('trang_thai', [4, 6])
             ->count();
         $cv = clone $cong_viec;
-        $cong_viec_chi_tiet['huy'] = $cv->where('trang_thai', 6)
+        $cong_viec_chi_tiet['huy'] = $cv->where('trang_thai', 8)
             ->count();
         $cv = clone $cong_viec;
-        $cong_viec_chi_tiet['thuc_hien'] = $cv->whereNotIn('trang_thai', [4, 5, 6, 8])
+        $cong_viec_chi_tiet['thuc_hien'] = $cv->whereNotIn('trang_thai', [4, 6, 7, 8])
             ->count();
         $data['cong_viec_chi_tiet'] = $cong_viec_chi_tiet;
 
@@ -100,10 +100,10 @@ class HomeController extends BaseController
         $can_bo_xuat_sac = [];
         foreach ($can_bos as $key => $cb) {
             $tong_cong_viec = $cb->cong_viec_nhans()
-                ->where('trang_thai', '!=', 6)
+                ->where('trang_thai', '!=', 8)
                 ->whereBetween('ngay_giao', [$request->bat_dau, $request->ket_thuc])->count();
             $cong_viec_hoan_thanh = $cb->cong_viec_nhans()
-                ->where('trang_thai', 8)
+                ->where('trang_thai', 7)
                 ->whereBetween('ngay_giao', [$request->bat_dau, $request->ket_thuc])->count();
             $can_bo_xuat_sac[] = (object)[
                 'id' => $cb->id,

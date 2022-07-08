@@ -239,7 +239,7 @@ class VuViecController extends BaseController
         $user = $request->user();
         $data = $request->all();
         $model = VuViec::find($vuViec->id);
-        if ($user->quan_tri || $user->id == $model->nguoi_tao || $user->id === $model->id_dtv_chinh || $user->id === $$model->id_can_bo_chinh) {
+        if ($user->quan_tri || $user->id == $model->nguoi_tao || $user->id === $model->id_dtv_chinh || $user->id === $model->id_can_bo_chinh) {
             $model->fill($data);
             self::setVuViecFields($model, $request);
             $model->ten_vu_viec = self::calTenVuViec($model);
