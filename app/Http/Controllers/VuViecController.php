@@ -217,7 +217,7 @@ class VuViecController extends BaseController
             if ($vv <= 0 && $vuViec->id_dtv_chinh != $user->id && $vuViec->id_can_bo_chinh != $user->id && $vuViec->nguoi_tao != $user->id)
                 return $this->sendError("Đồng chí không được phép truy cập nội dung này", [], 403);
         } else if ($user->chuc_vu <= 3) {      // Chi huy
-            $dv = DonVi::where('id', $vuViec->id_don_vi)->get();
+            $dv = DonVi::where('id', $vuViec->id_don_vi)->first();
             // $don_vi_cha = $dv->id_don_vi_cha ?? $dv->id;
             if ($user->id_don_vi != $dv->id_don_vi_cha && $user->id_don_vi != $dv->id)
                 return $this->sendError("Đồng chí không được phép truy cập nội dung này", [], 403);
@@ -239,7 +239,7 @@ class VuViecController extends BaseController
         $user = $request->user();
         $data = $request->all();
         $model = VuViec::find($vuViec->id);
-        if ($user->quan_tri || $user->id == $model->id) {
+        if ($user->quan_tri || $user->id == $model->nguoi_tao || $user->id === $model->id_dtv_chinh || $user->id === $$model->id_can_bo_chinh) {
             $model->fill($data);
             self::setVuViecFields($model, $request);
             $model->ten_vu_viec = self::calTenVuViec($model);

@@ -7,12 +7,12 @@ const { RangePicker } = DatePicker;
 
 const MyRangePicker = (props: Partial<ListFormProps>) => (
 	<RangePicker
-		allowClear={false}
+		allowClear={true}
 		style={{ width: '100%' }}
 		ranges={momentRange()}
 		locale={locale}
 		format="DD/MM/YYYY"
-		placeholder={['Nhập từ ngày', 'đến ngày']}
+		placeholder={['Từ ngày', 'đến ngày']}
 		{...props}
 	/>
 );

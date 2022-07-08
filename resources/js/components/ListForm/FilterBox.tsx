@@ -34,7 +34,7 @@ const FilterBox = (props: ComponentProps) => {
 
 	useEffect(() => {
 		form.setFieldsValue({
-			thoiGian: [moment().startOf('month'), moment().endOf('month')],
+			// thoiGian: [moment().startOf('month'), moment().endOf('month')],
 			...filterInitialValue,
 		});
 	}, []);

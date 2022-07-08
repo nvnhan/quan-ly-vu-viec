@@ -14,6 +14,8 @@ import CardTitle from './CardTitle';
 import { useNavigate } from 'react-router-dom';
 import CardCongViec from './CardCongViec';
 import CardCanBo, { CanBoXuatSac } from './CardCanBo';
+import { RootState } from '../../store';
+import { useSelector } from 'react-redux';
 
 const TrangChu = () => {
 	const [form] = Form.useForm();
@@ -28,13 +30,13 @@ const TrangChu = () => {
 		cong_viec_chi_tiet: any;
 		can_bo_xuat_sac: CanBoXuatSac[];
 	}>();
+	const authUser = useSelector((state: RootState) => state.authUserReducer);
 
 	useEffect(() => {
-		form.setFieldsValue({
-			thoiGian: [moment().clone().weekday(0).startOf('day'), moment().clone().weekday(6).endOf('day')],
-		});
-
-		onFilter({ thoiGian: [moment().clone().weekday(0).startOf('day'), moment().clone().weekday(6).endOf('day')] });
+		// form.setFieldsValue({
+		// 	thoiGian: [moment().clone().weekday(0).startOf('day'), moment().clone().weekday(6).endOf('day')],
+		// });
+		onFilter({});
 	}, []);
 
 	const fetchDonViList = async (q: string): Promise<SelectValue[]> => {
@@ -76,15 +78,17 @@ const TrangChu = () => {
 									<MyRangePicker />
 								</Form.Item>
 							</Col>
-							<Col span={24} md={16} lg={12} xl={10}>
-								<Form.Item name="sel_don_vi" label="Đơn vị">
-									<MyDebounceSelect
-										placeholder="Chọn đơn vị: Đội, xã/phường"
-										allowClear
-										fetchOptions={fetchDonViList}
-									/>
-								</Form.Item>
-							</Col>
+							{authUser?.quan_tri && (
+								<Col span={24} md={16} lg={12} xl={10}>
+									<Form.Item name="sel_don_vi" label="Đơn vị">
+										<MyDebounceSelect
+											placeholder="Chọn đơn vị: Đội, xã/phường"
+											allowClear
+											fetchOptions={fetchDonViList}
+										/>
+									</Form.Item>
+								</Col>
+							)}
 							<Col span={12} md={8} lg={6} xl={4}>
 								<Button htmlType="submit" icon={<FilterOutlined />}>
 									Lọc
@@ -98,7 +102,7 @@ const TrangChu = () => {
 				<Spin spinning={loading}>
 					<Row>
 						<Col>
-							<span className="title-report">Tổng quan</span>
+							<span className="title-report">Tổng quan toàn đơn vị</span>
 						</Col>
 					</Row>
 
@@ -106,14 +110,24 @@ const TrangChu = () => {
 						<Col span={24} sm={12} md={8} xl={6} onClick={() => navigate('/vu-viec')}>
 							<CardTitle title="Vụ việc" subTitle="Tổng số vụ việc" amount={data?.vu_viec ?? 0} />
 						</Col>
-						<Col span={24} sm={12} md={8} xl={6} onClick={() => navigate('/tat-ca-cong-viec')}>
+						<Col
+							span={24}
+							sm={12}
+							md={8}
+							xl={6}
+							onClick={() => navigate(authUser?.chi_huy ? '/tat-ca-cong-viec' : '/cong-viec-cua-toi')}
+						>
 							<CardTitle title="Công việc" subTitle="Tổng số công việc" amount={data?.cong_viec ?? 0} />
 						</Col>
 						<Col span={24} sm={12} md={8} xl={6} onClick={() => navigate('/kho-tai-lieu')}>
 							<CardTitle title="Tài liệu" subTitle="Tài liệu, báo cáo" amount={data?.tai_lieu ?? 0} />
 						</Col>
 						<Col span={24} sm={12} md={8} xl={6} onClick={() => navigate('/van-ban-to-tung')}>
-							<CardTitle title="Văn bản" subTitle="Tổng số văn bản" amount={data?.cong_van ?? 0} />
+							<CardTitle
+								title="Văn bản"
+								subTitle="Tổng số văn bản tố tụng"
+								amount={data?.cong_van ?? 0}
+							/>
 						</Col>
 						<Col span={24} sm={12} md={8} xl={6} onClick={() => navigate('/can-bo')}>
 							<CardTitle title="Cán bộ" subTitle="Số cán bộ trong đơn vị" amount={data?.can_bo ?? 0} />

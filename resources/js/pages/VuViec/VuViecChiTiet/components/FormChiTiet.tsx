@@ -16,6 +16,7 @@ import { KET_QUA_AN, KET_QUA_DON, LOAI_TOI_PHAM } from '../../../../utils/consta
 import { getSearchCanBo } from '../../../../utils/services';
 import FormItem from '../../ThongTinVuViec/FormItem';
 import { Model } from '../../../../reducers/type';
+import { required } from '../../../../utils/rules';
 
 const form = (props: { form?: FormInstance<any>; loading?: boolean; authUser?: Model.User; nguoi_tao?: number }) => {
 	const [form] = Form.useForm();
@@ -346,21 +347,21 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean; authUser?: M
 				<Collapse.Panel key="cb" header="Phân công cán bộ">
 					<Row gutter={[10, 5]}>
 						<Col span={24} sm={12}>
-							<Form.Item name="sel_dtv_chinh" label="Điều tra viên chính">
+							<Form.Item name="sel_can_bo_chinh" label="Cán bộ chính" rules={[required]}>
 								<MyDebounceSelect
 									allowClear
 									placeholder="Tìm theo tên cán bộ..."
-									fetchOptions={(q) => fetchCanBoList(q, 'dtv')}
+									fetchOptions={(q) => fetchCanBoList(q, '')}
 									disabled={!props?.authUser?.quan_tri && props.nguoi_tao !== props.authUser?.id}
 								/>
 							</Form.Item>
 						</Col>
 						<Col span={24} sm={12}>
-							<Form.Item name="sel_can_bo_chinh" label="Cán bộ chính">
+							<Form.Item name="sel_dtv_chinh" label="Điều tra viên chính">
 								<MyDebounceSelect
 									allowClear
 									placeholder="Tìm theo tên cán bộ..."
-									fetchOptions={(q) => fetchCanBoList(q, '')}
+									fetchOptions={(q) => fetchCanBoList(q, 'dtv')}
 									disabled={!props?.authUser?.quan_tri && props.nguoi_tao !== props.authUser?.id}
 								/>
 							</Form.Item>

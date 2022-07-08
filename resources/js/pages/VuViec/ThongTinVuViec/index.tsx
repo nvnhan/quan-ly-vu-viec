@@ -8,7 +8,7 @@ import ListForm from '../../../components/ListForm';
 import { ColumnProps } from '../../../components/ListForm/DataTable';
 import { RootState } from '../../../store';
 import { parseValues } from '../../../utils';
-import { PHAN_LOAI_TIN } from '../../../utils/constant';
+import { PHAN_LOAI_TIN, PHUONG_THUC_PHAM_TOI } from '../../../utils/constant';
 import FormItem from './FormItem';
 import getFilters from './otherFilters';
 
@@ -31,9 +31,9 @@ const List = () => {
 			onCell,
 		},
 		{
-			title: 'Loại vụ việc',
+			title: '',
 			dataIndex: 'loai_vu_viec',
-			width: 60,
+			width: 50,
 			render: (tt: string, record: object) =>
 				tt === 'AĐ' ? (
 					<Tag color="green">AĐ</Tag>
@@ -50,13 +50,20 @@ const List = () => {
 			],
 			onCell,
 		},
+		// {
+		// 	title: 'Phân loại tin',
+		// 	dataIndex: 'phan_loai_tin',
+		// 	width: 100,
+		// 	onCell,
+		// 	optFilter: true,
+		// 	fixedFilter: Object.values(PHAN_LOAI_TIN).map((pl) => ({ value: pl, text: pl })),
+		// },
 		{
-			title: 'Phân loại tin',
-			dataIndex: 'phan_loai_tin',
-			width: 100,
+			title: 'Ngày CQĐT tiếp nhận',
+			dataIndex: 'ngay_cqdt',
+			width: 70,
+			align: 'center',
 			onCell,
-			optFilter: true,
-			fixedFilter: Object.values(PHAN_LOAI_TIN).map((pl) => ({ value: pl, text: pl })),
 		},
 		{
 			title: 'Xảy ra',
@@ -78,13 +85,8 @@ const List = () => {
 			dataIndex: 'phuong_thuc_pham_toi',
 			width: 100,
 			onCell,
-		},
-		{
-			title: 'Ngày CQĐT tiếp nhận',
-			dataIndex: 'ngay_cqdt',
-			width: 70,
-			align: 'center',
-			onCell,
+			optFilter: true,
+			fixedFilter: Object.values(PHUONG_THUC_PHAM_TOI).map((pl) => ({ value: pl, text: pl })),
 		},
 		// {
 		// 	title: 'Ngày CAP tiếp nhận',
@@ -116,13 +118,13 @@ const List = () => {
 			selectable={false}
 			editable={false}
 			filterBox
-			filter={parseValues({
-				thoiGian: [moment().clone().weekday(0).startOf('day'), moment().clone().weekday(6).endOf('day')],
-			})}
+			// filter={parseValues({
+			// 	thoiGian: [moment().clone().weekday(0).startOf('day'), moment().clone().weekday(6).endOf('day')],
+			// })}
 			otherFilter={getFilters()}
-			filterInitialValue={{
-				thoiGian: [moment().clone().weekday(0).startOf('day'), moment().clone().weekday(6).endOf('day')],
-			}}
+			// filterInitialValue={{
+			// 	thoiGian: [moment().clone().weekday(0).startOf('day'), moment().clone().weekday(6).endOf('day')],
+			// }}
 			tuNgayDenNgay
 			checkUserDoAction
 			tableSize={{ x: 1200 }}

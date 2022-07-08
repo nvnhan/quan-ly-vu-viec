@@ -29,17 +29,43 @@ class HomeController extends BaseController
             $tai_lieu->whereBetween('created_at', [$request->bat_dau, $request->ket_thuc]);
         }
 
+        $id_don_vi = -1;
+        if ($request->user()->quan_tri)
+            if ($request->id_don_vi)
+                $id_don_vi = $request->id_don_vi;
+            else $id_don_vi = 0;
+        else if ($request->user()->chi_huy)
+            $id_don_vi = $request->user()->id_don_vi;
         // Chọn Đội
-        if ($request->id_don_vi) {
-            $vu_viec->where('id_don_vi', $request->id_don_vi);
-            $all_vu_viec = VuViec::where('id_don_vi', $request->id_don_vi)->pluck('id');
+        if ($id_don_vi > 0) {
+            $vu_viec->where('id_don_vi', $id_don_vi);
 
-            $cong_viec->whereIn('id_vu_viec', $all_vu_viec);
+            $dvs = DonVi::where('id_don_vi_cha', $id_don_vi)->pluck('id');
+            $dvs[] = $id_don_vi;
+            $can_bo->whereIn('id_don_vi', $dvs);
+
+            $all_can_bo = (clone $can_bo)->pluck('id');
+            $all_vu_viec = VuViec::where('id_don_vi', $id_don_vi)->pluck('id');
+            $cong_viec->whereIn('id_vu_viec', $all_vu_viec)->where(fn ($q) =>  $q
+                ->whereIn('nguoi_tao', $all_can_bo)
+                ->orWhereIn('id_can_bo', $all_can_bo));
+            $cong_van->whereIn('id_vu_viec', $all_vu_viec);
+            $tai_lieu->whereIn('id_vu_viec', $all_vu_viec);
+        } else if ($id_don_vi === -1) {        // Cán bộ
+            $vv = CongViec::where('id_can_bo', $request->user()->id)->pluck('id_vu_viec');
+            $vu_viec->where(fn ($q) =>  $q
+                ->where('id_dtv_chinh', $request->user()->id)
+                ->orWhere('id_can_bo_chinh', $request->user()->id)
+                ->orWhere('nguoi_tao', $request->user()->id)
+                ->orWhereIn('id', $vv));
+
+            $all_vu_viec = (clone $vu_viec)->pluck('id');
+            $cong_viec->where('id_can_bo', $request->user()->id);
             $cong_van->whereIn('id_vu_viec', $all_vu_viec);
             $tai_lieu->whereIn('id_vu_viec', $all_vu_viec);
 
-            $dvs = DonVi::where('id_don_vi_cha', $request->id_don_vi)->pluck('id');
-            $dvs[] = $request->id_don_vi;
+            $dvs = DonVi::where('id_don_vi_cha', $request->user()->id_don_vi)->pluck('id');
+            $dvs[] = $request->user()->id_don_vi;
             $can_bo->whereIn('id_don_vi', $dvs);
         }
 
