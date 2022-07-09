@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Helpers\Report;
 use App\Models\CanBo;
+use App\Models\DonVi;
 use App\Models\Nguoi;
 use App\Models\QuanHuyen;
 use App\Models\VuViec;
@@ -35,6 +36,8 @@ class BaoCaoController extends Controller
             else $lanh_dao_1 = new CanBo();
 
             $don_vi = $vu_viec->don_vi;
+            if (!$don_vi)
+                $don_vi = new DonVi();
             if ($don_vi->don_vi_cha)
                 $don_vi = $don_vi->don_vi_cha;
 
