@@ -1,5 +1,5 @@
-import Typography from 'antd/lib/typography';
 import Tag from 'antd/lib/tag/index';
+import Typography from 'antd/lib/typography';
 import moment from 'moment';
 import React from 'react';
 import { useSelector } from 'react-redux';
@@ -7,13 +7,13 @@ import { useNavigate } from 'react-router-dom';
 import ListForm from '../../../components/ListForm';
 import { ColumnProps } from '../../../components/ListForm/DataTable';
 import { RootState } from '../../../store';
-import { parseValues } from '../../../utils';
-import { PHAN_LOAI_TIN, PHUONG_THUC_PHAM_TOI } from '../../../utils/constant';
+import { PHUONG_THUC_PHAM_TOI } from '../../../utils/constant';
 import FormItem from './FormItem';
 import getFilters from './otherFilters';
 
 const List = () => {
 	const navigate = useNavigate();
+	const authUser = useSelector((state: RootState) => state.authUserReducer);
 
 	const handleView = (record: any) => navigate('/vu-viec/chi-tiet/' + record.id);
 
@@ -117,6 +117,7 @@ const List = () => {
 			ajax
 			selectable={false}
 			editable={false}
+			deleteable={authUser.quan_tri}
 			filterBox
 			// filter={parseValues({
 			// 	thoiGian: [moment().clone().weekday(0).startOf('day'), moment().clone().weekday(6).endOf('day')],

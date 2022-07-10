@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CanBo;
+use App\Models\DonVi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -25,11 +26,17 @@ class CanBoController extends BaseController
 
     public function get_can_bo(Request $request)
     {
+        $dvs = DonVi::where('id_don_vi_cha', $request->user()->id_don_vi)->pluck('id');
+        $dvs[] = $request->user()->id_don_vi;
+
         $q = $request->q;
         $query = CanBo::where('ho_ten', 'LIKE', "%$q%");
 
+        if ($request->user()->chuc_vu <= 3)
+            $query->whereIn('id_don_vi', $dvs);
+
         if ($request->type === 'dtv')
-            $query = $query->where('chuc_danh_lanh_dao', 'Điều tra viên');
+            $query->where('chuc_danh_lanh_dao', 'Điều tra viên');
 
         if ($request->l)
             $query = $query->limit($request->l);

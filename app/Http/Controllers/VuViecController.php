@@ -99,18 +99,20 @@ class VuViecController extends BaseController
             $vuViec->khu_vuc_xay_ra = $tmp;
         }
 
-        // Don Vi xay ra: Cấp Tổ
-        $vuViec->id_dtv_chinh = $request->sel_dtv_chinh['value'] ?? null;
-        $vuViec->id_can_bo_chinh = $request->sel_can_bo_chinh['value'] ?? null;
-        $vuViec->id_don_vi = null;
-        $cb = CanBo::whereIn('id', [$vuViec->id_can_bo_chinh, $vuViec->id_dtv_chinh])->with('don_vi')->get();
-        foreach ($cb as $c) {
-            // if (!empty($c->don_vi->id_don_vi_cha))
-            //     $vuViec->id_don_vi = $c->don_vi->id_don_vi_cha;
-            // else if (!empty($c->id_don_vi))
-            $vuViec->id_don_vi = $c->id_don_vi;         // Đơn vị cấp tổ
-            if (!empty($vuViec->id_don_vi))
-                break;
+        if ($request->user()->chi_huy) {
+            // Don Vi xay ra: Cấp Tổ
+            $vuViec->id_dtv_chinh = $request->sel_dtv_chinh['value'] ?? null;
+            $vuViec->id_can_bo_chinh = $request->sel_can_bo_chinh['value'] ?? null;
+            $vuViec->id_don_vi = null;
+            $cb = CanBo::whereIn('id', [$vuViec->id_can_bo_chinh, $vuViec->id_dtv_chinh])->with('don_vi')->get();
+            foreach ($cb as $c) {
+                // if (!empty($c->don_vi->id_don_vi_cha))
+                //     $vuViec->id_don_vi = $c->don_vi->id_don_vi_cha;
+                // else if (!empty($c->id_don_vi))
+                $vuViec->id_don_vi = $c->id_don_vi;         // Đơn vị cấp tổ
+                if (!empty($vuViec->id_don_vi))
+                    break;
+            }
         }
 
         if (str_contains($vuViec->thoi_diem_xay_ra, '00:00:00')) {
@@ -173,6 +175,7 @@ class VuViecController extends BaseController
         }
 
         $obj->nguoi_tao = $request->user()->id;
+        $obj->id_can_bo_chinh = $request->user()->id;
         self::setVuViecFields($obj, $request);
         $obj->ten_vu_viec = self::calTenVuViec($obj);
         $obj->save();
@@ -239,7 +242,7 @@ class VuViecController extends BaseController
         $user = $request->user();
         $data = $request->all();
         $model = VuViec::find($vuViec->id);
-        if ($user->quan_tri || $user->id == $model->nguoi_tao || $user->id === $model->id_dtv_chinh || $user->id === $model->id_can_bo_chinh) {
+        if ($user->chi_huy || $user->id == $model->nguoi_tao || $user->id === $model->id_dtv_chinh || $user->id === $model->id_can_bo_chinh) {
             $model->fill($data);
             self::setVuViecFields($model, $request);
             $model->ten_vu_viec = self::calTenVuViec($model);
