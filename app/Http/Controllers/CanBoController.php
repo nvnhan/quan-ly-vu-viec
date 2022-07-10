@@ -30,7 +30,7 @@ class CanBoController extends BaseController
         $dvs[] = $request->user()->id_don_vi;
 
         $q = $request->q;
-        $query = CanBo::where('ho_ten', 'LIKE', "%$q%");
+        $query = CanBo::where('ho_ten', 'LIKE', "%$q%")->where('chuc_vu', '<=', 3);
 
         if ($request->user()->chuc_vu <= 3)
             $query->whereIn('id_don_vi', $dvs);

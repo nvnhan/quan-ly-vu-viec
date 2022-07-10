@@ -79,7 +79,7 @@ class CongVanController extends BaseController
     {
         $user = $request->user();
         $data = $request->all();
-        if ($user->quan_tri || $user->id == $congVan->nguoi_tao) {
+        if ($user->chi_huy || $user->id == $congVan->nguoi_tao) {
             $congVan->fill($data);
             if (empty($congVan->id_cong_van_cha))
                 self::setCongVanFields($congVan, $request);
@@ -87,7 +87,7 @@ class CongVanController extends BaseController
             $congVan->save();
             $congVan->refresh();
             return $this->sendResponse($congVan, "Cập nhật thành công");
-        } else return $this->sendError("Không thể sửa thông tin tài liệu");
+        } else return $this->sendError("Đồng chí không có quyền sửa thông tin văn bản");
     }
 
     /**
@@ -101,7 +101,7 @@ class CongVanController extends BaseController
         $user = $request->user();
         if ($user->quan_tri || $user->id == $congVan->nguoi_tao) {
             $congVan->delete();
-            return $this->sendResponse('', "Xóa thành công tài liệu");
-        } else return $this->sendError("Không thể xóa tài liệu");
+            return $this->sendResponse('', "Xóa thành công văn bản");
+        } else return $this->sendError("Đồng chí không có quyền xóa văn bản");
     }
 }

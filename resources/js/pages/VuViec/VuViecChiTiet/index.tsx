@@ -177,7 +177,7 @@ const VuViecChiTiet = () => {
 								<Button onClick={() => window.history.back()}>
 									<ArrowLeftOutlined /> Quay lại
 								</Button>
-								{(authUser.quan_tri ||
+								{(authUser.chi_huy ||
 									[record?.nguoi_tao, record?.id_dtv_chinh, record?.id_can_bo_chinh].includes(
 										authUser.id
 									)) && (

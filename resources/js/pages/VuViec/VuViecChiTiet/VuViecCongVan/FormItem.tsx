@@ -9,6 +9,7 @@ import MyDebounceSelect, { SelectValue } from '../../../../components/Controls/M
 import { required } from '../../../../utils/rules';
 import { getSearchCanBo } from '../../../../utils/services';
 import { Model } from '../../../../reducers/type';
+import { TEN_VAN_BAN_TO_TUNG } from '../../../../utils/constant';
 
 const form = (props: { recordCha?: { id: number; name: string }; authUser?: Model.User }) => {
 	const { recordCha } = props;
@@ -35,7 +36,13 @@ const form = (props: { recordCha?: { id: number; name: string }; authUser?: Mode
 			)}
 			<Col span={24}>
 				<Form.Item name="tieu_de" label="Tiêu đề văn bản" rules={[required]}>
-					<Input />
+					<Select showSearch>
+						{TEN_VAN_BAN_TO_TUNG.map((item, index) => (
+							<Select.Option value={item} key={index}>
+								{item}
+							</Select.Option>
+						))}
+					</Select>
 				</Form.Item>
 			</Col>
 			<Col span={12}>

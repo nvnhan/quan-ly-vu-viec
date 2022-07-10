@@ -241,7 +241,7 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 						});
 						message.info(response.data.message);
 						if (onChangeData) onChangeData(newData);
-					}
+					} else message.error(response.data.message);
 				})
 				.catch((error) => console.log(error));
 	};
