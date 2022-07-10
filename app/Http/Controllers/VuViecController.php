@@ -114,6 +114,10 @@ class VuViecController extends BaseController
                     break;
             }
         }
+        if (empty($vuViec->id_don_vi)) {
+            $tmp = CanBo::find($vuViec->nguoi_tao);
+            $vuViec->id_don_vi = $tmp->id_don_vi ?? null;
+        }
 
         if (str_contains($vuViec->thoi_diem_xay_ra, '00:00:00')) {
             $vuViec->thoi_diem_xay_ra = date('d/m/Y', strtotime($vuViec->thoi_diem_xay_ra));
