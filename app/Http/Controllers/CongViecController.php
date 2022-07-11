@@ -209,7 +209,10 @@ class CongViecController extends BaseController
 
     public function bao_cao_cong_viec(Request $request)
     {
-        $can_bo = CanBo::where('chuc_vu', '<=', 4)->with('cong_viec_nhans')->get();      // Tu giup viec tro xuong
+        $dvs = DonVi::where('id_don_vi_cha', $request->user()->id_don_vi)->pluck('id');
+        $dvs[] = $request->user()->id_don_vi;
+
+        $can_bo = CanBo::where('chuc_vu', '<=', 4)->whereIn('id_don_vi', $dvs)->with('cong_viec_nhans')->get();      // Tu giup viec tro xuong
         foreach ($can_bo as $key => $cb) {
             $cb->cv_hoan_thanh_dung_han = $cb->cong_viec_nhans
                 ->where('trang_thai', 7)
