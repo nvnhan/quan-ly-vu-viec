@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\CongVan;
+use App\Models\DonVi;
+use App\Models\VuViec;
 use Illuminate\Http\Request;
 
 class CongVanController extends BaseController
@@ -28,6 +30,29 @@ class CongVanController extends BaseController
 
         if (!empty($request->vu_viec))
             $query = $query->where('id_vu_viec', $request->vu_viec);
+        else {
+            $user = $request->user();
+            $qu = VuViec::query();
+            if ($user->chuc_vu === 0)        // Neu la can bo
+            {
+                $vv = CongViec::where('id_can_bo', $user->id)->pluck('id_vu_viec');
+                $qu->where(fn ($q) =>  $q
+                    ->where('id_dtv_chinh', $user->id)
+                    ->orWhere('id_can_bo_chinh', $user->id)
+                    ->orWhere('nguoi_tao', $user->id)
+                    ->orWhereIn('id', $vv));
+            } else if ($user->chuc_vu === 1) {      // Doi pho
+                $qu->where('id_don_vi', $user->id_don_vi);
+            } else if ($user->chuc_vu <= 3) {      // Đội trưởng, tổng hợp đội
+                $dv_con = DonVi::where('id_don_vi_cha', $user->id_don_vi)->pluck('id');
+                $dv_con[] = $user->id_don_vi;
+                $qu->whereIn('id_don_vi', $dv_con);
+            }
+            // Neu la lanh dao thi show het cua can bo
+            $all_vu_viec = $qu->pluck('id');
+            $query->whereIn('id_vu_viec', $all_vu_viec);
+        }
+
 
         $query = $query->orderBy('ngay_ban_hanh', 'DESC');
         // For AJAX pagination loading

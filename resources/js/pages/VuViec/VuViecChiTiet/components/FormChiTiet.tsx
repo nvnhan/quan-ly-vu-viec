@@ -341,6 +341,16 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean; authUser?: M
 								<Input />
 							</Form.Item>
 						</Col>
+						<Col span={12} sm={6}>
+							<Form.Item name="ngay_nop_luu" label="Ngày nộp lưu">
+								<MyDatePicker format="DD/MM/YYYY" />
+							</Form.Item>
+						</Col>
+						<Col span={12} sm={6}>
+							<Form.Item name="so_ho_so_luu" label="Số lưu">
+								<Input />
+							</Form.Item>
+						</Col>
 					</Row>
 				</Collapse.Panel>
 

@@ -116,10 +116,9 @@ const List = () => {
 			ajax
 			tableSize={{ x: 1200 }}
 			filterBox
-			// filter={parseValues({
-			// 	thoiGian: [moment().clone().weekday(0).startOf('day'), moment().clone().weekday(6).endOf('day')],
-			// 	id_can_bo: authUser.id,
-			// })}
+			filter={parseValues({
+				id_can_bo: authUser.id,
+			})}
 			// otherFilter={getFilters()}
 			// filterInitialValue={{
 			// 	thoiGian: [moment().clone().weekday(0).startOf('day'), moment().clone().weekday(6).endOf('day')],

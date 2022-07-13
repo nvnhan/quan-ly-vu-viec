@@ -31,6 +31,7 @@ class VuViec extends Model
         'ngay_ket_thuc_dieu_tra_3' => 'datetime:d/m/Y',
         'ngay_lap_ho_so' => 'datetime:d/m/Y',
         'ngay_dang_ky_ho_so' => 'datetime:d/m/Y',
+        'ngay_nop_luu' => 'datetime:d/m/Y',
         'created_at' => 'datetime:d/m/Y',
         'updated_at' => 'datetime:H:i d/m/Y',
     ];
@@ -50,7 +51,7 @@ class VuViec extends Model
         'ngay_khoi_to', 'ma_toi_danh', 'loai_toi_pham',
         'ngay_ket_thuc_dieu_tra', 'ngay_ket_thuc_dieu_tra_1', 'ngay_ket_thuc_dieu_tra_2', 'ngay_ket_thuc_dieu_tra_3',
         'ket_qua_an', 'phuong_thuc_pham_toi', 'noi_thuc_hien_pham_toi',
-        'ngay_lap_ho_so', 'ngay_dang_ky_ho_so', 'so_ho_so',
+        'ngay_lap_ho_so', 'ngay_dang_ky_ho_so', 'so_ho_so', 'so_ho_so_luu', 'ngay_nop_luu'
     ];
 
     /**

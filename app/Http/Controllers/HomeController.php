@@ -38,14 +38,14 @@ class HomeController extends BaseController
             $id_don_vi = $request->user()->id_don_vi;
         // Chọn Đội
         if ($id_don_vi > 0) {
-            $vu_viec->where('id_don_vi', $id_don_vi);
-
             $dvs = DonVi::where('id_don_vi_cha', $id_don_vi)->pluck('id');
             $dvs[] = $id_don_vi;
+
+            $vu_viec->whereIn('id_don_vi', $dvs);
             $can_bo->whereIn('id_don_vi', $dvs);
 
             $all_can_bo = (clone $can_bo)->pluck('id');
-            $all_vu_viec = VuViec::where('id_don_vi', $id_don_vi)->pluck('id');
+            $all_vu_viec = VuViec::whereIn('id_don_vi', $dvs)->pluck('id');
             $cong_viec->whereIn('id_vu_viec', $all_vu_viec)->where(fn ($q) =>  $q
                 ->whereIn('nguoi_tao', $all_can_bo)
                 ->orWhereIn('id_can_bo', $all_can_bo));
@@ -119,7 +119,7 @@ class HomeController extends BaseController
 
     public function so_lieu_cong_viec(Request $request)
     {
-        // Artisan::call('migrate');
+        Artisan::call('migrate');
 
         $moi_giao = CongViec::where('id_can_bo', $request->user()->id)->whereIn('trang_thai', [1, 2, 3, 7])->count();
         $data = [

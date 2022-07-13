@@ -34,9 +34,9 @@ const form = (props: any) => {
 	}, [vuViec]);
 
 	const beforeUpload = (file: RcFile) => {
-		const isLt2M = file.size / 1024 / 1024 < 2;
+		const isLt2M = file.size / 1024 / 1024 < 5;
 		if (!isLt2M) {
-			message.error('Tập tin tải lên không được quá 2MB!');
+			message.error('Tập tin tải lên không được quá 5MB!');
 		} else setFileList([file]);
 		// return isLt2M;
 		return false;

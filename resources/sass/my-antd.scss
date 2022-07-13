@@ -162,3 +162,24 @@
 .ant-collapse-header:hover {
 	background-color: #fff;
 }
+
+.ant-upload-list {
+	text-align: center;
+}
+
+.ant-upload-list-picture-card-container {
+	height: 320px;
+	width: 240px;
+}
+
+.ant-upload-list-picture-card .ant-upload-list-item {
+	padding: 0;
+}
+
+.ant-upload-list-picture-card .ant-upload-list-item-info:before {
+	left: 0;
+}
+
+.ant-upload-list-picture-card .ant-upload-list-item-thumbnail img {
+	object-fit: cover;
+}

@@ -4,13 +4,18 @@ import Col from 'antd/lib/grid/col';
 import Row from 'antd/lib/grid/row';
 import Input from 'antd/lib/input/index';
 import Select from 'antd/lib/select';
-import React from 'react';
+import Upload from 'antd/lib/upload';
+import React, { useState } from 'react';
 import MyDatePicker from '../../../components/Controls/MyDatePicker';
 import MyDebounceSelect, { SelectValue } from '../../../components/Controls/MyDebounceSelect';
 import { required } from '../../../utils/rules';
 import { getSearchXaPhuong } from '../../../utils/services';
+import ImgCrop from 'antd-img-crop';
+import { RcFile, UploadFile, UploadProps } from 'antd/lib/upload/interface';
 
 const form = () => {
+	const [fileList, setFileList] = useState<UploadFile[]>();
+
 	const fetchUnitList = async (q: string): Promise<SelectValue[]> => {
 		return getSearchXaPhuong({ q, l: 7 }).then((body) =>
 			body?.data?.data.map((item: any) => ({
@@ -20,94 +25,130 @@ const form = () => {
 		);
 	};
 
+	const onPreview = async (file: UploadFile) => {
+		let src = file.url as string;
+		if (!src) {
+			src = await new Promise((resolve) => {
+				const reader = new FileReader();
+				reader.readAsDataURL(file.originFileObj as RcFile);
+				reader.onload = () => resolve(reader.result as string);
+			});
+		}
+		const image = new Image();
+		image.src = src;
+		const imgWindow = window.open(src);
+		imgWindow?.document.write(image.outerHTML);
+	};
+
+	const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
+		setFileList(newFileList);
+	};
+
 	return (
 		<Collapse defaultActiveKey="ttnt">
 			<Collapse.Panel header="Thông tin nhân thân" key="ttnt">
 				<Row gutter={[12, 5]}>
-					<Col span={12} sm={6}>
-						<Form.Item name="ho_ten" label="Họ tên" rules={[required]}>
-							<Input placeholder="Nhập họ tên..." />
-						</Form.Item>
+					<Col span={24} sm={6}>
+						<ImgCrop rotate aspect={120 / 160} zoom grid modalTitle="Chỉnh sửa">
+							<Upload
+								maxCount={1}
+								listType="picture-card"
+								multiple={false}
+								onPreview={onPreview}
+								fileList={fileList}
+								onChange={onChange}
+							>
+								{fileList?.length !== 1 && 'Thêm ảnh'}
+							</Upload>
+						</ImgCrop>
 					</Col>
-					<Col span={12} sm={3}>
-						<Form.Item name="ten_khac" label="Tên khác">
-							<Input />
-						</Form.Item>
-					</Col>
-					<Col span={12} sm={3}>
-						<Form.Item name="gioi_tinh" label="Giới tính">
-							<Select allowClear>
-								<Select.Option value="Nam">Nam</Select.Option>
-								<Select.Option value="Nữ">Nữ</Select.Option>
-							</Select>
-						</Form.Item>
-					</Col>
-					<Col span={12} sm={6} style={{ display: 'flex' }}>
-						<Form.Item name="ngay_sinh" label="Ngày sinh" style={{ flex: 1 }}>
-							<Input placeholder="Ngày" />
-						</Form.Item>
-						<Form.Item name="thang_sinh" label=" " style={{ flex: 1 }}>
-							<Input placeholder="tháng" />
-						</Form.Item>
-						<Form.Item name="nam_sinh" label=" " style={{ flex: 1 }}>
-							<Input placeholder="năm" />
-						</Form.Item>
-					</Col>
-					<Col span={12} sm={6}>
-						<Form.Item name="sdt" label="SĐT">
-							<Input />
-						</Form.Item>
-					</Col>
-				</Row>
-				<Row gutter={[12, 5]}>
-					<Col span={12} sm={6}>
-						<Form.Item name="giay_dinh_danh" label="Giấy định danh">
-							<Select>
-								<Select.Option value="CMND">CMND</Select.Option>
-								<Select.Option value="CCCD">CCCD</Select.Option>
-								<Select.Option value="Hộ chiếu">Hộ chiếu</Select.Option>
-							</Select>
-						</Form.Item>
-					</Col>
-					<Col span={12} sm={6}>
-						<Form.Item name="so_dinh_danh" label="Số định danh">
-							<Input placeholder="Số CMND/CCCD/ĐDCN" />
-						</Form.Item>
-					</Col>
-					<Col span={12} sm={6}>
-						<Form.Item name="noi_cap" label="Nơi cấp">
-							<Input />
-						</Form.Item>
-					</Col>
-					<Col span={12} sm={6}>
-						<Form.Item name="ngay_cap" label="Ngày cấp">
-							<MyDatePicker format="DD/MM/YYYY" />
-						</Form.Item>
-					</Col>
-					<Col span={12} sm={6}>
-						<Form.Item name="quoc_tich" label="Quốc tịch">
-							<Input />
-						</Form.Item>
-					</Col>
-					<Col span={12} sm={3}>
-						<Form.Item name="dan_toc" label="Dân tộc">
-							<Input />
-						</Form.Item>
-					</Col>
-					<Col span={12} sm={3}>
-						<Form.Item name="ton_giao" label="Tôn giáo">
-							<Input />
-						</Form.Item>
-					</Col>
-					<Col span={12} sm={6}>
-						<Form.Item name="nghe_nghiep" label="Nghề nghiệp">
-							<Input />
-						</Form.Item>
-					</Col>
-					<Col span={12} sm={6}>
-						<Form.Item name="noi_lam_viec" label="Nơi làm việc">
-							<Input />
-						</Form.Item>
+
+					<Col span={24} sm={18}>
+						<Row gutter={[12, 5]}>
+							<Col span={12} sm={8}>
+								<Form.Item name="ho_ten" label="Họ tên" rules={[required]}>
+									<Input placeholder="Nhập họ tên..." />
+								</Form.Item>
+							</Col>
+							<Col span={12} sm={4}>
+								<Form.Item name="ten_khac" label="Tên khác">
+									<Input />
+								</Form.Item>
+							</Col>
+							<Col span={12} sm={4}>
+								<Form.Item name="gioi_tinh" label="Giới tính">
+									<Select allowClear>
+										<Select.Option value="Nam">Nam</Select.Option>
+										<Select.Option value="Nữ">Nữ</Select.Option>
+									</Select>
+								</Form.Item>
+							</Col>
+							<Col span={12} sm={8} style={{ display: 'flex' }}>
+								<Form.Item name="ngay_sinh" label="Ngày sinh" style={{ flex: 1 }}>
+									<Input placeholder="Ngày" />
+								</Form.Item>
+								<Form.Item name="thang_sinh" label=" " style={{ flex: 1 }}>
+									<Input placeholder="tháng" />
+								</Form.Item>
+								<Form.Item name="nam_sinh" label=" " style={{ flex: 1 }}>
+									<Input placeholder="năm" />
+								</Form.Item>
+							</Col>
+							<Col span={12} sm={8}>
+								<Form.Item name="sdt" label="SĐT">
+									<Input />
+								</Form.Item>
+							</Col>
+							<Col span={12} sm={8}>
+								<Form.Item name="giay_dinh_danh" label="Giấy định danh">
+									<Select>
+										<Select.Option value="CMND">CMND</Select.Option>
+										<Select.Option value="CCCD">CCCD</Select.Option>
+										<Select.Option value="Hộ chiếu">Hộ chiếu</Select.Option>
+									</Select>
+								</Form.Item>
+							</Col>
+							<Col span={12} sm={8}>
+								<Form.Item name="so_dinh_danh" label="Số định danh">
+									<Input placeholder="Số CMND/CCCD/ĐDCN" />
+								</Form.Item>
+							</Col>
+							<Col span={12} sm={8}>
+								<Form.Item name="noi_cap" label="Nơi cấp">
+									<Input />
+								</Form.Item>
+							</Col>
+							<Col span={12} sm={8}>
+								<Form.Item name="ngay_cap" label="Ngày cấp">
+									<MyDatePicker format="DD/MM/YYYY" />
+								</Form.Item>
+							</Col>
+							<Col span={12} sm={8}>
+								<Form.Item name="quoc_tich" label="Quốc tịch">
+									<Input />
+								</Form.Item>
+							</Col>
+							<Col span={12} sm={4}>
+								<Form.Item name="dan_toc" label="Dân tộc">
+									<Input />
+								</Form.Item>
+							</Col>
+							<Col span={12} sm={4}>
+								<Form.Item name="ton_giao" label="Tôn giáo">
+									<Input />
+								</Form.Item>
+							</Col>
+							<Col span={12} sm={8}>
+								<Form.Item name="nghe_nghiep" label="Nghề nghiệp">
+									<Input />
+								</Form.Item>
+							</Col>
+							<Col span={12} sm={8}>
+								<Form.Item name="noi_lam_viec" label="Nơi làm việc">
+									<Input />
+								</Form.Item>
+							</Col>
+						</Row>
 					</Col>
 				</Row>
 			</Collapse.Panel>
