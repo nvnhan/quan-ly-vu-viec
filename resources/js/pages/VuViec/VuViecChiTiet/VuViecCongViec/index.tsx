@@ -19,7 +19,7 @@ import Row from 'antd/lib/row';
 import Select from 'antd/lib/select';
 import Spin from 'antd/lib/spin';
 import Tag from 'antd/lib/tag';
-import { groupBy } from 'lodash';
+import groupBy from 'lodash/groupBy';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store';

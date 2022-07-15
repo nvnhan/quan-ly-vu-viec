@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Nguoi;
 use App\Models\VuViecNguoi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class NguoiController extends BaseController
 {
@@ -65,6 +66,24 @@ class NguoiController extends BaseController
         $nguoi->id_dp_thong_bao = $request->sel_dp_thong_bao['value'] ?? null;
     }
 
+    public static function uploadPhoto(&$nguoi, Request $request)
+    {
+        if ($nguoi->ten_file && ($request->hasFile('file') || $request->file !== 'undefined')) {
+            if (Storage::exists('public/' . $nguoi->ten_file))
+                Storage::delete('public/' . $nguoi->ten_file);
+
+            $nguoi->ten_file = null;
+        }
+
+        // Save new files
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $name = $file->hashName();
+            $file->storeAs('', $name, ['disk' => 'public']); // Upload file to storage/app/upload
+            $nguoi->ten_file = $name;
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -77,6 +96,7 @@ class NguoiController extends BaseController
         $nguoi = new Nguoi();
         $nguoi->fill($data);
         self::setNguoiFields($nguoi, $request);
+        self::uploadPhoto($nguoi, $request);
         $nguoi->save();
         $nguoi->refresh();
         return $this->sendResponse($nguoi, "Thêm mới thành công");
@@ -105,6 +125,7 @@ class NguoiController extends BaseController
         $data = $request->all();
         $nguoi->fill($data);
         self::setNguoiFields($nguoi, $request);
+        self::uploadPhoto($nguoi, $request);
         $nguoi->save();
         $nguoi->refresh();
         return $this->sendResponse($nguoi, "Cập nhật thành công");

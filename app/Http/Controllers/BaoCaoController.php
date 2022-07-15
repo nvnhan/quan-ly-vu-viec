@@ -135,7 +135,9 @@ class BaoCaoController extends Controller
                 'TENLANHDAO1' => mb_strtoupper($lanh_dao_1->ho_ten),
 
                 'DTVChinh' => $vu_viec->dtv_chinh->ho_ten ?? '',
+                'SdtDtv' => $vu_viec->dtv_chinh->sdt ?? '',
                 'CBChinh' => $vu_viec->can_bo_chinh->ho_ten ?? '',
+                'SdtCanBo' => $vu_viec->can_bo_chinh->sdt ?? '',
                 // 'CanBoChinh' => $vu_viec->can_bo_chinh->ho_ten ?? '',
                 'CapBacCanBo' => $vu_viec->can_bo_chinh->ten_cap_bac ?? '',
                 'ChucVuCanBo' => $vu_viec->can_bo_chinh->ten_chuc_vu ?? '',

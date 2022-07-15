@@ -42,6 +42,7 @@ class VuViecNguoiController extends BaseController
         }
         $nguoi->fill($data);
         NguoiController::setNguoiFields($nguoi, $request);
+        NguoiController::uploadPhoto($nguoi, $request);
         $nguoi->save();
         $nguoi->refresh();
 
@@ -73,6 +74,7 @@ class VuViecNguoiController extends BaseController
         $nguoi = Nguoi::find($vu_viec_nguoi->id_nguoi);
         $nguoi->fill($data);
         NguoiController::setNguoiFields($nguoi, $request);
+        NguoiController::uploadPhoto($nguoi, $request);
         $nguoi->save();
         $nguoi->refresh();
 

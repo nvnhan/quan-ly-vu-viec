@@ -242,6 +242,8 @@ class CongViecController extends BaseController
                         ->whereRaw("ngay_het_han < '$date'"))
                     ->orWhereRaw("ngay_ket_thuc > ngay_het_han"))
                 ->count();
+
+            $cb->so_vu_viec = VuViec::where('id_dtv_chinh', $cb->id)->orWhere('id_can_bo_chinh', $cb->id)->count();
         }
 
         return $this->sendResponse($can_bo, 'Successfull', count($can_bo));

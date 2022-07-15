@@ -30,6 +30,13 @@ const List = () => {
 			width: 180,
 		},
 		{
+			title: 'Tổng số vụ việc',
+			dataIndex: 'so_vu_viec',
+			width: 80,
+			sorter: (a, b) => a.so_vu_viec - b.so_vu_viec,
+			align: 'center',
+		},
+		{
 			title: 'Hoàn thành đúng hạn',
 			dataIndex: 'cv_hoan_thanh_dung_han',
 			width: 80,

@@ -94,13 +94,13 @@ const List = (props: { vuViec: any }) => {
 			insertable={false}
 			deleteable={false}
 			filterBox
-			filter={parseValues({
-				thoiGian: [moment().clone().weekday(0).startOf('day'), moment().clone().weekday(6).endOf('day')],
-			})}
+			// filter={parseValues({
+			// 	thoiGian: [moment().clone().weekday(0).startOf('day'), moment().clone().weekday(6).endOf('day')],
+			// })}
 			// otherFilter={getFilters()}
-			filterInitialValue={{
-				thoiGian: [moment().clone().weekday(0).startOf('day'), moment().clone().weekday(6).endOf('day')],
-			}}
+			// filterInitialValue={{
+			// 	thoiGian: [moment().clone().weekday(0).startOf('day'), moment().clone().weekday(6).endOf('day')],
+			// }}
 			addStt
 		/>
 	);

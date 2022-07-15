@@ -10,12 +10,11 @@ import Upload, { RcFile } from 'antd/lib/upload';
 import React, { useEffect, useState } from 'react';
 import { required } from '../../../../utils/rules';
 import { getApi } from '../../../../utils/services';
-import { groupBy } from 'lodash';
+import groupBy from 'lodash/groupBy';
 
 const form = (props: any) => {
 	const [congViecList, setCongViecList] = useState<{ id: number; group: string; name: string }[]>([]);
 	const { vuViec, defaultFileList } = props;
-	// console.log('🚀 ~ file: FormItem.tsx ~ line 18 ~ form ~ defaultFileList', defaultFileList);
 	const [fileList, setFileList] = useState<RcFile[]>(defaultFileList);
 
 	const groupCongViec = Object.entries(groupBy(congViecList, 'group'));

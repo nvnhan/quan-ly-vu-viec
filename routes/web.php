@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Dung cho upload file bang Form Data
+// Form Data chi up thong qua POST
+Route::post('upload-dummy', function () {
+    return '';
+});
+
 // Tất cả route đều vào SPA VIew
 Route::get('{path?}', function () {
     return view('spa-view');

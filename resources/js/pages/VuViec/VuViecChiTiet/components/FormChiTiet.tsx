@@ -105,7 +105,7 @@ const form = (props: { form?: FormInstance<any>; loading?: boolean; authUser?: M
 
 	return (
 		<>
-			<Collapse defaultActiveKey="ttbd">
+			<Collapse defaultActiveKey={['ttbd', 'ttdt', 'kt', 'hs', 'cb']}>
 				<Collapse.Panel key="ttbd" header="Thông tin ban đầu">
 					<FormItem
 						form={props.form}

@@ -1,3 +1,4 @@
+import { getFormData } from '.';
 import axios from './axios';
 
 export const getUser = async () => {
@@ -73,5 +74,13 @@ export const getFile = async (url: string, params: object) => {
 	return axios.get(url, {
 		params,
 		responseType: 'blob', // important
+	});
+};
+
+export const postFormData = async (url: string, formValues: { [key: string]: any }) => {
+	return axios.post(`/api/${url}`, getFormData(formValues), {
+		headers: {
+			'Content-Type': 'multipart/form-data; charset=utf-8; boundary=' + Math.random(),
+		},
 	});
 };

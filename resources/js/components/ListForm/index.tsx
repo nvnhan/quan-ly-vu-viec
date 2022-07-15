@@ -6,6 +6,7 @@ import axios from 'axios';
 import isEmpty from 'lodash/isEmpty';
 import React, { useEffect, useImperativeHandle, useState } from 'react';
 import { isChangeData, queryString, unionDataBy, useMergeState } from '../../utils';
+import { postFormData } from '../../utils/services';
 import DataTable, { ColumnProps, OtherActionProps } from './DataTable';
 import FilterBox, { FilterProps } from './FilterBox';
 import ModalConfirm from './ModalConfirm';
@@ -181,24 +182,10 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 		} else message.error(response.data.message);
 	};
 
-	const getFormData = (value: any) => {
-		const data = new FormData();
-		data.append('file', value?.file?.file);
-		delete value.file;
-		for (let key in value) value[key] && data.append(key, value[key]);
-		return data;
-	};
-
 	const onAdd = (value: { [index: string]: any }, callback?: () => void) => {
 		if (otherParams !== undefined) value = Object.assign(value, otherParams);
 		if (hasUpload) {
-			axios
-				.post(`/api/${url}`, getFormData(value), {
-					headers: {
-						'Content-Type':
-							'multipart/form-data; charset=utf-8; boundary=' + Math.random().toString().substr(2),
-					},
-				})
+			postFormData(url, value)
 				.then((response) => doInsertOrUpdateRows(response, callback))
 				.catch((error) => console.log(error));
 		} else
@@ -210,13 +197,7 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 
 	const onUpdate = (value: { [index: string]: any }, callback?: () => void) => {
 		if (hasUpload)
-			axios
-				.post(`/api/${url}/${currentRecord[primaryKey as string]}`, getFormData(value), {
-					headers: {
-						'Content-Type':
-							'multipart/form-data; charset=utf-8; boundary=' + Math.random().toString().substr(2),
-					},
-				})
+			postFormData(`${url}/${currentRecord[primaryKey as string]}`, value)
 				.then((response) => doInsertOrUpdateRows(response, callback))
 				.catch((error) => console.log(error));
 		else

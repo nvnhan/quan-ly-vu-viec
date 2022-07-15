@@ -1,20 +1,21 @@
+import ImgCrop from 'antd-img-crop';
 import Collapse from 'antd/lib/collapse';
 import Form from 'antd/lib/form/index';
 import Col from 'antd/lib/grid/col';
 import Row from 'antd/lib/grid/row';
 import Input from 'antd/lib/input/index';
+import message from 'antd/lib/message';
 import Select from 'antd/lib/select';
 import Upload from 'antd/lib/upload';
-import React, { useState } from 'react';
+import { RcFile, UploadFile, UploadProps } from 'antd/lib/upload/interface';
+import React from 'react';
 import MyDatePicker from '../../../components/Controls/MyDatePicker';
 import MyDebounceSelect, { SelectValue } from '../../../components/Controls/MyDebounceSelect';
 import { required } from '../../../utils/rules';
 import { getSearchXaPhuong } from '../../../utils/services';
-import ImgCrop from 'antd-img-crop';
-import { RcFile, UploadFile, UploadProps } from 'antd/lib/upload/interface';
 
-const form = () => {
-	const [fileList, setFileList] = useState<UploadFile[]>();
+const form = (props: { fileList: UploadFile[]; setFileList: any }) => {
+	const { fileList, setFileList } = props;
 
 	const fetchUnitList = async (q: string): Promise<SelectValue[]> => {
 		return getSearchXaPhuong({ q, l: 7 }).then((body) =>
@@ -40,16 +41,24 @@ const form = () => {
 		imgWindow?.document.write(image.outerHTML);
 	};
 
-	const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
-		setFileList(newFileList);
+	const beforeUpload = (file: RcFile) => {
+		const isLt2M = file.size / 1024 / 1024 < 5;
+		if (!isLt2M) {
+			message.error('Tập tin tải lên không được quá 5MB!');
+			setFileList([]);
+		} else setFileList([file]);
+
+		return isLt2M;
 	};
 
+	const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => setFileList(newFileList);
+
 	return (
-		<Collapse defaultActiveKey="ttnt">
+		<Collapse defaultActiveKey={['ttnt', 'dcct', 'gd', 'ttk']}>
 			<Collapse.Panel header="Thông tin nhân thân" key="ttnt">
 				<Row gutter={[12, 5]}>
 					<Col span={24} sm={6}>
-						<ImgCrop rotate aspect={120 / 160} zoom grid modalTitle="Chỉnh sửa">
+						<ImgCrop rotate aspect={120 / 160} grid modalTitle="Chỉnh sửa">
 							<Upload
 								maxCount={1}
 								listType="picture-card"
@@ -57,6 +66,8 @@ const form = () => {
 								onPreview={onPreview}
 								fileList={fileList}
 								onChange={onChange}
+								beforeUpload={beforeUpload}
+								action="/upload-dummy"
 							>
 								{fileList?.length !== 1 && 'Thêm ảnh'}
 							</Upload>

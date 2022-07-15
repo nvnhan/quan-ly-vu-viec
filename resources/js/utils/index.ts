@@ -71,7 +71,7 @@ export const isChangeData = (newData: { [index: string]: any }, record?: { [inde
 	}
 	if (!isChanged)
 		for (var k in record) {
-			if (record.hasOwnProperty(k) && newData.hasOwnProperty(k)) {
+			if (newData.hasOwnProperty(k)) {
 				if (
 					typeof record[k] === 'object' &&
 					typeof newData[k] === 'object' &&
@@ -86,6 +86,9 @@ export const isChangeData = (newData: { [index: string]: any }, record?: { [inde
 						break;
 					}
 				}
+			} else {
+				isChanged = true;
+				break;
 			}
 		}
 	return isChanged;
@@ -120,8 +123,17 @@ export const parseTimePeriod = (values: { [index: string]: any }) => {
 				bat_dau: values.thoiGian[0],
 				ket_thuc: values.thoiGian[1],
 			});
+		else
+			Object.assign(values, {
+				bat_dau: null,
+				ket_thuc: null,
+			});
 		delete values.thoiGian;
-	}
+	} else
+		Object.assign(values, {
+			bat_dau: null,
+			ket_thuc: null,
+		});
 	return values;
 };
 
@@ -159,4 +171,12 @@ export const unionDataBy = (target: any[], source: any, key = 'id') => {
 		if (!existingElement) target.unshift(element); //  Thêm mới
 	}
 	return target;
+};
+
+export const getFormData = (value: any) => {
+	const data = new FormData();
+	data.append('file', value?.file?.file);
+	delete value.file;
+	for (let key in value) value[key] && data.append(key, value[key]);
+	return data;
 };

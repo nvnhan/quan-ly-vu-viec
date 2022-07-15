@@ -60,7 +60,10 @@ Route::middleware('auth:api')->group(function () {
 
     // Vu Viec
     Route::resource('vu-viec', VuViecController::class);
-    Route::resource('vu-viec-nguoi', VuViecNguoiController::class);
+    Route::resource('vu-viec-nguoi', VuViecNguoiController::class)->only(['index', 'store', 'destroy']);
+    // Dung cho upload file bang Form Data
+    // Form Data chi up thong qua POST
+    Route::post('vu-viec-nguoi/{vu_viec_nguoi}', [VuViecNguoiController::class, 'update']);
 
     Route::resource('cong-viec', CongViecController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::post('cong-viec/khoi-tao', [CongViecController::class, 'them_khoi_tao']);
@@ -93,7 +96,10 @@ Route::middleware('auth:api')->group(function () {
         Route::put('reset/{id}', [CanBoController::class, 'reset']);
         Route::get('can-bo/check/{name}', [CanBoController::class, 'check']);
 
-        Route::resource('nguoi', NguoiController::class)->only(['store', 'update', 'destroy']);
+        Route::resource('nguoi', NguoiController::class)->only(['store', 'destroy']);
+        // Dung cho upload file bang Form Data
+        // Form Data chi up thong qua POST
+        Route::post('nguoi/{nguoi}', [NguoiController::class, 'update']);
 
         Route::resource('don-vi', DonViController::class)->only(['index', 'store', 'update', 'destroy']);
         Route::resource('nhom-cong-viec', NhomCongViecController::class)->only(['store', 'update', 'destroy']);

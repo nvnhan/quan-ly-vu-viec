@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import ListForm from '../../../components/ListForm';
 import { ColumnProps, OtherActionProps } from '../../../components/ListForm/DataTable';
 import { FilterProps } from '../../../components/ListForm/FilterBox';
-import FormItem from './FormItem';
 
 const List = () => {
 	const navigate = useNavigate();
@@ -137,7 +136,6 @@ const List = () => {
 			filterBox
 			otherFilter={otherFilters}
 			tuNgayDenNgay={false}
-			formTemplate={<FormItem />}
 			modalWidth={1200}
 		/>
 	);
