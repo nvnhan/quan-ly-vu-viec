@@ -12,7 +12,7 @@ import { akCaNhan } from './bieuMauAKCaNhan';
 import List from 'antd/lib/list';
 import { Model } from '../../../../reducers/type';
 import { getApi } from '../../../../utils/services';
-import { Divider } from 'antd';
+import Divider from 'antd/lib/divider';
 import { danhChoGiupViecVaPTT } from './DanhChoGiupViecPTT';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store';

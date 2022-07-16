@@ -45,7 +45,7 @@ const NguoiChiTiet = () => {
 
 		postFormData('nguoi/' + id, {
 			...parseValues(values),
-			file: { file: fileList.length > 0 ? fileList?.[0]?.originFileObj : null },
+			file: { file: fileList.length > 0 ? fileList[0]?.originFileObj ?? undefined : null },
 		})
 			.then((response) => {
 				if (response.data.success) {
