@@ -3,7 +3,7 @@ export const ad: BieuMau.Item[] = [
 		path: 'ChuyenNguonTin',
 		name: 'Chuyển nguồn tin',
 		childs: [
-			{ path: '3.PhieuChuyenNguonTinToiPham.docx', name: 'Phiếu chuyển nguồn tin tội phạm', lanh_dao: true },
+			{ path: 'PhieuChuyenNguonTinToiPham.docx', name: 'Phiếu chuyển nguồn tin tội phạm', lanh_dao: true },
 			{ path: 'B10CNguonTin.docx', name: 'Thông báo kết quả xác minh', lanh_dao: true },
 			{ path: 'BaoCaoKetThuc.docx', name: 'Báo cáo kết thúc', lanh_dao: true },
 			{ path: 'BBThongBaoChuyenNguonTin.docx', name: 'Biên bản thông báo chuyển nguồn tin', lanh_dao: true },
@@ -135,7 +135,7 @@ export const ad: BieuMau.Item[] = [
 			{ path: 'BCDXTamDinhChi.docx', name: 'Báo cáo đề xuất tạm đình chỉ', lanh_dao: true },
 			{ path: 'QDTamDinhChiNguonTin.docx', name: 'Quyết định tạm đình chỉ', lanh_dao: true },
 			{ path: 'TBaoTamDinhChi.docx', name: 'Thông báo tạm đình chỉ', lanh_dao: true },
-			{ path: 'ThongKeTaiLieuCoTrongHoSo.docx', name: 'Thống kê tài liệu trong hồ sơ', lanh_dao: true },
+			{ path: 'ThongKeTaiLieuTrongHoSo.docx', name: 'Thống kê tài liệu trong hồ sơ', lanh_dao: true },
 		],
 	},
 	{

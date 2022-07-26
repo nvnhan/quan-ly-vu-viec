@@ -1,0 +1,26 @@
+CÀI ĐẶT QLVV
+0. Cài đặt server, xampp, cấu hình domain name, 
+đảm bảo các máy client có thể truy cập vào server thông qua domain name
+1. Giải nén thư mục code nguồn, copy vào thư mục xampp\htdocs
+2. Config server apache: thêm vào file httpd.conf
+
+<VirtualHost *:80>
+    DocumentRoot "D:/xampp/htdocs/2022/quan-ly-vu-viec/public"
+    ServerName localhost.qlvv.net
+</VirtualHost>
+
+Sửa thư mục và tên ServerName tương ứng
+3. Vào PHPMyAdmin tạo database tên db_qlvv, schema utf8bm4_unicode_ci
+4. cmd vào thư mục quan-ly-vu-viec. Chạy lệnh sau:
+
+php artisan migrate
+php artisan passport:install
+
+5. Mở phpmyadmin, import 2 file SQL trong thư mục #Docs: don-vi-hanh-chinh và insert toi danh
+6. Quay lại cmd, chạy lệnh 
+
+php artisan db:seed
+
+7. Chạy lệnh
+
+php artisan storage:link
