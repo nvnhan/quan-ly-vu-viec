@@ -254,7 +254,7 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 		if (state.view === 'insert') {
 			postFormData(`vu-viec-nguoi`, {
 				...parseValues({ ...values, id_vu_viec: vuViec.id, id_nguoi: state.recordNguoi?.id }),
-				file: { file: fileList.length > 0 ? fileList?.[0]?.originFileObj : null },
+				file: { file: fileList.length > 0 ? fileList[0]?.originFileObj ?? undefined : null },
 			})
 				.then((response: any) => {
 					const newData = { ...response.data.data.nguoi, ...response.data.data };
@@ -274,7 +274,7 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 		} else {
 			postFormData(`vu-viec-nguoi/${state.record.id}`, {
 				...parseValues(values),
-				file: { file: fileList?.[0]?.originFileObj ?? null },
+				file: { file: fileList.length > 0 ? fileList[0]?.originFileObj ?? undefined : null },
 			})
 				.then((response: any) => {
 					const newData = { ...response.data.data.nguoi, ...response.data.data };

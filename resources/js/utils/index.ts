@@ -177,6 +177,12 @@ export const getFormData = (value: any) => {
 	const data = new FormData();
 	data.append('file', value?.file?.file);
 	delete value.file;
-	for (let key in value) value[key] && data.append(key, value[key]);
+	for (let key in value) {
+		if (value[key]) {
+			if (typeof value[key] === 'object') {
+				for (let k1 in value[key]) data.append(`${key}[${k1}]`, value[key][k1]);
+			} else data.append(key, value[key]);
+		}
+	}
 	return data;
 };

@@ -117,13 +117,13 @@ const List = () => {
 			tableSize={{ x: 1200 }}
 			filterBox
 			filter={parseValues({
-				thoiGian: [moment().clone().weekday(0).startOf('day'), moment().clone().weekday(6).endOf('day')],
+				// thoiGian: [moment().clone().weekday(0).startOf('day'), moment().clone().weekday(6).endOf('day')],
 				nguoi_tao: authUser.id,
 			})}
 			// otherFilter={getFilters()}
-			filterInitialValue={{
-				thoiGian: [moment().clone().weekday(0).startOf('day'), moment().clone().weekday(6).endOf('day')],
-			}}
+			// filterInitialValue={{
+			// 	thoiGian: [moment().clone().weekday(0).startOf('day'), moment().clone().weekday(6).endOf('day')],
+			// }}
 			selectable={false}
 			insertable={false}
 			editable={false}
