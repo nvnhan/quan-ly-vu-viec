@@ -13,21 +13,21 @@ const getFilters = (): FilterProps[] => {
 			// alwaysShow: true,
 			// isLarger: true,
 		},
-		{
-			name: 'phuong_thuc_pham_toi',
-			label: 'PT phạm tội',
-			render: (
-				<Select allowClear showSearch placeholder="Phương thức phạm tội">
-					{PHUONG_THUC_PHAM_TOI.map((phuong_thuc, index) => (
-						<Select.Option key={index} value={phuong_thuc}>
-							{phuong_thuc}
-						</Select.Option>
-					))}
-				</Select>
-			),
-			// alwaysShow: true,
-			// isLarger: true,
-		},
+		// {
+		// 	name: 'phuong_thuc_pham_toi',
+		// 	label: 'PT phạm tội',
+		// 	render: (
+		// 		<Select allowClear showSearch placeholder="Phương thức phạm tội">
+		// 			{PHUONG_THUC_PHAM_TOI.map((phuong_thuc, index) => (
+		// 				<Select.Option key={index} value={phuong_thuc}>
+		// 					{phuong_thuc}
+		// 				</Select.Option>
+		// 			))}
+		// 		</Select>
+		// 	),
+		// 	// alwaysShow: true,
+		// 	// isLarger: true,
+		// },
 	];
 	return filters;
 };

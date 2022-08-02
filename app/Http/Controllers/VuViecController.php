@@ -37,6 +37,14 @@ class VuViecController extends BaseController
             $query->whereIn('phan_loai_tin', $tt);
         }
 
+        if (!empty($request->ket_qua_giai_quyet)) {
+            $tt = explode(",", $request->ket_qua_giai_quyet);
+            if (in_array('null', $tt))
+                $query->where(fn ($q) => $q->whereNull('ket_qua_giai_quyet')->orWhereIn('ket_qua_giai_quyet', $tt));
+            else
+                $query->whereIn('ket_qua_giai_quyet', $tt);
+        }
+
         if (!empty($request->phuong_thuc_pham_toi)) {
             $tt = explode(",", $request->phuong_thuc_pham_toi);
             $query->whereIn('phuong_thuc_pham_toi', $tt);

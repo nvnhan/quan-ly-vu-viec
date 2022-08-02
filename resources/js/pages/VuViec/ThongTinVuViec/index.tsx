@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import ListForm from '../../../components/ListForm';
 import { ColumnProps } from '../../../components/ListForm/DataTable';
 import { RootState } from '../../../store';
-import { PHUONG_THUC_PHAM_TOI } from '../../../utils/constant';
+import { KET_QUA_DON, PHUONG_THUC_PHAM_TOI } from '../../../utils/constant';
 import FormItem from './FormItem';
 import getFilters from './otherFilters';
 
@@ -100,6 +100,11 @@ const List = () => {
 			dataIndex: 'ket_qua_giai_quyet',
 			width: 100,
 			onCell,
+			optFilter: true,
+			fixedFilter: [
+				{ value: 'null', text: '(Chưa có kết quả)' },
+				...Object.values(KET_QUA_DON).map((pl) => ({ value: pl, text: pl })),
+			],
 		},
 		// {
 		// 	title: 'Ngày tạo',
