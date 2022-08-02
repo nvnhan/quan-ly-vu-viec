@@ -15,13 +15,14 @@ class VuViecNguoi extends Model
         3 => 'Người bị giữ trong trường hợp khẩn cấp',
         4 => 'Người bị bắt',
         5 => 'Người bị tạm giữ',
-        6 => 'Bị can',
-        7 => 'Người tố giác, báo tin về tội phạm, kiến nghị khởi tố',
-        8 => 'Bị hại',
-        9 => 'Người có quyền lợi, nghĩa vụ liên quan đến vụ án',
-        10 => 'Người làm chứng',
-        11 => 'Người chứng kiến',
-        12 => 'Người liên quan khác',
+        6 => 'Người vi phạm hành chính',
+        7 => 'Bị can',
+        8 => 'Người tố giác, báo tin về tội phạm, kiến nghị khởi tố',
+        9 => 'Bị hại',
+        10 => 'Người có quyền lợi, nghĩa vụ liên quan đến vụ án',
+        11 => 'Người làm chứng',
+        12 => 'Người chứng kiến',
+        13 => 'Người liên quan khác',
     ];
 
     /**

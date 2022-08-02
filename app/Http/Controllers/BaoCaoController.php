@@ -102,7 +102,7 @@ class BaoCaoController extends Controller
 
                 'HanhVi' => $vu_viec_nguoi->hanh_vi,
                 'TuCachToTung' => $vu_viec_nguoi->ten_tu_cach_to_tung,
-                'MaTuCachToTung' => $vu_viec_nguoi->tu_cach_to_tung === 7 ? '56' : '',
+                'MaTuCachToTung' => $vu_viec_nguoi->tu_cach_to_tung === 8 ? '56' : '',
 
                 'THBat' => $vu_viec_nguoi->truong_hop_bat,
                 'NgayBat' => date('d/m/Y', strtotime($vu_viec_nguoi->ngay_bat)),

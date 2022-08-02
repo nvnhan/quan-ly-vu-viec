@@ -63,7 +63,7 @@ const form = (props: { form?: FormInstance<any>; vuViec: Model.VuViec; record: a
 		onChangeTuCachToTung(props.record?.tu_cach_to_tung);
 	}, [props.record]);
 
-	const onChangeTuCachToTung = (val: any) => setBiCan(val <= 6);
+	const onChangeTuCachToTung = (val: any) => setBiCan(val <= 7);
 
 	const onChangeNgayTamGiam = (val: moment.Moment) => {
 		if (val) {
