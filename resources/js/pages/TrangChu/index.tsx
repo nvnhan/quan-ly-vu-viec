@@ -1,21 +1,20 @@
 import FilterOutlined from '@ant-design/icons/FilterOutlined';
-import Spin from 'antd/lib/spin';
 import Button from 'antd/lib/button';
 import Col from 'antd/lib/col';
 import Form from 'antd/lib/form';
 import Row from 'antd/lib/row';
-import moment from 'moment';
+import Spin from 'antd/lib/spin';
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import MyDebounceSelect, { SelectValue } from '../../components/Controls/MyDebounceSelect';
 import MyRangePicker from '../../components/Controls/MyRangePicker';
-import { getApi, getSearchDonVi } from '../../utils/services';
-import { parseValues, queryString } from '../../utils';
-import CardTitle from './CardTitle';
-import { useNavigate } from 'react-router-dom';
-import CardCongViec from './CardCongViec';
-import CardCanBo, { CanBoXuatSac } from './CardCanBo';
 import { RootState } from '../../store';
-import { useSelector } from 'react-redux';
+import { parseValues, queryString } from '../../utils';
+import { getApi, getSearchCanBo, getSearchDonVi } from '../../utils/services';
+import CardCanBo, { CanBoXuatSac } from './CardCanBo';
+import CardCongViec from './CardCongViec';
+import CardTitle from './CardTitle';
 
 const TrangChu = () => {
 	const [form] = Form.useForm();
@@ -40,7 +39,7 @@ const TrangChu = () => {
 	}, []);
 
 	const fetchDonViList = async (q: string): Promise<SelectValue[]> => {
-		return getSearchDonVi({ q, l: 7, type: 1 }).then((body) =>
+		return getSearchDonVi({ q, l: 7 }).then((body) =>
 			body?.data?.data.map((item: any) => ({
 				label: item.ten_don_vi_day_du,
 				value: item.id,
@@ -48,10 +47,20 @@ const TrangChu = () => {
 		);
 	};
 
+	const fetchCanBoList = async (q: string): Promise<SelectValue[]> => {
+		return getSearchCanBo({ q, l: 7 }).then((body) =>
+			body?.data?.data.map((item: any) => ({
+				label: `${item.ho_ten} - ${item.ten_chuc_vu} ${item.ten_don_vi}`,
+				value: item.id,
+			}))
+		);
+	};
+
 	const onFilter = (values: any) => {
 		setLoading(true);
-		const query = { ...values, id_don_vi: values.sel_don_vi?.key };
+		const query = { ...values, id_don_vi: values.sel_don_vi?.key, id_can_bo: values.sel_can_bo?.key };
 		delete query.sel_don_vi;
+		delete query.sel_can_bo;
 		getApi('tong-quan?' + queryString(parseValues(query)))
 			.then((response) => {
 				if (response.data.success) setData(response.data.data);
@@ -80,11 +89,32 @@ const TrangChu = () => {
 							</Col>
 							{authUser?.quan_tri && (
 								<Col span={24} md={16} lg={12} xl={10}>
-									<Form.Item name="sel_don_vi" label="Đơn vị">
+									<Form.Item
+										name="sel_don_vi"
+										label="Đơn vị"
+										labelCol={{ span: 4, xl: 6 }}
+										wrapperCol={{ span: 20, xl: 18 }}
+									>
 										<MyDebounceSelect
-											placeholder="Chọn đơn vị: Đội, xã/phường"
+											placeholder="Chọn đơn vị..."
 											allowClear
 											fetchOptions={fetchDonViList}
+										/>
+									</Form.Item>
+								</Col>
+							)}
+							{authUser?.chi_huy && (
+								<Col span={24} md={16} lg={12} xl={10}>
+									<Form.Item
+										name="sel_can_bo"
+										label="Cán bộ"
+										labelCol={{ span: 4, xl: 6 }}
+										wrapperCol={{ span: 20, xl: 18 }}
+									>
+										<MyDebounceSelect
+											placeholder="Chọn cán bộ..."
+											allowClear
+											fetchOptions={fetchCanBoList}
 										/>
 									</Form.Item>
 								</Col>

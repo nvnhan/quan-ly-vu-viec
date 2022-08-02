@@ -20,7 +20,7 @@ class HomeController extends BaseController
         $cong_viec = CongViec::query();
         $cong_van = CongVan::query();
         $tai_lieu = TaiLieu::query();
-        $can_bo = CanBo::where('chuc_vu', '<=', 4); // Tu giup viec tro xuong
+        $can_bo = CanBo::where('chuc_vu', '<=', 3); // Tu giup viec tro xuong
 
         if ($request->bat_dau && $request->ket_thuc) {
             $vu_viec->whereBetween('ngay_cqdt', [$request->bat_dau, $request->ket_thuc]);
@@ -31,12 +31,21 @@ class HomeController extends BaseController
 
         $id_don_vi = -1;
         if ($request->user()->quan_tri)
+            // Neu chon don vi
             if ($request->id_don_vi)
                 $id_don_vi = $request->id_don_vi;
             else $id_don_vi = 0;
+        // Neu la chi huy
         else if ($request->user()->chi_huy)
             $id_don_vi = $request->user()->id_don_vi;
-        // Chọn Đội
+
+        $id_can_bo = $request->user()->id;
+        // Neu chon can bo
+        if (!empty($request->id_can_bo)) {
+            $id_can_bo = $request->id_can_bo;
+            $id_don_vi = -1;
+        }
+        // Là chỉ huy hoặc quản trị Chọn Đội
         if ($id_don_vi > 0) {
             $dvs = DonVi::where('id_don_vi_cha', $id_don_vi)->pluck('id');
             $dvs[] = $id_don_vi;
@@ -51,16 +60,16 @@ class HomeController extends BaseController
                 ->orWhereIn('id_can_bo', $all_can_bo));
             $cong_van->whereIn('id_vu_viec', $all_vu_viec);
             $tai_lieu->whereIn('id_vu_viec', $all_vu_viec);
-        } else if ($id_don_vi === -1) {        // Cán bộ
-            $vv = CongViec::where('id_can_bo', $request->user()->id)->pluck('id_vu_viec');
+        } else if ($id_don_vi === -1) {        // User là Cán bộ hoặc chỉ huy khi chọn cán bộ
+            $vv = CongViec::where('id_can_bo', $id_can_bo)->pluck('id_vu_viec');
             $vu_viec->where(fn ($q) =>  $q
-                ->where('id_dtv_chinh', $request->user()->id)
-                ->orWhere('id_can_bo_chinh', $request->user()->id)
-                ->orWhere('nguoi_tao', $request->user()->id)
+                ->where('id_dtv_chinh', $id_can_bo)
+                ->orWhere('id_can_bo_chinh', $id_can_bo)
+                ->orWhere('nguoi_tao', $id_can_bo)
                 ->orWhereIn('id', $vv));
 
             $all_vu_viec = (clone $vu_viec)->pluck('id');
-            $cong_viec->where('id_can_bo', $request->user()->id);
+            $cong_viec->where('id_can_bo', $id_can_bo);
             $cong_van->whereIn('id_vu_viec', $all_vu_viec);
             $tai_lieu->whereIn('id_vu_viec', $all_vu_viec);
 
@@ -119,7 +128,7 @@ class HomeController extends BaseController
 
     public function so_lieu_cong_viec(Request $request)
     {
-        Artisan::call('migrate');
+        // Artisan::call('migrate');
 
         $moi_giao = CongViec::where('id_can_bo', $request->user()->id)->whereIn('trang_thai', [1, 2, 3, 7])->count();
         $data = [
