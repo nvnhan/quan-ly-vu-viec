@@ -61,7 +61,10 @@ class CongViecController extends BaseController
         if ($request->ten_cong_viec)
             $query = $query->where('ten_cong_viec', 'LIKE', "%$request->ten_cong_viec%");
 
-        $query = $query->orderBy('trang_thai')->orderBy('muc_do_uu_tien', 'DESC')->orderBy('ngay_het_han', 'DESC');
+        if (!empty($request->sort) && !empty($request->order))
+            $query = $query->orderBy($request->sort, $request->order);
+        else $query = $query->orderBy('trang_thai')->orderBy('muc_do_uu_tien', 'DESC')->orderBy('ngay_het_han', 'DESC');
+
         // For AJAX pagination loading
         $total = $query->count();
         $page = $request->p;

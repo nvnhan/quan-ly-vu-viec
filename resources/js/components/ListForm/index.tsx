@@ -11,6 +11,8 @@ import DataTable, { ColumnProps, OtherActionProps } from './DataTable';
 import FilterBox, { FilterProps } from './FilterBox';
 import ModalConfirm from './ModalConfirm';
 import ToolsButton, { ToolsButtonProps } from './ToolsButton';
+import { FilterValue, SorterResult } from 'antd/lib/table/interface';
+import type { ColumnType, TablePaginationConfig } from 'antd/lib/table';
 const { confirm } = Modal;
 
 /**
@@ -140,11 +142,16 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 			.catch((error) => console.log(error));
 	};
 
-	const handleTableChange = (newPagination: object, filters: object, sorter: object) => {
+	const handleTableChange = (
+		newPagination: TablePaginationConfig,
+		filters: Record<string, FilterValue | null>,
+		sorter: SorterResult<any> | SorterResult<any>[]
+	) => {
 		if (ajax) {
 			isComponentMounted = true;
+			const objSort = Array.isArray(sorter) ? sorter.pop() : sorter;
 			fetchData(
-				{ ...ownFilter, ...filters },
+				{ ...ownFilter, ...filters, sort: objSort?.column?.dataIndex, order: objSort?.order?.slice(0, -3) },
 				{
 					pagination: newPagination,
 				}

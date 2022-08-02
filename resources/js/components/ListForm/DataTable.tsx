@@ -1,8 +1,8 @@
 import DeleteOutlined from '@ant-design/icons/DeleteOutlined';
 import EditOutlined from '@ant-design/icons/EditOutlined';
+import ExclamationCircleOutlined from '@ant-design/icons/ExclamationCircleOutlined';
 import FilterFilled from '@ant-design/icons/FilterFilled';
 import FilterOutlined from '@ant-design/icons/FilterOutlined';
-import ExclamationCircleOutlined from '@ant-design/icons/ExclamationCircleOutlined';
 import MenuOutlined from '@ant-design/icons/MenuOutlined';
 import SearchOutlined from '@ant-design/icons/SearchOutlined';
 import Button from 'antd/lib/button/index';
@@ -12,8 +12,9 @@ import { ItemType } from 'antd/lib/menu/hooks/useItems';
 import Menu from 'antd/lib/menu/index';
 import Modal from 'antd/lib/modal';
 import Table from 'antd/lib/table/index';
+import { FilterValue, SorterResult } from 'antd/lib/table/interface';
 import isEmpty from 'lodash/isEmpty';
-import type { ColumnType } from 'rc-table/lib/interface';
+import type { ColumnType, TablePaginationConfig } from 'antd/lib/table';
 import React, { useEffect, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 import { useSelector } from 'react-redux';
@@ -30,7 +31,7 @@ export interface ColumnProps extends ColumnType<any> {
 	fixedFilter?: { value: number | string; text: string }[];
 	key?: string;
 	render?: (text: any, record?: any, index?: number) => any;
-	sorter?: (a: any, b: any) => number;
+	sorter?: boolean | ((a: any, b: any) => number);
 	roles?: string[];
 }
 
@@ -50,7 +51,11 @@ interface DataTableProps extends ListFormProps {
 	onDelete: (props: any) => void;
 	handleEdit: (props: any) => void;
 	onChangeSelect: (props: any) => void;
-	onChange: (pagination: any, filter: any, sort: any) => void;
+	onChange: (
+		pagination: TablePaginationConfig,
+		filters: Record<string, FilterValue | null>,
+		sorter: SorterResult<any> | SorterResult<any>[]
+	) => void;
 }
 
 const DataTable = (props: DataTableProps) => {

@@ -84,6 +84,7 @@ const List = () => {
 				else return text;
 			},
 			width: 80,
+			sorter: true,
 		},
 		{
 			title: 'Nội dung',
