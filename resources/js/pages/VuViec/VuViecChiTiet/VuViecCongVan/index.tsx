@@ -28,6 +28,12 @@ const List = (props: { vuViec: any }) => {
 			width: 180,
 		},
 		{
+			title: 'Mô tả',
+			dataIndex: 'mo_ta',
+			optFind: true,
+			width: 120,
+		},
+		{
 			title: 'Số hiệu',
 			dataIndex: 'so_hieu',
 			align: 'center',
@@ -40,15 +46,15 @@ const List = (props: { vuViec: any }) => {
 			width: 80,
 		},
 		{
+			title: 'Nơi nhận',
+			dataIndex: 'co_quan_nhan',
+			width: 120,
+		},
+		{
 			title: 'Hạn trả lời',
 			dataIndex: 'han_tra_loi',
 			align: 'center',
 			width: 80,
-		},
-		{
-			title: 'Nơi nhận',
-			dataIndex: 'co_quan_nhan',
-			width: 120,
 		},
 		{
 			title: 'Số CV phản hồi',
@@ -66,7 +72,7 @@ const List = (props: { vuViec: any }) => {
 			title: 'Nội dung phản hồi',
 			dataIndex: 'noi_dung_phan_hoi',
 			render: (text: string) => <Typography.Paragraph ellipsis={{ rows: 3 }}>{text}</Typography.Paragraph>,
-			width: 250,
+			width: 200,
 		},
 		{
 			title: 'Cán bộ thụ lý',
@@ -113,12 +119,15 @@ const List = (props: { vuViec: any }) => {
 			url="cong-van"
 			columns={columns}
 			otherActions={otherActions}
-			tableSize={{ x: 1300 }}
+			tableSize={{ x: 1400 }}
 			filter={{ vu_viec: vuViec }}
 			otherParams={{ id_vu_viec: vuViec }}
 			selectable={false}
 			formTemplate={<FormItem recordCha={recordCha} authUser={authUser} />}
-			formInitialValues={{ ngay_ban_hanh: moment().format('DD/MM/YYYY') }}
+			formInitialValues={{
+				ngay_ban_hanh: moment().format('DD/MM/YYYY'),
+				tieu_de: recordCha?.id ? 'Công văn đôn đốc' : '',
+			}}
 			handleEdit={handleEdit}
 			addStt
 		/>

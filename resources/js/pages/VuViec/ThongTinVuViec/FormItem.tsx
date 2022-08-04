@@ -200,7 +200,7 @@ const form = (props: {
 			</Row>
 
 			<Row gutter={[10, 5]}>
-				<Col span={12} sm={6}>
+				{/* <Col span={12} sm={6}>
 					<Form.Item name="ngay_phan_cong" label="Ngày phân công">
 						<MyDatePicker format="DD/MM/YYYY" />
 					</Form.Item>
@@ -209,7 +209,7 @@ const form = (props: {
 					<Form.Item name="so_phan_cong" label="Số phân công">
 						<Input />
 					</Form.Item>
-				</Col>
+				</Col> */}
 				<Col span={24} sm={12}>
 					<Form.Item name="noi_dung_tom_tat" label={state.noiDungLabel} rules={[required]}>
 						<Input disabled={props.edit && !authUser.quan_tri} />

@@ -20,7 +20,7 @@ class Nguoi extends Model
         'sdt', 'giay_dinh_danh', 'so_dinh_danh', 'noi_cap', 'ngay_cap',
         'quoc_tich', 'dan_toc', 'ton_giao', 'nghe_nghiep', 'noi_lam_viec',
         'ho_ten_bo', 'nam_sinh_bo',   'ho_ten_me', 'nam_sinh_me', 'ho_ten_vo_chong', 'nam_sinh_vo_chong',
-        'don_vi_tra_cuu',
+        'don_vi_tra_cuu', 'tats'
     ];
 
     /**

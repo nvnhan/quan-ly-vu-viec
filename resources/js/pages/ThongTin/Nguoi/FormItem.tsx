@@ -255,6 +255,12 @@ const form = (props: { fileList: UploadFile[]; setFileList: any }) => {
 
 			<Collapse.Panel header="Thông tin khác" key="ttk">
 				<Row gutter={[12, 5]}>
+					<Col span={24}>
+						<Form.Item name="tats" label="Tiền án tiền sự">
+							<Input.TextArea rows={5} />
+						</Form.Item>
+					</Col>
+
 					<Col span={24} sm={12}>
 						<Form.Item name="sel_dp_thong_bao" label="Địa phương gửi thông báo">
 							<MyDebounceSelect

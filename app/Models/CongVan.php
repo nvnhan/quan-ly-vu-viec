@@ -28,7 +28,7 @@ class CongVan extends Model
      * @var array
      */
     protected $fillable = [
-        'id_cong_van_cha', 'tieu_de', 'so_hieu', 'ngay_ban_hanh',
+        'id_cong_van_cha', 'tieu_de', 'mo_ta', 'so_hieu', 'ngay_ban_hanh',
         'id_vu_viec', 'co_quan_nhan', 'han_tra_loi',
         'so_cong_van_phan_hoi', 'noi_dung_phan_hoi', 'ngay_phan_hoi'
     ];

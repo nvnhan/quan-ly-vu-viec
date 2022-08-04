@@ -92,6 +92,7 @@ class BaoCaoController extends Controller
                 'TonGiao' => $nguoi->ton_giao,
                 'NgheNghiep' => $nguoi->nghe_nghiep,
                 'SDT' => $nguoi->sdt,
+                'TATS' => $nguoi->tats,
 
                 'HoTenBo' => $nguoi->ho_ten_bo,
                 'HoTenMe' => $nguoi->ho_ten_me,
@@ -103,7 +104,6 @@ class BaoCaoController extends Controller
                 'HanhVi' => $vu_viec_nguoi->hanh_vi,
                 'TuCachToTung' => $vu_viec_nguoi->ten_tu_cach_to_tung,
                 'MaTuCachToTung' => $vu_viec_nguoi->tu_cach_to_tung === 8 ? '56' : '',
-
                 'THBat' => $vu_viec_nguoi->truong_hop_bat,
                 'NgayBat' => date('d/m/Y', strtotime($vu_viec_nguoi->ngay_bat)),
 

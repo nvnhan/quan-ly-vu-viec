@@ -45,6 +45,11 @@ const form = (props: { recordCha?: { id: number; name: string }; authUser?: Mode
 					</Select>
 				</Form.Item>
 			</Col>
+			<Col span={24}>
+				<Form.Item name="mo_ta" label="Mô tả">
+					<Input />
+				</Form.Item>
+			</Col>
 			<Col span={12}>
 				<Form.Item name="so_hieu" label="Số hiệu">
 					<Input />
