@@ -155,7 +155,7 @@ class VuViecController extends BaseController
             //     $ten = implode(', ', $nguoi) . ' ' . $ten;
             $ten = ucfirst(str_replace("Tội ", '', $vuViec->toi_danh->toi_danh ?? '')) . " xảy ra " . implode(', ', $tmp);
         } else {
-            $bc = VuViecNguoi::where('id_vu_viec', $vuViec->id)->where('tu_cach_to_tung', 8)->with('nguoi')->get();
+            $bc = VuViecNguoi::where('id_vu_viec', $vuViec->id)->where('tu_cach_to_tung', 6)->with('nguoi')->get();
             $nguoi = [];
             foreach ($bc as $key => $value)
                 $nguoi[] = $value->nguoi->ho_ten ?? '';
@@ -206,11 +206,11 @@ class VuViecController extends BaseController
             ];
 
         if ($vuViec->loai_vu_viec === 'AĐ') {
-            $nguoi_to_giac = $vuViec->vu_viec_nguois()->where('tu_cach_to_tung', 8)->count();
+            $nguoi_to_giac = $vuViec->vu_viec_nguois()->where('tu_cach_to_tung', 7)->count();
             if ($nguoi_to_giac <= 0)
                 $vuViec->canh_bao = "Vụ việc này hiện chưa có thông tin người tố giác";
         } else if ($vuViec->loai_vu_viec === 'AK') {
-            $bi_can = $vuViec->vu_viec_nguois()->where('tu_cach_to_tung', 7)->count();
+            $bi_can = $vuViec->vu_viec_nguois()->where('tu_cach_to_tung', 6)->count();
             if ($bi_can <= 0)
                 $vuViec->canh_bao = "Vụ án này hiện chưa có thông tin bị can";
         }

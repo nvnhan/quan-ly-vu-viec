@@ -33,14 +33,14 @@ export const TU_CACH_TO_TUNG = [
 	{ id: 3, label: 'Người bị giữ trong trường hợp khẩn cấp' },
 	{ id: 4, label: 'Người bị bắt' },
 	{ id: 5, label: 'Người bị tạm giữ' },
-	{ id: 6, label: 'Người vi phạm hành chính' },
-	{ id: 7, label: 'Bị can' },
-	{ id: 8, label: 'Người tố giác, báo tin về tội phạm, kiến nghị khởi tố' },
-	{ id: 9, label: 'Bị hại' },
-	{ id: 10, label: 'Người có quyền lợi, nghĩa vụ liên quan đến vụ án' },
-	{ id: 11, label: 'Người làm chứng' },
-	{ id: 12, label: 'Người chứng kiến' },
-	{ id: 13, label: 'Người liên quan khác' },
+	{ id: 13, label: 'Người vi phạm hành chính' },
+	{ id: 6, label: 'Bị can' },
+	{ id: 7, label: 'Người tố giác, báo tin về tội phạm, kiến nghị khởi tố' },
+	{ id: 8, label: 'Bị hại' },
+	{ id: 9, label: 'Người có quyền lợi, nghĩa vụ liên quan đến vụ án' },
+	{ id: 10, label: 'Người làm chứng' },
+	{ id: 11, label: 'Người chứng kiến' },
+	{ id: 12, label: 'Người liên quan khác' },
 ];
 
 // export const TU_CACH_TO_TUNG_KHOI_TO = [
