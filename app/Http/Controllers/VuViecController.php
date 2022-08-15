@@ -155,7 +155,7 @@ class VuViecController extends BaseController
             //     $ten = implode(', ', $nguoi) . ' ' . $ten;
             $ten = ucfirst(str_replace("Tội ", '', $vuViec->toi_danh->toi_danh ?? '')) . " xảy ra " . implode(', ', $tmp);
         } else {
-            $bc = VuViecNguoi::where('id_vu_viec', $vuViec->id)->where('tu_cach_to_tung', 6)->with('nguoi')->get();
+            $bc = VuViecNguoi::where('id_vu_viec', $vuViec->id)->where('tu_cach_to_tung', 7)->with('nguoi')->get();
             $nguoi = [];
             foreach ($bc as $key => $value)
                 $nguoi[] = $value->nguoi->ho_ten ?? '';
@@ -255,6 +255,7 @@ class VuViecController extends BaseController
         $model = VuViec::find($vuViec->id);
         if ($user->chi_huy || $user->id == $model->nguoi_tao || $user->id === $model->id_dtv_chinh || $user->id === $model->id_can_bo_chinh) {
             $model->fill($data);
+            $model->noi_dung_tom_tat = preg_replace('/\n/', ' ', $model->noi_dung_tom_tat);
             self::setVuViecFields($model, $request);
             $model->ten_vu_viec = self::calTenVuViec($model);
             $model->save();

@@ -11,7 +11,7 @@ import { fetchToiDanh } from '../../../reducers/toiDanh';
 import { RootState } from '../../../store';
 import { useMergeState } from '../../../utils';
 import { LOAI_TOI_PHAM, NOI_THUC_HIEN_PHAM_TOI, PHAN_LOAI_TIN, PHUONG_THUC_PHAM_TOI } from '../../../utils/constant';
-import { required } from '../../../utils/rules';
+import { length, required } from '../../../utils/rules';
 import { getSearchXaPhuong } from '../../../utils/services';
 
 const form = (props: {
@@ -49,7 +49,7 @@ const form = (props: {
 	}, [props.loading]);
 
 	const fetchUnitList = async (q: string): Promise<SelectValue[]> => {
-		return getSearchXaPhuong({ q, l: 10 }).then((body) =>
+		return getSearchXaPhuong({ q, l: 20 }).then((body) =>
 			body?.data?.data.map((item: any) => ({
 				label: `${item.loai_don_vi} ${item.ten_don_vi} - ${item.ten_dia_phuong}`,
 				value: item.id,
@@ -210,9 +210,9 @@ const form = (props: {
 						<Input />
 					</Form.Item>
 				</Col> */}
-				<Col span={24} sm={12}>
-					<Form.Item name="noi_dung_tom_tat" label={state.noiDungLabel} rules={[required]}>
-						<Input disabled={props.edit && !authUser.quan_tri} />
+				<Col span={24}>
+					<Form.Item name="noi_dung_tom_tat" label={state.noiDungLabel} rules={[required, length(1000)]}>
+						<Input.TextArea rows={2} disabled={props.edit && !authUser.quan_tri} />
 					</Form.Item>
 				</Col>
 				<Col span={12} sm={6}>

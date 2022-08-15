@@ -15,6 +15,9 @@ class BaoCaoController extends Controller
 {
     public function index(Request $request)
     {
+        $MA_TU_CACH_TO_TUNG = [
+            1 => 57, 57, 58, 58, 59, 7 => 56, 62, 65, 66, 67,
+        ];
         if ($request->vu_viec && $request->full_path) {
             $vu_viec = VuViec::find($request->vu_viec);
 
@@ -103,7 +106,7 @@ class BaoCaoController extends Controller
 
                 'HanhVi' => $vu_viec_nguoi->hanh_vi,
                 'TuCachToTung' => $vu_viec_nguoi->ten_tu_cach_to_tung,
-                'MaTuCachToTung' => $vu_viec_nguoi->tu_cach_to_tung === 7 ? '56' : '',
+                'MaTuCachToTung' => $MA_TU_CACH_TO_TUNG[$vu_viec_nguoi->tu_cach_to_tung] ?? '',
                 'THBat' => $vu_viec_nguoi->truong_hop_bat,
                 'NgayBat' => date('d/m/Y', strtotime($vu_viec_nguoi->ngay_bat)),
 
