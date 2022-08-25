@@ -200,16 +200,16 @@ const form = (props: {
 			</Row>
 
 			<Row gutter={[10, 5]}>
-				{/* <Col span={12} sm={6}>
-					<Form.Item name="ngay_phan_cong" label="Ngày phân công">
-						<MyDatePicker format="DD/MM/YYYY" />
+				<Col span={12} sm={6}>
+					<Form.Item name="ngay_phan_cong" label="Ngày xử lý đơn thư">
+						<MyDatePicker format="DD/MM/YYYY" disabled={props.edit && !authUser.quan_tri} />
 					</Form.Item>
 				</Col>
 				<Col span={12} sm={6}>
-					<Form.Item name="so_phan_cong" label="Số phân công">
-						<Input />
+					<Form.Item name="so_phan_cong" label="Số phiếu xử lý đơn thư">
+						<Input disabled={props.edit && !authUser.quan_tri} />
 					</Form.Item>
-				</Col> */}
+				</Col>
 				<Col span={24}>
 					<Form.Item name="noi_dung_tom_tat" label={state.noiDungLabel} rules={[required, length(1000)]}>
 						<Input.TextArea rows={2} disabled={props.edit && !authUser.quan_tri} />

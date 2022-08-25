@@ -22,6 +22,7 @@ import Tag from 'antd/lib/tag';
 import groupBy from 'lodash/groupBy';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { Model } from '../../../../reducers/type';
 import { RootState } from '../../../../store';
 import { parseValues, unionDataBy, useMergeState } from '../../../../utils';
 import axios from '../../../../utils/axios';
@@ -35,7 +36,7 @@ import { getApi } from '../../../../utils/services';
 import FormVuViecCongViec from './FormItem';
 import FormStatus from './FormStatus';
 
-const List = (props: { vuViec: any }) => {
+const List = (props: { vuViec?: Model.VuViec }) => {
 	const authUser = useSelector((state: RootState) => state.authUserReducer);
 	const [form] = Form.useForm();
 	const [formStatus] = Form.useForm();
@@ -59,7 +60,7 @@ const List = (props: { vuViec: any }) => {
 	const { vuViec } = props;
 
 	const fetchData = (trangThai = '', uuTien = '') => {
-		getApi(`cong-viec?vu_viec=${vuViec}&trang_thai=${trangThai}&uu_tien=${uuTien}`)
+		getApi(`cong-viec?vu_viec=${vuViec?.id}&trang_thai=${trangThai}&uu_tien=${uuTien}`)
 			.then((response) => {
 				if (response.data.success) {
 					setState({ data: response.data.data, loading: false });
@@ -70,7 +71,7 @@ const List = (props: { vuViec: any }) => {
 
 	const handleInsert = () => {
 		setState({ modalVisible: true, record: null });
-		form.setFieldsValue({ muc_do_uu_tien: 1 });
+		form.setFieldsValue({ muc_do_uu_tien: 1, sel_can_bo: vuViec?.sel_can_bo_chinh });
 	};
 
 	const handleEdit = (record: any) => {
@@ -108,7 +109,7 @@ const List = (props: { vuViec: any }) => {
 			setState({ formSubmitting: true });
 			if (!record) {
 				axios
-					.post(`/api/cong-viec`, parseValues({ ...values, id_vu_viec: vuViec }))
+					.post(`/api/cong-viec`, parseValues({ ...values, id_vu_viec: vuViec?.id }))
 					.then((response: any) => {
 						const mergedData = unionDataBy(data, response.data.data, 'id'); // New data is first line
 
@@ -145,7 +146,7 @@ const List = (props: { vuViec: any }) => {
 	const onInsertAuto = () => {
 		setState({ loading: true, formSubmitting: true });
 		axios
-			.post(`/api/cong-viec/khoi-tao`, { id_vu_viec: vuViec })
+			.post(`/api/cong-viec/khoi-tao`, { id_vu_viec: vuViec?.id })
 			.then((response) => {
 				if (response.data.success) {
 					setState({
@@ -266,6 +267,11 @@ const List = (props: { vuViec: any }) => {
 				statusCongViec.push(
 					TEN_TRANG_THAI_CONG_VIEC.filter((item) => item.id === MA_TRANG_THAI_CONG_VIEC.HOAN_THANH)[0]
 				);
+			// PTT có thể giao việc xong Xác nhận luôn
+			if (congViec.trang_thai === MA_TRANG_THAI_CONG_VIEC.MOI_GIAO)
+				statusCongViec.push(
+					TEN_TRANG_THAI_CONG_VIEC.filter((item) => item.id === MA_TRANG_THAI_CONG_VIEC.XAC_NHAN)[0]
+				);
 		}
 		return (
 			<Menu
@@ -317,7 +323,7 @@ const List = (props: { vuViec: any }) => {
 	useEffect(() => {
 		fetchData();
 		formFilter.setFieldsValue({ trangThai: '', uuTien: '' });
-	}, []);
+	}, [vuViec?.id]);
 
 	const groups = Object.entries(groupBy(data, 'ten_nhom_cong_viec'));
 

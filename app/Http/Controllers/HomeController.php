@@ -77,6 +77,7 @@ class HomeController extends BaseController
             $dvs[] = $request->user()->id_don_vi;
             $can_bo->whereIn('id_don_vi', $dvs);
         }
+        // Còn lại nếu là quản trị thì show hết
 
         $data = [
             'vu_viec' => $vu_viec->count(),

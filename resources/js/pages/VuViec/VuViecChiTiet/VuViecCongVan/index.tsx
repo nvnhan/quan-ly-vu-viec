@@ -7,8 +7,9 @@ import FormItem from './FormItem';
 import DoubleRightOutlined from '@ant-design/icons/DoubleRightOutlined';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store';
+import { Model } from '../../../../reducers/type';
 
-const List = (props: { vuViec: any }) => {
+const List = (props: { vuViec?: Model.VuViec }) => {
 	const authUser = useSelector((state: RootState) => state.authUserReducer);
 	const [recordCha, setRecordCha] = useState<
 		| {
@@ -120,13 +121,14 @@ const List = (props: { vuViec: any }) => {
 			columns={columns}
 			otherActions={otherActions}
 			tableSize={{ x: 1400 }}
-			filter={{ vu_viec: vuViec }}
-			otherParams={{ id_vu_viec: vuViec }}
+			filter={{ vu_viec: vuViec?.id }}
+			otherParams={{ id_vu_viec: vuViec?.id }}
 			selectable={false}
 			formTemplate={<FormItem recordCha={recordCha} authUser={authUser} />}
 			formInitialValues={{
 				ngay_ban_hanh: moment().format('DD/MM/YYYY'),
 				tieu_de: recordCha?.id ? 'Công văn đôn đốc' : '',
+				sel_can_bo: vuViec?.sel_can_bo_chinh,
 			}}
 			handleEdit={handleEdit}
 			addStt

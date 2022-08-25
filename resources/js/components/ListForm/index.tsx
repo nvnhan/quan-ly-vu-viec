@@ -46,6 +46,12 @@ const ListForm = React.forwardRef<ListFormRef, ListFormProps>((props, ref) => {
 	//#endregion
 
 	//#region  Sự kiện, hooks
+
+	useEffect(() => {
+		// Khi filter từ form cha truyền vào thay đổi
+		setOwnFilter(filter);
+	}, [JSON.stringify(filter)]);
+
 	useEffect(() => {
 		isComponentMounted = true;
 		// Không Có filter hoặc có filter và đã load xong

@@ -234,6 +234,7 @@ const ViewVuViecNguoi = (props: { vuViec: any }) => {
 		setState({ view: 'insert', record: null });
 		form.resetFields();
 		form.setFieldsValue({
+			ten_khac: 'Không',
 			quoc_tich: 'Việt Nam',
 			dan_toc: 'Kinh',
 			ton_giao: 'Không',
